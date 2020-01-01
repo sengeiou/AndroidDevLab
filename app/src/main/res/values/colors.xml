@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="rippleColor">#C0C0C0</color>
+    <color name="skyBlue">#A1CDE1</color>
+    <color name="titleBarcolor">#FFDAB9</color>
+    <color name="white">#FFFFFF</color>
+    <color name="message_background">#FFFAFA</color>
+    <color name="black">#000000</color>
+    <color name="green">#008000</color>
+    <color name="snow">#fffafa</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gray">#919191</color>
+
+</resources>
