@@ -12,5 +12,12 @@
     <item
         android:id="@+id/menu_talbe"
         android:title="TableLayout"/>
+    <item
+        android:id="@+id/menu_drawer"
+        android:title="DrawerLayout"/>
+
+    <item
+        android:id="@+id/menu_constraint"
+        android:title="ConstraintLayout"/>
 
 </menu>

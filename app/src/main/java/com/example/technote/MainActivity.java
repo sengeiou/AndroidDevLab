@@ -8,14 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.example.technote.Dialog_Activity_Fragment.Activity;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
-import com.example.technote.Layout.FrameLayout;
-import com.example.technote.Layout.LinearLayout;
+import com.example.technote.Layout.ConstraintLayout_Test;
+import com.example.technote.Layout.DrawerLayout_Test;
+import com.example.technote.Layout.FrameLayout_Test;
+import com.example.technote.Layout.LinearLayout_Test;
 import com.example.technote.Layout.RelativeLayoutTest;
-import com.example.technote.Layout.TableLayout;
+import com.example.technote.Layout.TableLayout_Test;
 
 public class MainActivity extends AppCompatActivity {
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         button7 = (Button) findViewById(R.id.Button7);
         button8 = (Button) findViewById(R.id.Button8);
         button9 = (Button) findViewById(R.id.Button9);
-        button10 = (Button) findViewById(R.id.button10);
+        button10 = (Button) findViewById(R.id.Button10);
         button11 = (Button) findViewById(R.id.button11);
 
         button1.setOnClickListener(new View.OnClickListener() {
@@ -46,16 +47,22 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.menu_linear:
-                                startActivity(new Intent(getApplicationContext(), LinearLayout.class));
+                                startActivity(new Intent(getApplicationContext(), LinearLayout_Test.class));
                                 break;
                             case R.id.menu_relative:
                                 startActivity(new Intent(getApplicationContext(), RelativeLayoutTest.class));
                                 break;
                             case R.id.menu_frame:
-                                startActivity(new Intent(getApplicationContext(), FrameLayout.class));
+                                startActivity(new Intent(getApplicationContext(), FrameLayout_Test.class));
                             break;
                             case R.id.menu_talbe:
-                                startActivity(new Intent(getApplicationContext(), TableLayout.class));
+                                startActivity(new Intent(getApplicationContext(), TableLayout_Test.class));
+                                break;
+                            case R.id.menu_drawer:
+                                startActivity(new Intent(getApplicationContext(), DrawerLayout_Test.class));
+                                break;
+                            case R.id.menu_constraint:
+                                startActivity(new Intent(getApplicationContext(), ConstraintLayout_Test.class));
                                 break;
                             default:
                                 break;
