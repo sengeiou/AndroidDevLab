@@ -18,6 +18,11 @@
         </activity>
         <activity android:name=".Dialog_Activity_Fragment.Dialog"></activity>
         <activity android:name=".Dialog_Activity_Fragment.Activity"></activity>
+        <activity android:name=".Layout.LinearLayout"></activity>
+        <activity android:name=".Layout.FrameLayout"></activity>
+        <activity android:name=".Layout.RelativeLayoutTest"></activity>
+        <activity android:name=".Layout.TableLayout"></activity>
+
     </application>
 
 </manifest>

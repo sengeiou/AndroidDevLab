@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import com.example.technote.Dialog_Activity_Fragment.Activity;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
+import com.example.technote.Layout.FrameLayout;
+import com.example.technote.Layout.LinearLayout;
+import com.example.technote.Layout.RelativeLayoutTest;
+import com.example.technote.Layout.TableLayout;
 
 public class MainActivity extends AppCompatActivity {
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11;
@@ -42,16 +46,16 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.menu_linear:
-                                Toast.makeText(getApplication(),"linear",Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), LinearLayout.class));
                                 break;
                             case R.id.menu_relative:
-                                Toast.makeText(getApplication(),"relative",Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), RelativeLayoutTest.class));
                                 break;
                             case R.id.menu_frame:
-                                Toast.makeText(getApplication(),"frame",Toast.LENGTH_SHORT).show();
-                                break;
+                                startActivity(new Intent(getApplicationContext(), FrameLayout.class));
+                            break;
                             case R.id.menu_talbe:
-                                Toast.makeText(getApplication(),"talbe",Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), TableLayout.class));
                                 break;
                             default:
                                 break;
