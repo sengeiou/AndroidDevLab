@@ -15,10 +15,6 @@
         android:textSize="48sp"
         android:background="#FF0000"
         android:id="@+id/text1"
-        app:layout_constraintLeft_toLeftOf = "parent"
-        app:layout_constraintTop_toTopOf = "parent"
-        app:layout_constraintRight_toRightOf = "parent"
-        app:layout_constraintBottom_toBottomOf= "parent"
         android:text="TEXT1" />
 
     <TextView
@@ -28,7 +24,21 @@
         android:background="#00FF00"
         android:id="@+id/text2"
         android:text="TEXT2"
-        app:layout_constraintCircle="@id/text1"
-        app:layout_constraintRight_toLeftOf="@id/text1" />
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+    <Button
+        android:id="@+id/goAnalogClockExam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"
+        app:layout_constraintBottom_toBottomOf= "parent"
+        app:layout_constraintVertical_bias="1"
+        android:textAllCaps="false"
+        android:text="AnalogClockExam"
+        >
+
+    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

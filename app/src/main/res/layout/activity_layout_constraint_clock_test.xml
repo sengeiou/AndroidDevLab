@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Layout.ConstraintLayout_Analog_Test"
+    tools:showIn="@layout/activity_layout_constraint_clock_test">
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="#00FF00"
+        android:id="@+id/watchCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="1"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="30" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="2"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="60" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="3"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="90" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="4"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="120" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="5"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="150" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="6"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="180" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="7"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="210" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="8"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="240" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="9"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="270" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="10"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="300" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="11"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="330" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="12"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="150dp"
+        app:layout_constraintCircleAngle="0" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="2dp"
+        android:background="#FF0000"
+        android:id="@+id/handSecond"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintCircleAngle="90" />
+
+    <View
+        android:layout_width="160dp"
+        android:layout_height="2dp"
+        android:background="#0000FF"
+        android:id="@+id/handMinute"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="80dp"
+        app:layout_constraintCircleAngle="90" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="2dp"
+        android:background="#000000"
+        android:id="@+id/handHour"
+        app:layout_constraintCircle="@id/watchCenter"
+        app:layout_constraintCircleRadius="50dp"
+        app:layout_constraintCircleAngle="90" />
+</androidx.constraintlayout.widget.ConstraintLayout>
