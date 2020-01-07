@@ -21,7 +21,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:textSize="30sp"
-        android:text="sdisdsdlkfj"
+        android:text="Custom"
         android:gravity="center"
         />
     <LinearLayout

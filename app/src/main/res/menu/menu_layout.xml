@@ -20,4 +20,8 @@
         android:id="@+id/menu_constraint"
         android:title="ConstraintLayout"/>
 
+    <item
+        android:id="@+id/menu_coordinator"
+        android:title="CoordinatorLayout"/>
+
 </menu>

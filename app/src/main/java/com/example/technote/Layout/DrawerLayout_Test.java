@@ -22,8 +22,8 @@ public class DrawerLayout_Test extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer) ;
-                if (!drawer.isDrawerOpen(Gravity.LEFT)) {
-                    drawer.openDrawer(Gravity.LEFT) ;
+                if (!drawer.isDrawerOpen(Gravity.LEFT)) { // 만약 왼쪽에서 drwer가 열리지 않았다면
+                    drawer.openDrawer(Gravity.LEFT) ; //왼쪽에서 열어라
                 }
             }
         });
@@ -33,8 +33,8 @@ public class DrawerLayout_Test extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer) ;
-                if (drawer.isDrawerOpen(Gravity.LEFT)) {
-                    drawer.closeDrawer(Gravity.LEFT) ;
+                if (drawer.isDrawerOpen(Gravity.LEFT)) { // 만약 왼쪽에서 drwer가 열렸다면
+                    drawer.closeDrawer(Gravity.LEFT) ; //왼쪽으로 drwer를 닫아라
                 }
             }
         });
