@@ -11,7 +11,6 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -148,7 +147,7 @@ public class Dialog extends Activity
                 android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
         String strHtml =
-                "<b><font color='#ff0000'>HTML 컨텐츠 팝업</font></b> 입니다.<br/>HTML이 제대로 표현되나요?";
+                "<b><font color='#ff0000'>HTML 컨텐츠 팝업</font></b> 입니다.<br/> Text";
         Spanned oHtml;
 
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
@@ -160,7 +159,7 @@ public class Dialog extends Activity
             oHtml = Html.fromHtml(strHtml, Html.FROM_HTML_MODE_LEGACY);
         }
 
-        oDialog.setTitle("색상을 선택하세요")
+        oDialog.setTitle("HTML Dialog")
                 .setMessage(oHtml)
                 .setPositiveButton("ok", null)
                 .setCancelable(false)
@@ -181,8 +180,6 @@ public class Dialog extends Activity
                         String strDate = String.valueOf(year) + "년 ";
                         strDate += String.valueOf(monthOfYear+1) + "월 ";
                         strDate += String.valueOf(dayOfMonth) + "일";
-
-
                         Toast.makeText(getApplicationContext(), strDate, Toast.LENGTH_SHORT).show();
                     }
                 };
@@ -241,5 +238,4 @@ public class Dialog extends Activity
         oDialog.setCancelable(false);
         oDialog.show();
     }
-
 }

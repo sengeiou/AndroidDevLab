@@ -6,14 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:titleTextColor">@color/white</item> <!--홈/뒤로가기 버튼의 색상-->
     </style>
     <style name="NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:colorControlNormal">@android:color/white</item> <!--홈/뒤로가기 버튼의 색상-->
-        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item> <!--홈/뒤로가기 버튼의 색상-->
     </style>
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorSecondary">@color/white</item>
     </style>

@@ -25,11 +25,12 @@
         <activity android:name=".Layout.DrawerLayout_Test"></activity>
         <activity android:name=".Layout.ConstraintLayout_Test"></activity>
         <activity android:name=".Layout.ConstraintLayout_Analog_Test"></activity>
-        <activity android:name=".Database.SQLiteTest"></activity>
         <activity android:name=".Layout.CoordinatorLayout_Test"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".Database.SQLiteTest"></activity>
+        <activity android:name=".Database.SQLiteTest_2"></activity>
 
     </application>
 
