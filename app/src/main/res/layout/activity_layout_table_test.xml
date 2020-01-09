@@ -13,28 +13,33 @@
         android:text="0" />
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:weightSum="6"
         android:layout_weight="1">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="7" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="8" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="9" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="3"
             android:layout_span="2"
             android:textSize="32sp"
             android:text="DEL" />
@@ -44,31 +49,37 @@
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:weightSum="5"
         android:layout_weight="1">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="4" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="5" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="6" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="+" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textSize="32sp"
             android:text="-" />
     </TableRow>

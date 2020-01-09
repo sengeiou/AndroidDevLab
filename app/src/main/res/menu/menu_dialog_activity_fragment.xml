@@ -9,4 +9,12 @@
     <item
         android:id="@+id/menu_fragment"
         android:title="Fragment"/>
+
+    <item
+        android:id="@+id/menu_go_screen_1"
+        android:title="Screen_1"/>
+
+    <item
+        android:id="@+id/menu_go_screen_2"
+        android:title="Screen_2"/>
 </menu>

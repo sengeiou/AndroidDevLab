@@ -11,7 +11,10 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 
 import com.example.technote.Database.SQLiteTest;
+import com.example.technote.Database.SQLiteTest_2;
 import com.example.technote.Dialog_Activity_Fragment.Activity;
+import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
+import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         button10 = (Button) findViewById(R.id.Button10);
         button11 = (Button) findViewById(R.id.button11);
 
+        // Layout
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 popup.show();//Popup Menu 보이기
             }
         });
+        // Dialog, Activity, Fragment
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.menu_activity:
                                 startActivity(new Intent(getApplicationContext(), Activity.class));
                                 break;
+                            case R.id.menu_go_screen_1:
+                                startActivity(new Intent(getApplicationContext(), Activity_Screen_1.class));
+                                break;
+                            case R.id.menu_go_screen_2:
+                                startActivity(new Intent(getApplicationContext(), Activity_Screen_2.class));
+                                break;
                             default:
                                 break;
                         }
@@ -107,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 popup.show();//Popup Menu 보이기
             }
         });
-
+        //Database
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()){
                             case R.id.menu_sqlite:
                                 startActivity(new Intent(getApplicationContext(), SQLiteTest.class));
+                                break;
+                            case R.id.menu_sqlite_2:
+                                startActivity(new Intent(getApplicationContext(), SQLiteTest_2.class));
                                 break;
                             default:
                                 break;

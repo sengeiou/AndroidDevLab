@@ -128,4 +128,17 @@
         android:textAllCaps="false"
         android:onClick="showDialog10"/>
 
+    <Button
+        android:id="@+id/Button10"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="  11. Dialog On Dialog"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/button8"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:textAllCaps="false"
+        android:onClick="showDialog11"/>
+
 </RelativeLayout>

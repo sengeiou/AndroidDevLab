@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 public class DBHelper extends SQLiteOpenHelper {
     // DBHelper 생성자로 관리할 DB 이름과 버전 정보를 받음

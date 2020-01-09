@@ -238,4 +238,8 @@ public class Dialog extends Activity
         oDialog.setCancelable(false);
         oDialog.show();
     }
+    // 다이얼로그 위 다이얼로그
+    public void showDialog11(View _view)
+    {
+    }
 }
