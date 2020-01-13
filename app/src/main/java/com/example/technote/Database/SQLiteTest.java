@@ -1,11 +1,15 @@
 package com.example.technote.Database;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +23,7 @@ public class SQLiteTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sqlite_test);
 
-        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MoneyBook.db", null, 1);
+        final DBHelper dbHelper = new DBHelper(this, "MoneyBook.db", null, 1);
 
         // 테이블에 있는 모든 데이터 출력
         final TextView result = (TextView) findViewById(R.id.result);
@@ -40,12 +44,16 @@ public class SQLiteTest extends AppCompatActivity {
         insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String date = etDate.getText().toString();
-                String item = etItem.getText().toString();
-                int price = Integer.parseInt(etPrice.getText().toString());
 
-                dbHelper.insert(date, item, price);
-                result.setText(dbHelper.getResult());
+                if(etItem.getText().toString().isEmpty()||etPrice.getText().toString().isEmpty()){
+                    showDialog();
+                }else {
+                    String date = etDate.getText().toString();
+                    String item = etItem.getText().toString();
+                    int price = Integer.parseInt(etPrice.getText().toString());
+                    dbHelper.insert(date, item, price);
+                    result.setText(dbHelper.getResult());
+                }
             }
         });
 
@@ -80,7 +88,22 @@ public class SQLiteTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 result.setText(dbHelper.getResult());
+                Toast.makeText(getApplicationContext(), etItem.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void showDialog(){
+        AlertDialog.Builder oDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+
+        oDialog.setMessage("항목을 입력하세요.")
+                .setTitle("")
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+
+                .setCancelable(false)   // 백버튼으로 팝업창이 닫히지 않도록 한다.
+                .show();
     }
 }

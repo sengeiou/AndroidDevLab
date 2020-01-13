@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/snow"
-    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,10 +10,9 @@
         android:id="@+id/screen_2_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/snow"
+        android:background="#EEEEEE"
         app:popupTheme="@style/Screen_2"
-        app:theme="@style/Screen_2"
-        app:titleTextColor="@color/white">
+        app:theme="@style/Screen_2">
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -31,401 +24,582 @@
             android:textSize="25dp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/screen_2_scrollview"
+        android:layout_below="@+id/screen_2_toolbar"
+        android:layout_above="@+id/screen_2_bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="5"
-            android:text="Mediterranean diet"
-            android:textStyle="bold"
-            android:textColor="@color/screen_2_text_color"
-            android:textSize="20dp"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="Details"
-            android:textColor="@color/skyBlue"
-            android:textStyle="bold"
-            android:layout_marginTop="19dp"
-            android:textSize="15dp">
-        </TextView>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="30dp"
-            android:layout_weight="0"
-            android:src="@drawable/right_arrow">
-        </ImageView>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="17dp"
-        android:background="@drawable/screen_2_radius">
-
-        <View
-            android:id="@+id/divition_eaten"
-            android:layout_width="2dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/skyBlue"></View>
-
-        <TextView
-            android:id="@+id/text_eaten"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_toRightOf="@+id/divition_eaten"
-            android:text="Eaten"></TextView>
-
-        <ImageView
-            android:id="@+id/image_rice"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_below="@+id/text_eaten"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/divition_eaten"
-            android:src="@drawable/rice"></ImageView>
-
-        <TextView
-            android:id="@+id/text_eaten_kcal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_eaten"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/image_rice"
-            android:text="1127"
-            android:textColor="@color/screen_2_text_color"
-            android:textSize="20dp"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_eaten"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="12dp"
-            android:layout_toRightOf="@+id/text_eaten_kcal"
-            android:text="kcal"
-            android:textSize="12dp"></TextView>
-
-        <View
-            android:id="@+id/divition_burned"
-            android:layout_width="2dp"
-            android:layout_height="45dp"
-            android:layout_below="@+id/divition_eaten"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp"
-            android:background="@color/colorAccent"></View>
-
-        <TextView
-            android:id="@+id/text_burned"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="110dp"
-            android:layout_toRightOf="@+id/divition_burned"
-            android:text="Burned"></TextView>
-
-        <ImageView
-            android:id="@+id/image_burned"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_below="@+id/text_burned"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/divition_burned"
-            android:src="@drawable/fire"></ImageView>
-
-        <TextView
-            android:id="@+id/text_burned_kcal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_burned"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/image_burned"
-            android:text="102"
-            android:textColor="@color/screen_2_text_color"
-            android:textSize="20dp"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_burned"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="12dp"
-            android:layout_toRightOf="@+id/text_burned_kcal"
-            android:text="kcal"
-            android:textSize="12dp"></TextView>
-
-        <at.grabner.circleprogress.CircleProgressView
-            android:id="@+id/circleView"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="30dp"
-            CircleProgressView:cpv_autoTextSize="true"
-            CircleProgressView:cpv_barColor="@color/primary"
-            CircleProgressView:cpv_barWidth="10dp"
-            CircleProgressView:cpv_innerContourSize="0dp"
-            CircleProgressView:cpv_maxValue="3200"
-            CircleProgressView:cpv_outerContourSize="0dp"
-            CircleProgressView:cpv_rimColor="@color/primary_light"
-            CircleProgressView:cpv_rimWidth="10dp"
-            CircleProgressView:cpv_seekMode="false"
-            CircleProgressView:cpv_showUnit="false"
-            CircleProgressView:cpv_spinColor="@color/primary"
-            CircleProgressView:cpv_textColor="@color/primary_dark"
-            CircleProgressView:cpv_textMode="Value"
-            CircleProgressView:cpv_textScale="1"
-            CircleProgressView:cpv_unit=""
-            CircleProgressView:cpv_unitColor="@color/primary_light"
-            CircleProgressView:cpv_unitPosition="right_top"
-            CircleProgressView:cpv_unitScale="1"
-            CircleProgressView:cpv_value="1503" />
-
-        <View
-            android:id="@+id/divition_middle"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/image_burned"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/silver"></View>
-
-
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/divition_middle"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/text_carbs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                android:textColor="@color/screen_2_text_color"
-                android:textSize="18dp"
-                android:textStyle="bold">
-            </TextView>
-            <ProgressBar
-                android:id="@+id/carbs_progressbar"
-                style="@style/SkyBlueProgressBar"
-                android:layout_width="70dp"
-                android:layout_height="7dp"
-                android:layout_below="@+id/text_carbs"
-                android:layout_marginLeft="1dp"
-                android:progress="80" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/carbs_progressbar"
-                android:layout_marginTop="5dp"
-                android:text="12g left"
-                android:textSize="12dp">
-            </TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="#EEEEEE"
             android:orientation="vertical"
-            android:layout_marginTop="15dp"
-            android:layout_centerInParent="true"
-            android:layout_below="@+id/divition_middle">
-            <TextView
-                android:id="@+id/text_protein"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/divition_middle"
-                android:layout_centerInParent="true"
-                android:text="Protein"
-                android:textColor="@color/screen_2_text_color"
-                android:textSize="18dp"
-                android:textStyle="bold">
-            </TextView>
-            <ProgressBar
-                android:id="@+id/progress_bar_protein"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="70dp"
-                android:layout_height="7dp"
-                android:layout_below="@+id/text_protein"
-                android:progress="50" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_eaten"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/text_eaten_kcal"
-                android:text="30g left"
-                android:textSize="12dp">
-            </TextView>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/divition_middle"
-            android:layout_marginTop="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_fat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fat"
-                android:textColor="@color/screen_2_text_color"
-                android:textSize="18dp"
-                android:textStyle="bold">
-            </TextView>
-            <ProgressBar
-                android:id="@+id/progress_bar_fat"
-                style="@style/OrengeProgressBar"
-                android:layout_width="70dp"
-                android:layout_height="7dp"
-                android:layout_below="@+id/text_protein"
-                android:progress="30" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_eaten"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/text_eaten_kcal"
-                android:text="10g left"
-                android:textSize="12dp">
-            </TextView>
-        </LinearLayout>
-
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="5"
-            android:text="Meals today"
-            android:textStyle="bold"
-            android:textColor="@color/screen_2_text_color"
-            android:textSize="20dp"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="Customize"
-            android:textColor="@color/skyBlue"
-            android:textStyle="bold"
-            android:layout_marginTop="19dp"
-            android:textSize="15dp">
-        </TextView>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="30dp"
-            android:layout_weight="0"
-            android:src="@drawable/right_arrow">
-        </ImageView>
-    </LinearLayout>
-
-    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:background="#ff0000"
-                android:gravity="center"
-                android:text="#ff0000" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="5"
+                    android:text="Mediterranean diet"
+                    android:textStyle="bold"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="20dp"></TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Details"
+                    android:textColor="@color/skyBlue"
+                    android:textStyle="bold"
+                    android:layout_marginTop="19dp"
+                    android:textSize="15dp">
+                </TextView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="0"
+                    android:src="@drawable/right_arrow">
+                </ImageView>
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:background="#00ff00"
-                android:gravity="center"
-                android:text="#00ff00" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="17dp"
+                android:background="@drawable/screen_2_radius">
 
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:background="#0000ff"
-                android:gravity="center"
-                android:text="#0000ff" />
+                <View
+                    android:id="@+id/divition_eaten"
+                    android:layout_width="2dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/skyBlue"></View>
+
+                <TextView
+                    android:id="@+id/text_eaten"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/divition_eaten"
+                    android:text="Eaten"></TextView>
+
+                <ImageView
+                    android:id="@+id/image_rice"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/text_eaten"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/divition_eaten"
+                    android:src="@drawable/rice"></ImageView>
+
+                <TextView
+                    android:id="@+id/text_eaten_kcal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_eaten"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image_rice"
+                    android:text="1127"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="20dp"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_eaten"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_toRightOf="@+id/text_eaten_kcal"
+                    android:text="kcal"
+                    android:textSize="12dp"></TextView>
+
+                <View
+                    android:id="@+id/divition_burned"
+                    android:layout_width="2dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@+id/divition_eaten"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/colorAccent"></View>
+
+                <TextView
+                    android:id="@+id/text_burned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="110dp"
+                    android:layout_toRightOf="@+id/divition_burned"
+                    android:text="Burned"></TextView>
+
+                <ImageView
+                    android:id="@+id/image_burned"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/text_burned"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/divition_burned"
+                    android:src="@drawable/fire"></ImageView>
+
+                <TextView
+                    android:id="@+id/text_burned_kcal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_burned"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image_burned"
+                    android:text="102"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="20dp"
+                    android:textStyle="bold">
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_burned"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_toRightOf="@+id/text_burned_kcal"
+                    android:text="kcal"
+                    android:textSize="12dp">
+                </TextView>
+
+                <at.grabner.circleprogress.CircleProgressView
+                    android:id="@+id/circleView"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="30dp"
+                    app:cpv_autoTextSize="true"
+                    app:cpv_barColor="@color/primary"
+                    app:cpv_barWidth="10dp"
+                    app:cpv_innerContourSize="0dp"
+                    app:cpv_maxValue="3200"
+                    app:cpv_outerContourSize="0dp"
+                    app:cpv_rimColor="@color/primary_light"
+                    app:cpv_rimWidth="10dp"
+                    app:cpv_seekMode="false"
+                    app:cpv_showUnit="false"
+                    app:cpv_spinColor="@color/primary"
+                    app:cpv_textColor="@color/primary_dark"
+                    app:cpv_textMode="Value"
+                    app:cpv_textScale="1"
+                    app:cpv_unit=""
+                    app:cpv_unitColor="@color/primary_light"
+                    app:cpv_unitPosition="right_top"
+                    app:cpv_unitScale="1"
+                    app:cpv_value="1503" />
+
+                <View
+                    android:id="@+id/divition_middle"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/image_burned"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/silver">
+                </View>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/divition_middle"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/text_carbs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Carbs"
+                        android:textColor="@color/screen_2_text_color"
+                        android:textSize="18dp"
+                        android:textStyle="bold">
+                    </TextView>
+                    <ProgressBar
+                        android:id="@+id/carbs_progressbar"
+                        style="@style/SkyBlueProgressBar"
+                        android:layout_width="70dp"
+                        android:layout_height="7dp"
+                        android:layout_below="@+id/text_carbs"
+                        android:layout_marginLeft="1dp"
+                        android:progress="80" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/carbs_progressbar"
+                        android:layout_marginTop="5dp"
+                        android:text="12g left"
+                        android:textSize="12dp">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_below="@+id/divition_middle">
+                    <TextView
+                        android:id="@+id/text_protein"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/divition_middle"
+                        android:layout_centerInParent="true"
+                        android:text="Protein"
+                        android:textColor="@color/screen_2_text_color"
+                        android:textSize="18dp"
+                        android:textStyle="bold">
+                    </TextView>
+                    <ProgressBar
+                        android:id="@+id/progress_bar_protein"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="70dp"
+                        android:layout_height="7dp"
+                        android:layout_below="@+id/text_protein"
+                        android:progress="50" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_eaten"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/text_eaten_kcal"
+                        android:text="30g left"
+                        android:textSize="12dp">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/divition_middle"
+                    android:layout_marginTop="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text_fat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fat"
+                        android:textColor="@color/screen_2_text_color"
+                        android:textSize="18dp"
+                        android:textStyle="bold">
+                    </TextView>
+                    <ProgressBar
+                        android:id="@+id/progress_bar_fat"
+                        style="@style/OrengeProgressBar"
+                        android:layout_width="70dp"
+                        android:layout_height="7dp"
+                        android:layout_below="@+id/text_protein"
+                        android:progress="30" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_eaten"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/text_eaten_kcal"
+                        android:text="10g left"
+                        android:textSize="12dp">
+                    </TextView>
+                </LinearLayout>
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="5"
+                    android:text="Meals today"
+                    android:textStyle="bold"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="20dp"></TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Customize"
+                    android:textColor="@color/skyBlue"
+                    android:textStyle="bold"
+                    android:layout_marginTop="19dp"
+                    android:textSize="15dp">
+                </TextView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="0"
+                    android:src="@drawable/right_arrow">
+                </ImageView>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:scrollbars = "none"
+                android:layout_height="250dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp">
+                        <RelativeLayout
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/screen_2_meals_today_background_1"
+                            >
+                            <TextView
+                                android:id="@+id/text_breakfast"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Breakfast"
+                                android:textColor="@color/white"
+                                android:textSize="25dp"
+                                android:layout_alignParentTop="true"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="40dp">
+                            </TextView>
+                            <TextView
+                                android:id="@+id/text_bread"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="bread,"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_breakfast"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp">
+                            </TextView>
+                            <TextView
+                                android:id="@+id/text_peanut"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Peanut butter,"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_bread"
+                                android:layout_marginLeft="15dp">
+                            </TextView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Apple"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_peanut"
+                                android:layout_marginLeft="15dp">
+                            </TextView>
+                        </RelativeLayout>
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="left|top"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="15dp"
+                            android:src="@drawable/egg">
+                        </ImageView>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/screen_2_meals_today_background_2">
+                            <TextView
+                                android:id="@+id/text_lunch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Lunch"
+                                android:textColor="@color/white"
+                                android:textSize="25dp"
+                                android:layout_alignParentTop="true"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="40dp">
+                            </TextView>
+                            <TextView
+                                android:id="@+id/text_salmon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Salmon,"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_lunch"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp">
+                            </TextView>
+                            <TextView
+                                android:id="@+id/text_mixed_veggies"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mixed veggies,"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_salmon"
+                                android:layout_marginLeft="15dp">
+                            </TextView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Avocado"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_mixed_veggies"
+                                android:layout_marginLeft="15dp">
+                            </TextView>
+                        </RelativeLayout>
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="left|top"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="15dp"
+                            android:src="@drawable/selad">
+                        </ImageView>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/screen_2_meals_today_background_3">
+                            <TextView
+                                android:id="@+id/text_dinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Dinner"
+                                android:textColor="@color/white"
+                                android:textSize="25dp"
+                                android:layout_alignParentTop="true"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="40dp">
+                            </TextView>
+                            <TextView
+                                android:id="@+id/text_recommend"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Recommend,"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_dinner"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp">
+                            </TextView>
+                            <TextView
+                                android:id="@+id/text_703kcal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="703 kcal"
+                                android:textColor="@color/white"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/text_recommend"
+                                android:layout_marginLeft="15dp">
+                            </TextView>
+                        </RelativeLayout>
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="left|top"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="15dp"
+                            android:src="@drawable/watermelon">
+                        </ImageView>
+                    </FrameLayout>
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="5"
+                    android:text="Body measurement"
+                    android:textStyle="bold"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="20dp">
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Today"
+                    android:textColor="@color/skyBlue"
+                    android:textStyle="bold"
+                    android:layout_marginTop="19dp"
+                    android:textSize="15dp">
+                </TextView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="0"
+                    android:src="@drawable/right_arrow">
+                </ImageView>
+            </LinearLayout>
         </LinearLayout>
-
-    </HorizontalScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="5"
-            android:text="Body measurement"
-            android:textStyle="bold"
-            android:textColor="@color/screen_2_text_color"
-            android:textSize="20dp"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="Today"
-            android:textColor="@color/skyBlue"
-            android:textStyle="bold"
-            android:layout_marginTop="19dp"
-            android:textSize="15dp">
-        </TextView>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="30dp"
-            android:layout_weight="0"
-            android:src="@drawable/right_arrow">
-        </ImageView>
-    </LinearLayout>
+    </ScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/screen_2_bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="bottom"></com.google.android.material.bottomnavigation.BottomNavigationView>
-</LinearLayout>
-</ScrollView>
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/screen_2_bottom_navigation">
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+</RelativeLayout>

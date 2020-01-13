@@ -18,8 +18,8 @@
     </style>
 
     <style name="Screen_2" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/snow</item>
-        <item name="colorPrimaryDark">@color/snow</item>
+        <item name="colorPrimary">#EEEEEE</item>
+        <item name="colorPrimaryDark">#EEEEEE</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">@color/black</item>
         <item name="android:actionButtonStyle">@style/Screen_2_ToolbarButtonStyle</item>

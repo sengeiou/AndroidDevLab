@@ -11,10 +11,12 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.technote.MainActivity;
 import com.example.technote.R;
 
 import java.util.Calendar;
@@ -241,5 +243,46 @@ public class Dialog extends Activity
     // 다이얼로그 위 다이얼로그
     public void showDialog11(View _view)
     {
+        // 캘린더 인스턴스 생성
+
+        // 다이얼로그 셋팅
+        AlertDialog.Builder alBuilder = new AlertDialog.Builder(Dialog.this);
+        final Button datePicker = new Button(this);
+        datePicker.setText("날짜 선택");
+        datePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
+        alBuilder.setTitle("Dialog On Dialog");
+        alBuilder.setView(datePicker);
+        alBuilder.setPositiveButton("닫기" , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).show();
+
+    }
+    private void showDialog(){
+        AlertDialog.Builder oDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+
+        oDialog.setMessage("앱을 종료하시겠습니까?")
+                .setTitle("일반 Dialog")
+                .setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("Dialog", "취소");
+                        Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNeutralButton("예", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setCancelable(false)   // 백버튼으로 팝업창이 닫히지 않도록 한다.
+                .show();
     }
 }
