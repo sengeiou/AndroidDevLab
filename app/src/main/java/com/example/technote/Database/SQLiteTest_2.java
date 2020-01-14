@@ -17,7 +17,7 @@ public class SQLiteTest_2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sqlite_test_2);
+        setContentView(R.layout.activity_database_sqlite_test_2);
         init_tables() ;
         load_values() ;
         Button buttonSave = (Button) findViewById(R.id.buttonSave) ;

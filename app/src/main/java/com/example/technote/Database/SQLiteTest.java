@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +20,7 @@ public class SQLiteTest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sqlite_test);
+        setContentView(R.layout.activity_database_sqlite_test);
 
         final DBHelper dbHelper = new DBHelper(this, "MoneyBook.db", null, 1);
 
@@ -102,7 +101,6 @@ public class SQLiteTest extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 })
-
                 .setCancelable(false)   // 백버튼으로 팝업창이 닫히지 않도록 한다.
                 .show();
     }

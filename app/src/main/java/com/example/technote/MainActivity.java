@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
+import com.example.technote.Database.AddressBook;
 import com.example.technote.Database.SQLiteTest;
 import com.example.technote.Database.SQLiteTest_2;
 import com.example.technote.Dialog_Activity_Fragment.Activity;
@@ -129,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
+                            case R.id.menu_address_book:
+                                startActivity(new Intent(getApplicationContext(), AddressBook.class));
+                                break;
                             case R.id.menu_sqlite:
                                 startActivity(new Intent(getApplicationContext(), SQLiteTest.class));
                                 break;

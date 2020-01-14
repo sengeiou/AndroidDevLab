@@ -9,18 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
 
-public class AddressBook extends AppCompatActivity {
-    Button button_add_address;
+public class AddAddress extends AppCompatActivity {
+    Button button_cancel, button_add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_address_book);
+        setContentView(R.layout.activity_database_add_address);
 
-        button_add_address = (Button)findViewById(R.id.button_add_address);
-        button_add_address.setOnClickListener(new View.OnClickListener() {
+        button_cancel = (Button)findViewById(R.id.button_add_address_cancel);
+        button_cancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),AddAddress.class));
+                finish();
             }
         });
     }
