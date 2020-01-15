@@ -1,2 +1,2 @@
-include ':app', ':CircleProgressView'
+include ':app', ':CircleProgressView', ':logmanager'
 rootProject.name='TechNote'

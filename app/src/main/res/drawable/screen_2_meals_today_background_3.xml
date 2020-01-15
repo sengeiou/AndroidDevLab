@@ -14,5 +14,4 @@
         android:bottomRightRadius="10dp"
         android:topLeftRadius="10dp"
         android:topRightRadius="80dp" />
-
 </shape>

@@ -8,7 +8,7 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/date"
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -17,7 +17,7 @@
         android:focusable="true" />
 
     <EditText
-        android:id="@+id/price"
+        android:id="@+id/etPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -41,6 +41,5 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="저장" />
-
     </LinearLayout>
 </LinearLayout>

@@ -2,19 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <SearchView
         android:id="@+id/address_book_search_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="right"
         android:layout_alignParentTop="true"/>
-
-    <ExpandableListView
-        android:layout_width="match_parent"
+    <RadioButton
+        android:id="@+id/button_call_log"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/address_book_search_view">
-    </ExpandableListView>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:text="최근 기록">
+    </RadioButton>
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/address_book_recyclerView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_below="@+id/button_call_log"
+       android:layout_marginTop="10dp">
+   </androidx.recyclerview.widget.RecyclerView>
     <Button
         android:id="@+id/button_add_address"
         android:layout_width="50dp"
@@ -23,6 +32,17 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+    </Button>
+
+    <Button
+        android:id="@+id/button_call"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/call"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true">
     </Button>
 </RelativeLayout>

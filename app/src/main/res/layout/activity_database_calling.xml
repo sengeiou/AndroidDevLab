@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:weightSum="2"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relative_caller_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/lightGreen">
+
+        <TextView
+            android:id="@+id/text_caller_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:text="전화 건 사람 이름"
+            android:textColor="@color/white"
+            android:textSize="35dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/text_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_caller_name"
+            android:layout_centerInParent="true"
+            android:text="휴대전화 번호"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold">
+        </TextView>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/call">
+        </ImageView>
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:src="@drawable/phone_missed">
+        </ImageView>
+    </RelativeLayout>
+</LinearLayout>
