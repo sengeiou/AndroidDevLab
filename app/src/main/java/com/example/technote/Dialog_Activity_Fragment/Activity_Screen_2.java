@@ -27,7 +27,6 @@ public class Activity_Screen_2 extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false); // 타이틀 삭제
         mCircleView = (CircleProgressView) findViewById(R.id.circleView);
         mCircleView.setUnitVisible(false);
-
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_screen_2, menu);

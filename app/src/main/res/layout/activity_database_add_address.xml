@@ -42,4 +42,11 @@
             android:layout_weight="1"
             android:text="저장" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/getText"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="getText" />
 </LinearLayout>

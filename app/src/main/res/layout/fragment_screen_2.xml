@@ -1,0 +1,411 @@
+<ScrollView
+    android:id="@+id/screen_2_scrollview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/snow"
+        xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="5"
+                android:text="Mediterranean diet"
+                android:textStyle="bold"
+                android:textColor="@color/screen_2_text_color"
+                android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="Details"
+                android:textColor="@color/skyBlue"
+                android:textStyle="bold"
+                android:layout_marginTop="19dp"
+                android:textSize="15dp">
+            </TextView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="30dp"
+                android:layout_weight="0"
+                android:src="@drawable/right_arrow">
+            </ImageView>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="17dp"
+            android:background="@drawable/screen_2_radius">
+
+            <View
+                android:id="@+id/divition_eaten"
+                android:layout_width="2dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/skyBlue"></View>
+
+            <TextView
+                android:id="@+id/text_eaten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_toRightOf="@+id/divition_eaten"
+                android:text="Eaten"></TextView>
+
+            <ImageView
+                android:id="@+id/image_rice"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/text_eaten"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/divition_eaten"
+                android:src="@drawable/rice"></ImageView>
+
+            <TextView
+                android:id="@+id/text_eaten_kcal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_eaten"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/image_rice"
+                android:text="1127"
+                android:textColor="@color/screen_2_text_color"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_eaten"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/text_eaten_kcal"
+                android:text="kcal"
+                android:textSize="12dp"></TextView>
+
+            <View
+                android:id="@+id/divition_burned"
+                android:layout_width="2dp"
+                android:layout_height="45dp"
+                android:layout_below="@+id/divition_eaten"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:background="@color/colorAccent"></View>
+
+            <TextView
+                android:id="@+id/text_burned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="110dp"
+                android:layout_toRightOf="@+id/divition_burned"
+                android:text="Burned"></TextView>
+
+            <ImageView
+                android:id="@+id/image_burned"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/text_burned"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/divition_burned"
+                android:src="@drawable/fire"></ImageView>
+
+            <TextView
+                android:id="@+id/text_burned_kcal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_burned"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/image_burned"
+                android:text="102"
+                android:textColor="@color/screen_2_text_color"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_burned"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/text_burned_kcal"
+                android:text="kcal"
+                android:textSize="12dp">
+            </TextView>
+
+            <at.grabner.circleprogress.CircleProgressView
+                android:id="@+id/circleView"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="30dp"
+                CircleProgressView:cpv_autoTextSize="true"
+                CircleProgressView:cpv_barColor="@color/primary"
+                CircleProgressView:cpv_barWidth="10dp"
+                CircleProgressView:cpv_innerContourSize="0dp"
+                CircleProgressView:cpv_maxValue="3200"
+                CircleProgressView:cpv_outerContourSize="0dp"
+                CircleProgressView:cpv_rimColor="@color/primary_light"
+                CircleProgressView:cpv_rimWidth="10dp"
+                CircleProgressView:cpv_seekMode="false"
+                CircleProgressView:cpv_showUnit="false"
+                CircleProgressView:cpv_spinColor="@color/primary"
+                CircleProgressView:cpv_textColor="@color/primary_dark"
+                CircleProgressView:cpv_textMode="Value"
+                CircleProgressView:cpv_textScale="1"
+                CircleProgressView:cpv_unit=""
+                CircleProgressView:cpv_unitColor="@color/primary_light"
+                CircleProgressView:cpv_unitPosition="right_top"
+                CircleProgressView:cpv_unitScale="1"
+                CircleProgressView:cpv_value="1503" />
+
+            <View
+                android:id="@+id/divition_middle"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/image_burned"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/silver">
+            </View>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divition_middle"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/text_carbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carbs"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="18dp"
+                    android:textStyle="bold">
+                </TextView>
+                <ProgressBar
+                    android:id="@+id/carbs_progressbar"
+                    style="@style/SkyBlueProgressBar"
+                    android:layout_width="70dp"
+                    android:layout_height="7dp"
+                    android:layout_below="@+id/text_carbs"
+                    android:layout_marginLeft="1dp"
+                    android:progress="80" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/carbs_progressbar"
+                    android:layout_marginTop="5dp"
+                    android:text="12g left"
+                    android:textSize="12dp">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/divition_middle">
+                <TextView
+                    android:id="@+id/text_protein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/divition_middle"
+                    android:layout_centerInParent="true"
+                    android:text="Protein"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="18dp"
+                    android:textStyle="bold">
+                </TextView>
+                <ProgressBar
+                    android:id="@+id/progress_bar_protein"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="7dp"
+                    android:layout_below="@+id/text_protein"
+                    android:progress="50" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_eaten"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/text_eaten_kcal"
+                    android:text="30g left"
+                    android:textSize="12dp">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divition_middle"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fat"
+                    android:textColor="@color/screen_2_text_color"
+                    android:textSize="18dp"
+                    android:textStyle="bold">
+                </TextView>
+                <ProgressBar
+                    android:id="@+id/progress_bar_fat"
+                    style="@style/OrengeProgressBar"
+                    android:layout_width="70dp"
+                    android:layout_height="7dp"
+                    android:layout_below="@+id/text_protein"
+                    android:progress="30" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_eaten"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/text_eaten_kcal"
+                    android:text="10g left"
+                    android:textSize="12dp">
+                </TextView>
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="5"
+                android:text="Meals today"
+                android:textStyle="bold"
+                android:textColor="@color/screen_2_text_color"
+                android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="Customize"
+                android:textColor="@color/skyBlue"
+                android:textStyle="bold"
+                android:layout_marginTop="19dp"
+                android:textSize="15dp">
+            </TextView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="30dp"
+                android:layout_weight="0"
+                android:src="@drawable/right_arrow">
+            </ImageView>
+        </LinearLayout>
+
+        <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:background="#ff0000"
+                    android:gravity="center"
+                    android:text="#ff0000" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:background="#00ff00"
+                    android:gravity="center"
+                    android:text="#00ff00" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:background="#0000ff"
+                    android:gravity="center"
+                    android:text="#0000ff" />
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="5"
+                android:text="Body measurement"
+                android:textStyle="bold"
+                android:textColor="@color/screen_2_text_color"
+                android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="Today"
+                android:textColor="@color/skyBlue"
+                android:textStyle="bold"
+                android:layout_marginTop="19dp"
+                android:textSize="15dp">
+            </TextView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="30dp"
+                android:layout_weight="0"
+                android:src="@drawable/right_arrow">
+            </ImageView>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

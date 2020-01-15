@@ -3,19 +3,18 @@ package com.example.technote.Database;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.UserDictionary;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
 
 public class AddAddress extends AppCompatActivity {
-    Button button_cancel, button_add;
+    Button button_cancel, button_add, getText;
     EditText etName, etPhoneNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +34,11 @@ public class AddAddress extends AppCompatActivity {
                     showEmptyPhoneNumberDialog();
                 }else{
                     String name = etName.getText().toString();
-                    int phone_number = Integer.parseInt(etPhoneNumber.getText().toString());
+                    String phone_number = etPhoneNumber.getText().toString();
+                    Toast.makeText(getApplicationContext(),phone_number,Toast.LENGTH_LONG).show();
                     addressBookDBHelper.insert(name, phone_number);
                     finish();
+                    startActivity(new Intent(getApplicationContext(),AddressBook.class));
                 }
             }
         });
@@ -49,6 +50,13 @@ public class AddAddress extends AppCompatActivity {
             }
         });
 
+        getText = (Button)findViewById(R.id.getText);
+        getText.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+            }
+
+        });
     }
     private void showEmptyNameDialog(){
         AlertDialog.Builder oDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);

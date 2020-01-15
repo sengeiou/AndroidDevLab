@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+group = 'com.github.wickerlabs'
+
+android {
+    signingConfigs {
+    }
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 29
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:29.0.2'
+}
+
+
