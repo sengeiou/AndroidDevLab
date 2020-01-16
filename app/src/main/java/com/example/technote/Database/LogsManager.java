@@ -15,6 +15,7 @@ public class LogsManager {
     public static final int MISSED = CallLog.Calls.MISSED_TYPE;
     public static final int TOTAL = 579;
 
+    public static final int SELECT_NAME = 444;
     public static final int INCOMING_CALLS = 672;
     public static final int OUTGOING_CALLS = 609;
     public static final int MISSED_CALLS = 874;
@@ -167,6 +168,53 @@ public class LogsManager {
 
         cursor.close();
 
+
+        return logs;
+    }
+
+    public List<LogObject> getLogs(int callType, String name) {
+        List<LogObject> logs = new ArrayList<>();
+
+        String selection;
+
+        switch (callType) {
+            case INCOMING_CALLS:
+                selection = CallLog.Calls.TYPE + " = " + CallLog.Calls.INCOMING_TYPE;
+                break;
+            case OUTGOING_CALLS:
+                selection = CallLog.Calls.TYPE + " = " + CallLog.Calls.OUTGOING_TYPE;
+                break;
+            case MISSED_CALLS:
+                selection = CallLog.Calls.TYPE + " = " + CallLog.Calls.MISSED_TYPE;
+                break;
+            case ALL_CALLS:
+                selection = null;
+            case SELECT_NAME:
+                String select_name = "'" + name + "'";
+                selection = CallLog.Calls.CACHED_NAME + " = " + select_name;
+                break;
+            default:
+                selection = null;
+        }
+
+        Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, selection, null, null);
+        int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+        int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
+        int date = cursor.getColumnIndex(CallLog.Calls.DATE);
+        int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
+
+        while (cursor.moveToNext()) {
+            LogObject log = new LogObject(context);
+
+            log.setNumber(cursor.getString(number));
+            log.setType(cursor.getInt(type));
+            log.setDuration(cursor.getInt(duration));
+            log.setDate(cursor.getLong(date));
+
+            logs.add(log);
+        }
+
+        cursor.close();
 
         return logs;
     }

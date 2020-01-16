@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.example.technote.MainActivity;
 import com.example.technote.R;
 
 import java.util.List;
+import java.util.logging.LogManager;
 
 public class CallLog_Test extends AppCompatActivity {
     private static final int READ_LOGS = 725;
@@ -39,7 +41,7 @@ public class CallLog_Test extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Toast.makeText(CallLog_Test.this, s, Toast.LENGTH_SHORT).show();
+                loadSelectName(s);
                 return false;
             }
 
@@ -62,14 +64,17 @@ public class CallLog_Test extends AppCompatActivity {
         } else {
             logsRunnable.run();
         }
-
     }
-
     // This is to be run only when READ_CONTACTS and READ_CALL_LOG permission are granted
     private void loadLogs() {
         LogsManager logsManager = new LogsManager(this);
         List<LogObject> callLogs = logsManager.getLogs(LogsManager.ALL_CALLS);
-
+        LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
+        logList.setAdapter(logsAdapter);
+    }
+    private void loadSelectName(String s) {
+        LogsManager logsManager = new LogsManager(this);
+        List<LogObject> callLogs = logsManager.getLogs(LogsManager.SELECT_NAME,s);
         LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
         logList.setAdapter(logsAdapter);
     }
@@ -118,5 +123,4 @@ public class CallLog_Test extends AppCompatActivity {
             }
         }
     }
-
 }

@@ -3,6 +3,7 @@ package com.example.technote.Adapter;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.provider.CallLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +21,20 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class LogsAdapter extends ArrayAdapter<LogObject> {
+public class SearchLogsAdapter extends ArrayAdapter<LogObject> {
 
     List<LogObject> logs;
     Context context;
     int resource;
 
-    public LogsAdapter(Context context, int resource, List<LogObject> callLogs) {
+    public SearchLogsAdapter(Context context, int resource, List<LogObject> callLogs) {
         super(context, resource, callLogs);
         this.logs = callLogs;
         this.context = context;
         this.resource = resource;
+
     }
+
     @Override
     public Context getContext() {
         return context;
@@ -62,10 +65,10 @@ public class LogsAdapter extends ArrayAdapter<LogObject> {
         Date date1 = new Date(log.getDate());
 
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.ERA_FIELD, DateFormat.SHORT);
-
         phone.setText(log.getContactName());
         duration.setText(log.getCoolDuration());
         date.setText(dateFormat.format(date1));
+
         switch (log.getType()) {
 
             case LogsManager.INCOMING:
