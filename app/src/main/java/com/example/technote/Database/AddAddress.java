@@ -35,7 +35,6 @@ public class AddAddress extends AppCompatActivity {
                 }else{
                     String name = etName.getText().toString();
                     String phone_number = etPhoneNumber.getText().toString();
-                    Toast.makeText(getApplicationContext(),phone_number,Toast.LENGTH_LONG).show();
                     addressBookDBHelper.insert(name, phone_number);
                     finish();
                     startActivity(new Intent(getApplicationContext(),AddressBook.class));
@@ -55,7 +54,6 @@ public class AddAddress extends AppCompatActivity {
             @Override
             public void onClick(View v){
             }
-
         });
     }
     private void showEmptyNameDialog(){

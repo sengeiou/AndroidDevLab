@@ -70,7 +70,6 @@ public class AddressBook extends AppCompatActivity  implements AddressDataAdapte
                 startActivity(new Intent(getApplicationContext(), CallLog_Test.class));
             }
         });
-
     }
     @Override
     public void onItemClicked(int position) {

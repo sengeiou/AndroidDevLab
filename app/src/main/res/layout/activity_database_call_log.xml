@@ -5,11 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Database.CallLog_Test">
+    <SearchView
+        android:id="@+id/search_call_log"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </SearchView>
 
     <ListView
         android:id="@+id/LogsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/search_call_log"
         android:dividerHeight="2dp"
         tools:listitem="@layout/log_layout" />
 </RelativeLayout>
