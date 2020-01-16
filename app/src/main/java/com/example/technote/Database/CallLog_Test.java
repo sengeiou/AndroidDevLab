@@ -20,7 +20,9 @@ import androidx.core.content.PermissionChecker;
 import com.example.technote.Adapter.LogsAdapter;
 import com.example.technote.MainActivity;
 import com.example.technote.R;
+import com.example.technote.Utility.HangulUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.LogManager;
 
@@ -41,12 +43,17 @@ public class CallLog_Test extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String s) {
-                loadSelectName(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                if(s.length()==0){
+                    logsRunnable.run();
+                }else{
+                    loadSelectName(s);
+
+                }
                 return false;
             }
         });
