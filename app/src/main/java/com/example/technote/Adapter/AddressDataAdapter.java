@@ -2,6 +2,7 @@ package com.example.technote.Adapter;
 
 import android.app.Activity;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.technote.Database.AddressBookDBHelper;
 import com.example.technote.Database.AddressData;
 import com.example.technote.R;
 
@@ -64,7 +66,11 @@ public class AddressDataAdapter extends RecyclerView.Adapter<AddressDataAdapter.
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
         viewholder.account_image.setImageResource(R.drawable.circle_account);
         viewholder.name.setText(mList.get(position).getName());
-        viewholder.phoneNumber.setText(mList.get(position).getPhone_number());
+        if(Build.VERSION.SDK_INT>27){
+            viewholder.phoneNumber.setText(mList.get(position).getPhone_number());
+        }else{
+            viewholder.phoneNumber.setText("0" + mList.get(position).getPhone_number());
+        }
         //클릭 이벤트
         if(mListener != null) {
             final int pos = position;

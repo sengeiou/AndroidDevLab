@@ -34,10 +34,11 @@ public class AddressBookDBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO AdressBookList VALUES(null, '" + name + "', '" + phone_number + "');");
         db.close();
     }
-    public void update(String name, String phone_number) {
+    public void update(String name, String phone_number, int id) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-        db.execSQL("UPDATE AdressBookList SET price=" + phone_number + " WHERE name='" + name + "';");
+        String sql = "UPDATE AdressBookList SET phone_number= '" + phone_number + "', name = '" + name + "' WHERE _id='"  + Integer.toString(id) + "';";
+        db.execSQL(sql);
         db.close();
     }
 

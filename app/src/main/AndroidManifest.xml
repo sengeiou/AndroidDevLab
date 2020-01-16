@@ -35,6 +35,7 @@
         <activity android:name=".Database.AddAddress"></activity>
         <activity android:name=".Database.CallEvent"></activity>
         <activity android:name=".Database.CallLog_Test"></activity>
+        <activity android:name=".Database.AddressRevise"></activity>
         <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_1"></activity>
         <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_2"
             android:theme="@style/Screen_2">
