@@ -66,11 +66,8 @@ public class AddressDataAdapter extends RecyclerView.Adapter<AddressDataAdapter.
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
         viewholder.account_image.setImageResource(R.drawable.circle_account);
         viewholder.name.setText(mList.get(position).getName());
-        if(Build.VERSION.SDK_INT>27){
-            viewholder.phoneNumber.setText(mList.get(position).getPhone_number());
-        }else{
-            viewholder.phoneNumber.setText("0" + mList.get(position).getPhone_number());
-        }
+        viewholder.phoneNumber.setText(mList.get(position).getPhone_number());
+
         //클릭 이벤트
         if(mListener != null) {
             final int pos = position;

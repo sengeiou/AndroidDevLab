@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.technote.R;
 
 public class AddAddress extends AppCompatActivity {
-    Button button_cancel, button_add, getText;
+    Button button_cancel, button_add;
     EditText etName, etPhoneNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,6 @@ public class AddAddress extends AppCompatActivity {
                     String phone_number = etPhoneNumber.getText().toString();
                     addressBookDBHelper.insert(name, phone_number);
                     finish();
-                    startActivity(new Intent(getApplicationContext(),AddressBook.class));
                 }
             }
         });
@@ -45,13 +44,6 @@ public class AddAddress extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-
-        getText = (Button)findViewById(R.id.getText);
-        getText.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
             }
         });
     }

@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:text="전화 건 사람 이름"
             android:textColor="@color/white"
-            android:textSize="35dp"
+            android:textSize="40dp"
             android:textStyle="bold"></TextView>
         <TextView
             android:id="@+id/text_phone_number"

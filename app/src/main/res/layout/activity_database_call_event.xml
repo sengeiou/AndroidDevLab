@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:layout_gravity="center"
-        android:text="영희에게 전화오는 이벤트" />
+        android:text="A에게 전화오는 이벤트" />
 
     <Button
         android:id="@+id/button_event_2"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        android:text="철수에게 전화오는 이벤트" />
+        android:text="B에게 전화오는 이벤트" />
 
     <Button
         android:id="@+id/button_event_3"
@@ -25,5 +25,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        android:text="민수에게 전화오는 이벤트" />
+        android:text="C에게 전화오는 이벤트" />
 </LinearLayout>

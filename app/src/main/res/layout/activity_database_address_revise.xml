@@ -8,7 +8,7 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/etName"
+        android:id="@+id/revise_etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -17,7 +17,7 @@
         android:focusable="true" />
 
     <EditText
-        android:id="@+id/etPhoneNumber"
+        android:id="@+id/revise_etPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -29,14 +29,14 @@
         android:layout_marginTop="50dp">
 
         <Button
-            android:id="@+id/button_add_address_cancel"
+            android:id="@+id/revise_button_add_address_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="취소" />
 
         <Button
-            android:id="@+id/button_add_address_add"
+            android:id="@+id/revise_button_add_address_add"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,9 +44,9 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/getText"
-        android:layout_width="150dp"
+        android:id="@+id/revise_button_delete"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="getText" />
+        android:text="삭제하기" />
 </LinearLayout>

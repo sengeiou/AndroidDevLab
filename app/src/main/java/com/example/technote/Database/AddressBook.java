@@ -86,11 +86,16 @@ public class AddressBook extends AppCompatActivity  implements AddressDataAdapte
         });
     }
     @Override
+    protected void onResume(){
+        super.onResume();
+        all_address_list();
+    }
+    @Override
     public void onItemClicked(final int position) {
         SQLiteDatabase db = addressBookDBHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM AddressBookList", null);
+        final Cursor cursor = db.rawQuery("SELECT * FROM AddressBookList", null);
         cursor.move(position+1);
-        Toast.makeText(getApplicationContext(), cursor.getString(0) +"          " + cursor.getString(2), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), cursor.getString(0) +"          " + cursor.getString(2), Toast.LENGTH_LONG).show();
 
         AlertDialog.Builder oDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
@@ -103,7 +108,7 @@ public class AddressBook extends AppCompatActivity  implements AddressDataAdapte
                 .setNeutralButton("예", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent addressbookInetent = new Intent(getApplicationContext(),AddressRevise.class);
-                        addressbookInetent.putExtra("position",position);
+                        addressbookInetent.putExtra("id",cursor.getInt(0));
                         startActivity(addressbookInetent);
                     }
                 })

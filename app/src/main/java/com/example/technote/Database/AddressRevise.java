@@ -15,29 +15,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.technote.R;
 
 public class AddressRevise extends AppCompatActivity {
-    Button button_cancel, button_add;
+    Button button_cancel, button_add, button_delete;
     EditText etName, etPhoneNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_add_address);
+        setContentView(R.layout.activity_database_address_revise);
+
+        etName = (EditText)findViewById(R.id.revise_etName);
+        etPhoneNumber = (EditText)findViewById(R.id.revise_etPhoneNumber);
 
         final Intent intent = getIntent(); /*데이터 수신*/
-
-        etName = (EditText)findViewById(R.id.etName);
-        etPhoneNumber = (EditText)findViewById(R.id.etPhoneNumber);
-        final int id = intent.getExtras().getInt("position") + 1;
+        final int id = intent.getExtras().getInt("id") ;
         final AddressBookDBHelper addressBookDBHelper = new AddressBookDBHelper(this, "AddressBookList.db", null, 1);
-        SQLiteDatabase db = addressBookDBHelper.getReadableDatabase();
-        String sql = "SELECT * FROM AddressBookList where _id = " + Integer.toString(id);
-        Cursor cursor = db.rawQuery(sql, null);
+        final SQLiteDatabase db = addressBookDBHelper.getReadableDatabase();
+        final String sql = "SELECT * FROM AddressBookList where _id = " + Integer.toString(id);
+        final Cursor cursor = db.rawQuery(sql, null);
 
         cursor.moveToFirst();
 
         etName.setText(cursor.getString(1));
         etPhoneNumber.setText(cursor.getString(2));
 
-        button_add = (Button)findViewById(R.id.button_add_address_add);
+        button_add = (Button)findViewById(R.id.revise_button_add_address_add);
         button_add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -50,18 +50,46 @@ public class AddressRevise extends AppCompatActivity {
                     String phone_number = etPhoneNumber.getText().toString();
                     addressBookDBHelper.update(name,phone_number,id);
                     finish();
-                    startActivity(new Intent(getApplicationContext(),AddressBook.class));
                 }
             }
         });
-        button_cancel = (Button)findViewById(R.id.button_add_address_cancel);
+
+        button_cancel = (Button)findViewById(R.id.revise_button_add_address_cancel);
         button_cancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        button_delete = (Button)findViewById(R.id.revise_button_delete);
+        button_delete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
 
+                AlertDialog.Builder ad = new AlertDialog.Builder(AddressRevise.this);
+                ad.setMessage("전화번호를 삭제하시겠습니까?");   // 내용 설정
+
+                // 확인 버튼 설정
+                ad.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();     //닫기
+                        // Event
+                    }
+                });
+                // 취소 버튼 설정
+                ad.setNegativeButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addressBookDBHelper.delete(cursor.getString(1));
+                        startActivity(new Intent(getApplicationContext(),AddressBook.class));
+                        finish();
+                    }
+                });
+                // 창 띄우기
+                ad.show();
+            }
+        });
     }
 
     private void showEmptyNameDialog(){

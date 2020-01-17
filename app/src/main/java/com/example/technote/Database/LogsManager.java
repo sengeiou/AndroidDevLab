@@ -3,10 +3,8 @@ package com.example.technote.Database;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CallLog;
-import android.util.Log;
 
 import com.example.technote.Utility.ChoSearchQuery;
-import com.example.technote.Utility.HangulUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
