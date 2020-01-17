@@ -3,14 +3,10 @@ package com.example.technote.Database;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CallLog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +21,7 @@ public class AddAddress extends AppCompatActivity {
         setContentView(R.layout.activity_database_add_address);
         etName = (EditText)findViewById(R.id.etName);
         etPhoneNumber = (EditText)findViewById(R.id.etPhoneNumber);
-        final AddressBookDBHelper addressBookDBHelper = new AddressBookDBHelper(this, "AdressBookList.db", null, 1);
+        final AddressBookDBHelper addressBookDBHelper = new AddressBookDBHelper(this, "AddressBookList.db", null, 1);
 
         button_add = (Button)findViewById(R.id.button_add_address_add);
         button_add.setOnClickListener(new View.OnClickListener(){

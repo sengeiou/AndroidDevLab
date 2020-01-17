@@ -39,6 +39,7 @@ public class CallLog_Test extends AppCompatActivity {
 
         logList = (ListView) findViewById(R.id.LogsList);
         searchView = (SearchView)findViewById(R.id.search_call_log);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 
             @Override
@@ -85,7 +86,6 @@ public class CallLog_Test extends AppCompatActivity {
         LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
         logList.setAdapter(logsAdapter);
     }
-
     // A method to check if a permission is granted then execute tasks depending on that particular permission
     @TargetApi(Build.VERSION_CODES.M)
     private void checkPermissionToExecute(String permissions[], int requestCode, Runnable runnable) {

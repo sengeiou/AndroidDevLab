@@ -50,7 +50,7 @@ public class AddressDataAdapter extends RecyclerView.Adapter<AddressDataAdapter.
             this.account_image = (ImageView) view.findViewById(R.id.image_account);
             this.name = (TextView) view.findViewById(R.id.text_address_book_name);
             this.phoneNumber = (TextView)view.findViewById(R.id.text_address_book_phone_number);
-            this.post = (LinearLayout)view.findViewById(R.id.adress_book_item_layout);
+            this.post = (LinearLayout)view.findViewById(R.id.address_book_item_layout);
         }
     }
     @Override

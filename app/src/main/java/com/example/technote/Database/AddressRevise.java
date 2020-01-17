@@ -27,9 +27,9 @@ public class AddressRevise extends AppCompatActivity {
         etName = (EditText)findViewById(R.id.etName);
         etPhoneNumber = (EditText)findViewById(R.id.etPhoneNumber);
         final int id = intent.getExtras().getInt("position") + 1;
-        final AddressBookDBHelper addressBookDBHelper = new AddressBookDBHelper(this, "AdressBookList.db", null, 1);
+        final AddressBookDBHelper addressBookDBHelper = new AddressBookDBHelper(this, "AddressBookList.db", null, 1);
         SQLiteDatabase db = addressBookDBHelper.getReadableDatabase();
-        String sql = "SELECT * FROM AdressBookList where _id = " + Integer.toString(id);
+        String sql = "SELECT * FROM AddressBookList where _id = " + Integer.toString(id);
         Cursor cursor = db.rawQuery(sql, null);
 
         cursor.moveToFirst();
