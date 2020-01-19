@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -81,7 +80,7 @@ public class AddressBook extends AppCompatActivity  implements AddressDataAdapte
         button_call_log.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CallLog_Test.class));
+                startActivity(new Intent(getApplicationContext(), RealCallLog_Test.class));
             }
         });
     }

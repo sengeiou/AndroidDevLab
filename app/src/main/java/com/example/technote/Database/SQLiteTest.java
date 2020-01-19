@@ -3,6 +3,7 @@ package com.example.technote.Database;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
@@ -17,6 +19,7 @@ import com.example.technote.R;
 import java.sql.Date;
 
 public class SQLiteTest extends AppCompatActivity {
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

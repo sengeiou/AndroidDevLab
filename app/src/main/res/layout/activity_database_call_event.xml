@@ -5,7 +5,7 @@
 
     <Button
         android:id="@+id/button_event_1"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:layout_gravity="center"
@@ -13,17 +13,17 @@
 
     <Button
         android:id="@+id/button_event_2"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        android:text="B에게 전화오는 이벤트" />
+        android:text="A에게 전화거는 이벤트" />
 
     <Button
         android:id="@+id/button_event_3"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        android:text="C에게 전화오는 이벤트" />
+        android:text="모르는 전화에게 전화오는 이벤트" />
 </LinearLayout>

@@ -13,20 +13,20 @@ import android.widget.TextView;
 import androidx.annotation.RequiresPermission;
 
 import com.example.technote.Database.LogObject;
-import com.example.technote.Database.LogsManager;
+import com.example.technote.Database.RealCallLogsManager;
 import com.example.technote.R;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class LogsAdapter extends ArrayAdapter<LogObject> {
+public class RealCallLogsAdapter extends ArrayAdapter<LogObject> {
 
     List<LogObject> logs;
     Context context;
     int resource;
 
-    public LogsAdapter(Context context, int resource, List<LogObject> callLogs) {
+    public RealCallLogsAdapter(Context context, int resource, List<LogObject> callLogs) {
         super(context, resource, callLogs);
         this.logs = callLogs;
         this.context = context;
@@ -68,13 +68,13 @@ public class LogsAdapter extends ArrayAdapter<LogObject> {
         date.setText(dateFormat.format(date1));
         switch (log.getType()) {
 
-            case LogsManager.INCOMING:
+            case RealCallLogsManager.INCOMING:
                 imageView.setImageResource(R.drawable.received);
                 break;
-            case LogsManager.OUTGOING:
+            case RealCallLogsManager.OUTGOING:
                 imageView.setImageResource(R.drawable.sent);
                 break;
-            case LogsManager.MISSED:
+            case RealCallLogsManager.MISSED:
                 imageView.setImageResource(R.drawable.missed);
                 break;
             default:

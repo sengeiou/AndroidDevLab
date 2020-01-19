@@ -34,7 +34,7 @@
         <activity android:name=".Database.AddressBook"></activity>
         <activity android:name=".Database.AddAddress"></activity>
         <activity android:name=".Database.CallEvent"></activity>
-        <activity android:name=".Database.CallLog_Test"></activity>
+        <activity android:name=".Database.RealCallLog_Test"></activity>
         <activity android:name=".Database.AddressRevise"></activity>
         <activity android:name=".Database.Calling"></activity>
         <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_1"></activity>

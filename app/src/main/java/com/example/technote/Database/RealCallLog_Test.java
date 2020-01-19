@@ -6,10 +6,8 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.CallLog;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -17,16 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
-import com.example.technote.Adapter.LogsAdapter;
-import com.example.technote.MainActivity;
+import com.example.technote.Adapter.RealCallLogsAdapter;
 import com.example.technote.R;
-import com.example.technote.Utility.HangulUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LogManager;
 
-public class CallLog_Test extends AppCompatActivity {
+public class RealCallLog_Test extends AppCompatActivity {
     private static final int READ_LOGS = 725;
     private ListView logList;
     private Runnable logsRunnable;
@@ -35,7 +29,7 @@ public class CallLog_Test extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_call_log);
+        setContentView(R.layout.activity_database_real_call_log);
 
         logList = (ListView) findViewById(R.id.LogsList);
         searchView = (SearchView)findViewById(R.id.search_call_log);
@@ -53,7 +47,6 @@ public class CallLog_Test extends AppCompatActivity {
                     logsRunnable.run();
                 }else{
                     loadSelectName(s);
-
                 }
                 return false;
             }
@@ -75,21 +68,20 @@ public class CallLog_Test extends AppCompatActivity {
     }
     // This is to be run only when READ_CONTACTS and READ_CALL_LOG permission are granted
     private void loadLogs() {
-        LogsManager logsManager = new LogsManager(this);
-        List<LogObject> callLogs = logsManager.getLogs(LogsManager.ALL_CALLS);
-        LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
-        logList.setAdapter(logsAdapter);
+        RealCallLogsManager realCallLogsManager = new RealCallLogsManager(this);
+        List<LogObject> callLogs = realCallLogsManager.getLogs(RealCallLogsManager.ALL_CALLS);
+        RealCallLogsAdapter realCallLogsAdapter = new RealCallLogsAdapter(this, R.layout.log_layout, callLogs);
+        logList.setAdapter(realCallLogsAdapter);
     }
     private void loadSelectName(String s) {
-        LogsManager logsManager = new LogsManager(this);
-        List<LogObject> callLogs = logsManager.getLogs(LogsManager.SELECT_NAME,s);
-        LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
-        logList.setAdapter(logsAdapter);
+        RealCallLogsManager realCallLogsManager = new RealCallLogsManager(this);
+        List<LogObject> callLogs = realCallLogsManager.getLogs(RealCallLogsManager.SELECT_NAME,s);
+        RealCallLogsAdapter realCallLogsAdapter = new RealCallLogsAdapter(this, R.layout.log_layout, callLogs);
+        logList.setAdapter(realCallLogsAdapter);
     }
     // A method to check if a permission is granted then execute tasks depending on that particular permission
     @TargetApi(Build.VERSION_CODES.M)
     private void checkPermissionToExecute(String permissions[], int requestCode, Runnable runnable) {
-
         boolean logs = ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED;
         boolean contacts = ContextCompat.checkSelfPermission(this, permissions[1]) != PackageManager.PERMISSION_GRANTED;
 
@@ -109,7 +101,7 @@ public class CallLog_Test extends AppCompatActivity {
             if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED && grantResults[1] == PermissionChecker.PERMISSION_GRANTED) {
                 logsRunnable.run();
             } else {
-                new AlertDialog.Builder(CallLog_Test.this)
+                new AlertDialog.Builder(RealCallLog_Test.this)
                         .setMessage("The app needs these permissions to work, Exit?")
                         .setTitle("Permission Denied")
                         .setCancelable(false)

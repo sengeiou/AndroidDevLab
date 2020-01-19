@@ -1,4 +1,4 @@
-package com.example.technote.Utility;
+package com.tistory.link2me.common;
 
 /**
  * com.ziofront.utils

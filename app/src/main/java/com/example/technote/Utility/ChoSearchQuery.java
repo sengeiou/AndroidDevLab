@@ -142,7 +142,6 @@ public class ChoSearchQuery {
                 else //기타 문자
                     query.append("substr(name,"+(nIndex+1)+",1)='"+strSearch.charAt(nIndex)+"'");
             }
-
             nQueryIndex++;
         }
 
@@ -160,11 +159,11 @@ public class ChoSearchQuery {
                     if(i != 0) {
                         retQuery.append(" AND ");
                     }
-                    retQuery.append("name like '%"+token+"%'");
+                    retQuery.append("name LIKE '%"+token+"%'");
                 }
                 retQuery.append(")");
             } else {
-                retQuery.append(" OR name like '%"+strSearch+"%'");
+                retQuery.append(" OR name LIKE '%"+strSearch+"%'");
             }
         } else {
             retQuery.append(query.toString());

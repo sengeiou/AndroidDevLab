@@ -3,6 +3,7 @@ package com.example.technote.Database;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CallLog;
+import android.util.Log;
 
 import com.example.technote.Utility.ChoSearchQuery;
 
@@ -10,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogsManager {
+public class RealCallLogsManager {
 
     public static final int INCOMING = CallLog.Calls.INCOMING_TYPE;
     public static final int OUTGOING = CallLog.Calls.OUTGOING_TYPE;
@@ -25,7 +26,7 @@ public class LogsManager {
     private static final int READ_CALL_LOG = 47;
     private Context context;
 
-    public LogsManager(Context context) {
+    public RealCallLogsManager(Context context) {
         this.context = context;
     }
 
@@ -194,8 +195,10 @@ public class LogsManager {
             case SELECT_NAME:
 
                 String select_name = "'%" + searchName + "%'";
-                String chosung = ChoSearchQuery.makeQuery(searchName);
-                selection = CallLog.Calls.CACHED_NAME + " LIKE" + select_name + "OR" + chosung;
+
+                String chosung = ChoSearchQuery.makeQuery(searchName) ;
+                selection = CallLog.Calls.CACHED_NAME + " LIKE" + select_name + " OR " + chosung;
+                Log.d("selection",selection);
                 break;
             default:
                 selection = null;

@@ -69,7 +69,7 @@ public class AddressRevise extends AppCompatActivity {
                 AlertDialog.Builder ad = new AlertDialog.Builder(AddressRevise.this);
                 ad.setMessage("전화번호를 삭제하시겠습니까?");   // 내용 설정
 
-                // 확인 버튼 설정
+                // 취소 버튼 설정
                 ad.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -77,12 +77,11 @@ public class AddressRevise extends AppCompatActivity {
                         // Event
                     }
                 });
-                // 취소 버튼 설정
+                // 확인 버튼 설정
                 ad.setNegativeButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         addressBookDBHelper.delete(cursor.getString(1));
-                        startActivity(new Intent(getApplicationContext(),AddressBook.class));
                         finish();
                     }
                 });

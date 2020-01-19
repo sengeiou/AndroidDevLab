@@ -3,7 +3,6 @@ package com.example.technote.Adapter;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.provider.CallLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresPermission;
 
 import com.example.technote.Database.LogObject;
-import com.example.technote.Database.LogsManager;
+import com.example.technote.Database.RealCallLogsManager;
 import com.example.technote.R;
 
 import java.text.DateFormat;
@@ -71,13 +70,13 @@ public class SearchLogsAdapter extends ArrayAdapter<LogObject> {
 
         switch (log.getType()) {
 
-            case LogsManager.INCOMING:
+            case RealCallLogsManager.INCOMING:
                 imageView.setImageResource(R.drawable.received);
                 break;
-            case LogsManager.OUTGOING:
+            case RealCallLogsManager.OUTGOING:
                 imageView.setImageResource(R.drawable.sent);
                 break;
-            case LogsManager.MISSED:
+            case RealCallLogsManager.MISSED:
                 imageView.setImageResource(R.drawable.missed);
                 break;
             default:

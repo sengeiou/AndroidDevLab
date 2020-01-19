@@ -4,9 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,6 +50,30 @@ public class AddAddress extends AppCompatActivity {
                 finish();
             }
         });
+
+        etPhoneNumber.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    if(etName.getText().toString().isEmpty()){
+                        showEmptyNameDialog();
+                    }else if(etPhoneNumber.getText().toString().isEmpty()){
+                        showEmptyPhoneNumberDialog();
+                    }else{
+                        String name = etName.getText().toString();
+                        String phone_number = etPhoneNumber.getText().toString();
+                        addressBookDBHelper.insert(name, phone_number);
+                        finish();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
     private void showEmptyNameDialog(){
         AlertDialog.Builder oDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
