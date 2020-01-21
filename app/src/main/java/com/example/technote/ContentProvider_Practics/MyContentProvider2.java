@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.example.technote.ContentProviderEx.CountriesDb;
-
 public class MyContentProvider2 extends ContentProvider {
 
     private MyDatabaseHelper2 dbHelper;
@@ -21,11 +19,11 @@ public class MyContentProvider2 extends ContentProvider {
     // authority is the symbolic name of your provider
     // To avoid conflicts with other providers, you should use
     // Internet domain ownership (in reverse) as the basis of your provider authority.
-    private static final String AUTHORITY = "com.example.technote.ContentProvider_Practics.CountriesDb2";
+    private static final String AUTHORITY = "com.example.technote.ContentProvider_Practics.AddressListDB2";
 
     // create content URIs from the authority by appending path to database table
     public static final Uri CONTENT_URI =
-            Uri.parse("content://" + AUTHORITY + "/addresslist");
+            Uri.parse("content://" + AUTHORITY + "/countries");
 
     // a content URI pattern matches content URIs using wildcard characters:
     // *: Matches a string of any valid characters of any length.
@@ -33,8 +31,8 @@ public class MyContentProvider2 extends ContentProvider {
     private static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(AUTHORITY, "addresslist", ALL_COUNTRIES);
-        uriMatcher.addURI(AUTHORITY, "addresslist/#", SINGLE_COUNTRY);
+        uriMatcher.addURI(AUTHORITY, "countries", ALL_COUNTRIES);
+        uriMatcher.addURI(AUTHORITY, "countries/#", SINGLE_COUNTRY);
     }
 
     // system calls onCreate() when it starts up the provider.
@@ -73,7 +71,7 @@ public class MyContentProvider2 extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        long id = db.insert(CountriesDb.SQLITE_TABLE, null, values);
+        long id = db.insert(AddressListDB2.SQLITE_TABLE, null, values);
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(CONTENT_URI + "/" + id);
     }
@@ -89,7 +87,7 @@ public class MyContentProvider2 extends ContentProvider {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(CountriesDb.SQLITE_TABLE);
+        queryBuilder.setTables(AddressListDB2.SQLITE_TABLE);
 
         switch (uriMatcher.match(uri)) {
             case ALL_COUNTRIES:
@@ -97,7 +95,7 @@ public class MyContentProvider2 extends ContentProvider {
                 break;
             case SINGLE_COUNTRY:
                 String id = uri.getPathSegments().get(1);
-                queryBuilder.appendWhere(CountriesDb.KEY_ROWID + "=" + id);
+                queryBuilder.appendWhere(AddressListDB2.KEY_ROWID + "=" + id);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -106,7 +104,6 @@ public class MyContentProvider2 extends ContentProvider {
         Cursor cursor = queryBuilder.query(db, projection, selection,
                 selectionArgs, null, null, sortOrder);
         return cursor;
-
     }
 
     // The delete() method deletes rows based on the seletion or if an id is
@@ -123,14 +120,14 @@ public class MyContentProvider2 extends ContentProvider {
                 break;
             case SINGLE_COUNTRY:
                 String id = uri.getPathSegments().get(1);
-                selection = CountriesDb.KEY_ROWID + "=" + id
+                selection = AddressListDB2.KEY_ROWID + "=" + id
                         + (!TextUtils.isEmpty(selection) ?
                         " AND (" + selection + ')' : "");
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        int deleteCount = db.delete(CountriesDb.SQLITE_TABLE, selection, selectionArgs);
+        int deleteCount = db.delete(AddressListDB2.SQLITE_TABLE, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return deleteCount;
     }
@@ -148,14 +145,14 @@ public class MyContentProvider2 extends ContentProvider {
                 break;
             case SINGLE_COUNTRY:
                 String id = uri.getPathSegments().get(1);
-                selection = CountriesDb.KEY_ROWID + "=" + id
+                selection = AddressListDB2.KEY_ROWID + "=" + id
                         + (!TextUtils.isEmpty(selection) ?
                         " AND (" + selection + ')' : "");
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        int updateCount = db.update(CountriesDb.SQLITE_TABLE, values, selection, selectionArgs);
+        int updateCount = db.update(AddressListDB2.SQLITE_TABLE, values, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return updateCount;
     }

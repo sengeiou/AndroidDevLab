@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.example.technote.ContentProviderEx.CountriesDb;
 import com.example.technote.R;
 
 public class ContentProviderTest2 extends Activity implements
@@ -44,47 +43,43 @@ public class ContentProviderTest2 extends Activity implements
                 startActivity(countryEdit);
             }
         });
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //Starts a new or restarts an existing Loader in this manager
+        //LoaderManager를 onResume()상태에서 시작 (activity가 시작되거나 재 시작될 때 동작)
         getLoaderManager().restartLoader(0, null, this);
     }
 
     private void displayListView() {
-
-
-        // The desired columns to be bound
+        // 칼럼의 이름을 저장
         String[] columns = new String[] {
                 AddressListDB2.KEY_NAME,
                 AddressListDB2.KEY_PHONE_NUMBER
         };
 
-        // the XML defined views which the data will be bound to
+        // xml address_info의 name과 phone_number의 TextView를 정의
         int[] to = new int[] {
                 R.id.name,
-                R.id.phonenumber,
+                R.id.phone_number,
         };
 
-        // create an adapter from the SimpleCursorAdapter
+        // SimpleCursorAdapter를 연결하는 코드
         dataAdapter = new SimpleCursorAdapter(
                 this,
-                R.layout.country_info,
+                R.layout.address_info,
                 null,
                 columns,
                 to,
                 0);
 
-        // get reference to the ListView
-        ListView listView = (ListView) findViewById(R.id.countryList);
+        // 리스트 뷰를 get하는 코드.
+        ListView listView = (ListView) findViewById(R.id.addressList);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
         //Ensures a loader is initialized and active.
         getLoaderManager().initLoader(0, null, this);
-
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -94,13 +89,8 @@ public class ContentProviderTest2 extends Activity implements
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
                 // display the selected country
-                String countryCode =
-                        cursor.getString(cursor.getColumnIndexOrThrow(CountriesDb.KEY_CODE));
-                Toast.makeText(getApplicationContext(),
-                        countryCode, Toast.LENGTH_SHORT).show();
-
                 String rowId =
-                        cursor.getString(cursor.getColumnIndexOrThrow(CountriesDb.KEY_ROWID));
+                        cursor.getString(cursor.getColumnIndexOrThrow(AddressListDB2.KEY_ROWID));
 
                 // starts a new Intent to update/delete a Country
                 // pass in row Id to create the Content URI for a single row
@@ -110,12 +100,9 @@ public class ContentProviderTest2 extends Activity implements
                 bundle.putString("rowId", rowId);
                 countryEdit.putExtras(bundle);
                 startActivity(countryEdit);
-
             }
         });
-
     }
-
     // This is called when a new Loader needs to be created.
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

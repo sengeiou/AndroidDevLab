@@ -17,11 +17,11 @@ public class MyDatabaseHelper2 extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        CountriesDb.onCreate(db);
+        AddressListDB2.onCreate(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        CountriesDb.onUpgrade(db, oldVersion, newVersion);
+        AddressListDB2.onUpgrade(db, oldVersion, newVersion);
     }
 }

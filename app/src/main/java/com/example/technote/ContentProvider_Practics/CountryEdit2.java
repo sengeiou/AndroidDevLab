@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.technote.ContentProviderEx.CountriesDb;
 import com.example.technote.R;
 
 public class CountryEdit2 extends Activity implements OnClickListener{
@@ -44,13 +43,6 @@ public class CountryEdit2 extends Activity implements OnClickListener{
 
         phone_number = (EditText) findViewById(R.id.phonenumber);
         name = (EditText) findViewById(R.id.name);
-
-        // create a dropdown for users to select various continents
-        continentList = (Spinner) findViewById(R.id.continentList);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.continent_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        continentList.setAdapter(adapter);
 
         // if in add mode disable the delete option
         if(mode.trim().equalsIgnoreCase("add")){
