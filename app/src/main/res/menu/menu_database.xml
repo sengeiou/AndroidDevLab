@@ -9,4 +9,7 @@
     <item
         android:id="@+id/menu_sqlite_2"
         android:title="SQLite_2" />
+    <item
+    android:id="@+id/menu_content_provider"
+    android:title="ContentProviderTest" />
 </menu>

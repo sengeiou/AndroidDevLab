@@ -27,13 +27,13 @@ public class CallLogDBHelper extends SQLiteOpenHelper {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO AddressBookList VALUES(null, '" + name + "', '" + phone_number + "', '" + call_date + "', '" + type + "');");
+        db.execSQL("INSERT INTO CallLogTable VALUES(null, '" + name + "', '" + phone_number + "', '" + call_date + "', '" + type + "');");
         db.close();
     }
-    public void update(String name, String phone_number, int id) {
+    public void update(String name, String phone_number) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-        String sql = "UPDATE AddressBookList SET phone_number= '" + phone_number + "', name = '" + name + "' WHERE _id='"  + Integer.toString(id) + "';";
+        String sql = "UPDATE CallLogTable SET name = '" + name + "' WHERE phone_number ='"  + phone_number + "';";
         db.execSQL(sql);
         db.close();
     }
@@ -41,7 +41,7 @@ public class CallLogDBHelper extends SQLiteOpenHelper {
     public void delete(String name) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행 삭제
-        db.execSQL("DELETE FROM AddressBookList WHERE name='" + name + "';");
+        db.execSQL("DELETE FROM CallLogTable WHERE name='" + name + "';");
         db.close();
     }
     public String getResult() {
@@ -76,6 +76,4 @@ public class CallLogDBHelper extends SQLiteOpenHelper {
         db.close();
         return count;
     }
-
-
 }

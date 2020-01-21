@@ -2,5 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <SearchView
+        android:id="@+id/search_call_log"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp">
+    </SearchView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/call_log_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/button_call_log"
+        android:layout_marginTop="9dp">
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

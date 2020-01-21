@@ -15,16 +15,25 @@ import com.example.technote.R;
 public class CallEvent extends AppCompatActivity {
     Button event_1, event_2, event_3;
     String phoneNumber_A,phoneNumber_B,phoneNumber_C;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database_call_event);
-        phoneNumber_A = "01012345678"; phoneNumber_B = "01011112222"; phoneNumber_C = "01022336789";
+        //DB접근 영역
+        final CallLogDBHelper callLogDBHelper = new CallLogDBHelper(this, "CallLogTable.db", null, 1);
+        final SQLiteDatabase callLogDB = callLogDBHelper.getReadableDatabase();
+
         final AddressBookDBHelper addressBookDBHelper = new AddressBookDBHelper(this, "AddressBookList.db", null, 1);
         final SQLiteDatabase db = addressBookDBHelper.getReadableDatabase();
+
+        //UI
+        phoneNumber_A = "01012345678"; phoneNumber_B = "01011112222"; phoneNumber_C = "01022336789";
+
         event_1 = (Button)findViewById(R.id.button_event_1);
         event_2 = (Button)findViewById(R.id.button_event_2);
         event_3 = (Button)findViewById(R.id.button_event_3);
+
 
         event_1.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -33,14 +42,16 @@ public class CallEvent extends AppCompatActivity {
                 Cursor cursor = db.rawQuery(query , null);
                 cursor.moveToFirst();
 
-                Intent intent = new Intent(getApplicationContext(), Calling.class);
+                Intent intent = new Intent(getApplicationContext(), CallReceive.class);
                 if(cursor.getCount()==0){
-                    intent.putExtra("name",phoneNumber_A);
-                    intent.putExtra("phone_number", "");
+                    intent.putExtra("name","null");
+                    intent.putExtra("phone_number", phoneNumber_A);
+                    intent.putExtra("database_in_out",false);
                     startActivity(intent);
                 }else{
                     intent.putExtra("name",cursor.getString(1));
                     intent.putExtra("phone_number", cursor.getString(2));
+                    intent.putExtra("database_in_out",true);
                     startActivity(intent);
                 }
                 Toast.makeText(getApplicationContext(), "A에게 전화오는 이벤트 발생", Toast.LENGTH_LONG).show();
@@ -53,17 +64,19 @@ public class CallEvent extends AppCompatActivity {
                 Cursor cursor = db.rawQuery(query , null);
                 cursor.moveToFirst();
 
-                Intent intent = new Intent(getApplicationContext(), Calling.class);
+                Intent intent = new Intent(getApplicationContext(), CallReceive.class);
                 if(cursor.getCount()==0){
-                    intent.putExtra("name",phoneNumber_B);
-                    intent.putExtra("phone_number", "");
+                    intent.putExtra("name","null");
+                    intent.putExtra("phone_number", phoneNumber_B);
+                    intent.putExtra("database_in_out",false);
                     startActivity(intent);
                 }else{
                     intent.putExtra("name",cursor.getString(1));
                     intent.putExtra("phone_number", cursor.getString(2));
+                    intent.putExtra("database_in_out",true);
                     startActivity(intent);
                 }
-                Toast.makeText(getApplicationContext(), "B에게 전화오는 이벤트 발생", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "B에게 전화거는 이벤트", Toast.LENGTH_LONG).show();
             }
         });
         event_3.setOnClickListener(new View.OnClickListener(){
@@ -73,18 +86,21 @@ public class CallEvent extends AppCompatActivity {
                 Cursor cursor = db.rawQuery(query , null);
                 cursor.moveToFirst();
 
-                Intent intent = new Intent(getApplicationContext(), Calling.class);
+                Intent intent = new Intent(getApplicationContext(), CallReceive.class);
                 if(cursor.getCount()==0){
-                    intent.putExtra("name",phoneNumber_C);
-                    intent.putExtra("phone_number", "");
+                    intent.putExtra("name","null");
+                    intent.putExtra("phone_number", phoneNumber_C);
+                    intent.putExtra("database_in_out",false);
                     startActivity(intent);
                 }else{
                     intent.putExtra("name",cursor.getString(1));
                     intent.putExtra("phone_number", cursor.getString(2));
+                    intent.putExtra("database_in_out",true);
                     startActivity(intent);
                 }
-                Toast.makeText(getApplicationContext(), "C에게 전화오는 이벤트 발생", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "모르는 전화번호 전화오는 이벤트", Toast.LENGTH_LONG).show();
             }
         });
+
     }
 }

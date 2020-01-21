@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Database.RealCallLog_Test">
     <SearchView
-        android:id="@+id/search_call_log"
+        android:id="@+id/search_real_call_log"
         android:layout_width="match_parent"
         android:layout_height="50dp">
     </SearchView>

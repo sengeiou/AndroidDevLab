@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
+import com.example.technote.ContentProviderEx.ContentProviderTest;
 import com.example.technote.Database.AddressBook;
 import com.example.technote.Database.SQLiteTest;
 import com.example.technote.Database.SQLiteTest_2;
@@ -138,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_sqlite_2:
                                 startActivity(new Intent(getApplicationContext(), SQLiteTest_2.class));
+                                break;
+                            case R.id.menu_content_provider:
+                                startActivity(new Intent(getApplicationContext(), ContentProviderTest.class));
                                 break;
                             default:
                                 break;

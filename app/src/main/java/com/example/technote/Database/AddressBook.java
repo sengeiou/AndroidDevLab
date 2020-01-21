@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.technote.Adapter.AddressDataAdapter;
+import com.example.technote.Data.AddressData;
 import com.example.technote.R;
 import com.example.technote.Utility.ChoSearchQuery;
 
@@ -80,7 +81,7 @@ public class AddressBook extends AppCompatActivity  implements AddressDataAdapte
         button_call_log.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RealCallLog_Test.class));
+                startActivity(new Intent(getApplicationContext(), CallLogTest.class));
             }
         });
     }

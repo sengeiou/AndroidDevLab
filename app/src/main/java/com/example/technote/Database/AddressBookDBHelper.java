@@ -17,7 +17,7 @@ public class AddressBookDBHelper extends SQLiteOpenHelper {
         // 새로운 테이블 생성
         /* 이름은 MONEYBOOK이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
         item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
-        db.execSQL("CREATE TABLE AddressBookList (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone_number TEXT);");
+        db.execSQL("CREATE TABLE AddressBookList(_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone_number TEXT);");
     }
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
     @Override

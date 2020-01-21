@@ -1,6 +1,7 @@
 package com.example.technote.Adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.technote.Data.AddressData;
+import com.example.technote.Data.CallLogData;
 import com.example.technote.R;
 
 import java.util.ArrayList;
 
-public class AddressDataAdapter extends RecyclerView.Adapter<AddressDataAdapter.CustomViewHolder> {
+public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CustomViewHolder> {
 
-    private ArrayList<AddressData> mList = null;
+    private ArrayList<CallLogData> mList = null;
     private Activity context = null;
     private MyRecyclerViewClickListener mListener;
 
-    public AddressDataAdapter(Activity context, ArrayList<AddressData> list) {
+    public CallLogAdapter(Activity context, ArrayList<CallLogData> list) {
         this.context = context;
         this.mList = list;
 
@@ -37,20 +38,20 @@ public class AddressDataAdapter extends RecyclerView.Adapter<AddressDataAdapter.
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView account_image;
-        protected TextView name, phoneNumber;
+        protected ImageView call_type_image;
+        protected TextView name, date;
         protected LinearLayout post;
         public CustomViewHolder(View view) {
             super(view);
-            this.account_image = (ImageView) view.findViewById(R.id.image_account);
-            this.name = (TextView) view.findViewById(R.id.text_address_book_name);
-            this.phoneNumber = (TextView)view.findViewById(R.id.text_address_book_phone_number);
-            this.post = (LinearLayout)view.findViewById(R.id.address_book_item_layout);
+            this.call_type_image = (ImageView) view.findViewById(R.id.call_type);
+            this.name = (TextView) view.findViewById(R.id.item_call_log_name);
+            this.date = (TextView)view.findViewById(R.id.item_call_log_date);
+            this.post = (LinearLayout)view.findViewById(R.id.item_call_log_layout);
         }
     }
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_address_book_list, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_call_log, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
 
         return viewHolder;
@@ -59,9 +60,22 @@ public class AddressDataAdapter extends RecyclerView.Adapter<AddressDataAdapter.
     // 뷰 홀더를 생성하는 부분
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
-        viewholder.account_image.setImageResource(R.drawable.circle_account);
-        viewholder.name.setText(mList.get(position).getName());
-        viewholder.phoneNumber.setText(mList.get(position).getPhone_number());
+        if(mList.get(position).getType().equals("receive")){
+            viewholder.call_type_image.setImageResource(R.drawable.received);
+        }else if(mList.get(position).getType().equals("sent")){
+            viewholder.call_type_image.setImageResource(R.drawable.sent);
+        }else if(mList.get(position).getType().equals("missed")){
+            viewholder.call_type_image.setImageResource(R.drawable.missed);
+        }else if(mList.get(position).getType().equals("cancel")){
+            viewholder.call_type_image.setImageResource(R.drawable.cancelled);
+        }
+
+        if(mList.get(position).getName().equals("null")){
+            viewholder.name.setText(mList.get(position).getPhoneNumber());
+        }else{
+            viewholder.name.setText(mList.get(position).getName());
+        }
+        viewholder.date.setText(mList.get(position).getDate());
 
         //클릭 이벤트
         if(mListener != null) {
@@ -73,7 +87,7 @@ public class AddressDataAdapter extends RecyclerView.Adapter<AddressDataAdapter.
                 }
             });
         }
-        viewholder.account_image.setScaleType(ImageView.ScaleType.FIT_XY);
+        viewholder.call_type_image.setScaleType(ImageView.ScaleType.FIT_XY);
 
     }
     @Override

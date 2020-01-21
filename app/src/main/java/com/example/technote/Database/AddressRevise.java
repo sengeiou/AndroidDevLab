@@ -27,12 +27,19 @@ public class AddressRevise extends AppCompatActivity {
 
         final Intent intent = getIntent(); /*데이터 수신*/
         final int id = intent.getExtras().getInt("id") ;
+
         final AddressBookDBHelper addressBookDBHelper = new AddressBookDBHelper(this, "AddressBookList.db", null, 1);
         final SQLiteDatabase db = addressBookDBHelper.getReadableDatabase();
         final String sql = "SELECT * FROM AddressBookList where _id = " + Integer.toString(id);
         final Cursor cursor = db.rawQuery(sql, null);
 
         cursor.moveToFirst();
+
+        final CallLogDBHelper callLogDBHelper = new CallLogDBHelper(this, "CallLogTable.db", null, 1);
+        final SQLiteDatabase callLogListDB = callLogDBHelper.getReadableDatabase();
+        String query = "SELECT * FROM CallLogTable WHERE phone_number = '" + cursor.getString(2) + "'";
+        final Cursor callLogListDB_cursor = callLogListDB.rawQuery(query, null);
+
 
         etName.setText(cursor.getString(1));
         etPhoneNumber.setText(cursor.getString(2));
@@ -49,6 +56,8 @@ public class AddressRevise extends AppCompatActivity {
                     String name = etName.getText().toString();
                     String phone_number = etPhoneNumber.getText().toString();
                     addressBookDBHelper.update(name,phone_number,id);
+                    callLogListDB_cursor.moveToFirst();
+                    callLogDBHelper.update(name,callLogListDB_cursor.getString(2));
                     finish();
                 }
             }
@@ -82,6 +91,8 @@ public class AddressRevise extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         addressBookDBHelper.delete(cursor.getString(1));
+                        callLogListDB_cursor.moveToFirst();
+                        callLogDBHelper.update("null",callLogListDB_cursor.getString(2));
                         finish();
                     }
                 });

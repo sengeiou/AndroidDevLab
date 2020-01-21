@@ -40,6 +40,7 @@
         android:layout_weight="1">
 
         <ImageView
+            android:id="@+id/image_calling_receive"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerVertical="true"
@@ -48,6 +49,7 @@
         </ImageView>
 
         <ImageView
+            android:id="@+id/image_calling_cancel"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentRight="true"

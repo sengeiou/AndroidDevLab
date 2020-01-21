@@ -32,7 +32,7 @@ public class RealCallLog_Test extends AppCompatActivity {
         setContentView(R.layout.activity_database_real_call_log);
 
         logList = (ListView) findViewById(R.id.LogsList);
-        searchView = (SearchView)findViewById(R.id.search_call_log);
+        searchView = (SearchView)findViewById(R.id.search_real_call_log);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 

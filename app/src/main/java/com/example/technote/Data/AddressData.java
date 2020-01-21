@@ -1,4 +1,4 @@
-package com.example.technote.Database;
+package com.example.technote.Data;
 
 public class AddressData {
 

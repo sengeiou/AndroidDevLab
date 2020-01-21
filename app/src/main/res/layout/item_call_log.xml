@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_call_log_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp">
+
+        <ImageView
+            android:id="@+id/call_type"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true">
+        </ImageView>
+        <TextView
+            android:id="@+id/item_call_log_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/call_type"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:text="call_name">
+        </TextView>
+        <TextView
+            android:id="@+id/item_call_log_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/item_call_log_name"
+            android:layout_toRightOf="@+id/call_type"
+            android:text="date">
+        </TextView>
+    </RelativeLayout>
+</LinearLayout>
