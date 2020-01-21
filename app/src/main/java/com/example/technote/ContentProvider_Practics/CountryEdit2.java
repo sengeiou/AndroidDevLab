@@ -1,4 +1,4 @@
-package com.example.technote.ContentProviderEx;
+package com.example.technote.ContentProvider_Practics;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -13,20 +13,21 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.technote.ContentProviderEx.CountriesDb;
 import com.example.technote.R;
 
-public class CountryEdit extends Activity implements OnClickListener{
+public class CountryEdit2 extends Activity implements OnClickListener{
 
     private Spinner continentList;
     private Button save, delete;
     private String mode;
-    private EditText code, name;
+    private EditText name, phone_number;
     private String id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_page);
+        setContentView(R.layout.detail_page2);
 
         // get the values passed to the activity from the calling activity
         // determine the mode - add, update or delete
@@ -41,9 +42,8 @@ public class CountryEdit extends Activity implements OnClickListener{
         delete = (Button) findViewById(R.id.delete);
         delete.setOnClickListener(this);
 
-        code = (EditText) findViewById(R.id.code);
+        phone_number = (EditText) findViewById(R.id.phonenumber);
         name = (EditText) findViewById(R.id.name);
-
 
         // create a dropdown for users to select various continents
         continentList = (Spinner) findViewById(R.id.continentList);
@@ -68,12 +68,11 @@ public class CountryEdit extends Activity implements OnClickListener{
     public void onClick(View v) {
 
         // get values from the spinner and the input text fields
-        String myContinent = continentList.getSelectedItem().toString();
-        String myCode = code.getText().toString();
+        String myPhoneNumber = phone_number.getText().toString();
         String myName = name.getText().toString();
 
         // check for blanks
-        if(myCode.trim().equalsIgnoreCase("")){
+        if(myPhoneNumber.trim().equalsIgnoreCase("")){
             Toast.makeText(getBaseContext(), "Please ENTER country code", Toast.LENGTH_LONG).show();
             return;
         }
@@ -88,17 +87,16 @@ public class CountryEdit extends Activity implements OnClickListener{
         switch (v.getId()) {
             case R.id.save:
                 ContentValues values = new ContentValues();
-                values.put(CountriesDb.KEY_CODE, myCode);
-                values.put(CountriesDb.KEY_NAME, myName);
-                values.put(CountriesDb.KEY_CONTINENT, myContinent);
+                values.put(AddressListDB2.KEY_NAME, myName);
+                values.put(AddressListDB2.KEY_PHONE_NUMBER, myPhoneNumber);
 
                 // insert a record
                 if(mode.trim().equalsIgnoreCase("add")){
-                    getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+                    getContentResolver().insert(MyContentProvider2.CONTENT_URI, values);
                 }
                 // update a record
                 else {
-                    Uri uri = Uri.parse(MyContentProvider.CONTENT_URI + "/" + id);
+                    Uri uri = Uri.parse(MyContentProvider2.CONTENT_URI + "/" + id);
                     getContentResolver().update(uri, values, null, null);
                 }
                 finish();
@@ -106,7 +104,7 @@ public class CountryEdit extends Activity implements OnClickListener{
 
             case R.id.delete:
                 // delete a record
-                Uri uri = Uri.parse(MyContentProvider.CONTENT_URI + "/" + id);
+                Uri uri = Uri.parse(MyContentProvider2.CONTENT_URI + "/" + id);
                 getContentResolver().delete(uri, null, null);
                 finish();
                 break;
@@ -121,21 +119,18 @@ public class CountryEdit extends Activity implements OnClickListener{
     private void loadCountryInfo(){
 
         String[] projection = {
-                CountriesDb.KEY_ROWID,
-                CountriesDb.KEY_CODE,
-                CountriesDb.KEY_NAME,
-                CountriesDb.KEY_CONTINENT};
-        Uri uri = Uri.parse(MyContentProvider.CONTENT_URI + "/" + id);
+                AddressListDB2.KEY_ROWID,
+                AddressListDB2.KEY_NAME,
+                AddressListDB2.KEY_PHONE_NUMBER};
+        Uri uri = Uri.parse(MyContentProvider2.CONTENT_URI + "/" + id);
         Cursor cursor = getContentResolver().query(uri, projection, null, null,
                 null);
         if (cursor != null) {
             cursor.moveToFirst();
-            String myCode = cursor.getString(cursor.getColumnIndexOrThrow(CountriesDb.KEY_CODE));
-            String myName = cursor.getString(cursor.getColumnIndexOrThrow(CountriesDb.KEY_NAME));
-            String myContinent = cursor.getString(cursor.getColumnIndexOrThrow(CountriesDb.KEY_CONTINENT));
-            code.setText(myCode);
+            String myName = cursor.getString(cursor.getColumnIndexOrThrow(AddressListDB2.KEY_NAME));
+            String myPhoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(AddressListDB2.KEY_PHONE_NUMBER));
             name.setText(myName);
-            continentList.setSelection(getIndex(continentList, myContinent));
+            phone_number.setText(myPhoneNumber);
         }
     }
 

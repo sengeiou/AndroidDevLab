@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="10dp">
+
+    <EditText android:id="@+id/name" android:layout_width="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content" android:layout_alignBottom="@+id/textView2"
+        android:ems="3" android:maxLength="3" android:hint="이름"
+        android:paddingLeft="10dp">
+    </EditText>
+
+    <EditText android:id="@+id/phonenumber" android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@+id/textView3" android:ems="30"
+        android:hint="전화번호"
+        android:inputType="number" android:paddingLeft="10dp" />
+
+    <Button android:id="@+id/save" style="?android:attr/buttonStyleSmall"
+
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+        android:layout_alignParentLeft="true" android:layout_below="@+id/phonenumber"
+        android:layout_marginRight="21dp" android:layout_marginTop="30dp"
+        android:text="@string/save_country" />
+
+    <Button android:id="@+id/delete" style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/save" android:layout_alignBottom="@+id/save"
+        android:layout_toRightOf ="@+id/save" android:text="@string/del_country" />
+
+</RelativeLayout>

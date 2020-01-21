@@ -1,4 +1,4 @@
-package com.example.technote.ContentProviderEx;
+package com.example.technote.ContentProvider_Practics;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -9,9 +9,11 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-public class MyContentProvider extends ContentProvider {
+import com.example.technote.ContentProviderEx.CountriesDb;
 
-    private MyDatabaseHelper dbHelper;
+public class MyContentProvider2 extends ContentProvider {
+
+    private MyDatabaseHelper2 dbHelper;
 
     private static final int ALL_COUNTRIES = 1;
     private static final int SINGLE_COUNTRY = 2;
@@ -19,11 +21,11 @@ public class MyContentProvider extends ContentProvider {
     // authority is the symbolic name of your provider
     // To avoid conflicts with other providers, you should use
     // Internet domain ownership (in reverse) as the basis of your provider authority.
-    private static final String AUTHORITY = "com.example.technote.ContentProviderEx.CountriesDb";
+    private static final String AUTHORITY = "com.example.technote.ContentProvider_Practics.CountriesDb2";
 
     // create content URIs from the authority by appending path to database table
     public static final Uri CONTENT_URI =
-            Uri.parse("content://" + AUTHORITY + "/countries");
+            Uri.parse("content://" + AUTHORITY + "/addresslist");
 
     // a content URI pattern matches content URIs using wildcard characters:
     // *: Matches a string of any valid characters of any length.
@@ -31,15 +33,15 @@ public class MyContentProvider extends ContentProvider {
     private static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(AUTHORITY, "countries", ALL_COUNTRIES);
-        uriMatcher.addURI(AUTHORITY, "countries/#", SINGLE_COUNTRY);
+        uriMatcher.addURI(AUTHORITY, "addresslist", ALL_COUNTRIES);
+        uriMatcher.addURI(AUTHORITY, "addresslist/#", SINGLE_COUNTRY);
     }
 
     // system calls onCreate() when it starts up the provider.
     @Override
     public boolean onCreate() {
         // get access to the database helper
-        dbHelper = new MyDatabaseHelper(getContext());
+        dbHelper = new MyDatabaseHelper2(getContext());
         return false;
     }
 
@@ -49,9 +51,9 @@ public class MyContentProvider extends ContentProvider {
 
         switch (uriMatcher.match(uri)) {
             case ALL_COUNTRIES:
-                return "vnd.android.cursor.dir/vnd.com.example.technote.ContentProviderEx.CountriesDb";
+                return "vnd.android.cursor.dir/vnd.com.example.technote.ContentProvider_Practics.AddressListDB2";
             case SINGLE_COUNTRY:
-                return "vnd.android.cursor.item/vnd.com.example.technote.ContentProviderEx.CountriesDb";
+                return "vnd.android.cursor.item/vnd.com.example.technote.ContentProvider_Practics.AddressListDB2";
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
@@ -157,5 +159,4 @@ public class MyContentProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return updateCount;
     }
-
 }

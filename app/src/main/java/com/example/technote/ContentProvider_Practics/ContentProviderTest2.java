@@ -1,11 +1,12 @@
-package com.example.technote.ContentProviderEx;
+package com.example.technote.ContentProvider_Practics;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,11 +16,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import android.app.LoaderManager;
 
+import com.example.technote.ContentProviderEx.CountriesDb;
 import com.example.technote.R;
 
-public class ContentProviderTest extends Activity implements
+public class ContentProviderTest2 extends Activity implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
     private SimpleCursorAdapter dataAdapter;
@@ -27,7 +28,7 @@ public class ContentProviderTest extends Activity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_content_provider_test);
+        setContentView(R.layout.activity_database_content_provider_test2);
 
         displayListView();
 
@@ -36,7 +37,7 @@ public class ContentProviderTest extends Activity implements
 
             public void onClick(View v) {
                 // starts a new Intent to add a Country
-                Intent countryEdit = new Intent(getBaseContext(), CountryEdit.class);
+                Intent countryEdit = new Intent(getBaseContext(), CountryEdit2.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "add");
                 countryEdit.putExtras(bundle);
@@ -58,16 +59,14 @@ public class ContentProviderTest extends Activity implements
 
         // The desired columns to be bound
         String[] columns = new String[] {
-                CountriesDb.KEY_CODE,
-                CountriesDb.KEY_NAME,
-                CountriesDb.KEY_CONTINENT
+                AddressListDB2.KEY_NAME,
+                AddressListDB2.KEY_PHONE_NUMBER
         };
 
         // the XML defined views which the data will be bound to
         int[] to = new int[] {
-                R.id.code,
                 R.id.name,
-                R.id.continent,
+                R.id.phonenumber,
         };
 
         // create an adapter from the SimpleCursorAdapter
@@ -105,7 +104,7 @@ public class ContentProviderTest extends Activity implements
 
                 // starts a new Intent to update/delete a Country
                 // pass in row Id to create the Content URI for a single row
-                Intent countryEdit = new Intent(getBaseContext(), CountryEdit.class);
+                Intent countryEdit = new Intent(getBaseContext(), CountryEdit2.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "update");
                 bundle.putString("rowId", rowId);
@@ -121,12 +120,11 @@ public class ContentProviderTest extends Activity implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {
-                CountriesDb.KEY_ROWID,
-                CountriesDb.KEY_CODE,
-                CountriesDb.KEY_NAME,
-                CountriesDb.KEY_CONTINENT};
+                AddressListDB2.KEY_ROWID,
+                AddressListDB2.KEY_NAME,
+                AddressListDB2.KEY_PHONE_NUMBER};
         CursorLoader cursorLoader = new CursorLoader(this,
-                MyContentProvider.CONTENT_URI, projection, null, null, null);
+                MyContentProvider2.CONTENT_URI, projection, null, null, null);
         return cursorLoader;
     }
 

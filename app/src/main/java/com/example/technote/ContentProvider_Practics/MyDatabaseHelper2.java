@@ -1,15 +1,17 @@
-package com.example.technote.ContentProviderEx;
+package com.example.technote.ContentProvider_Practics;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class MyDatabaseHelper extends SQLiteOpenHelper {
+import com.example.technote.ContentProviderEx.CountriesDb;
 
-    private static final String DATABASE_NAME = "TheWorld.db";
+public class MyDatabaseHelper2 extends SQLiteOpenHelper {
+
+    private static final String DATABASE_NAME = "AddressBook2.db";
     private static final int DATABASE_VERSION = 1;
 
-    MyDatabaseHelper(Context context) {
+    MyDatabaseHelper2(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

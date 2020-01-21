@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 
 import com.example.technote.ContentProviderEx.ContentProviderTest;
+import com.example.technote.ContentProvider_Practics.ContentProviderTest2;
 import com.example.technote.Database.AddressBook;
 import com.example.technote.Database.SQLiteTest;
 import com.example.technote.Database.SQLiteTest_2;
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), SQLiteTest_2.class));
                                 break;
                             case R.id.menu_content_provider:
-                                startActivity(new Intent(getApplicationContext(), ContentProviderTest.class));
+                                startActivity(new Intent(getApplicationContext(), ContentProviderTest2.class));
                                 break;
                             default:
                                 break;
