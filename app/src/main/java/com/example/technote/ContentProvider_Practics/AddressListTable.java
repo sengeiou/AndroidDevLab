@@ -3,13 +3,13 @@ package com.example.technote.ContentProvider_Practics;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class AddressListDB2 { //DB 생성 클래스
+public class AddressListTable { //DB 생성 클래스
 
     public static final String KEY_ROWID = "_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_PHONE_NUMBER = "phone_number";
 
-    private static final String LOG_TAG = "AddressListDB2";
+    private static final String LOG_TAG = "AddressListTable";
     public static final String SQLITE_TABLE = "Country";
 
     private static final String DATABASE_CREATE =
@@ -22,7 +22,7 @@ public class AddressListDB2 { //DB 생성 클래스
     public static void onCreate(SQLiteDatabase db) {
         Log.w(LOG_TAG, DATABASE_CREATE);
         db.execSQL(DATABASE_CREATE);
-}
+    }
 
     public static void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(LOG_TAG, "Upgrading database from version " + oldVersion + " to "

@@ -16,14 +16,15 @@ public class MyContentProvider2 extends ContentProvider {
     private static final int ALL_COUNTRIES = 1;
     private static final int SINGLE_COUNTRY = 2;
 
-    // authority is the symbolic name of your provider
-    // To avoid conflicts with other providers, you should use
-    // Internet domain ownership (in reverse) as the basis of your provider authority.
-    private static final String AUTHORITY = "com.example.technote.ContentProvider_Practics.AddressListDB2";
+    // authority는 나의 프로바이더에 상징적인 이름이다.
+    // 다른 프로바이더와 충돌을 피하기 위해서 반드시 정의
+    // Internet domain ownership (in reverse) as the basis of your provider authority. (인터넷 도메인 소유권은 나의 provider authority의 기준으로 있다.)
+    private static final String AUTHORITY = "com.example.technote.ContentProvider_Practics";
 
     // create content URIs from the authority by appending path to database table
+    // authority에서 데이터베이스 테이블에 경로를 추가하여 컨텐츠 URI 생성
     public static final Uri CONTENT_URI =
-            Uri.parse("content://" + AUTHORITY + "/countries");
+            Uri.parse("content://" + AUTHORITY + "/addressList");
 
     // a content URI pattern matches content URIs using wildcard characters:
     // *: Matches a string of any valid characters of any length.
@@ -31,8 +32,8 @@ public class MyContentProvider2 extends ContentProvider {
     private static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(AUTHORITY, "countries", ALL_COUNTRIES);
-        uriMatcher.addURI(AUTHORITY, "countries/#", SINGLE_COUNTRY);
+        uriMatcher.addURI(AUTHORITY, "addressList", ALL_COUNTRIES);
+        uriMatcher.addURI(AUTHORITY, "addressList/#", SINGLE_COUNTRY);
     }
 
     // system calls onCreate() when it starts up the provider.
@@ -43,15 +44,15 @@ public class MyContentProvider2 extends ContentProvider {
         return false;
     }
 
-    //Return the MIME type corresponding to a content URI
+    //Return the MIME type corresponding to a content URI // content URI에 해당하는 MIME type을 return한다.
     @Override
     public String getType(Uri uri) {
 
         switch (uriMatcher.match(uri)) {
             case ALL_COUNTRIES:
-                return "vnd.android.cursor.dir/vnd.com.example.technote.ContentProvider_Practics.AddressListDB2";
+                return "vnd.android.cursor.dir/vnd.com.example.technote.ContentProvider_Practics.AddressListTable";
             case SINGLE_COUNTRY:
-                return "vnd.android.cursor.item/vnd.com.example.technote.ContentProvider_Practics.AddressListDB2";
+                return "vnd.android.cursor.item/vnd.com.example.technote.ContentProvider_Practics.AddressListTable";
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
@@ -71,7 +72,7 @@ public class MyContentProvider2 extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        long id = db.insert(AddressListDB2.SQLITE_TABLE, null, values);
+        long id = db.insert(AddressListTable.SQLITE_TABLE, null, values);
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(CONTENT_URI + "/" + id);
     }
@@ -87,7 +88,7 @@ public class MyContentProvider2 extends ContentProvider {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(AddressListDB2.SQLITE_TABLE);
+        queryBuilder.setTables(AddressListTable.SQLITE_TABLE);
 
         switch (uriMatcher.match(uri)) {
             case ALL_COUNTRIES:
@@ -95,7 +96,7 @@ public class MyContentProvider2 extends ContentProvider {
                 break;
             case SINGLE_COUNTRY:
                 String id = uri.getPathSegments().get(1);
-                queryBuilder.appendWhere(AddressListDB2.KEY_ROWID + "=" + id);
+                queryBuilder.appendWhere(AddressListTable.KEY_ROWID + "=" + id);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -120,14 +121,14 @@ public class MyContentProvider2 extends ContentProvider {
                 break;
             case SINGLE_COUNTRY:
                 String id = uri.getPathSegments().get(1);
-                selection = AddressListDB2.KEY_ROWID + "=" + id
+                selection = AddressListTable.KEY_ROWID + "=" + id
                         + (!TextUtils.isEmpty(selection) ?
                         " AND (" + selection + ')' : "");
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        int deleteCount = db.delete(AddressListDB2.SQLITE_TABLE, selection, selectionArgs);
+        int deleteCount = db.delete(AddressListTable.SQLITE_TABLE, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return deleteCount;
     }
@@ -145,14 +146,14 @@ public class MyContentProvider2 extends ContentProvider {
                 break;
             case SINGLE_COUNTRY:
                 String id = uri.getPathSegments().get(1);
-                selection = AddressListDB2.KEY_ROWID + "=" + id
+                selection = AddressListTable.KEY_ROWID + "=" + id
                         + (!TextUtils.isEmpty(selection) ?
                         " AND (" + selection + ')' : "");
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        int updateCount = db.update(AddressListDB2.SQLITE_TABLE, values, selection, selectionArgs);
+        int updateCount = db.update(AddressListTable.SQLITE_TABLE, values, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return updateCount;
     }

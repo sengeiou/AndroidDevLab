@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:text="  6. Calendar Dialog"
         android:gravity="center_vertical"
-        android:layout_below="@+id/Button4"
+        android:layout_below="@+id/button4"
         android:layout_marginTop = "10dp"
         android:layout_centerInParent="true"
         android:background="@color/white"

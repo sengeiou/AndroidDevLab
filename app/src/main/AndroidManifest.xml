@@ -12,7 +12,7 @@
 
         <provider android:name=".ContentProvider_Practics.MyContentProvider2" android:exported="true"
             android:readPermission="true" android:writePermission="true"
-            android:authorities="com.example.technote.ContentProvider_Practics.AddressListDB2" />
+            android:authorities="com.example.technote.ContentProvider_Practics" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -51,7 +51,7 @@
         <activity android:name=".ContentProviderEx.CountryEdit" android:label="@string/app_name" />
         <activity android:name=".ContentProviderEx.ContentProviderTest"></activity>
         <activity android:name=".ContentProvider_Practics.ContentProviderTest2"></activity>
-        <activity android:name=".ContentProvider_Practics.CountryEdit2">12</activity>
+        <activity android:name=".ContentProvider_Practics.AddressEdit2">12</activity>
     </application>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>

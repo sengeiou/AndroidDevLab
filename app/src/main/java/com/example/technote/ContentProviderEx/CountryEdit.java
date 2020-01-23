@@ -29,13 +29,13 @@ public class CountryEdit extends Activity implements OnClickListener{
         setContentView(R.layout.detail_page);
 
         // get the values passed to the activity from the calling activity
-        // determine the mode - add, update or delete
+        // insert 할 것인지 delete 할 것인지, update를 할 것인지 mode로 받음.
         if (this.getIntent().getExtras() != null){
             Bundle bundle = this.getIntent().getExtras();
             mode = bundle.getString("mode");
         }
 
-        // get references to the buttons and attach listeners
+        // 버튼 리스너
         save = (Button) findViewById(R.id.save);
         save.setOnClickListener(this);
         delete = (Button) findViewById(R.id.delete);

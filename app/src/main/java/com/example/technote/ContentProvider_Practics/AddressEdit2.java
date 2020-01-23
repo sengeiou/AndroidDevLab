@@ -5,17 +5,19 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.technote.R;
 
-public class CountryEdit2 extends Activity implements OnClickListener{
+public class AddressEdit2 extends Activity implements OnClickListener{
 
     private Spinner continentList;
     private Button save, delete;
@@ -26,16 +28,16 @@ public class CountryEdit2 extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_page2);
+        setContentView(R.layout.activity_database_content_provider_detail_page2);
 
         // get the values passed to the activity from the calling activity
-        // determine the mode - add, update or delete
+        // insert 할 것인지 delete 할 것인지, update를 할 것인지 mode로 받음.
         if (this.getIntent().getExtras() != null){
             Bundle bundle = this.getIntent().getExtras();
             mode = bundle.getString("mode");
         }
 
-        // get references to the buttons and attach listeners
+        // 버튼 리스너
         save = (Button) findViewById(R.id.save);
         save.setOnClickListener(this);
         delete = (Button) findViewById(R.id.delete);
@@ -44,7 +46,7 @@ public class CountryEdit2 extends Activity implements OnClickListener{
         phone_number = (EditText) findViewById(R.id.phonenumber);
         name = (EditText) findViewById(R.id.name);
 
-        // if in add mode disable the delete option
+        // 전화번호 추가 버튼을 눌렀을 때 delete 버튼을 비활성화
         if(mode.trim().equalsIgnoreCase("add")){
             delete.setEnabled(false);
         }
@@ -54,36 +56,80 @@ public class CountryEdit2 extends Activity implements OnClickListener{
             id = bundle.getString("rowId");
             loadCountryInfo();
         }
+        phone_number.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    String myPhoneNumber = phone_number.getText().toString();
+                    String myName = name.getText().toString();
 
+                    // check for blanks
+                    if(myPhoneNumber.trim().equalsIgnoreCase("")){
+                        Toast.makeText(getBaseContext(), "전화번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+
+                    // check for blanks
+                    if(myName.trim().equalsIgnoreCase("")){
+                        Toast.makeText(getBaseContext(), "이름을 입력하세요.", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                    ContentValues values = new ContentValues();
+                    values.put(AddressListTable.KEY_NAME, myName);
+                    values.put(AddressListTable.KEY_PHONE_NUMBER, myPhoneNumber);
+
+                    // insert a record
+                    if(mode.trim().equalsIgnoreCase("add")){
+                        //ContentResolver를 통해 데이터를 가져온다.
+                        getContentResolver().insert(MyContentProvider2.CONTENT_URI, values);
+                    }
+                    // update a record
+                    else {
+                        Uri uri = Uri.parse(MyContentProvider2.CONTENT_URI + "/" + id);
+                        getContentResolver().update(uri, values, null, null);
+                    }
+                    finish();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void onClick(View v) {
 
-        // get values from the spinner and the input text fields
+        // Edit Text에 있는 String data를 get
         String myPhoneNumber = phone_number.getText().toString();
         String myName = name.getText().toString();
 
-        // check for blanks
+        // 전화번호가 입력 돼 있지 않으면.
         if(myPhoneNumber.trim().equalsIgnoreCase("")){
-            Toast.makeText(getBaseContext(), "Please ENTER country code", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "전화번호를 입력하세요.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        // check for blanks
+        // 이름이 입력 돼 있지 않으면
         if(myName.trim().equalsIgnoreCase("")){
-            Toast.makeText(getBaseContext(), "Please ENTER country name", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "이름을 입력하세요", Toast.LENGTH_LONG).show();
             return;
         }
 
 
         switch (v.getId()) {
+
+            //save 버튼을 눌렀을 때
             case R.id.save:
                 ContentValues values = new ContentValues();
-                values.put(AddressListDB2.KEY_NAME, myName);
-                values.put(AddressListDB2.KEY_PHONE_NUMBER, myPhoneNumber);
+                //value에 각각의 데이터를 put
+                values.put(AddressListTable.KEY_NAME, myName);
+                values.put(AddressListTable.KEY_PHONE_NUMBER, myPhoneNumber);
 
                 // insert a record
                 if(mode.trim().equalsIgnoreCase("add")){
+                    //ContentResolver를 통해 데이터를 가져온다.
                     getContentResolver().insert(MyContentProvider2.CONTENT_URI, values);
                 }
                 // update a record
@@ -94,6 +140,7 @@ public class CountryEdit2 extends Activity implements OnClickListener{
                 finish();
                 break;
 
+            // delete 버튼을 눌렀을 때
             case R.id.delete:
                 // delete a record
                 Uri uri = Uri.parse(MyContentProvider2.CONTENT_URI + "/" + id);
@@ -111,16 +158,16 @@ public class CountryEdit2 extends Activity implements OnClickListener{
     private void loadCountryInfo(){
 
         String[] projection = {
-                AddressListDB2.KEY_ROWID,
-                AddressListDB2.KEY_NAME,
-                AddressListDB2.KEY_PHONE_NUMBER};
+                AddressListTable.KEY_ROWID,
+                AddressListTable.KEY_NAME,
+                AddressListTable.KEY_PHONE_NUMBER};
         Uri uri = Uri.parse(MyContentProvider2.CONTENT_URI + "/" + id);
         Cursor cursor = getContentResolver().query(uri, projection, null, null,
                 null);
         if (cursor != null) {
             cursor.moveToFirst();
-            String myName = cursor.getString(cursor.getColumnIndexOrThrow(AddressListDB2.KEY_NAME));
-            String myPhoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(AddressListDB2.KEY_PHONE_NUMBER));
+            String myName = cursor.getString(cursor.getColumnIndexOrThrow(AddressListTable.KEY_NAME));
+            String myPhoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(AddressListTable.KEY_PHONE_NUMBER));
             name.setText(myName);
             phone_number.setText(myPhoneNumber);
         }

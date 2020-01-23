@@ -15,7 +15,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.example.technote.R;
 
@@ -36,7 +35,7 @@ public class ContentProviderTest2 extends Activity implements
 
             public void onClick(View v) {
                 // starts a new Intent to add a Country
-                Intent countryEdit = new Intent(getBaseContext(), CountryEdit2.class);
+                Intent countryEdit = new Intent(getBaseContext(), AddressEdit2.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "add");
                 countryEdit.putExtras(bundle);
@@ -55,8 +54,8 @@ public class ContentProviderTest2 extends Activity implements
     private void displayListView() {
         // 칼럼의 이름을 저장
         String[] columns = new String[] {
-                AddressListDB2.KEY_NAME,
-                AddressListDB2.KEY_PHONE_NUMBER
+                AddressListTable.KEY_NAME,
+                AddressListTable.KEY_PHONE_NUMBER
         };
 
         // xml address_info의 name과 phone_number의 TextView를 정의
@@ -68,13 +67,13 @@ public class ContentProviderTest2 extends Activity implements
         // SimpleCursorAdapter를 연결하는 코드
         dataAdapter = new SimpleCursorAdapter(
                 this,
-                R.layout.address_info,
+                R.layout.item_address_info,
                 null,
                 columns,
                 to,
                 0);
 
-        // 리스트 뷰를 get하는 코드.
+        // 리스트 뷰를 get.
         ListView listView = (ListView) findViewById(R.id.addressList);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
@@ -88,13 +87,12 @@ public class ContentProviderTest2 extends Activity implements
                 // Get the cursor, positioned to the corresponding row in the result set
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
-                // display the selected country
+                // rowId를 cursor를 통해 get
                 String rowId =
-                        cursor.getString(cursor.getColumnIndexOrThrow(AddressListDB2.KEY_ROWID));
+                        cursor.getString(cursor.getColumnIndexOrThrow(AddressListTable.KEY_ROWID));
 
-                // starts a new Intent to update/delete a Country
-                // pass in row Id to create the Content URI for a single row
-                Intent countryEdit = new Intent(getBaseContext(), CountryEdit2.class);
+                // 리스트뷰의 item을 클릭하면 Edit 화면을 띄우고, 기존에 저장해 있던 데이터를 bundle을 통해 put하여 적재 시킨다.
+                Intent countryEdit = new Intent(getBaseContext(), AddressEdit2.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "update");
                 bundle.putString("rowId", rowId);
@@ -103,15 +101,16 @@ public class ContentProviderTest2 extends Activity implements
             }
         });
     }
-    // This is called when a new Loader needs to be created.
+    // CursorLoader를 이용하여 데이터를 로드.
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {
-                AddressListDB2.KEY_ROWID,
-                AddressListDB2.KEY_NAME,
-                AddressListDB2.KEY_PHONE_NUMBER};
+                AddressListTable.KEY_ROWID,
+                AddressListTable.KEY_NAME,
+                AddressListTable.KEY_PHONE_NUMBER};
+        String selection = AddressListTable.KEY_NAME + " = 'A'";
         CursorLoader cursorLoader = new CursorLoader(this,
-                MyContentProvider2.CONTENT_URI, projection, null, null, null);
+                MyContentProvider2.CONTENT_URI, projection, selection, null, null);
         return cursorLoader;
     }
 

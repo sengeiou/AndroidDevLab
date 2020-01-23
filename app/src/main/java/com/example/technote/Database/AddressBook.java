@@ -37,7 +37,6 @@ public class AddressBook extends AppCompatActivity  implements AddressDataAdapte
         mRecyclerView = (RecyclerView)findViewById(R.id.address_book_recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         //SQLite DB접근 영역
         // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
         all_address_list();
@@ -136,6 +135,7 @@ public class AddressBook extends AppCompatActivity  implements AddressDataAdapte
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnClickListener(this);
     }
+
     void all_address_list(){
         final SQLiteDatabase db = addressBookDBHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM AddressBookList", null);
