@@ -108,9 +108,9 @@ public class ContentProviderTest2 extends Activity implements
                 AddressListTable.KEY_ROWID,
                 AddressListTable.KEY_NAME,
                 AddressListTable.KEY_PHONE_NUMBER};
-        String selection = AddressListTable.KEY_NAME + " = 'A'";
+        //String selection = AddressListTable.KEY_NAME + " = 'A'";
         CursorLoader cursorLoader = new CursorLoader(this,
-                MyContentProvider2.CONTENT_URI, projection, selection, null, null);
+                MyContentProvider2.CONTENT_URI, projection, null, null, null);
         return cursorLoader;
     }
 

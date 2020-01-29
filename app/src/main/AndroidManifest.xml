@@ -14,6 +14,10 @@
             android:readPermission="true" android:writePermission="true"
             android:authorities="com.example.technote.ContentProvider_Practics" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBfcdK0fjudP8w_gdpil0lVl2HOleapa98" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +55,8 @@
         <activity android:name=".ContentProviderEx.CountryEdit" android:label="@string/app_name" />
         <activity android:name=".ContentProviderEx.ContentProviderTest"></activity>
         <activity android:name=".ContentProvider_Practics.ContentProviderTest2"></activity>
-        <activity android:name=".ContentProvider_Practics.AddressEdit2">12</activity>
+        <activity android:name=".ContentProvider_Practics.AddressEdit2"></activity>
+        <activity android:name=".GoogleMap.GoogleMapTest"></activity>
     </application>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>

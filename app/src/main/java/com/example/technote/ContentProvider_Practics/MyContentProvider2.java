@@ -50,9 +50,9 @@ public class MyContentProvider2 extends ContentProvider {
 
         switch (uriMatcher.match(uri)) {
             case ALL_COUNTRIES:
-                return "vnd.android.cursor.dir/vnd.com.example.technote.ContentProvider_Practics.AddressListTable";
+                return "vnd.android.cursor.dir/vnd.com.example.technote.ContentProvider_Practics.addressList";
             case SINGLE_COUNTRY:
-                return "vnd.android.cursor.item/vnd.com.example.technote.ContentProvider_Practics.AddressListTable";
+                return "vnd.android.cursor.item/vnd.com.example.technote.ContentProvider_Practics.addressList";
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
