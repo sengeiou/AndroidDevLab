@@ -258,7 +258,7 @@ public class BLETest2 extends AppCompatActivity {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                         }
-
+  
                     });
                     builder.show();
                 }
