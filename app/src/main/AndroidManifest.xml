@@ -18,6 +18,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBfcdK0fjudP8w_gdpil0lVl2HOleapa98" />
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="8115000" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,16 +55,22 @@
         <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_2"
             android:theme="@style/Screen_2">
         </activity>
-
         <activity android:name=".ContentProviderEx.CountryEdit" android:label="@string/app_name" />
         <activity android:name=".ContentProviderEx.ContentProviderTest"></activity>
         <activity android:name=".ContentProvider_Practics.ContentProviderTest2"></activity>
         <activity android:name=".ContentProvider_Practics.AddressEdit2"></activity>
         <activity android:name=".GoogleMap.GoogleMapTest"></activity>
+        <activity android:name=".BLETest.BLETest"></activity>
+        <activity android:name=".BLETest.BLETest2"></activity>
     </application>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 </manifest>

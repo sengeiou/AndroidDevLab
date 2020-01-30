@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
+import com.example.technote.BLETest.BLETest;
+import com.example.technote.BLETest.BLETest2;
 import com.example.technote.ContentProviderEx.ContentProviderTest;
 import com.example.technote.ContentProvider_Practics.ContentProviderTest2;
 import com.example.technote.Database.AddressBook;
@@ -19,6 +21,7 @@ import com.example.technote.Dialog_Activity_Fragment.Activity;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
+import com.example.technote.GoogleMap.GoogleMapTest;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;
 import com.example.technote.Layout.DrawerLayout_Test;
@@ -119,6 +122,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 popup.show();//Popup Menu 보이기
+            }
+        });
+        //BLE 연결
+        button3.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BLETest2.class));
+            }
+        });
+        //GoogleMap
+        button4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), GoogleMapTest.class));
             }
         });
         //Database
