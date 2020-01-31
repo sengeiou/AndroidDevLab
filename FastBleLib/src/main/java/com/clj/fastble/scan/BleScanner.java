@@ -98,6 +98,7 @@ public class BleScanner {
                      long timeOut, final BleScanCallback callback) {
 
         startLeScan(serviceUuids, names, mac, fuzzy, false, timeOut, callback);
+
     }
 
     public void scanAndConnect(UUID[] serviceUuids, String[] names, String mac, boolean fuzzy,

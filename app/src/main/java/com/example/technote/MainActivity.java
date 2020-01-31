@@ -1,8 +1,5 @@
 package com.example.technote;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,9 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.technote.BLETest.BLETest;
 import com.example.technote.BLETest.BLETest2;
-import com.example.technote.ContentProviderEx.ContentProviderTest;
 import com.example.technote.ContentProvider_Practics.ContentProviderTest2;
 import com.example.technote.Database.AddressBook;
 import com.example.technote.Database.SQLiteTest;
@@ -127,7 +126,26 @@ public class MainActivity extends AppCompatActivity {
         //BLE 연결
         button3.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), BLETest2.class));
+                PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+
+                getMenuInflater().inflate(R.menu.menu_ble_connect, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_ble_test:
+                                startActivity(new Intent(getApplicationContext(), BLETest.class));
+                                break;
+                            case R.id.menu_ble_test2:
+                                startActivity(new Intent(getApplicationContext(), BLETest2.class));
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();//Popup Menu 보이기
             }
         });
         //GoogleMap

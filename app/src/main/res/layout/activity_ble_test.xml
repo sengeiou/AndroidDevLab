@@ -1,41 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context=".BLETest.BLETest">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello Bluetooth Enthusiasts!" />
 
     <Button
-        android:id="@+id/buttonOn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="On"/>
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Scan"
+        android:id="@+id/StartScanButton"
+        android:layout_marginTop="40dp"/>
+
     <Button
-        android:id="@+id/buttonDesc"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Make Discoverable"/>
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Stop Scanning"
+        android:id="@+id/StopScanButton"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="80dp"
+        android:id="@+id/PeripheralTextView"
+        android:scrollbars="vertical"
+        android:maxLines="30" />
     <Button
-        android:id="@+id/buttonSearch"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"/>
+        android:text="연결 할 디바이스의 인덱스 입력 : "
+        android:id="@+id/ConnectButton"
+        android:layout_alignParentBottom="true"/>
+
     <Button
-        android:id="@+id/buttonOff"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bluetooth Off"/>
+        android:text="연결 해제"
+        android:id="@+id/DisconnectButton"
+        android:layout_alignParentBottom="true"/>
 
-    <ListView
-        android:id="@+id/listViewPaired"
-        android:layout_width="match_parent"
-        android:layout_height="120dp">
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:singleLine="true"
+        android:cursorVisible="false"
+        android:id="@+id/InputIndex"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/textviewborder"/>
 
-    </ListView>
-
-    <ListView
-        android:id="@+id/listViewDetected"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </ListView>
-</LinearLayout>
+</RelativeLayout>

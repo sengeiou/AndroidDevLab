@@ -1,314 +1,387 @@
 package com.example.technote.BLETest;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BLETest extends AppCompatActivity {
-    ListView listViewPaired;
-    ListView listViewDetected;
-    ArrayList<String> arrayListpaired;
-    Button buttonSearch,buttonOn,buttonDesc,buttonOff;
-    ArrayAdapter<String> adapter,detectedAdapter;
-    static HandleSeacrh handleSeacrh;
-    BluetoothDevice bdDevice;
-    BluetoothClass bdClass;
-    ArrayList<BluetoothDevice> arrayListPairedBluetoothDevices;
-    private ButtonClicked clicked;
-    ListItemClickedonPaired listItemClickedonPaired;
-    BluetoothAdapter bluetoothAdapter = null;
-    ArrayList<BluetoothDevice> arrayListBluetoothDevices = null;
-    ListItemClicked listItemClicked;
+    BluetoothManager btManager;
+    BluetoothAdapter btAdapter;
+    BluetoothLeScanner btScanner;
+    Button startScanningButton;
+    Button stopScanningButton;
+    TextView peripheralTextView;
+    private final static int REQUEST_ENABLE_BT = 1;
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
+    Boolean btScanning = false;
+    int deviceIndex = 0;
+    ArrayList<BluetoothDevice> devicesDiscovered = new ArrayList<BluetoothDevice>();
+    EditText deviceIndexInput;
+    Button connectToDevice;
+    Button disconnectDevice;
+    BluetoothGatt bluetoothGatt;
+
+    public final static String ACTION_GATT_CONNECTED =
+            "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
+    public final static String ACTION_GATT_DISCONNECTED =
+            "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED";
+    public final static String ACTION_GATT_SERVICES_DISCOVERED =
+            "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
+    public final static String ACTION_DATA_AVAILABLE =
+            "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
+    public final static String EXTRA_DATA =
+            "com.example.bluetooth.le.EXTRA_DATA";
+
+    public Map<String, String> uuids = new HashMap<String, String>();
+
+    // Stops scanning after 5 seconds.
+    private Handler mHandler = new Handler();
+    private static final long SCAN_PERIOD = 5000;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble_test);
-        listViewDetected = (ListView) findViewById(R.id.listViewDetected);
-        listViewPaired = (ListView) findViewById(R.id.listViewPaired);
-        buttonSearch = (Button) findViewById(R.id.buttonSearch);
-        buttonOn = (Button) findViewById(R.id.buttonOn);
-        buttonDesc = (Button) findViewById(R.id.buttonDesc);
-        buttonOff = (Button) findViewById(R.id.buttonOff);
-        arrayListpaired = new ArrayList<String>();
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        clicked = new ButtonClicked();
-        handleSeacrh = new HandleSeacrh();
-        arrayListPairedBluetoothDevices = new ArrayList<BluetoothDevice>();
-        /*
-         * the above declaration is just for getting the paired bluetooth devices;
-         * this helps in the removing the bond between paired devices.
-         */
-        listItemClickedonPaired = new ListItemClickedonPaired();
-        arrayListBluetoothDevices = new ArrayList<BluetoothDevice>();
-        adapter= new ArrayAdapter<String>(BLETest.this, android.R.layout.simple_list_item_1, arrayListpaired);
-        detectedAdapter = new ArrayAdapter<String>(BLETest.this, android.R.layout.simple_list_item_single_choice);
-        listViewDetected.setAdapter(detectedAdapter);
-        listItemClicked = new ListItemClicked();
-        detectedAdapter.notifyDataSetChanged();
-        listViewPaired.setAdapter(adapter);
+
+        peripheralTextView = (TextView) findViewById(R.id.PeripheralTextView);
+        peripheralTextView.setMovementMethod(new ScrollingMovementMethod());
+        deviceIndexInput = (EditText) findViewById(R.id.InputIndex);
+        deviceIndexInput.setText("0");
+
+        connectToDevice = (Button) findViewById(R.id.ConnectButton);
+        connectToDevice.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                connectToDeviceSelected();
+            }
+        });
+
+        disconnectDevice = (Button) findViewById(R.id.DisconnectButton);
+        disconnectDevice.setVisibility(View.INVISIBLE);
+        disconnectDevice.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                disconnectDeviceSelected();
+            }
+        });
+
+        startScanningButton = (Button) findViewById(R.id.StartScanButton);
+        startScanningButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startScanning();
+            }
+        });
+
+        stopScanningButton = (Button) findViewById(R.id.StopScanButton);
+        stopScanningButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                stopScanning();
+            }
+        });
+        stopScanningButton.setVisibility(View.INVISIBLE);
+
+        btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        btAdapter = btManager.getAdapter();
+        btScanner = btAdapter.getBluetoothLeScanner();
+
+        if (btAdapter != null && !btAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        }
+
+        // Make sure we have access coarse location enabled, if not, prompt the user to enable it
+        if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("This app needs location access");
+            builder.setMessage("Please grant location access so this app can detect peripherals.");
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                }
+            });
+            builder.show();
+        }
+
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    // Device scan callback.
+    private ScanCallback leScanCallback = new ScanCallback() {
+        @Override
+        public void onScanResult(int callbackType, ScanResult result) {
+            peripheralTextView.append("Index: " + deviceIndex + ", Device Name: " + result.getDevice().getName() + " rssi: " + result.getRssi() + "\n");
+            devicesDiscovered.add(result.getDevice());
+            deviceIndex++;
+            // auto scroll for text view
+            final int scrollAmount = peripheralTextView.getLayout().getLineTop(peripheralTextView.getLineCount()) - peripheralTextView.getHeight();
+            // if there is no need to scroll, scrollAmount will be <=0
+            if (scrollAmount > 0) {
+                peripheralTextView.scrollTo(0, scrollAmount);
+            }
+        }
+    };
+
+    // Device connect call back
+    private final BluetoothGattCallback btleGattCallback = new BluetoothGattCallback() {
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+            // this will get called anytime you perform a read or write characteristic operation
+            BLETest.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    peripheralTextView.append("device read or wrote to\n");
+                }
+            });
+        }
+
+        @Override
+        public void onConnectionStateChange(final BluetoothGatt gatt, final int status, final int newState) {
+            // this will get called when a device connects or disconnects
+            System.out.println(newState);
+            switch (newState) {
+                case 0:
+                    BLETest.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            peripheralTextView.append("device disconnected\n");
+                            connectToDevice.setVisibility(View.VISIBLE);
+                            disconnectDevice.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                    break;
+                case 2:
+                    BLETest.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            peripheralTextView.append("device connected\n");
+                            connectToDevice.setVisibility(View.INVISIBLE);
+                            disconnectDevice.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                    // discover services and characteristics for this device
+                    bluetoothGatt.discoverServices();
+
+                    break;
+                default:
+                    BLETest.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            peripheralTextView.append("we encounterned an unknown state, uh oh\n");
+                        }
+                    });
+                    break;
+            }
+        }
+
+        @Override
+        public void onServicesDiscovered(final BluetoothGatt gatt, final int status) {
+            // this will get called after the client initiates a 			BluetoothGatt.discoverServices() call
+            BLETest.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    peripheralTextView.append("device services have been discovered\n");
+                }
+            });
+            displayGattServices(bluetoothGatt.getServices());
+        }
+
+        @Override
+        // Result of a characteristic read operation
+        public void onCharacteristicRead(BluetoothGatt gatt,
+                                         BluetoothGattCharacteristic characteristic,
+                                         int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            }
+        }
+    };
+
+    private void broadcastUpdate(final String action,
+                                 final BluetoothGattCharacteristic characteristic) {
+
+        System.out.println(characteristic.getUuid());
     }
 
     @Override
-    protected void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-        getPairedDevices();
-        buttonOn.setOnClickListener(clicked);
-        buttonSearch.setOnClickListener(clicked);
-        buttonDesc.setOnClickListener(clicked);
-        buttonOff.setOnClickListener(clicked);
-        listViewDetected.setOnItemClickListener(listItemClicked);
-        listViewPaired.setOnItemClickListener(listItemClickedonPaired);
-    }
-    private void getPairedDevices() {
-        Set<BluetoothDevice> pairedDevice = bluetoothAdapter.getBondedDevices();
-        if(pairedDevice.size()>0)
-        {
-            for(BluetoothDevice device : pairedDevice)
-            {
-                arrayListpaired.add(device.getName()+"\n"+device.getAddress());
-                arrayListPairedBluetoothDevices.add(device);
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-    class ListItemClicked implements AdapterView.OnItemClickListener
-    {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // TODO Auto-generated method stub
-            bdDevice = arrayListBluetoothDevices.get(position);
-            //bdClass = arrayListBluetoothDevices.get(position);
-            Log.i("Log", "The dvice : "+bdDevice.toString());
-            /*
-             * here below we can do pairing without calling the callthread(), we can directly call the
-             * connect(). but for the safer side we must usethe threading object.
-             */
-            //callThread();
-            //connect(bdDevice);
-            Boolean isBonded = false;
-            try {
-                isBonded = createBond(bdDevice);
-                if(isBonded)
-                {
-                    //arrayListpaired.add(bdDevice.getName()+"\n"+bdDevice.getAddress());
-                    //adapter.notifyDataSetChanged();
-                    getPairedDevices();
-                    adapter.notifyDataSetChanged();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }//connect(bdDevice);
-            Log.i("Log", "The bond is created: "+isBonded);
-        }
-    }
-    class ListItemClickedonPaired implements AdapterView.OnItemClickListener
-    {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-            bdDevice = arrayListPairedBluetoothDevices.get(position);
-            try {
-                Boolean removeBonding = removeBond(bdDevice);
-                if(removeBonding)
-                {
-                    arrayListpaired.remove(position);
-                    adapter.notifyDataSetChanged();
-                }
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_COARSE_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    System.out.println("coarse location permission granted");
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 
-
-                Log.i("Log", "Removed"+removeBonding);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
-    /*private void callThread() {
-        new Thread(){
-            public void run() {
-                Boolean isBonded = false;
-                try {
-                    isBonded = createBond(bdDevice);
-                    if(isBonded)
-                    {
-                        arrayListpaired.add(bdDevice.getName()+"\n"+bdDevice.getAddress());
-                        adapter.notifyDataSetChanged();
-                    }
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }//connect(bdDevice);
-                Log.i("Log", "The bond is created: "+isBonded);
-            }
-        }.start();
-    }*/
-    private Boolean connect(BluetoothDevice bdDevice) {
-        Boolean bool = false;
-        try {
-            Log.i("Log", "service method is called ");
-            Class cl = Class.forName("android.bluetooth.BluetoothDevice");
-            Class[] par = {};
-            Method method = cl.getMethod("createBond", par);
-            Object[] args = {};
-            bool = (Boolean) method.invoke(bdDevice);//, args);// this invoke creates the detected devices paired.
-            //Log.i("Log", "This is: "+bool.booleanValue());
-            //Log.i("Log", "devicesss: "+bdDevice.getName());
-        } catch (Exception e) {
-            Log.i("Log", "Inside catch of serviceFromDevice Method");
-            e.printStackTrace();
-        }
-        return bool.booleanValue();
-    };
-
-
-    public boolean removeBond(BluetoothDevice btDevice)
-            throws Exception
-    {
-        Class btClass = Class.forName("android.bluetooth.BluetoothDevice");
-        Method removeBondMethod = btClass.getMethod("removeBond");
-        Boolean returnValue = (Boolean) removeBondMethod.invoke(btDevice);
-        return returnValue.booleanValue();
-    }
-
-
-    public boolean createBond(BluetoothDevice btDevice)
-            throws Exception
-    {
-        Class class1 = Class.forName("android.bluetooth.BluetoothDevice");
-        Method createBondMethod = class1.getMethod("createBond");
-        Boolean returnValue = (Boolean) createBondMethod.invoke(btDevice);
-        return returnValue.booleanValue();
-    }
-
-
-    class ButtonClicked implements View.OnClickListener
-    {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.buttonOn:
-                    onBluetooth();
-                    break;
-                case R.id.buttonSearch:
-                    arrayListBluetoothDevices.clear();
-                    startSearching();
-                    break;
-                case R.id.buttonDesc:
-                    makeDiscoverable();
-                    break;
-                case R.id.buttonOff:
-                    offBluetooth();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Message msg = Message.obtain();
-            String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
-                Toast.makeText(context, "ACTION_FOUND", Toast.LENGTH_SHORT).show();
-
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                try
-                {
-                    //device.getClass().getMethod("setPairingConfirmation", boolean.class).invoke(device, true);
-                    //device.getClass().getMethod("cancelPairingUserInput", boolean.class).invoke(device);
-                }
-                catch (Exception e) {
-                    Log.i("Log", "Inside the exception: ");
-                    e.printStackTrace();
-                }
-
-                if(arrayListBluetoothDevices.size()<1) // this checks if the size of bluetooth device is 0,then add the
-                {                                           // device to the arraylist.
-                    detectedAdapter.add(device.getName()+"\n"+device.getAddress());
-                    arrayListBluetoothDevices.add(device);
-                    detectedAdapter.notifyDataSetChanged();
-                }
-                else
-                {
-                    boolean flag = true;    // flag to indicate that particular device is already in the arlist or not
-                    for(int i = 0; i<arrayListBluetoothDevices.size();i++)
-                    {
-                        if(device.getAddress().equals(arrayListBluetoothDevices.get(i).getAddress()))
-                        {
-                            flag = false;
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
                         }
-                    }
-                    if(flag == true)
-                    {
-                        detectedAdapter.add(device.getName()+"\n"+device.getAddress());
-                        arrayListBluetoothDevices.add(device);
-                        detectedAdapter.notifyDataSetChanged();
-                    }
+
+                    });
+                    builder.show();
                 }
+                return;
             }
         }
-    };
-    private void startSearching() {
-        Log.i("Log", "in the start searching method");
-        IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        BLETest.this.registerReceiver(myReceiver, intentFilter);
-        bluetoothAdapter.startDiscovery();
     }
-    private void onBluetooth() {
-        if(!bluetoothAdapter.isEnabled())
-        {
-            bluetoothAdapter.enable();
-            Log.i("Log", "Bluetooth is Enabled");
-        }
-    }
-    private void offBluetooth() {
-        if(bluetoothAdapter.isEnabled())
-        {
-            bluetoothAdapter.disable();
-        }
-    }
-    private void makeDiscoverable() {
-        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-        startActivity(discoverableIntent);
-        Log.i("Log", "Discoverable ");
-    }
-    class HandleSeacrh extends Handler
-    {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 111:
 
-                    break;
+    public void startScanning() {
+        System.out.println("start scanning");
+        btScanning = true;
+        deviceIndex = 0;
+        devicesDiscovered.clear();
+        peripheralTextView.setText("");
+        peripheralTextView.append("Started Scanning\n");
+        startScanningButton.setVisibility(View.INVISIBLE);
+        stopScanningButton.setVisibility(View.VISIBLE);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                btScanner.startScan(leScanCallback);
+            }
+        });
 
-                default:
-                    break;
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                stopScanning();
+            }
+        }, SCAN_PERIOD);
+    }
+
+    public void stopScanning() {
+        System.out.println("stopping scanning");
+        peripheralTextView.append("Stopped Scanning\n");
+        btScanning = false;
+        startScanningButton.setVisibility(View.VISIBLE);
+        stopScanningButton.setVisibility(View.INVISIBLE);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                btScanner.stopScan(leScanCallback);
+            }
+        });
+    }
+
+    public void connectToDeviceSelected() {
+        peripheralTextView.append("Trying to connect to device at index: " + deviceIndexInput.getText() + "\n");
+        int deviceSelected = Integer.parseInt(deviceIndexInput.getText().toString());
+        bluetoothGatt = devicesDiscovered.get(deviceSelected).connectGatt(this, false, btleGattCallback);
+    }
+
+    public void disconnectDeviceSelected() {
+        peripheralTextView.append("Disconnecting from device\n");
+        bluetoothGatt.disconnect();
+    }
+
+    private void displayGattServices(List<BluetoothGattService> gattServices) {
+        if (gattServices == null) return;
+
+        // Loops through available GATT Services.
+        for (BluetoothGattService gattService : gattServices) {
+
+            final String uuid = gattService.getUuid().toString();
+            System.out.println("Service discovered: " + uuid);
+            BLETest.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    peripheralTextView.append("Service disovered: "+uuid+"\n");
+                }
+            });
+            new ArrayList<HashMap<String, String>>();
+            List<BluetoothGattCharacteristic> gattCharacteristics =
+                    gattService.getCharacteristics();
+
+            // Loops through available Characteristics.
+            for (BluetoothGattCharacteristic gattCharacteristic :
+                    gattCharacteristics) {
+
+                final String charUuid = gattCharacteristic.getUuid().toString();
+                System.out.println("Characteristic discovered for service: " + charUuid);
+                BLETest.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        peripheralTextView.append("Characteristic discovered for service: "+charUuid+"\n");
+                    }
+                });
+
             }
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.joelwasserman.androidbleconnectexample/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.joelwasserman.androidbleconnectexample/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }
