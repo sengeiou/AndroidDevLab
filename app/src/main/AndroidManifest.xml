@@ -58,7 +58,8 @@
         <activity android:name=".GoogleMap.GoogleMapTest"></activity>
         <activity android:name=".BLETest.BLETest"></activity>
         <activity android:name=".BLETest.FastBle.FastBleMain"></activity>
-        <activity android:name=".BLETest.Fa"></activity>
+        <activity android:name=".BLETest.FastBle.operation.OperationActivity"></activity>
+        <activity android:name=".Handler.HandlerEx"></activity>
     </application>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>

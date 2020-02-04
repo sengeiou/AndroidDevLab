@@ -1,4 +1,4 @@
-package com.example.technote.Adapter;
+package com.example.technote.BLETest.FastBle.adapter;
 
 
 import android.content.Context;

@@ -13,8 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.technote.BLETest.BLETest;
 import com.example.technote.BLETest.FastBle.FastBleMain;
-import com.example.technote.Database.ContentProviderPractics.ContentProviderTest2;
 import com.example.technote.Database.AddressBook;
+import com.example.technote.Database.ContentProviderPractics.ContentProviderTest2;
 import com.example.technote.Database.SQLiteTest;
 import com.example.technote.Database.SQLiteTest_2;
 import com.example.technote.Dialog_Activity_Fragment.Activity;
@@ -22,6 +22,7 @@ import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
 import com.example.technote.GoogleMap.GoogleMapTest;
+import com.example.technote.Handler.HandlerEx;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;
 import com.example.technote.Layout.DrawerLayout_Test;
@@ -48,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         button7 = (Button) findViewById(R.id.Button7);
         button8 = (Button) findViewById(R.id.Button8);
         button9 = (Button) findViewById(R.id.Button9);
-        button10 = (Button) findViewById(R.id.Button10);
-        button11 = (Button) findViewById(R.id.button11);
+        button10 = (Button) findViewById(R.id.button10);
+        button11 = (Button) findViewById(R.id.Button11);
 
         // Layout
         button1.setOnClickListener(new View.OnClickListener() {
@@ -186,6 +187,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 popup.show();//Popup Menu 보이기
+            }
+        });
+        button11.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), HandlerEx.class));
             }
         });
     }

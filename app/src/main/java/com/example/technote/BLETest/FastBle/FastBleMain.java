@@ -42,7 +42,7 @@ import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
-import com.example.technote.Adapter.DeviceAdapter;
+import com.example.technote.BLETest.FastBle.adapter.DeviceAdapter;
 import com.example.technote.BLETest.FastBle.comm.ObserverManager;
 import com.example.technote.BLETest.FastBle.operation.OperationActivity;
 import com.example.technote.MainActivity;

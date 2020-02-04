@@ -123,28 +123,30 @@
             android:layout_centerInParent="true"
             android:layout_below="@+id/Button8"
             android:background="@color/white"/>
+
         <Button
-            android:id="@+id/Button10"
+            android:id="@+id/button10"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="  10. Android UI OpenSource"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_centerInParent="true"
-            android:layout_below="@+id/Button9"
-            android:textAllCaps="false"
-            android:background="@color/white"/>
-        <Button
-            android:id="@+id/button11"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="  11. Jni"
+            android:text="  10. Jni"
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="25dp"
             android:layout_centerInParent="true"
-            android:layout_below="@+id/Button10"
+            android:layout_below="@+id/Button9"
+            android:textAllCaps="false"
+            android:background="@color/white"/>
+
+        <Button
+            android:id="@+id/Button11"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="  11. Handler"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/button10"
             android:textAllCaps="false"
             android:background="@color/white"/>
     </RelativeLayout>
