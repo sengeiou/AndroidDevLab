@@ -1,4 +1,4 @@
-package com.example.technote.BLETest.FastBle;
+package com.example.technote.BLE.FastBle;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -42,9 +42,9 @@ import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
-import com.example.technote.BLETest.FastBle.adapter.DeviceAdapter;
-import com.example.technote.BLETest.FastBle.comm.ObserverManager;
-import com.example.technote.BLETest.FastBle.operation.OperationActivity;
+import com.example.technote.BLE.FastBle.adapter.DeviceAdapter;
+import com.example.technote.BLE.FastBle.comm.ObserverManager;
+import com.example.technote.BLE.FastBle.operation.OperationActivity;
 import com.example.technote.MainActivity;
 import com.example.technote.R;
 
@@ -236,10 +236,11 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
                 img_loading.setVisibility(View.VISIBLE);
                 btn_scan.setText(getString(R.string.stop_scan));
             }
-
             @Override
             public void onLeScan(BleDevice bleDevice) {
                 super.onLeScan(bleDevice);
+                Toast.makeText(FastBleMain.this, "12312321321", Toast.LENGTH_SHORT).show();
+                Log.d("MainOnLeScan","메인액티비티 onLeScan");
             }
 
             @Override
@@ -261,7 +262,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
         BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
             @Override
             public void onStartConnect() {
-                progressDialog.show();
+                progressDialog.show(); 
             }
 
             @Override

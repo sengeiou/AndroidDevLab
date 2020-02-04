@@ -87,7 +87,6 @@ public class BleScanRuleConfig {
             applyConfig(config);
             return config;
         }
-
     }
 
 

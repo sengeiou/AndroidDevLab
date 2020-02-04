@@ -45,8 +45,10 @@ public class BleScanner {
             if (mBleScanPresenter.ismNeedConnect()) {
                 BleScanAndConnectCallback callback = (BleScanAndConnectCallback)
                         mBleScanPresenter.getBleScanPresenterImp();
+
                 if (callback != null) {
                     callback.onLeScan(bleDevice);
+
                 }
             } else {
                 BleScanCallback callback = (BleScanCallback) mBleScanPresenter.getBleScanPresenterImp();
@@ -54,6 +56,7 @@ public class BleScanner {
                     callback.onLeScan(bleDevice);
                 }
             }
+
         }
 
         @Override
@@ -94,6 +97,7 @@ public class BleScanner {
         }
     };
 
+    // 스캔 할 데이터 들을 가져오는 역할
     public void scan(UUID[] serviceUuids, String[] names, String mac, boolean fuzzy,
                      long timeOut, final BleScanCallback callback) {
 
@@ -106,9 +110,10 @@ public class BleScanner {
         startLeScan(serviceUuids, names, mac, fuzzy, true, timeOut, callback);
     }
 
+    //
     private synchronized void startLeScan(UUID[] serviceUuids, String[] names, String mac, boolean fuzzy,
                                           boolean needConnect, long timeOut, BleScanPresenterImp imp) {
-
+        // 현재 스캔을 하고있는지 확인.
         if (mBleScanState != BleScanState.STATE_IDLE) {
             BleLog.w("scan action already exists, complete the previous scan action first");
             if (imp != null) {
@@ -116,14 +121,20 @@ public class BleScanner {
             }
             return;
         }
+        // API version 21이하는 startLeScan을 이용하고, 21이상은 BluetoothLeScanner를 이용하여 Scan한다.
+        if (Build.VERSION.SDK_INT < 21) {
+            mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
 
-        mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
+            boolean success = BleManager.getInstance().getBluetoothAdapter()
+                    .startLeScan(serviceUuids, mBleScanPresenter);
+            mBleScanState = success ? BleScanState.STATE_SCANNING : BleScanState.STATE_IDLE;
+            mBleScanPresenter.notifyScanStarted(success);
 
-        boolean success = BleManager.getInstance().getBluetoothAdapter()
-                .startLeScan(serviceUuids, mBleScanPresenter);
-        mBleScanState = success ? BleScanState.STATE_SCANNING : BleScanState.STATE_IDLE;
-        mBleScanPresenter.notifyScanStarted(success);
-
+        } else {
+            mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
+            BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().startScan(mBleScanPresenter); // 스캔 시작 코드
+            mBleScanPresenter.notifyScanStarted(true); // 스캔이 시작됐다는 것을 알리면서 Progress와 스캔 시작 버튼을 스캔 중지 버튼으로 바꾼다.
+        }
 
     }
 

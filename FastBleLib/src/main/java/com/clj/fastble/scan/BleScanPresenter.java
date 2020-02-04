@@ -4,12 +4,15 @@ package com.clj.fastble.scan;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.clj.fastble.callback.BleScanPresenterImp;
 import com.clj.fastble.data.BleDevice;
@@ -23,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public abstract class BleScanPresenter implements BluetoothAdapter.LeScanCallback {
+public abstract class BleScanPresenter extends ScanCallback implements BluetoothAdapter.LeScanCallback {
 
     private String[] mDeviceNames;
     private String mDeviceMac;
@@ -66,7 +69,14 @@ public abstract class BleScanPresenter implements BluetoothAdapter.LeScanCallbac
         mMainHandler.post(new Runnable() {
             @Override
             public void run() {
-                onLeScan(bleDevice);
+                if (Build.VERSION.SDK_INT < 21){
+                    onLeScan(bleDevice);
+                    Log.d("MainOnLeScan","메인액티비티 onLeScan");
+                }
+                 else {
+
+                }
+
             }
         });
         checkDevice(bleDevice);
@@ -102,11 +112,35 @@ public abstract class BleScanPresenter implements BluetoothAdapter.LeScanCallbac
 
         if (!mHandling)
             return;
-
         Message message = mHandler.obtainMessage();
         message.what = BleMsg.MSG_SCAN_DEVICE;
         message.obj = new BleDevice(device, rssi, scanRecord, (int) System.currentTimeMillis());
         mHandler.sendMessage(message);
+        Log.d("InBleScanPresenter","Scan");
+    }
+    @Override
+    public void onScanResult(int callbackType, ScanResult result) {
+        if (result.getDevice() == null)
+            return;
+
+        if (!mHandling)
+            return;
+        Message message = mHandler.obtainMessage();
+        message.what = BleMsg.MSG_SCAN_DEVICE;
+        message.obj = new BleDevice(result.getDevice(), result.getRssi(),result.getScanRecord().getBytes() , (int) System.currentTimeMillis());
+        mHandler.sendMessage(message);
+        Log.d("onScanResult","Scan");
+
+    }
+    @Override
+    public void onBatchScanResults(List<ScanResult> results) {
+        for (ScanResult sr : results) {
+            Log.i("ScanResult - Results", sr.toString());
+        }
+    }
+    @Override
+    public void onScanFailed(int errorCode) {
+        Log.e("Scan Failed", "Error Code: " + errorCode);
     }
 
     private void checkDevice(BleDevice bleDevice) {
@@ -189,7 +223,7 @@ public abstract class BleScanPresenter implements BluetoothAdapter.LeScanCallbac
             mMainHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    BleScanner.getInstance().stopLeScan();
+                    BleScanner.getInstance().stopLeScan(); //success && mScanTimeout > 0이면 Scan을 Stop
                 }
             }, mScanTimeout);
         }

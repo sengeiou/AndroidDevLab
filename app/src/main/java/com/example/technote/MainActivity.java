@@ -11,8 +11,9 @@ import android.widget.PopupMenu;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.technote.BLETest.BLETest;
-import com.example.technote.BLETest.FastBle.FastBleMain;
+import com.example.technote.BLE.BLETest.BLETest;
+import com.example.technote.BLE.Exam1.BleExam1_Main;
+import com.example.technote.BLE.FastBle.FastBleMain;
 import com.example.technote.Database.AddressBook;
 import com.example.technote.Database.ContentProviderPractics.ContentProviderTest2;
 import com.example.technote.Database.SQLiteTest;
@@ -140,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_ble_fast_ble:
                                 startActivity(new Intent(getApplicationContext(), FastBleMain.class));
+                                break;
+                            case R.id.menu_ble_exam1:
+                                startActivity(new Intent(getApplicationContext(), BleExam1_Main.class));
                                 break;
                             default:
                                 break;

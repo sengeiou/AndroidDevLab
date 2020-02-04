@@ -1,4 +1,4 @@
-package com.example.technote.BLETest.FastBle.comm;
+package com.example.technote.BLE.FastBle.comm;
 
 
 import com.clj.fastble.data.BleDevice;

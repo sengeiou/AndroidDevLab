@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
@@ -46,6 +47,7 @@ public class BleManager {
     private BluetoothAdapter bluetoothAdapter;
     private MultipleBluetoothController multipleBluetoothController;
     private BluetoothManager bluetoothManager;
+    private BluetoothLeScanner bluetoothLeScanner;
 
     public static final int DEFAULT_SCAN_TIME = 10000;
     private static final int DEFAULT_MAX_MULTIPLE_DEVICE = 7;
@@ -81,6 +83,7 @@ public class BleManager {
             bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             multipleBluetoothController = new MultipleBluetoothController();
             bleScanRuleConfig = new BleScanRuleConfig();
+            bluetoothLeScanner = getBluetoothAdapter().getBluetoothLeScanner();
         }
     }
 
@@ -111,6 +114,12 @@ public class BleManager {
         return bluetoothAdapter;
     }
 
+    /**
+     * get the BluetootheLeScanner
+     *
+     * @return
+     */
+    public BluetoothLeScanner getBluetootheLescaaner(){return bluetoothLeScanner;}
     /**
      * get the ScanRuleConfig
      *

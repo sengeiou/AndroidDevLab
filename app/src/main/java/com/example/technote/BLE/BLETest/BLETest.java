@@ -1,4 +1,4 @@
-package com.example.technote.BLETest;
+package com.example.technote.BLE.BLETest;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -127,7 +127,7 @@ public class BLETest extends AppCompatActivity {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             Log.i("callbackType", String.valueOf(callbackType));
-            Log.i("result", result.toString());
+            Log.i("result", result.getDevice().getName());
             BluetoothDevice btDevice = result.getDevice();
             connectToDevice(btDevice);
         }

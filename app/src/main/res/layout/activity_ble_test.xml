@@ -5,14 +5,23 @@
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".BLETest.BLETest">
+    tools:context=".BLE.BLETest.BLETest">
 
     <TextView
+        android:id="@+id/bleDeviceName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:text="Hello Bluetooth Enthusiasts!" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="스캔 시작">
+    </Button>
 
 </RelativeLayout>

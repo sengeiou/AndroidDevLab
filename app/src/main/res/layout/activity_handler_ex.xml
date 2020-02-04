@@ -22,30 +22,39 @@
         android:id="@+id/normalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:text="NormalButton"/>
 
     <Button
         android:id="@+id/errorButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
+
         android:text="ErrorButton1"/>
 
     <Button
         android:id="@+id/errorButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
+
         android:text="ErrorButton2"/>
 
     <Button
         android:id="@+id/postButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
+
         android:text="PostButton"/>
 
     <Button
         android:id="@+id/messageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
+
         android:text="MessageButton"/>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.technote.BLETest.FastBle.operation;
+package com.example.technote.BLE.FastBle.operation;
 
 
 import android.annotation.TargetApi;

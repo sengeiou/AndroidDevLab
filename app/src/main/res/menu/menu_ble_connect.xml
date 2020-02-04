@@ -6,5 +6,10 @@
     <item
         android:id="@+id/menu_ble_fast_ble"
         android:title="FastBLE" />
-
+    <item
+        android:id="@+id/menu_ble_exam1"
+        android:title="Exam1" />
+    <item
+        android:id="@+id/menu_ble_exam2"
+        android:title="Exam2" />
 </menu>
