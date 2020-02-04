@@ -1,4 +1,4 @@
-package com.example.technote.ContentProviderEx;
+package com.example.technote.Database.ContentProviderExample;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

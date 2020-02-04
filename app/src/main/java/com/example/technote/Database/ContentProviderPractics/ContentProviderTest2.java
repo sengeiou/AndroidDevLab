@@ -1,4 +1,4 @@
-package com.example.technote.ContentProvider_Practics;
+package com.example.technote.Database.ContentProviderPractics;
 
 import android.app.Activity;
 import android.app.LoaderManager;

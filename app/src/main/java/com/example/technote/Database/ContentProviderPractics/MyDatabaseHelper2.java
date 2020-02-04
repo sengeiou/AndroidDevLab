@@ -1,10 +1,8 @@
-package com.example.technote.ContentProvider_Practics;
+package com.example.technote.Database.ContentProviderPractics;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.technote.ContentProviderEx.CountriesDb;
 
 public class MyDatabaseHelper2 extends SQLiteOpenHelper {
 

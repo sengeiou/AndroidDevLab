@@ -1,11 +1,12 @@
-package com.example.technote.ContentProviderEx;
+package com.example.technote.Database.ContentProviderExample;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import android.app.LoaderManager;
 
 import com.example.technote.R;
 

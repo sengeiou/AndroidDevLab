@@ -1,4 +1,4 @@
-package com.example.technote.BLETest.operation;
+package com.example.technote.BLETest.FastBle.operation;
 
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -14,8 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.data.BleDevice;
-import com.example.technote.BLETest.comm.Observer;
-import com.example.technote.BLETest.comm.ObserverManager;
+import com.example.technote.BLETest.FastBle.comm.Observer;
+import com.example.technote.BLETest.FastBle.comm.ObserverManager;
 import com.example.technote.R;
 
 import java.util.ArrayList;

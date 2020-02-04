@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <provider android:name=".ContentProvider_Practics.MyContentProvider2" android:exported="true"
+        <provider android:name=".Database.ContentProviderPractics.MyContentProvider2" android:exported="true"
             android:readPermission="true" android:writePermission="true"
             android:authorities="com.example.technote.ContentProvider_Practics" />
 
@@ -51,14 +51,14 @@
         <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_2"
             android:theme="@style/Screen_2">
         </activity>
-        <activity android:name=".ContentProviderEx.CountryEdit" android:label="@string/app_name" />
-        <activity android:name=".ContentProviderEx.ContentProviderTest"></activity>
-        <activity android:name=".ContentProvider_Practics.ContentProviderTest2"></activity>
-        <activity android:name=".ContentProvider_Practics.AddressEdit2"></activity>
+        <activity android:name=".Database.ContentProviderExample.CountryEdit" android:label="@string/app_name" />
+        <activity android:name=".Database.ContentProviderExample.ContentProviderTest"></activity>
+        <activity android:name=".Database.ContentProviderPractics.ContentProviderTest2"></activity>
+        <activity android:name=".Database.ContentProviderPractics.AddressEdit2"></activity>
         <activity android:name=".GoogleMap.GoogleMapTest"></activity>
         <activity android:name=".BLETest.BLETest"></activity>
-        <activity android:name=".BLETest.BLETest2"></activity>
-        <activity android:name=".BLETest.operation.OperationActivity"></activity>
+        <activity android:name=".BLETest.FastBle.FastBleMain"></activity>
+        <activity android:name=".BLETest.Fa"></activity>
     </application>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>

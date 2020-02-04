@@ -1,25 +1,23 @@
-package com.example.technote.ContentProviderEx;
+package com.example.technote.Database.ContentProviderPractics;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class CountriesDb { //DB 생성 클래스
+public class AddressListTable { //DB 생성 클래스
 
     public static final String KEY_ROWID = "_id";
-    public static final String KEY_CODE = "code";
     public static final String KEY_NAME = "name";
-    public static final String KEY_CONTINENT = "continent";
+    public static final String KEY_PHONE_NUMBER = "phone_number";
 
-    private static final String LOG_TAG = "CountriesDb";
+    private static final String LOG_TAG = "AddressListTable";
     public static final String SQLITE_TABLE = "Country";
 
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
-                    KEY_CODE + "," +
                     KEY_NAME + "," +
-                    KEY_CONTINENT + "," +
-                    " UNIQUE (" + KEY_CODE +"));";
+                    KEY_PHONE_NUMBER+ "," +
+                    " UNIQUE (" + KEY_PHONE_NUMBER +"));";
 
     public static void onCreate(SQLiteDatabase db) {
         Log.w(LOG_TAG, DATABASE_CREATE);

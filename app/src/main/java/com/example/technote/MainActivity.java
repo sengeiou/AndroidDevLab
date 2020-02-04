@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.technote.BLETest.BLETest;
-import com.example.technote.BLETest.BLETest2;
-import com.example.technote.ContentProvider_Practics.ContentProviderTest2;
+import com.example.technote.BLETest.FastBle.FastBleMain;
+import com.example.technote.Database.ContentProviderPractics.ContentProviderTest2;
 import com.example.technote.Database.AddressBook;
 import com.example.technote.Database.SQLiteTest;
 import com.example.technote.Database.SQLiteTest_2;
@@ -137,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.menu_ble_test:
                                 startActivity(new Intent(getApplicationContext(), BLETest.class));
                                 break;
-                            case R.id.menu_ble_test2:
-                                startActivity(new Intent(getApplicationContext(), BLETest2.class));
+                            case R.id.menu_ble_fast_ble:
+                                startActivity(new Intent(getApplicationContext(), FastBleMain.class));
                                 break;
                             default:
                                 break;

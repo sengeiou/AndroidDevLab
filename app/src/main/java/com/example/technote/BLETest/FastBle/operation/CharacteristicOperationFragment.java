@@ -1,4 +1,4 @@
-package com.example.technote.BLETest.operation;
+package com.example.technote.BLETest.FastBle.operation;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothGattCharacteristic;

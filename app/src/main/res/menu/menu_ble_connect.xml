@@ -4,7 +4,7 @@
         android:id="@+id/menu_ble_test"
         android:title="BLETest" />
     <item
-        android:id="@+id/menu_ble_test2"
-        android:title="BLETest2" />
+        android:id="@+id/menu_ble_fast_ble"
+        android:title="FastBLE" />
 
 </menu>

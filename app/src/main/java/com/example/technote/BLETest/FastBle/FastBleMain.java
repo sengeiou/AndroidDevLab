@@ -1,4 +1,4 @@
-package com.example.technote.BLETest;
+package com.example.technote.BLETest.FastBle;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -43,8 +43,8 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.example.technote.Adapter.DeviceAdapter;
-import com.example.technote.BLETest.comm.ObserverManager;
-import com.example.technote.BLETest.operation.OperationActivity;
+import com.example.technote.BLETest.FastBle.comm.ObserverManager;
+import com.example.technote.BLETest.FastBle.operation.OperationActivity;
 import com.example.technote.MainActivity;
 import com.example.technote.R;
 
@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BLETest2 extends AppCompatActivity implements View.OnClickListener {
+public class FastBleMain extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_CODE_OPEN_GPS = 1;
@@ -72,7 +72,7 @@ public class BLETest2 extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ble_test2);
+        setContentView(R.layout.activity_ble_fastblemain);
         initView();
 
         BleManager.getInstance().init(getApplication());
@@ -163,7 +163,7 @@ public class BLETest2 extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onDetail(BleDevice bleDevice) {
                 if (BleManager.getInstance().isConnected(bleDevice)) {
-                    Intent intent = new Intent(BLETest2.this, OperationActivity.class);
+                    Intent intent = new Intent(FastBleMain.this, OperationActivity.class);
                     intent.putExtra(OperationActivity.KEY_DATA, bleDevice);
                     startActivity(intent);
                 }
@@ -270,7 +270,7 @@ public class BLETest2 extends AppCompatActivity implements View.OnClickListener 
                 img_loading.setVisibility(View.INVISIBLE);
                 btn_scan.setText(getString(R.string.start_scan));
                 progressDialog.dismiss();
-                Toast.makeText(BLETest2.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
+                Toast.makeText(FastBleMain.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -288,9 +288,9 @@ public class BLETest2 extends AppCompatActivity implements View.OnClickListener 
                 mDeviceAdapter.notifyDataSetChanged();
 
                 if (isActiveDisConnected) {
-                    Toast.makeText(BLETest2.this, getString(R.string.active_disconnected), Toast.LENGTH_LONG).show();
+                    Toast.makeText(FastBleMain.this, getString(R.string.active_disconnected), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(BLETest2.this, getString(R.string.disconnected), Toast.LENGTH_LONG).show();
+                    Toast.makeText(FastBleMain.this, getString(R.string.disconnected), Toast.LENGTH_LONG).show();
                     ObserverManager.getInstance().notifyObserver(bleDevice);
                 }
 
