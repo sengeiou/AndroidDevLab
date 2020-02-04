@@ -9,7 +9,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
-import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
@@ -45,7 +44,6 @@ public class BleManager {
     private Application context;
     private BleScanRuleConfig bleScanRuleConfig;
     private BluetoothAdapter bluetoothAdapter;
-    private BluetoothLeScanner mBLEScanner;
     private MultipleBluetoothController multipleBluetoothController;
     private BluetoothManager bluetoothManager;
 

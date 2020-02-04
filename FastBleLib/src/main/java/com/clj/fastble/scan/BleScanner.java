@@ -98,7 +98,6 @@ public class BleScanner {
                      long timeOut, final BleScanCallback callback) {
 
         startLeScan(serviceUuids, names, mac, fuzzy, false, timeOut, callback);
-
     }
 
     public void scanAndConnect(UUID[] serviceUuids, String[] names, String mac, boolean fuzzy,
@@ -124,6 +123,8 @@ public class BleScanner {
                 .startLeScan(serviceUuids, mBleScanPresenter);
         mBleScanState = success ? BleScanState.STATE_SCANNING : BleScanState.STATE_IDLE;
         mBleScanPresenter.notifyScanStarted(success);
+
+
     }
 
     public synchronized void stopLeScan() {
@@ -135,6 +136,4 @@ public class BleScanner {
     public BleScanState getScanState() {
         return mBleScanState;
     }
-
-
 }
