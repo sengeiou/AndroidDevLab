@@ -29,7 +29,7 @@ import java.util.UUID;
 
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BleConnector {
+public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목을 가져오는 역할
 
     private static final String UUID_CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR = "00002902-0000-1000-8000-00805f9b34fb";
 

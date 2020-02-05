@@ -36,7 +36,7 @@ import java.util.Map;
 import static android.bluetooth.BluetoothDevice.TRANSPORT_LE;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BleBluetooth {
+public class BleBluetooth {  // 실질적 BLE Connect를 이행
 
     private BleGattCallback bleGattCallback;
     private BleRssiCallback bleRssiCallback;
@@ -145,16 +145,13 @@ public class BleBluetooth {
         return bluetoothGatt;
     }
 
-    public synchronized BluetoothGatt connect(BleDevice bleDevice,
-                                              boolean autoConnect,
-                                              BleGattCallback callback) {
+    public synchronized BluetoothGatt connect(BleDevice bleDevice, boolean autoConnect,
+                                              BleGattCallback callback) { // 최초 connect를 시도 할 때 RetryCount를 0으로 설정하고 return
         return connect(bleDevice, autoConnect, callback, 0);
     }
 
-    public synchronized BluetoothGatt connect(BleDevice bleDevice,
-                                              boolean autoConnect,
-                                              BleGattCallback callback,
-                                              int connectRetryCount) {
+    public synchronized BluetoothGatt connect(BleDevice bleDevice, boolean autoConnect,
+                                              BleGattCallback callback, int connectRetryCount) { //실질적인 connect code
         BleLog.i("connect device: " + bleDevice.getName()
                 + "\nmac: " + bleDevice.getMac()
                 + "\nautoConnect: " + autoConnect
@@ -166,24 +163,26 @@ public class BleBluetooth {
 
         addConnectGattCallback(callback);
 
-        lastState = LastState.CONNECT_CONNECTING;
+        lastState = LastState.CONNECT_CONNECTING; // 지난 상태를 CONNECTING이라고 설정
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //SDK 버전이 23보다 크면
             bluetoothGatt = bleDevice.getDevice().connectGatt(BleManager.getInstance().getContext(),
-                    autoConnect, coreGattCallback, TRANSPORT_LE);
+                    autoConnect, coreGattCallback, TRANSPORT_LE); // 블루투스를 connect한다. TRANSPORT_LE는 원격 듀얼 모드 장치에 GATT 연결을 위한 LE 전송 선호 (디바이스가 GATT를 통해 연결을 할 때 LE 전송신호를 선호한다)
+
         } else {
             bluetoothGatt = bleDevice.getDevice().connectGatt(BleManager.getInstance().getContext(),
-                    autoConnect, coreGattCallback);
+                    autoConnect, coreGattCallback); //API 23미만에서는 LE신호를 선호하는 설정이 없다.
         }
         if (bluetoothGatt != null) {
             if (bleGattCallback != null) {
-                bleGattCallback.onStartConnect();
+                bleGattCallback.onStartConnect(); // connect가 시작됐다는 progress Dialog를 띄움
             }
+            //bluetoothGatt가 비어있을 때
             Message message = mainHandler.obtainMessage();
-            message.what = BleMsg.MSG_CONNECT_OVER_TIME;
+            message.what = BleMsg.MSG_CONNECT_OVER_TIME; //메인 핸들러에 MSG_CONNECT_OVER_TIME 메시지를 보냄으로 해당 기기를 Disconnect
             mainHandler.sendMessageDelayed(message, BleManager.getInstance().getConnectOverTime());
 
-        } else {
+        } else { //bluetoothGatt == null
             disconnectGatt();
             refreshDeviceCache();
             closeBluetoothGatt();
@@ -362,6 +361,7 @@ public class BleBluetooth {
     private BluetoothGattCallback coreGattCallback = new BluetoothGattCallback() {
 
         @Override
+        //연결이 제대로 되는지 결과를 확인, GATT 클라이언트가 원격 GATT 서버에 연결/연결 해제된 시기를 나타내는 콜백.
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
             BleLog.i("BluetoothGattCallback：onConnectionStateChange "
@@ -397,6 +397,7 @@ public class BleBluetooth {
         }
 
         @Override
+        // 원격 장치의 원격 서비스, 특성 및 설명자 목록이 업데이트되었을 때, 즉 새로운 서비스가 발견되었을 때 호출된다.
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             super.onServicesDiscovered(gatt, status);
             BleLog.i("BluetoothGattCallback：onServicesDiscovered "
@@ -419,6 +420,7 @@ public class BleBluetooth {
         }
 
         @Override
+        //remote characteristic notification의 결과를 콜백 트리거한다.
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
 
@@ -464,7 +466,7 @@ public class BleBluetooth {
                 }
             }
         }
-
+        //Callback indicating the result of a descriptor write operation.
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             super.onDescriptorWrite(gatt, descriptor, status);
@@ -511,7 +513,7 @@ public class BleBluetooth {
                 }
             }
         }
-
+        //특성 쓰기 작업의 결과를 나타내는 콜백.
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
@@ -538,7 +540,7 @@ public class BleBluetooth {
                 }
             }
         }
-
+        //특성 읽기 작업의 결과를 보고하는 콜백.
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
@@ -584,7 +586,7 @@ public class BleBluetooth {
                 }
             }
         }
-
+        //지정된 디바이스 연결에 대한 MTU를 나타내는 콜백(callback)이 변경됨.
         @Override
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             super.onMtuChanged(gatt, mtu, status);

@@ -352,7 +352,7 @@ public class BleManager {
             throw new IllegalArgumentException("BleGattCallback can not be Null!");
         }
 
-        if (!isBlueEnable()) {
+        if (!isBlueEnable()) { //블루투스를 사용할 수 없다면
             BleLog.e("Bluetooth not enable!");
             bleGattCallback.onConnectFail(bleDevice, new OtherException("Bluetooth not enable!"));
             return null;
@@ -364,9 +364,9 @@ public class BleManager {
 
         if (bleDevice == null || bleDevice.getDevice() == null) {
             bleGattCallback.onConnectFail(bleDevice, new OtherException("Not Found Device Exception Occurred!"));
-        } else {
-            BleBluetooth bleBluetooth = multipleBluetoothController.buildConnectingBle(bleDevice);
-            boolean autoConnect = bleScanRuleConfig.isAutoConnect();
+        } else { // 모든 조건이 충족하여 연결.
+            BleBluetooth bleBluetooth = multipleBluetoothController.buildConnectingBle(bleDevice); // 멀티 컨트롤러에 연결하려는 디바이스를 등록.
+            boolean autoConnect = bleScanRuleConfig.isAutoConnect(); // 오토 커넥팅을 설정했을 때 동작(ScanRuleConfig에 설정한 기기를 자동으로 연결해줌)
             return bleBluetooth.connect(bleDevice, autoConnect, bleGattCallback);
         }
 

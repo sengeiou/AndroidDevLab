@@ -342,6 +342,4 @@ public class CharacteristicOperationFragment extends Fragment {
             textView.scrollTo(0, offset - textView.getHeight());
         }
     }
-
-
 }

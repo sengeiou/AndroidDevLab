@@ -149,7 +149,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             public void onConnect(BleDevice bleDevice) {
                 if (!BleManager.getInstance().isConnected(bleDevice)) {
                     BleManager.getInstance().cancelScan();
-                    connect(bleDevice);
+                    connect(bleDevice); // 연결 버튼을 누르면 최초 연결이 최초 시작된다.
                 }
             }
 
@@ -212,6 +212,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             names = str_name.split(",");
         }
 
+        // 검색 설정 적용 코드
         String mac = et_mac.getText().toString();
 
         boolean isAutoConnect = sw_auto.isChecked();
@@ -224,6 +225,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
                 .setScanTimeOut(10000)              // 스캔 타임 아웃 시간, 옵션, 기본 값은 10초
                 .build();
         BleManager.getInstance().initScanRule(scanRuleConfig);
+        //스캔 필터 설정 완료 후 BLEManger에 보내서 적용. (309 줄)
     }
 
     private void startScan() {
@@ -259,10 +261,10 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
     }
 
     private void connect(final BleDevice bleDevice) {
-        BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
+        BleManager.getInstance().connect(bleDevice, new BleGattCallback() { //BleManager에 있는 connect함수를 불러온다.
             @Override
             public void onStartConnect() {
-                progressDialog.show(); 
+                progressDialog.show(); // 연결 될 때까지 Progress Dialog를 띄운다.
             }
 
             @Override
@@ -274,6 +276,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
                 Toast.makeText(FastBleMain.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
             }
 
+            //연결 성공 할 때
             @Override
             public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 progressDialog.dismiss();
@@ -281,6 +284,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
                 mDeviceAdapter.notifyDataSetChanged();
             }
 
+            //연결 해제 될 때
             @Override
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 progressDialog.dismiss();
