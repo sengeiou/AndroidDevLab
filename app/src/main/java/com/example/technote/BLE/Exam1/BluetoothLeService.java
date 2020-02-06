@@ -1,5 +1,4 @@
 package com.example.technote.BLE.Exam1;
-
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -48,12 +47,12 @@ public class BluetoothLeService extends Service {
     public final static String EXTRA_DATA =
             "android-er.EXTRA_DATA";
 
-    public static String String_MesiPlus831D5D_Service =
-            "F000C0E0-0451-4000-B000-000000000000";
-    public final static ParcelUuid ParcelUuid_MesiPlus831D5D_Service =
-            ParcelUuid.fromString(String_MesiPlus831D5D_Service);
-    public final static UUID UUID_MesiPlus831D5D_Service =
-            UUID.fromString(String_MesiPlus831D5D_Service);
+    public static String String_GENUINO101_ledService =
+            "19B10000-E8F2-537E-4F6C-D104768A1214";
+    public final static ParcelUuid ParcelUuid_GENUINO101_ledService =
+            ParcelUuid.fromString(String_GENUINO101_ledService);
+    public final static UUID UUID_GENUINO101_ledService =
+            UUID.fromString(String_GENUINO101_ledService);
 
     public static String String_GENUINO101_switchChar =
             "19B10001-E8F2-537E-4F6C-D104768A1214";
@@ -168,7 +167,7 @@ public class BluetoothLeService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        public BluetoothLeService getService() {
+        BluetoothLeService getService() {
             return BluetoothLeService.this;
         }
     }
@@ -315,7 +314,7 @@ public class BluetoothLeService extends Service {
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
 
         // This is specific to Genuino 101 ledService.
-        if (UUID_MesiPlus831D5D_Service.equals(characteristic.getUuid())) {
+        if (UUID_GENUINO101_ledService.equals(characteristic.getUuid())) {
             BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
                     UUID_GENUINO101_switchChare);
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);

@@ -2,6 +2,8 @@ package com.clj.fastble.scan;
 
 
 import android.annotation.TargetApi;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanSettings;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +16,7 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.data.BleScanState;
 import com.clj.fastble.utils.BleLog;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -131,8 +134,27 @@ public class BleScanner {
             mBleScanPresenter.notifyScanStarted(success);
 
         } else {
+            String meSiPlus831B36 = "MeSiPlus831B36";
+            String meSiPlus831D5D = "MeSiPlus831D5D";
+            ScanFilter scanFilter =
+                    new ScanFilter.Builder()
+                            .setDeviceAddress("A4:34:F1:83:1B:36")
+                            .build();
+            ScanFilter scanFilter2 =
+                    new ScanFilter.Builder()
+                            .setDeviceAddress("A4:34:F1:83:1D:5D")
+                            .build();
+            List<ScanFilter> scanFilters = new ArrayList<ScanFilter>();
+
+            scanFilters.add(scanFilter);
+            scanFilters.add(scanFilter2);
+
+            ScanSettings scanSettings =
+                    new ScanSettings.Builder().build();
+
+
             mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
-            BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().startScan(mBleScanPresenter); // 스캔 시작 코드
+            BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().startScan(scanFilters,scanSettings,mBleScanPresenter); // 스캔 시작 코드
             mBleScanPresenter.notifyScanStarted(true); // 스캔이 시작됐다는 것을 알리면서 Progress와 스캔 시작 버튼을 스캔 중지 버튼으로 바꾼다.
         }
 

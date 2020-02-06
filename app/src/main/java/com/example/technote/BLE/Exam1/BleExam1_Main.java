@@ -7,7 +7,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,7 +52,7 @@ public class BleExam1_Main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ble_exam1);
+        setContentView(R.layout.activity_main);
 
         // Check if BLE is supported on the device.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
@@ -95,7 +97,8 @@ public class BleExam1_Main extends AppCompatActivity {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final BluetoothDevice device = (BluetoothDevice) parent.getItemAtPosition(position);
+                    final BluetoothDevice device =
+                            (BluetoothDevice) parent.getItemAtPosition(position);
 
                     String msg = device.getAddress() + "\n"
                             + device.getBluetoothClass().toString() + "\n"
@@ -109,24 +112,8 @@ public class BleExam1_Main extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                 }
-                            }).setNeutralButton("CONNECT", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final Intent intent = new Intent(BleExam1_Main.this,
-                                    ControlActivity.class);
-                            intent.putExtra(ControlActivity.EXTRAS_DEVICE_NAME,
-                                    device.getName());
-                            intent.putExtra(ControlActivity.EXTRAS_DEVICE_ADDRESS,
-                                    device.getAddress());
-
-                            if (mScanning) {
-                                mBluetoothLeScanner.stopScan(scanCallback);
-                                mScanning = false;
-                                btnScan.setEnabled(true);
-                            }
-                            startActivity(intent);
-                        }
-                    }).show();
+                            })
+                            .show();
 
                 }
             };
@@ -224,7 +211,20 @@ public class BleExam1_Main extends AppCompatActivity {
                 }
             }, SCAN_PERIOD);
 
-            mBluetoothLeScanner.startScan(scanCallback);
+            //mBluetoothLeScanner.startScan(scanCallback);
+
+            //scan specified devices only with ScanFilter
+            ScanFilter scanFilter =
+                    new ScanFilter.Builder()
+                            .setDeviceAddress("A4:34:F1:83:1B:36")
+                            .build();
+            List<ScanFilter> scanFilters = new ArrayList<ScanFilter>();
+            scanFilters.add(scanFilter);
+
+            ScanSettings scanSettings =
+                    new ScanSettings.Builder().build();
+
+            mBluetoothLeScanner.startScan(scanFilters, scanSettings, scanCallback);
 
             mScanning = true;
             btnScan.setEnabled(false);
