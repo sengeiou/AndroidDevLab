@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.utils.AllGattServices;
 import com.example.technote.R;
 
 import java.util.ArrayList;
@@ -59,7 +60,6 @@ public class ServiceListFragment extends Fragment {
         String name = bleDevice.getName();
         String mac = bleDevice.getMac();
         BluetoothGatt gatt = BleManager.getInstance().getBluetoothGatt(bleDevice);
-
         txt_name.setText(String.valueOf(getActivity().getString(R.string.name) + name));
         txt_mac.setText(String.valueOf(getActivity().getString(R.string.mac) + mac));
 
@@ -120,10 +120,9 @@ public class ServiceListFragment extends Fragment {
             }
 
             BluetoothGattService service = bluetoothGattServices.get(position);
-            String uuid = service.getUuid().toString();
-
+            String uuid = service.getUuid().toString(); // 서비스를 get하는것 중에 UUID를 get하여 String에 저장.
             holder.txt_title.setText(String.valueOf(getActivity().getString(R.string.service) + "(" + position + ")"));
-            holder.txt_uuid.setText(uuid);
+            holder.txt_uuid.setText(AllGattServices.lookup(service.getUuid())); // 서비스 항목의 UUID를 문자로 바꿔서 set
             holder.txt_type.setText(getActivity().getString(R.string.type));
             return convertView;
         }

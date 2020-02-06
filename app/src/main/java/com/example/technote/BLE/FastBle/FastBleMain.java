@@ -213,18 +213,30 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
         }
 
         // 검색 설정 적용 코드
-        String mac = et_mac.getText().toString();
+        String meSiPlus831B36_mac = "A4:34:F1:83:1B:36";
+        String meSiPlus831D5D_mac = "A4:34:F1:83:1D:5D";
 
         boolean isAutoConnect = sw_auto.isChecked();
 
         BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
                 .setServiceUuids(serviceUuids)      // 지정된 서비스의 장치 만 검사 (선택 사항)
                 .setDeviceName(true, names)   // 브로드 캐스트 이름이 지정된 장치 만 검색 (선택 사항)
-                .setDeviceMac(mac)                  // 지정된 Mac 장치 만 스캔 (선택 사항)
+                .setDeviceMac(meSiPlus831B36_mac)
+                .setDeviceMac(meSiPlus831D5D_mac)  // 지정된 Mac 장치 만 스캔 (선택 사항)
+                .setAutoConnect(isAutoConnect)      // 연결시 AutoConnect 매개 변수, 선택적, 기본 값은 false
+                .setScanTimeOut(10000)              // 스캔 타임 아웃 시간, 옵션, 기본 값은 10초
+                .build();
+        BleScanRuleConfig scanRuleConfig2 = new BleScanRuleConfig.Builder()
+                .setServiceUuids(serviceUuids)      // 지정된 서비스의 장치 만 검사 (선택 사항)
+                .setDeviceName(true, names)   // 브로드 캐스트 이름이 지정된 장치 만 검색 (선택 사항)
+                .setDeviceMac(meSiPlus831B36_mac)
+                .setDeviceMac(meSiPlus831D5D_mac)  // 지정된 Mac 장치 만 스캔 (선택 사항)
                 .setAutoConnect(isAutoConnect)      // 연결시 AutoConnect 매개 변수, 선택적, 기본 값은 false
                 .setScanTimeOut(10000)              // 스캔 타임 아웃 시간, 옵션, 기본 값은 10초
                 .build();
         BleManager.getInstance().initScanRule(scanRuleConfig);
+        BleManager.getInstance().initScanRule(scanRuleConfig2);
+
         //스캔 필터 설정 완료 후 BLEManger에 보내서 적용. (309 줄)
     }
 

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.clj.fastble.callback.BleReadCallback;
 import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
+import com.clj.fastble.utils.AllGattCharacteristics;
 import com.clj.fastble.utils.HexUtil;
 import com.example.technote.R;
 
@@ -56,13 +58,17 @@ public class CharacteristicOperationFragment extends Fragment {
         final BleDevice bleDevice = ((OperationActivity) getActivity()).getBleDevice();
         final BluetoothGattCharacteristic characteristic = ((OperationActivity) getActivity()).getCharacteristic();
         final int charaProp = ((OperationActivity) getActivity()).getCharaProp();
-        String child = characteristic.getUuid().toString() + String.valueOf(charaProp);
+
+        String child = AllGattCharacteristics.lookup(characteristic.getUuid()) + String.valueOf(charaProp); // 특성의 UUID를 String에 저장한다.
+        Log.d("checkUUID", characteristic.getUuid().toString());
 
         for (int i = 0; i < layout_container.getChildCount(); i++) {
             layout_container.getChildAt(i).setVisibility(View.GONE);
+
         }
         if (childList.contains(child)) {
-            layout_container.findViewWithTag(bleDevice.getKey() + characteristic.getUuid().toString() + charaProp).setVisibility(View.VISIBLE);
+            //layout_container.findViewWithTag(bleDevice.getKey() + characteristic.getUuid().toString() + charaProp).setVisibility(View.VISIBLE);
+            layout_container.findViewWithTag(child).setVisibility(View.VISIBLE);
         } else {
             childList.add(child);
 
@@ -72,7 +78,7 @@ public class CharacteristicOperationFragment extends Fragment {
             final TextView txt_title = (TextView) view.findViewById(R.id.txt_title);
             txt_title.setText(String.valueOf(characteristic.getUuid().toString() + getActivity().getString(R.string.data_changed)));
             final TextView txt = (TextView) view.findViewById(R.id.txt);
-            txt.setMovementMethod(ScrollingMovementMethod.getInstance());
+            txt.setMovementMethod(ScrollingMovementMethod.getInstance()); // 텍스트뷰의 화살표 키 이동 처리
 
             switch (charaProp) {
                 case PROPERTY_READ: {
@@ -81,7 +87,7 @@ public class CharacteristicOperationFragment extends Fragment {
                     btn.setText(getActivity().getString(R.string.read));
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(View view) { // 읽기 버튼을 누르면
                             BleManager.getInstance().read(
                                     bleDevice,
                                     characteristic.getService().getUuid().toString(),
@@ -93,7 +99,12 @@ public class CharacteristicOperationFragment extends Fragment {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    addText(txt, HexUtil.formatHexString(data, true));
+                                                    StringBuilder sb = new StringBuilder();
+                                                    for(int i=0;i<data.length;i++){
+                                                        sb.append(data[i]);
+                                                    }
+                                                    Log.d("txt",data.toString());
+                                                    addText(txt, HexUtil.formatHexString(data, true)); // characteristic 데이터를 16진수로 return하여 read
                                                 }
                                             });
                                         }
@@ -103,7 +114,7 @@ public class CharacteristicOperationFragment extends Fragment {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    addText(txt, exception.toString());
+                                                    addText(txt, exception.toString()); // 예외가 발생 했을 때 Text를 add하여 보여준다.
                                                 }
                                             });
                                         }
@@ -111,6 +122,7 @@ public class CharacteristicOperationFragment extends Fragment {
                         }
                     });
                     layout_add.addView(view_add);
+
                 }
                 break;
 
@@ -132,7 +144,6 @@ public class CharacteristicOperationFragment extends Fragment {
                                     characteristic.getUuid().toString(),
                                     HexUtil.hexStringToBytes(hex),
                                     new BleWriteCallback() {
-
                                         @Override
                                         public void onWriteSuccess(final int current, final int total, final byte[] justWrite) {
                                             runOnUiThread(new Runnable() {
@@ -144,7 +155,6 @@ public class CharacteristicOperationFragment extends Fragment {
                                                 }
                                             });
                                         }
-
                                         @Override
                                         public void onWriteFailure(final BleException exception) {
                                             runOnUiThread(new Runnable() {
@@ -265,7 +275,6 @@ public class CharacteristicOperationFragment extends Fragment {
                     layout_add.addView(view_add);
                 }
                 break;
-
                 case PROPERTY_INDICATE: {
                     View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.layout_characteric_operation_button, null);
                     final Button btn = (Button) view_add.findViewById(R.id.btn);
@@ -287,6 +296,7 @@ public class CharacteristicOperationFragment extends Fragment {
                                                     @Override
                                                     public void run() {
                                                         addText(txt, "indicate success");
+
                                                     }
                                                 });
                                             }

@@ -97,7 +97,7 @@ public class BleScanner {
         }
     };
 
-    // 스캔 할 데이터 들을 가져오는 역할
+    // 스캔 할 데이터를 가져오는 역할
     public void scan(UUID[] serviceUuids, String[] names, String mac, boolean fuzzy,
                      long timeOut, final BleScanCallback callback) {
 

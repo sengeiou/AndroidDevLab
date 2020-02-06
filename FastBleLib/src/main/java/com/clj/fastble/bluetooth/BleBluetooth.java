@@ -151,7 +151,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
     }
 
     public synchronized BluetoothGatt connect(BleDevice bleDevice, boolean autoConnect,
-                                              BleGattCallback callback, int connectRetryCount) { //실질적인 connect code
+                                              BleGattCallback callback, int connectRetryCount) { //실질적인 connect code, BluetoothGatt connect()하면
         BleLog.i("connect device: " + bleDevice.getName()
                 + "\nmac: " + bleDevice.getMac()
                 + "\nautoConnect: " + autoConnect

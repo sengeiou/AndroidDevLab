@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.clj.fastble.utils.AllGattCharacteristics;
 import com.example.technote.R;
 
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class CharacteristicListFragment extends Fragment {
     public void showData() {
         BluetoothGattService service = ((OperationActivity) getActivity()).getBluetoothGattService();
         mResultAdapter.clear();
-        for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
+        for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) { // 해당 서비스의 characteristic을 다 보여준다.
             mResultAdapter.addResult(characteristic);
         }
         mResultAdapter.notifyDataSetChanged();
@@ -150,8 +151,7 @@ public class CharacteristicListFragment extends Fragment {
             }
 
             BluetoothGattCharacteristic characteristic = characteristicList.get(position);
-            String uuid = characteristic.getUuid().toString();
-
+            String uuid = AllGattCharacteristics.lookup(characteristic.getUuid());
             holder.txt_title.setText(String.valueOf(getActivity().getString(R.string.characteristic) + "（" + position + ")"));
             holder.txt_uuid.setText(uuid);
 

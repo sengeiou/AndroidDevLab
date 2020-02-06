@@ -56,5 +56,5 @@
     <string name="connect">연결</string>
     <string name="connected">연결됨</string>
     <string name="disconnect">분리</string>
-    <string name="enter">작업 입력</string>
+    <string name="enter">상세정보</string>
 </resources>

@@ -28,7 +28,7 @@ public class MultipleBluetoothController {
     public synchronized BleBluetooth buildConnectingBle(BleDevice bleDevice) {
         BleBluetooth bleBluetooth = new BleBluetooth(bleDevice);
         if (!bleTempHashMap.containsKey(bleBluetooth.getDeviceKey())) {
-            bleTempHashMap.put(bleBluetooth.getDeviceKey(), bleBluetooth);
+            bleTempHashMap.put(bleBluetooth.getDeviceKey(), bleBluetooth); // 해시맵에 중복된 블루투스 디바이스 키가 없으면 put
         }
         return bleBluetooth;
     }

@@ -30,6 +30,7 @@ public abstract class BleScanPresenter extends ScanCallback implements Bluetooth
 
     private String[] mDeviceNames;
     private String mDeviceMac;
+
     private boolean mFuzzy;
     private boolean mNeedConnect;
     private long mScanTimeout;
@@ -149,7 +150,7 @@ public abstract class BleScanPresenter extends ScanCallback implements Bluetooth
             return;
         }
 
-        if (!TextUtils.isEmpty(mDeviceMac)) {
+        if (!TextUtils.isEmpty(mDeviceMac) ) {
             if (!mDeviceMac.equalsIgnoreCase(bleDevice.getMac()))
                 return;
         }
