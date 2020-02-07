@@ -420,7 +420,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
         }
 
         @Override
-        //remote characteristic notification의 결과를 콜백 트리거한다.
+        //remote characteristic notification의 결과를 콜백한다.
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
 

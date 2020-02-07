@@ -10,7 +10,6 @@ public class BleDevice implements Parcelable {
 
     private BluetoothDevice mDevice;
     private byte[] mScanRecord;
-    private long mScanRecord2;
     private int mRssi;
     private long mTimestampNanos;
 

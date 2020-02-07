@@ -151,10 +151,13 @@ public class CharacteristicListFragment extends Fragment {
             }
 
             BluetoothGattCharacteristic characteristic = characteristicList.get(position);
-            String uuid = AllGattCharacteristics.lookup(characteristic.getUuid());
+            String uuid = AllGattCharacteristics.lookup(characteristic.getUuid()); // 특성 UUID를 문자로 변환하여 return
+            if(uuid.equals("--")){
+                holder.txt_uuid.setText(characteristic.getUuid().toString());
+            }else{
+                holder.txt_uuid.setText(uuid);
+            }
             holder.txt_title.setText(String.valueOf(getActivity().getString(R.string.characteristic) + "（" + position + ")"));
-            holder.txt_uuid.setText(uuid);
-
             StringBuilder property = new StringBuilder();
             int charaProp = characteristic.getProperties();
             if ((charaProp & BluetoothGattCharacteristic.PROPERTY_READ) > 0) {

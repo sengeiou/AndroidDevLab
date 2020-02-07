@@ -297,11 +297,11 @@ public class BleManager {
      */
     public void scan(BleScanCallback callback) {
         if (callback == null) {
-            throw new IllegalArgumentException("BleScanCallback can not be Null!");
+            throw new IllegalArgumentException("BleScanCallback은 Null이 될 수 없습니다!");
         }
 
         if (!isBlueEnable()) {
-            BleLog.e("Bluetooth not enable!");
+            BleLog.e("Bluetooth를 사용할 수 없습니다!");
             callback.onScanStarted(false);
             return;
         }

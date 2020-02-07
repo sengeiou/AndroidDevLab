@@ -148,11 +148,10 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onConnect(BleDevice bleDevice) {
                 if (!BleManager.getInstance().isConnected(bleDevice)) {
-                    BleManager.getInstance().cancelScan();
+                    BleManager.getInstance().cancelScan(); // 연결 버튼을 누르면 스캔을 중단
                     connect(bleDevice); // 연결 버튼을 누르면 최초 연결이 최초 시작된다.
                 }
             }
-
             @Override
             public void onDisConnect(final BleDevice bleDevice) {
                 if (BleManager.getInstance().isConnected(bleDevice)) {
@@ -184,7 +183,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
 
     private void setScanRule() {
         String[] uuids;
-        String str_uuid = et_uuid.getText().toString();
+        String str_uuid = "f000c0e0-0451-4000-b000-000000000000";
         if (TextUtils.isEmpty(str_uuid)) {
             uuids = null;
         } else {
@@ -216,9 +215,6 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
 
 
         // 검색 설정 적용 코드
-        // String meSiPlus831B36_mac = "A4:34:F1:83:1B:36";
-        // String meSiPlus831D5D_mac = "A4:34:F1:83:1D:5D";
-
         boolean isAutoConnect = sw_auto.isChecked();
 
         BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()

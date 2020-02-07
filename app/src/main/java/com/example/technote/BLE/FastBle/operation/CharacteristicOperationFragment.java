@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,21 +53,32 @@ public class CharacteristicOperationFragment extends Fragment {
         layout_container = (LinearLayout) v.findViewById(R.id.layout_container);
     }
 
+    private static String hexToAscii(String hexStr) {
+        StringBuilder output = new StringBuilder("");
+
+        for (int i = 0; i < hexStr.length(); i += 2) {
+            String str = hexStr.substring(i, i + 2);
+            output.append((char) Integer.parseInt(str, 16));
+        }
+
+        return output.toString();
+    }
+
     public void showData() {
         final BleDevice bleDevice = ((OperationActivity) getActivity()).getBleDevice();
         final BluetoothGattCharacteristic characteristic = ((OperationActivity) getActivity()).getCharacteristic();
         final int charaProp = ((OperationActivity) getActivity()).getCharaProp();
 
         String child = AllGattCharacteristics.lookup(characteristic.getUuid()) + String.valueOf(charaProp); // 특성의 UUID를 String에 저장한다.
-        Log.d("checkUUID", characteristic.getUuid().toString());
+       // Log.d("checkUUID", characteristic.getUuid().toString());
 
         for (int i = 0; i < layout_container.getChildCount(); i++) {
             layout_container.getChildAt(i).setVisibility(View.GONE);
 
         }
         if (childList.contains(child)) {
-            //layout_container.findViewWithTag(bleDevice.getKey() + characteristic.getUuid().toString() + charaProp).setVisibility(View.VISIBLE);
-            layout_container.findViewWithTag(child).setVisibility(View.VISIBLE);
+            layout_container.findViewWithTag(bleDevice.getKey() + characteristic.getUuid().toString() + charaProp).setVisibility(View.VISIBLE);
+            //layout_container.findViewWithTag(child).setVisibility(View.VISIBLE);
         } else {
             childList.add(child);
 
@@ -101,10 +111,13 @@ public class CharacteristicOperationFragment extends Fragment {
                                                 public void run() {
                                                     StringBuilder sb = new StringBuilder();
                                                     for(int i=0;i<data.length;i++){
-                                                        sb.append(data[i]);
+                                                        sb.append(data[i] + " ");
                                                     }
-                                                    Log.d("txt",data.toString());
-                                                    addText(txt, HexUtil.formatHexString(data, true)); // characteristic 데이터를 16진수로 return하여 read
+
+                                                    // addText(txt, sb.toString()); // characteristic 데이터를 10진수로 return하여 read
+                                                    addText(txt, "16진수 값 : " + HexUtil.formatHexString(data, true));
+                                                    addText(txt, "byte 값 : " + sb.toString());
+                                                    addText(txt, "String 값 : " + new String(data));
                                                 }
                                             });
                                         }

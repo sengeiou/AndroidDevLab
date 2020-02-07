@@ -2,11 +2,13 @@ package com.clj.fastble.scan;
 
 
 import android.annotation.TargetApi;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanSettings;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.ParcelUuid;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleScanAndConnectCallback;
@@ -32,7 +34,7 @@ public class BleScanner {
     }
 
     private BleScanState mBleScanState = BleScanState.STATE_IDLE;
-
+    private BluetoothGattService bluetoothGattService;
     private BleScanPresenter mBleScanPresenter = new BleScanPresenter() {
 
         @Override
@@ -118,7 +120,7 @@ public class BleScanner {
                                           boolean needConnect, long timeOut, BleScanPresenterImp imp) {
         // 현재 스캔을 하고있는지 확인.
         if (mBleScanState != BleScanState.STATE_IDLE) {
-            BleLog.w("scan action already exists, complete the previous scan action first");
+            BleLog.w("스캔이 이미 시작되고 있습니다, 이전 스캔을 완료하고 다시 시도하세요.");
             if (imp != null) {
                 imp.onScanStarted(false);
             }
@@ -128,30 +130,26 @@ public class BleScanner {
         if (Build.VERSION.SDK_INT < 21) {
             mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
 
-            boolean success = BleManager.getInstance().getBluetoothAdapter()
+            BleManager.getInstance().getBluetoothAdapter()
                     .startLeScan(serviceUuids, mBleScanPresenter);
-            mBleScanState = success ? BleScanState.STATE_SCANNING : BleScanState.STATE_IDLE;
-            mBleScanPresenter.notifyScanStarted(success);
+            mBleScanPresenter.notifyScanStarted(true);  // 스캔이 시작됐다는 것을 알리면서 Progress와 스캔 시작 버튼을 스캔 중지 버튼으로 바꾼다.
 
         } else {
-            String meSiPlus831B36 = "MeSiPlus831B36";
-            String meSiPlus831D5D = "MeSiPlus831D5D";
+            String meSiPlusServiceUUID=
+                    "f000c0e0-0451-4000-b000-000000000000";
+            ParcelUuid ParcelUuid_meSiPlusServiceUUID =
+                    ParcelUuid.fromString(meSiPlusServiceUUID);
+
             ScanFilter scanFilter =
                     new ScanFilter.Builder()
-                            .setDeviceAddress("A4:34:F1:83:1B:36")
-                            .build();
-            ScanFilter scanFilter2 =
-                    new ScanFilter.Builder()
-                            .setDeviceAddress("A4:34:F1:83:1D:5D")
+                            .setServiceUuid(ParcelUuid_meSiPlusServiceUUID)
                             .build();
             List<ScanFilter> scanFilters = new ArrayList<ScanFilter>();
 
             scanFilters.add(scanFilter);
-            scanFilters.add(scanFilter2);
 
             ScanSettings scanSettings =
                     new ScanSettings.Builder().build();
-
 
             mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
             BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().startScan(scanFilters,scanSettings,mBleScanPresenter); // 스캔 시작 코드

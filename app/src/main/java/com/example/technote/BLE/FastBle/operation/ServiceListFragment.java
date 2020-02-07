@@ -122,7 +122,11 @@ public class ServiceListFragment extends Fragment {
             BluetoothGattService service = bluetoothGattServices.get(position);
             String uuid = service.getUuid().toString(); // 서비스를 get하는것 중에 UUID를 get하여 String에 저장.
             holder.txt_title.setText(String.valueOf(getActivity().getString(R.string.service) + "(" + position + ")"));
-            holder.txt_uuid.setText(AllGattServices.lookup(service.getUuid())); // 서비스 항목의 UUID를 문자로 바꿔서 set
+            if(AllGattServices.lookup(service.getUuid()).equals("--")){
+                holder.txt_uuid.setText(service.getUuid().toString()); // 서비스 항목의 UUID를 문자로 바꿔서 set
+            }else {
+                holder.txt_uuid.setText(AllGattServices.lookup(service.getUuid())); // 서비스 항목의 UUID를 문자로 바꿔서 set
+            }
             holder.txt_type.setText(getActivity().getString(R.string.type));
             return convertView;
         }
