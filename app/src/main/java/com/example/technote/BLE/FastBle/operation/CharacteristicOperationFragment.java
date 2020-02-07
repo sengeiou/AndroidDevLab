@@ -23,7 +23,6 @@ import com.clj.fastble.callback.BleReadCallback;
 import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
-import com.clj.fastble.utils.AllGattCharacteristics;
 import com.clj.fastble.utils.HexUtil;
 import com.example.technote.R;
 
@@ -69,7 +68,8 @@ public class CharacteristicOperationFragment extends Fragment {
         final BluetoothGattCharacteristic characteristic = ((OperationActivity) getActivity()).getCharacteristic();
         final int charaProp = ((OperationActivity) getActivity()).getCharaProp();
 
-        String child = AllGattCharacteristics.lookup(characteristic.getUuid()) + String.valueOf(charaProp); // 특성의 UUID를 String에 저장한다.
+        String child = characteristic.getUuid().toString() + String.valueOf(charaProp);
+
        // Log.d("checkUUID", characteristic.getUuid().toString());
 
         for (int i = 0; i < layout_container.getChildCount(); i++) {
@@ -78,7 +78,6 @@ public class CharacteristicOperationFragment extends Fragment {
         }
         if (childList.contains(child)) {
             layout_container.findViewWithTag(bleDevice.getKey() + characteristic.getUuid().toString() + charaProp).setVisibility(View.VISIBLE);
-            //layout_container.findViewWithTag(child).setVisibility(View.VISIBLE);
         } else {
             childList.add(child);
 
@@ -115,9 +114,8 @@ public class CharacteristicOperationFragment extends Fragment {
                                                     }
 
                                                     // addText(txt, sb.toString()); // characteristic 데이터를 10진수로 return하여 read
-                                                    addText(txt, "16진수 값 : " + HexUtil.formatHexString(data, true));
-                                                    addText(txt, "byte 값 : " + sb.toString());
-                                                    addText(txt, "String 값 : " + new String(data));
+                                                    addText(txt, "Hex : " + HexUtil.formatHexString(data, true));
+                                                    addText(txt, "Value : " + new String(data));
                                                 }
                                             });
                                         }
@@ -144,7 +142,7 @@ public class CharacteristicOperationFragment extends Fragment {
                     final EditText et = (EditText) view_add.findViewById(R.id.et);
                     Button btn = (Button) view_add.findViewById(R.id.btn);
                     btn.setText(getActivity().getString(R.string.write));
-                    btn.setOnClickListener(new View.OnClickListener() {
+                    btn.setOnClickListener(new View.OnClickListener() { //쓰기 버튼을 누르면
                         @Override
                         public void onClick(View view) {
                             String hex = et.getText().toString();

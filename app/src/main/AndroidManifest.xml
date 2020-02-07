@@ -56,7 +56,6 @@
         <activity android:name=".Database.ContentProviderPractics.ContentProviderTest2"></activity>
         <activity android:name=".Database.ContentProviderPractics.AddressEdit2"></activity>
         <activity android:name=".GoogleMap.GoogleMapTest"></activity>
-        <activity android:name=".BLE.BLETest.BLETest"></activity>
         <activity android:name=".BLE.FastBle.FastBleMain"></activity>
         <activity android:name=".BLE.FastBle.operation.OperationActivity"></activity>
         <activity android:name=".Handler.HandlerEx"></activity>

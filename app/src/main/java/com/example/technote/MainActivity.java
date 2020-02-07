@@ -11,7 +11,6 @@ import android.widget.PopupMenu;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.technote.BLE.BLETest.BLETest;
 import com.example.technote.BLE.Exam1.BleExam1_Main;
 import com.example.technote.BLE.FastBle.FastBleMain;
 import com.example.technote.Database.AddressBook;
@@ -136,9 +135,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
-                            case R.id.menu_ble_test:
-                                startActivity(new Intent(getApplicationContext(), BLETest.class));
-                                break;
                             case R.id.menu_ble_fast_ble:
                                 startActivity(new Intent(getApplicationContext(), FastBleMain.class));
                                 break;
