@@ -114,7 +114,7 @@ public class CharacteristicOperationFragment extends Fragment {
                                                     }
 
                                                     // addText(txt, sb.toString()); // characteristic 데이터를 10진수로 return하여 read
-                                                    addText(txt, "Hex : " + HexUtil.formatHexString(data, true));
+                                                    addText(txt, "Hex : " + HexUtil.formatHexString(data, false));
                                                     addText(txt, "Value : " + new String(data));
                                                 }
                                             });
@@ -162,7 +162,7 @@ public class CharacteristicOperationFragment extends Fragment {
                                                 public void run() {
                                                     addText(txt, "write success, current: " + current
                                                             + " total: " + total
-                                                            + " justWrite: " + HexUtil.formatHexString(justWrite, true));
+                                                            + " justWrite: " + HexUtil.formatHexString(justWrite, false));
                                                 }
                                             });
                                         }
@@ -208,7 +208,7 @@ public class CharacteristicOperationFragment extends Fragment {
                                                 public void run() {
                                                     addText(txt, "write success, current: " + current
                                                             + " total: " + total
-                                                            + " justWrite: " + HexUtil.formatHexString(justWrite, true));
+                                                            + " justWrite: " + HexUtil.formatHexString(justWrite, false));
                                                 }
                                             });
                                         }
@@ -269,7 +269,7 @@ public class CharacteristicOperationFragment extends Fragment {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        addText(txt, HexUtil.formatHexString(characteristic.getValue(), true));
+                                                        addText(txt, HexUtil.formatHexString(characteristic.getValue(), false));
                                                     }
                                                 });
                                             }
@@ -327,7 +327,7 @@ public class CharacteristicOperationFragment extends Fragment {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        addText(txt, HexUtil.formatHexString(characteristic.getValue(), true));
+                                                        addText(txt, HexUtil.formatHexString(characteristic.getValue(), false));
                                                     }
                                                 });
                                             }
@@ -345,7 +345,6 @@ public class CharacteristicOperationFragment extends Fragment {
                 }
                 break;
             }
-
             layout_container.addView(view);
         }
     }

@@ -48,14 +48,14 @@ public class BluetoothLeService extends Service {
             "android-er.EXTRA_DATA";
 
     public static String String_GENUINO101_ledService =
-            "19B10000-E8F2-537E-4F6C-D104768A1214";
+            "f000c0e0-0451-4000-b000-000000000000";
     public final static ParcelUuid ParcelUuid_GENUINO101_ledService =
             ParcelUuid.fromString(String_GENUINO101_ledService);
     public final static UUID UUID_GENUINO101_ledService =
             UUID.fromString(String_GENUINO101_ledService);
 
     public static String String_GENUINO101_switchChar =
-            "19B10001-E8F2-537E-4F6C-D104768A1214";
+            "f000c0e1-0451-4000-b000-000000000000";
     public final static UUID UUID_GENUINO101_switchChare =
             UUID.fromString(String_GENUINO101_switchChar);
 
@@ -109,6 +109,7 @@ public class BluetoothLeService extends Service {
 
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
+
         sendBroadcast(intent);
     }
 
@@ -332,5 +333,8 @@ public class BluetoothLeService extends Service {
         if (mBluetoothGatt == null) return null;
 
         return mBluetoothGatt.getServices();
+    }
+    public void writeCharacteristic(BluetoothGattCharacteristic characteristic) {
+        mBluetoothGatt.writeCharacteristic(characteristic);
     }
 }

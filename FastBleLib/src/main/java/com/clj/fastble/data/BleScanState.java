@@ -1,7 +1,5 @@
 package com.clj.fastble.data;
 
-
-
 public enum BleScanState {
 
     STATE_IDLE(-1),

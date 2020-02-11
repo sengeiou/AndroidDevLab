@@ -110,7 +110,24 @@ public class BleExam1_Main extends AppCompatActivity {
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setNeutralButton("CONNECT", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    final Intent intent = new Intent(BleExam1_Main.this,
+                                            ControlActivity.class);
+                                    intent.putExtra(ControlActivity.EXTRAS_DEVICE_NAME,
+                                            device.getName());
+                                    intent.putExtra(ControlActivity.EXTRAS_DEVICE_ADDRESS,
+                                            device.getAddress());
 
+                                    if (mScanning) {
+                                        mBluetoothLeScanner.stopScan(scanCallback);
+                                        mScanning = false;
+                                        btnScan.setEnabled(true);
+                                    }
+                                    startActivity(intent);
                                 }
                             })
                             .show();

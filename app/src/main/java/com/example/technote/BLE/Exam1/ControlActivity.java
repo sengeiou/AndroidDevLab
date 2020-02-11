@@ -197,10 +197,11 @@ public class ControlActivity extends AppCompatActivity {
                             }
                             mBluetoothLeService.readCharacteristic(characteristic);
                         }
-                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
+                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) { //
                             mNotifyCharacteristic = characteristic;
                             mBluetoothLeService.setCharacteristicNotification(
-                                    characteristic, true);
+                                    characteristic, true); // characteristic의 값이 변할 때 마다 자동으로 콜백의 onCharacteristicChanged(BluetoothGatt gatt,
+                                                                    // BluetoothGattCharacteristic characteristic)가 호출 된다.
                         }
                         return true;
                     }

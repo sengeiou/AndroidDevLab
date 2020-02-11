@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
@@ -309,9 +310,11 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
                 break;
 
                 case BleMsg.MSG_DISCOVER_SERVICES: {
+                    Log.d("discovery","MSG_DISCOVER_SERVICE");
                     if (bluetoothGatt != null) {
                         boolean discoverServiceResult = bluetoothGatt.discoverServices();
-                        if (!discoverServiceResult) {
+
+                            if (!discoverServiceResult) {
                             Message message = mainHandler.obtainMessage();
                             message.what = BleMsg.MSG_DISCOVER_FAIL;
                             mainHandler.sendMessage(message);
@@ -339,6 +342,8 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
                 break;
 
                 case BleMsg.MSG_DISCOVER_SUCCESS: {
+                    Log.d("discovery","MSG_DISCOVER_SUCCESS");
+
                     lastState = LastState.CONNECT_CONNECTED;
                     isActiveDisconnect = false;
                     BleManager.getInstance().getMultipleBluetoothController().removeConnectingBle(BleBluetooth.this);
@@ -376,7 +381,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 Message message = mainHandler.obtainMessage();
                 message.what = BleMsg.MSG_DISCOVER_SERVICES;
-                mainHandler.sendMessageDelayed(message, 500);
+                mainHandler.sendMessageDelayed(message, 3000);
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 if (lastState == LastState.CONNECT_CONNECTING) {
@@ -419,10 +424,13 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
             }
         }
 
+
+
         @Override
         //remote characteristic notification의 결과를 콜백한다.
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
+            Log.d("dataChange","데이터바뀜");
 
             Iterator iterator = bleNotifyCallbackHashMap.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -442,6 +450,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
                             handler.sendMessage(message);
                         }
                     }
+                    Log.d("dataChange_onChange","dataChange_onChange");
                 }
             }
 
@@ -517,7 +526,6 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
-
             Iterator iterator = bleWriteCallbackHashMap.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry entry = (Map.Entry) iterator.next();
@@ -614,5 +622,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
         CONNECT_FAILURE,
         CONNECT_DISCONNECT
     }
+
+
 
 }

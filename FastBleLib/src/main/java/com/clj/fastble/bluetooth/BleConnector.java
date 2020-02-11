@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleIndicateCallback;
@@ -24,6 +25,7 @@ import com.clj.fastble.data.BleWriteState;
 import com.clj.fastble.exception.GattException;
 import com.clj.fastble.exception.OtherException;
 import com.clj.fastble.exception.TimeoutException;
+import com.clj.fastble.utils.HexUtil;
 
 import java.util.UUID;
 
@@ -78,6 +80,9 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
                         if (notifyCallback != null) {
                             notifyCallback.onCharacteristicChanged(value);
                         }
+                        Log.d("dataChange",new String(value));
+                        Log.d("dataChange", HexUtil.formatHexString(value, false));
+
                         break;
                     }
 
@@ -115,6 +120,7 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
                     }
 
                     case BleMsg.MSG_CHA_WRITE_START: {
+                        Log.d("onWrite","write5");
                         BleWriteCallback writeCallback = (BleWriteCallback) msg.obj;
                         if (writeCallback != null) {
                             writeCallback.onWriteFailure(new TimeoutException());
@@ -124,14 +130,18 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
 
                     case BleMsg.MSG_CHA_WRITE_RESULT: {
                         writeMsgInit();
+                        Log.d("onWrite","write6");
 
                         BleWriteCallback writeCallback = (BleWriteCallback) msg.obj;
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt(BleMsg.KEY_WRITE_BUNDLE_STATUS);
                         byte[] value = bundle.getByteArray(BleMsg.KEY_WRITE_BUNDLE_VALUE);
                         if (writeCallback != null) {
+                            Log.d("onWrite_value",HexUtil.formatHexString(value, false));
+
                             if (status == BluetoothGatt.GATT_SUCCESS) {
-                                writeCallback.onWriteSuccess(BleWriteState.DATA_WRITE_SINGLE, BleWriteState.DATA_WRITE_SINGLE, value);
+                                Log.d("onWrite","write8");
+                                writeCallback.onWriteSuccess(BleWriteState.DATA_WRITE_SINGLE, BleWriteState.DATA_WRITE_SINGLE, value); // 이 콜백을 CharacteristicOperationFragment에 넘겨줌
                             } else {
                                 writeCallback.onWriteFailure(new GattException(status));
                             }
@@ -243,10 +253,15 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
      */
     public void enableCharacteristicNotify(BleNotifyCallback bleNotifyCallback, String uuid_notify,
                                            boolean userCharacteristicDescriptor) {
+
+        Log.d("change","change");
         if (mCharacteristic != null
                 && (mCharacteristic.getProperties() | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
 
             handleCharacteristicNotifyCallback(bleNotifyCallback, uuid_notify);
+
+            // characteristic의 값이 변할 때 마다 자동으로 콜백의 onCharacteristicChanged(BluetoothGatt gatt,
+            // BluetoothGattCharacteristic characteristic)가 호출 된다.
             setCharacteristicNotification(mBluetoothGatt, mCharacteristic, userCharacteristicDescriptor, true, bleNotifyCallback);
         } else {
             if (bleNotifyCallback != null)
@@ -281,7 +296,7 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
                 bleNotifyCallback.onNotifyFailure(new OtherException("gatt or characteristic equal null"));
             return false;
         }
-
+        Log.d("m1","setCharacteristicNotification");
         boolean success1 = gatt.setCharacteristicNotification(characteristic, enable);
         if (!success1) {
             notifyMsgInit();
@@ -296,6 +311,7 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
         } else {
             descriptor = characteristic.getDescriptor(formUUID(UUID_CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR));
         }
+        Log.d("discriptor",descriptor.getUuid().toString());
         if (descriptor == null) {
             notifyMsgInit();
             if (bleNotifyCallback != null)
@@ -304,7 +320,9 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
         } else {
             descriptor.setValue(enable ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE :
                     BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+
             boolean success2 = gatt.writeDescriptor(descriptor);
+
             if (!success2) {
                 notifyMsgInit();
                 if (bleNotifyCallback != null)
@@ -403,14 +421,17 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
 
         if (mCharacteristic == null
                 || (mCharacteristic.getProperties() & (BluetoothGattCharacteristic.PROPERTY_WRITE | BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) == 0) {
+
             if (bleWriteCallback != null)
                 bleWriteCallback.onWriteFailure(new OtherException("this characteristic not support write!"));
             return;
         }
 
         if (mCharacteristic.setValue(data)) {
+            Log.d("onWrite","write3");
+
             handleCharacteristicWriteCallback(bleWriteCallback, uuid_write);
-            if (!mBluetoothGatt.writeCharacteristic(mCharacteristic)) {
+            if (!mBluetoothGatt.writeCharacteristic(mCharacteristic)) { // 실제 write 코드
                 writeMsgInit();
                 if (bleWriteCallback != null)
                     bleWriteCallback.onWriteFailure(new OtherException("gatt writeCharacteristic fail"));
@@ -419,6 +440,8 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
             if (bleWriteCallback != null)
                 bleWriteCallback.onWriteFailure(new OtherException("Updates the locally stored value of this characteristic fail"));
         }
+        Log.d("onWrite","write");
+
     }
 
     /**
@@ -526,7 +549,9 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
      */
     private void handleCharacteristicWriteCallback(BleWriteCallback bleWriteCallback,
                                                    String uuid_write) {
+        Log.d("onWrite","write4");
         if (bleWriteCallback != null) {
+            Log.d("onWrite","write5");
             writeMsgInit();
             bleWriteCallback.setKey(uuid_write);
             bleWriteCallback.setHandler(mHandler);

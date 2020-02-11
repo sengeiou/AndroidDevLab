@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Looper;
+import android.util.Log;
 
 import com.clj.fastble.bluetooth.BleBluetooth;
 import com.clj.fastble.bluetooth.MultipleBluetoothController;
@@ -430,7 +431,7 @@ public class BleManager {
         BleBluetooth bleBluetooth = multipleBluetoothController.getBleBluetooth(bleDevice);
         if (bleBluetooth == null) {
             callback.onNotifyFailure(new OtherException("This device not connect!"));
-        } else {
+        } else { //예외가 없으면
             bleBluetooth.newBleConnector()
                     .withUUIDString(uuid_service, uuid_notify)
                     .enableCharacteristicNotify(callback, uuid_notify, useCharacteristicDescriptor);
@@ -637,9 +638,12 @@ public class BleManager {
             callback.onWriteFailure(new OtherException("This device not connect!"));
         } else {
             if (split && data.length > getSplitWriteNum()) {
+                Log.d("onWrite","write15");
                 new SplitWriter().splitWrite(bleBluetooth, uuid_service, uuid_write, data,
                         sendNextWhenLastSuccess, intervalBetweenTwoPackage, callback);
             } else {
+                Log.d("onWrite","write16");
+
                 bleBluetooth.newBleConnector()
                         .withUUIDString(uuid_service, uuid_write)
                         .writeCharacteristic(data, callback, uuid_write);

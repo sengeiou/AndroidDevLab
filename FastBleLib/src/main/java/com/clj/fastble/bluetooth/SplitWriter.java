@@ -4,6 +4,7 @@ package com.clj.fastble.bluetooth;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleWriteCallback;
@@ -82,6 +83,7 @@ public class SplitWriter {
             release();
             return;
         }
+        Log.d("onWrite","write9");
 
         byte[] data = mDataQueue.poll();
         mBleBluetooth.newBleConnector()
@@ -91,14 +93,19 @@ public class SplitWriter {
                         new BleWriteCallback() {
                             @Override
                             public void onWriteSuccess(int current, int total, byte[] justWrite) {
+                                Log.d("onWrite","write10");
+
                                 int position = mTotalNum - mDataQueue.size();
                                 if (mCallback != null) {
                                     mCallback.onWriteSuccess(position, mTotalNum, justWrite);
+
                                 }
                                 if (mSendNextWhenLastSuccess) {
                                     Message message = mHandler.obtainMessage(BleMsg.MSG_SPLIT_WRITE_NEXT);
                                     mHandler.sendMessageDelayed(message, mIntervalBetweenTwoPackage);
+
                                 }
+
                             }
 
                             @Override
@@ -113,11 +120,12 @@ public class SplitWriter {
                             }
                         },
                         mUuid_write);
-
         if (!mSendNextWhenLastSuccess) {
             Message message = mHandler.obtainMessage(BleMsg.MSG_SPLIT_WRITE_NEXT);
             mHandler.sendMessageDelayed(message, mIntervalBetweenTwoPackage);
         }
+        Log.d("onWrite","write10");
+
     }
 
     private void release() {
@@ -150,7 +158,6 @@ public class SplitWriter {
 //        }
 //        return byteQueue;
 //    }
-
     private static Queue<byte[]> splitByte(byte[] data, int count) {
         if (count > 20) {
             BleLog.w("Be careful: split count beyond 20! Ensure MTU higher than 23!");

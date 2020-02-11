@@ -260,48 +260,48 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             }
         });
     }
+    BleGattCallback bleGattCallback = new BleGattCallback(){
+        @Override
+        public void onStartConnect() {
+            progressDialog.show(); // 연결 될 때까지 Progress Dialog를 띄운다.
+        }
 
-    private void connect(final BleDevice bleDevice) {
-        BleManager.getInstance().connect(bleDevice, new BleGattCallback() { //BleManager에 있는 connect함수를 불러온다.
-            @Override
-            public void onStartConnect() {
-                progressDialog.show(); // 연결 될 때까지 Progress Dialog를 띄운다.
-            }
+        @Override
+        public void onConnectFail(BleDevice bleDevice, BleException exception) {
+            img_loading.clearAnimation();
+            img_loading.setVisibility(View.INVISIBLE);
+            btn_scan.setText(getString(R.string.start_scan));
+            progressDialog.dismiss();
+            Toast.makeText(FastBleMain.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
+        }
 
-            @Override
-            public void onConnectFail(BleDevice bleDevice, BleException exception) {
-                img_loading.clearAnimation();
-                img_loading.setVisibility(View.INVISIBLE);
-                btn_scan.setText(getString(R.string.start_scan));
-                progressDialog.dismiss();
-                Toast.makeText(FastBleMain.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
-            }
+        //연결 성공 할 때
+        @Override
+        public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+            progressDialog.dismiss();
+            mDeviceAdapter.addDevice(bleDevice);
+            mDeviceAdapter.notifyDataSetChanged();
+            Toast.makeText(FastBleMain.this, "연결 성공", Toast.LENGTH_LONG).show();
+        }
 
-            //연결 성공 할 때
-            @Override
-            public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                progressDialog.dismiss();
-                mDeviceAdapter.addDevice(bleDevice);
-                mDeviceAdapter.notifyDataSetChanged();
-            }
-
-            //연결 해제 될 때
-            @Override
-            public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
+        //연결 해제 될 때
+        @Override
+        public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
+            if (isActiveDisConnected) {
                 progressDialog.dismiss();
 
                 mDeviceAdapter.removeDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
-
-                if (isActiveDisConnected) {
-                    Toast.makeText(FastBleMain.this, getString(R.string.active_disconnected), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(FastBleMain.this, getString(R.string.disconnected), Toast.LENGTH_LONG).show();
-                    ObserverManager.getInstance().notifyObserver(bleDevice);
-                }
-
+                Toast.makeText(FastBleMain.this, getString(R.string.active_disconnected), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(FastBleMain.this, getString(R.string.disconnected), Toast.LENGTH_LONG).show();
+                BleManager.getInstance().connect(bleDevice,bleGattCallback);
+                ObserverManager.getInstance().notifyObserver(bleDevice);
             }
-        });
+        }
+    };
+    private void connect(final BleDevice bleDevice) {
+        BleManager.getInstance().connect(bleDevice, bleGattCallback);
     }
 
     private void readRssi(BleDevice bleDevice) {

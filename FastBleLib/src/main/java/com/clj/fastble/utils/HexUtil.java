@@ -9,7 +9,7 @@ public class HexUtil {
             '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
     public static char[] encodeHex(byte[] data) {
-        return encodeHex(data, true);
+        return encodeHex(data, false);
     }
 
     public static char[] encodeHex(byte[] data, boolean toLowerCase) {
@@ -30,13 +30,12 @@ public class HexUtil {
 
 
     public static String encodeHexStr(byte[] data) {
-        return encodeHexStr(data, true);
+        return encodeHexStr(data, false);
     }
 
     public static String encodeHexStr(byte[] data, boolean toLowerCase) {
         return encodeHexStr(data, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER);
     }
-
 
     protected static String encodeHexStr(byte[] data, char[] toDigits) {
         return new String(encodeHex(data, toDigits));
@@ -94,7 +93,6 @@ public class HexUtil {
         return digit;
     }
 
-
     public static byte[] hexStringToBytes(String hexString) {
         if (hexString == null || hexString.equals("")) {
             return null;
@@ -110,13 +108,10 @@ public class HexUtil {
         }
         return d;
     }
-
     public static byte charToByte(char c) {
         return (byte) "0123456789ABCDEF".indexOf(c);
     }
-
     public static String extractData(byte[] data, int position) {
         return HexUtil.formatHexString(new byte[]{data[position]});
     }
-
 }
