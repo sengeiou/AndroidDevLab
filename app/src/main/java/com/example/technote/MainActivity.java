@@ -21,6 +21,7 @@ import com.example.technote.Dialog_Activity_Fragment.Activity;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
+import com.example.technote.Dialog_Activity_Fragment.FirstActivity;
 import com.example.technote.GoogleMap.GoogleMapTest;
 import com.example.technote.Handler.HandlerEx;
 import com.example.technote.Layout.ConstraintLayout_Test;
@@ -116,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.menu_go_screen_2:
                                 startActivity(new Intent(getApplicationContext(), Activity_Screen_2.class));
                                 break;
+                            case R.id.menu_firstScreen:
+                                startActivity(new Intent(getApplicationContext(), FirstActivity.class));
                             default:
                                 break;
                         }

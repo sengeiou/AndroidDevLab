@@ -16,6 +16,7 @@ public class BleMsg {
     public static final int MSG_DISCOVER_FAIL = 0x05;
     public static final int MSG_DISCOVER_SUCCESS = 0x06;
     public static final int MSG_CONNECT_OVER_TIME = 0x07;
+    public static final int MSG_SET_MTU = 0x08;
 
     // Notify
     public static final int MSG_CHA_NOTIFY_START = 0x11;

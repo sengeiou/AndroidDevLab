@@ -1,17 +1,19 @@
 
 package com.clj.fastble.bluetooth;
 
-import android.annotation.TargetApi;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleIndicateCallback;
@@ -30,8 +32,7 @@ import com.clj.fastble.utils.HexUtil;
 import java.util.UUID;
 
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목을 가져오는 역할
+public class BleConnector extends AppCompatActivity { //BLE Connect와 Connect 후 GATT의 Service 항목을 가져오는 역할
 
     private static final String UUID_CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR = "00002902-0000-1000-8000-00805f9b34fb";
 
@@ -82,6 +83,52 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
                         }
                         Log.d("dataChange",new String(value));
                         Log.d("dataChange", HexUtil.formatHexString(value, false));
+
+                        byte hemisphere1 = value[16];
+                        byte degree1 = value[17];
+                        byte a = value[18];
+                        byte b = value[19];
+                        byte c = value[20];
+                        byte d = value[21];
+
+                        byte hemisphere2 = value[22];
+                        byte degree2 = value[23];
+                        byte e = value[24];
+                        byte f = value[25];
+                        byte g = value[26];
+                        byte h = value[27];
+
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putByte("hemisphere1",hemisphere1);
+                        bundle2.putByte("degree1",degree1);
+                        bundle2.putByte("a",a);
+                        bundle2.putByte("b",b);
+                        bundle2.putByte("c",c);
+                        bundle2.putByte("d",d);
+
+                        bundle2.putByte("hemisphere2",hemisphere2);
+                        bundle2.putByte("degree2",degree2);
+                        bundle2.putByte("e",e);
+                        bundle2.putByte("f",f);
+                        bundle2.putByte("g",g);
+                        bundle2.putByte("h",h);
+
+                        Intent intent = new Intent();
+                        intent.putExtra("hemisphere1", hemisphere1);
+                        intent.putExtra("degree1", degree1);
+                        intent.putExtra("a", a);
+                        intent.putExtra("b", b);
+                        intent.putExtra("c", c);
+                        intent.putExtra("d", d);
+
+                        intent.putExtra("hemisphere2", hemisphere2);
+                        intent.putExtra("degree2", degree2);
+                        intent.putExtra("e", e);
+                        intent.putExtra("f", f);
+                        intent.putExtra("g", g);
+                        intent.putExtra("h", h);
+                        intent.putExtra("value",value);
+                        setResult(RESULT_OK, intent);
 
                         break;
                     }
@@ -429,7 +476,7 @@ public class BleConnector { //BLE Connect와 Connect 후 GATT의 Service 항목�
 
         if (mCharacteristic.setValue(data)) {
             Log.d("onWrite","write3");
-
+            mCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
             handleCharacteristicWriteCallback(bleWriteCallback, uuid_write);
             if (!mBluetoothGatt.writeCharacteristic(mCharacteristic)) { // 실제 write 코드
                 writeMsgInit();

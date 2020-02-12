@@ -3,7 +3,9 @@ package com.example.technote.BLE.FastBle.operation;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -14,14 +16,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.utils.HexUtil;
 import com.example.technote.BLE.FastBle.comm.Observer;
 import com.example.technote.BLE.FastBle.comm.ObserverManager;
+import com.example.technote.Data.GoogleMapGPSData;
 import com.example.technote.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OperationActivity extends AppCompatActivity implements Observer {
+public class OperationActivity extends AppCompatActivity implements Observer, CharacteristicOperationFragment.OnDataPass {
 
     public static final String KEY_DATA = "key_data";
 
@@ -34,6 +38,13 @@ public class OperationActivity extends AppCompatActivity implements Observer {
     private List<Fragment> fragments = new ArrayList<>();
     private int currentPage = 0;
     private String[] titles = new String[3];
+    @Override
+    public void onDataPass(byte[] data){
+        Intent intent = new Intent();
+        intent.putExtra("value",data);
+        setResult(2,intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,15 @@ public class OperationActivity extends AppCompatActivity implements Observer {
         initPage();
 
         ObserverManager.getInstance().addObserver(this);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GoogleMapGPSData googleMapGPSData = new GoogleMapGPSData();
+        Log.d("OperationActivityResume","Resume In");
+        if(googleMapGPSData.getDataSend()){
+            Log.d("OperationActivityResume", HexUtil.formatHexString(googleMapGPSData.getValue() , false));
+        }
     }
 
     @Override

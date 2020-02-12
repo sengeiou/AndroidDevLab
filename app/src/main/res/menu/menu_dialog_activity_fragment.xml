@@ -17,4 +17,7 @@
     <item
         android:id="@+id/menu_go_screen_2"
         android:title="Screen_2"/>
+    <item
+    android:id="@+id/menu_firstScreen"
+    android:title="startActivityResultExam"/>item
 </menu>

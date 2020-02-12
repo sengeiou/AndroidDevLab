@@ -42,9 +42,11 @@ import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
+import com.clj.fastble.utils.HexUtil;
 import com.example.technote.BLE.FastBle.adapter.DeviceAdapter;
 import com.example.technote.BLE.FastBle.comm.ObserverManager;
 import com.example.technote.BLE.FastBle.operation.OperationActivity;
+import com.example.technote.GoogleMap.GoogleMapTest;
 import com.example.technote.MainActivity;
 import com.example.technote.R;
 
@@ -60,7 +62,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
 
     private LinearLayout layout_setting;
     private TextView txt_setting;
-    private Button btn_scan;
+    private Button btn_scan, google_map;
     private EditText et_name, et_mac, et_uuid;
     private Switch sw_auto;
     private ImageView img_loading;
@@ -81,7 +83,10 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
                 .setReConnectCount(1, 5000)
                 .setConnectOverTime(20000)
                 .setOperateTimeout(5000);
+        Log.d("FastBleMain","Main In");
+
     }
+
 
     @Override
     protected void onResume() {
@@ -164,7 +169,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
                 if (BleManager.getInstance().isConnected(bleDevice)) {
                     Intent intent = new Intent(FastBleMain.this, OperationActivity.class);
                     intent.putExtra(OperationActivity.KEY_DATA, bleDevice);
-                    startActivity(intent);
+                    startActivityForResult(intent,2);
                 }
             }
         });
@@ -412,16 +417,24 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             return false;
         return locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_OPEN_GPS) {
-            if (checkGPSIsOpen()) {
-                setScanRule();
-                startScan();
-            }
+
+        if (resultCode == 2) {
+            Log.d("getResult",HexUtil.formatHexString(data.getByteArrayExtra("value")));
+            final byte[] value = data.getByteArrayExtra("value");
+            google_map = (Button)findViewById(R.id.google_map_button);
+            google_map.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(FastBleMain.this, GoogleMapTest.class);
+                    intent.putExtra("value",value);
+                    startActivity(intent);
+                }
+            });
+        } else {   // RESULT_CANCEL
+            Toast.makeText(FastBleMain.this, "Failed", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

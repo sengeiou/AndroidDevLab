@@ -309,6 +309,10 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
                 }
                 break;
 
+                case BleMsg.MSG_SET_MTU:{
+                    bluetoothGatt.requestMtu(128);
+                }
+                break;
                 case BleMsg.MSG_DISCOVER_SERVICES: {
                     Log.d("discovery","MSG_DISCOVER_SERVICE");
                     if (bluetoothGatt != null) {
@@ -379,9 +383,14 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
             mainHandler.removeMessages(BleMsg.MSG_CONNECT_OVER_TIME);
 
             if (newState == BluetoothProfile.STATE_CONNECTED) {
+
                 Message message = mainHandler.obtainMessage();
-                message.what = BleMsg.MSG_DISCOVER_SERVICES;
-                mainHandler.sendMessageDelayed(message, 3000);
+                message.what = BleMsg.MSG_SET_MTU;
+                mainHandler.sendMessageDelayed(message,3000);
+                //DisCovery 호출하는 코드
+               //Message message = mainHandler.obtainMessage();
+                // message.what = BleMsg.MSG_DISCOVER_SERVICES;
+                //mainHandler.sendMessageDelayed(message, 3000);
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 if (lastState == LastState.CONNECT_CONNECTING) {
@@ -424,8 +433,6 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
             }
         }
 
-
-
         @Override
         //remote characteristic notification의 결과를 콜백한다.
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
@@ -434,6 +441,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
 
             Iterator iterator = bleNotifyCallbackHashMap.entrySet().iterator();
             while (iterator.hasNext()) {
+
                 Map.Entry entry = (Map.Entry) iterator.next();
                 Object callback = entry.getValue();
                 if (callback instanceof BleNotifyCallback) {
@@ -599,17 +607,23 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             super.onMtuChanged(gatt, mtu, status);
 
+            Message message = mainHandler.obtainMessage();
+            message.what = BleMsg.MSG_DISCOVER_SERVICES;
+            mainHandler.sendMessageDelayed(message, 3000);
+
             if (bleMtuChangedCallback != null) {
                 Handler handler = bleMtuChangedCallback.getHandler();
                 if (handler != null) {
-                    Message message = handler.obtainMessage();
-                    message.what = BleMsg.MSG_SET_MTU_RESULT;
-                    message.obj = bleMtuChangedCallback;
+
+
+                    Message message2 = handler.obtainMessage();
+                    message2.what = BleMsg.MSG_SET_MTU_RESULT;
+                    message2.obj = bleMtuChangedCallback;
                     Bundle bundle = new Bundle();
                     bundle.putInt(BleMsg.KEY_SET_MTU_BUNDLE_STATUS, status);
                     bundle.putInt(BleMsg.KEY_SET_MTU_BUNDLE_VALUE, mtu);
-                    message.setData(bundle);
-                    handler.sendMessage(message);
+                    message2.setData(bundle);
+                    handler.sendMessage(message2);
                 }
             }
         }

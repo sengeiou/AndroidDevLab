@@ -2,6 +2,7 @@ package com.example.technote.BLE.FastBle.operation;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -41,12 +42,15 @@ public class CharacteristicOperationFragment extends Fragment {
     private LinearLayout layout_container;
     private List<String> childList = new ArrayList<>();
 
+    OnDataPass dataPasser;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_characteric_operation, null);
         initView(v);
         return v;
     }
+
 
     private void initView(View v) {
         layout_container = (LinearLayout) v.findViewById(R.id.layout_container);
@@ -269,7 +273,17 @@ public class CharacteristicOperationFragment extends Fragment {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        addText(txt, HexUtil.formatHexString(characteristic.getValue(), false));
+                                                        addText(txt, HexUtil.formatHexString(characteristic.getValue() , false));
+
+                                                        byte[] value = characteristic.getValue();
+                                                        /*
+                                                        Intent intent = new Intent(getContext(), FastBleMain.class);
+                                                        intent.putExtra("value",value);
+                                                        intent.putExtra("dataIn",true);
+                                                        startActivity(intent);
+                                                        getActivity().finish();
+                                                        */
+                                                        dataPasser.onDataPass(value);
                                                     }
                                                 });
                                             }
@@ -361,5 +375,19 @@ public class CharacteristicOperationFragment extends Fragment {
         if (offset > textView.getHeight()) {
             textView.scrollTo(0, offset - textView.getHeight());
         }
+    }
+    public interface OnDataPass {
+        public void onDataPass(byte[] data);
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        dataPasser = (OnDataPass) context;
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        dataPasser = null;
     }
 }
