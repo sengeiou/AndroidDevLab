@@ -386,7 +386,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
 
                 Message message = mainHandler.obtainMessage();
                 message.what = BleMsg.MSG_SET_MTU;
-                mainHandler.sendMessageDelayed(message,3000);
+                mainHandler.sendMessageDelayed(message,1000);
                 //DisCovery 호출하는 코드
                //Message message = mainHandler.obtainMessage();
                 // message.what = BleMsg.MSG_DISCOVER_SERVICES;
@@ -609,7 +609,7 @@ public class BleBluetooth {  // 실질적 BLE Connect를 이행
 
             Message message = mainHandler.obtainMessage();
             message.what = BleMsg.MSG_DISCOVER_SERVICES;
-            mainHandler.sendMessageDelayed(message, 3000);
+            mainHandler.sendMessageDelayed(message, 1000); // Connect 할 때 Progress Dialog 띄워주는 시간
 
             if (bleMtuChangedCallback != null) {
                 Handler handler = bleMtuChangedCallback.getHandler();

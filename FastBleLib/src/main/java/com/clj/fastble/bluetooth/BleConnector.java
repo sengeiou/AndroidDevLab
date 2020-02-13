@@ -478,6 +478,8 @@ public class BleConnector extends AppCompatActivity { //BLE Connect와 Connect �
             Log.d("onWrite","write3");
             mCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
             handleCharacteristicWriteCallback(bleWriteCallback, uuid_write);
+            Log.d("mBleBluetooth",mBleBluetooth.getDevice().getName());
+            Log.d("mCharacteristic", "mCharacteristic UUID = " + mCharacteristic.getUuid().toString());
             if (!mBluetoothGatt.writeCharacteristic(mCharacteristic)) { // 실제 write 코드
                 writeMsgInit();
                 if (bleWriteCallback != null)

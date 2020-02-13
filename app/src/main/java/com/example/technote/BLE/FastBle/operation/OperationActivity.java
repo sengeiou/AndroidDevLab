@@ -19,7 +19,6 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.utils.HexUtil;
 import com.example.technote.BLE.FastBle.comm.Observer;
 import com.example.technote.BLE.FastBle.comm.ObserverManager;
-import com.example.technote.Data.GoogleMapGPSData;
 import com.example.technote.R;
 
 import java.util.ArrayList;
@@ -60,11 +59,6 @@ public class OperationActivity extends AppCompatActivity implements Observer, Ch
     @Override
     protected void onResume() {
         super.onResume();
-        GoogleMapGPSData googleMapGPSData = new GoogleMapGPSData();
-        Log.d("OperationActivityResume","Resume In");
-        if(googleMapGPSData.getDataSend()){
-            Log.d("OperationActivityResume", HexUtil.formatHexString(googleMapGPSData.getValue() , false));
-        }
     }
 
     @Override

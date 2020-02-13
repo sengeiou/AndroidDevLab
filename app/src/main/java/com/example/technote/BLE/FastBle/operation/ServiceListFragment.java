@@ -51,9 +51,11 @@ public class ServiceListFragment extends Fragment {
                 BluetoothGattService service = mResultAdapter.getItem(position);
                 ((OperationActivity) getActivity()).setBluetoothGattService(service);
                 ((OperationActivity) getActivity()).changePage(1);
+
             }
         });
     }
+
 
     private void showData() {
         BleDevice bleDevice = ((OperationActivity) getActivity()).getBleDevice();

@@ -65,7 +65,7 @@
         <activity android:name=".BLE.Exam1.ControlActivity"></activity>
 
         <service android:name=".BLE.Exam1.BluetoothLeService" android:enabled="true"/>
-
+        <service android:name=".GoogleMap.GPSDataReceiveService"></service>
     </application>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>

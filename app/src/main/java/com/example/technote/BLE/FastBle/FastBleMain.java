@@ -70,20 +70,29 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
     private Animation operatingAnim;
     private DeviceAdapter mDeviceAdapter;
     private ProgressDialog progressDialog;
-
+    BleDevice bleDevice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble_fastblemain);
         initView();
-
         BleManager.getInstance().init(getApplication());
         BleManager.getInstance()
                 .enableLog(true)
                 .setReConnectCount(1, 5000)
-                .setConnectOverTime(20000)
+                .setConnectOverTime(5000)
                 .setOperateTimeout(5000);
         Log.d("FastBleMain","Main In");
+
+        google_map = (Button)findViewById(R.id.google_map_button);
+        google_map.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FastBleMain.this, GoogleMapTest.class);
+                intent.putExtra("key_data",getBleDevice());
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -287,6 +296,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             mDeviceAdapter.addDevice(bleDevice);
             mDeviceAdapter.notifyDataSetChanged();
             Toast.makeText(FastBleMain.this, "연결 성공", Toast.LENGTH_LONG).show();
+            setBleDevice(bleDevice);
         }
 
         //연결 해제 될 때
@@ -424,6 +434,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
         if (resultCode == 2) {
             Log.d("getResult",HexUtil.formatHexString(data.getByteArrayExtra("value")));
             final byte[] value = data.getByteArrayExtra("value");
+
             google_map = (Button)findViewById(R.id.google_map_button);
             google_map.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -436,5 +447,11 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
         } else {   // RESULT_CANCEL
             Toast.makeText(FastBleMain.this, "Failed", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void setBleDevice(BleDevice bleDevice){
+        this.bleDevice = bleDevice;
+    }
+    public BleDevice getBleDevice(){
+        return bleDevice;
     }
 }
