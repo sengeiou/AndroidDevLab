@@ -80,8 +80,8 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
         BleManager.getInstance()
                 .enableLog(true)
                 .setReConnectCount(1, 5000)
-                .setConnectOverTime(5000)
-                .setOperateTimeout(5000);
+                .setConnectOverTime(2500)
+                .setOperateTimeout(2500);
         Log.d("FastBleMain","Main In");
 
         google_map = (Button)findViewById(R.id.google_map_button);

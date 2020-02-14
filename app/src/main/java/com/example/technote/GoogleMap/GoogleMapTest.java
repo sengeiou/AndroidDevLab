@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -12,6 +13,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,30 +23,40 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.utils.HexUtil;
-import com.example.technote.MainActivity;
 import com.example.technote.R;
-import com.google.android.gms.common.util.Hex;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallback {
+public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
-    private String dtDeviceAddress;
+    private String dtDeviceAddress, editTextAddress;
     GPSDataReceiveService gpsDataReceiveService = new GPSDataReceiveService();
     private Messenger mServiceMessenger = null;
     private boolean mIsBound;
-
-
+    private Button deviceChange;
+    private boolean timerStart = false;
+    private int sendCount = 0;
+    private Timer timer;
+    private TimerTask tt;
+    ArrayList<byte[]> gpsData = new ArrayList<>();
+    LatLng startLatLng;
+    MarkerOptions startMarkerOptions;
+    Marker startMarker,endMarker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,26 +65,35 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
         Intent intent = getIntent();
         final BleDevice bleDevice = intent.getParcelableExtra("key_data");
 
-        final Timer timer = new Timer();
-        final TimerTask tt = new TimerTask() {
-            @Override
-            public void run() {
-                Log.d("Timer","run() dtDeviceAddress : " + dtDeviceAddress);
-                /*
-                Intent intent = new Intent(getApplicationContext(), GPSDataReceiveService.class);
-                intent.putExtra("macAddress",dtDeviceAddress);
-                intent.putExtra("key_data",bleDevice);
-                startService(intent);
-                 */
-                Intent intent = new Intent(getApplicationContext(), GPSDataReceiveService.class);
-                intent.putExtra("macAddress",dtDeviceAddress);
-                intent.putExtra("key_data",bleDevice);
-                startService(intent);
-                bindService(new Intent(getApplicationContext(), GPSDataReceiveService.class), mConnection, Context.BIND_AUTO_CREATE);
-                mIsBound = true;
-            }
+        //30초마다 Service에 최신 GPS 데이터 요청하는 Timer
+        timer = new Timer();
+        tt = new TimerTask() {
+                @Override
+                public void run() {
+                    if(timerStart){
+                        Intent intent = new Intent(getApplicationContext(), GPSDataReceiveService.class);
+                        intent.putExtra("macAddress",dtDeviceAddress);
+                        intent.putExtra("key_data",bleDevice);
+                        intent.putExtra("sendCount",sendCount);
+
+                        sendCount++;
+                        startService(intent);
+                        mIsBound = true;
+                    }else{
+                        timer.cancel();
+                    }
+                }
         };
 
+        deviceChange = (Button)findViewById(R.id.button_device_change);
+        deviceChange.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                setDtDeviceAddressDialog();
+            }
+        });
+
+        // 디바이스 주소 입력하는 Dialog
         final EditText edittext = new EditText(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Destination Device의 Mac주소를 입력하세요.");
@@ -79,55 +101,40 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
         builder.setPositiveButton("입력",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dtDeviceAddress = edittext.getText().toString();
+                        dtDeviceAddress = reverseString(edittext.getText().toString());
                         Toast.makeText(getApplicationContext(),edittext.getText().toString() ,Toast.LENGTH_LONG).show();
                         // 서비스 시작
-                        timer.schedule(tt,0,30000); // 30초마다 타이머 run 1000mil = 1s
+                        timerStart = true;
+                        bindService(new Intent(getApplicationContext(), GPSDataReceiveService.class), mConnection, Context.BIND_AUTO_CREATE);
+                        timer.schedule(tt,0,10000); // 30초마다 타이머 run 1000mil = 1s
                     }
                 });
         builder.setNegativeButton("취소",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
         builder.show();
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
     }
     @Override
-    public void onMapReady(final GoogleMap googleMap) {
-
-        /*
-        Intent intent = getIntent();
-
-        byte[] value = intent.getByteArrayExtra("value");
-
-        byte hemisphere1 = value[15];
-        byte degree1 = value[16];
-        byte a = value[17]; byte b = value[18];
-        byte c = value[19]; byte d = value[20];
-
-        byte hemisphere2 = value[21];
-        byte degree2 =value[22];
-        byte e =value[23]; byte f = value[24];
-        byte g = value[25]; byte h = value[26];
-         */
-
-        mMap = googleMap;
-
-        //LatLng SEOUL = new LatLng(DMSToDecimal2(hemisphere1,degree1,gpsbyte2Int(a,b,c,d)),DMSToDecimal2(hemisphere2,degree2,gpsbyte2Int(e,f,g,h)));
-
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-        Log.d("DMS", "lat : "+SEOUL.latitude+ " long : "+SEOUL.longitude);
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("위치");
-        markerOptions.snippet("한국의 수도");
-        mMap.addMarker(markerOptions);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+    protected void onPause(){
+        super.onPause();
+        if (mIsBound) {
+            unbindService(mConnection);
+            mIsBound = false;
+        }
+        stopService(new Intent(GoogleMapTest.this, GPSDataReceiveService.class));
+        timerStart = false;
+        gpsData.clear();
     }
 
     /** Service 로 부터 message를 받음 */
@@ -137,8 +144,65 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
             Log.i("test","act : what "+msg.what);
             switch (msg.what) {
                 case GPSDataReceiveService.MSG_SEND_TO_ACTIVITY:
-                    String gpsData = HexUtil.formatHexString(msg.getData().getByteArray("GPSData"));
-                    Log.d("gpsData","gpsData : "+gpsData);
+
+                    final int sendCount = msg.getData().getInt("sendCount");
+                    gpsData.add(msg.getData().getByteArray("GPSData"));
+                    Log.d("GPSData", "ReceiveGPSData : " + HexUtil.formatHexString(msg.getData().getByteArray("GPSData")));
+                    Log.d("sendCount",String.valueOf(msg.getData().getInt("sendCount")));
+                    byte new_hemisphere1 = gpsData.get(sendCount)[15];
+                    byte new_degree1 = gpsData.get(sendCount)[16];
+                    byte new_a = gpsData.get(sendCount)[17]; byte new_b = gpsData.get(sendCount)[18];
+                    byte new_c = gpsData.get(sendCount)[19]; byte new_d = gpsData.get(sendCount)[20];
+
+                    byte new_hemisphere2 = gpsData.get(sendCount)[21];
+                    byte new_degree2 =gpsData.get(sendCount)[22];
+                    byte new_e =gpsData.get(sendCount)[23]; byte new_f = gpsData.get(sendCount)[24];
+                    byte new_g = gpsData.get(sendCount)[25]; byte new_h = gpsData.get(sendCount)[26];
+
+                    MarkerOptions endMarkerOptions = new MarkerOptions();
+
+                    if(sendCount >= 1){
+                        endMarker.remove();
+                        byte previous_hemisphere1 = gpsData.get(sendCount-1)[15];
+                        byte previous_degree1 = gpsData.get(sendCount-1)[16];
+                        byte previous_a = gpsData.get(sendCount-1)[17]; byte previous_b = gpsData.get(sendCount-1)[18];
+                        byte previous_c = gpsData.get(sendCount-1)[19]; byte previous_d = gpsData.get(sendCount-1)[20];
+
+                        byte previous_hemisphere2 = gpsData.get(sendCount-1)[21];
+                        byte previous_degree2 =gpsData.get(sendCount-1)[22];
+                        byte previous_e =gpsData.get(sendCount-1)[23]; byte previous_f = gpsData.get(sendCount-1)[24];
+                        byte previous_g = gpsData.get(sendCount-1)[25]; byte previous_h = gpsData.get(sendCount-1)[26];
+
+                        LatLng previousLatLan =  new LatLng(DMSToDecimal2(previous_hemisphere1,previous_degree1,gpsbyte2Int(previous_a,previous_b,previous_c,previous_d)),
+                                DMSToDecimal2(previous_hemisphere2,previous_degree2,gpsbyte2Int(previous_e,previous_f,previous_g,previous_h)));
+
+                        LatLng endLatLng = new LatLng(DMSToDecimal2(new_hemisphere1,new_degree1,gpsbyte2Int(new_a,new_b,new_c,new_d)),
+                                DMSToDecimal2(new_hemisphere2,new_degree2,gpsbyte2Int(new_e,new_f,new_g,new_h)));
+                        Polyline line = mMap.addPolyline(new PolylineOptions()
+                                .add(previousLatLan, endLatLng)
+                                .width(5)
+                                .color(Color.RED));
+
+                        endMarkerOptions.position(endLatLng);
+
+                        endMarkerOptions.title("End");
+                        mMap.addMarker(startMarkerOptions);
+                        endMarker = mMap.addMarker(endMarkerOptions);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(endLatLng));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(19));
+                    }else{ // 처음 시작 할 때 StartLatLng를 찍는다 sendCount = 0
+                        startLatLng = new LatLng(DMSToDecimal2(new_hemisphere1,new_degree1,gpsbyte2Int(new_a,new_b,new_c,new_d)),
+                                DMSToDecimal2(new_hemisphere2,new_degree2,gpsbyte2Int(new_e,new_f,new_g,new_h)));
+
+                        startMarkerOptions = new MarkerOptions();
+                        startMarkerOptions.position(startLatLng);
+                        startMarkerOptions.title("Start");
+
+                        startMarker = mMap.addMarker(startMarkerOptions);
+                        endMarker = mMap.addMarker(startMarkerOptions);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(startLatLng));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(19));
+                    }
                     break;
             }
             return false;
@@ -151,9 +215,15 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
             Log.d("test","onServiceConnected");
             mServiceMessenger = new Messenger(iBinder);
             try {
-                Message msg = Message.obtain(null, GPSDataReceiveService.MSG_REGISTER_CLIENT);
+                Message msg = Message.obtain(null, GPSDataReceiveService.MSG_RECEIVE_CLIENT);
+
                 msg.replyTo = mMessenger;
+                Bundle bundle = new Bundle();
+                bundle.putInt("sendCount",sendCount);
+                sendCount++;
+                msg.setData(bundle);
                 mServiceMessenger.send(msg);
+
             }
             catch (RemoteException e) {
             }
@@ -211,5 +281,32 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
         int s4 = src[3] & 0xFF;
 
         return ((s1 << 24) + (s2 << 16) + (s3 << 8) + (s4 << 0));
+    }
+    public void setDtDeviceAddressDialog(){
+        final EditText edittext2 = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Destination Device의 Mac주소를 입력하세요.");
+        builder.setView(edittext2);
+        builder.setPositiveButton("입력",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dtDeviceAddress = reverseString(edittext2.getText().toString());
+                        if(!mIsBound && !timerStart){ // 타이머와 바인드 서비스가 시작되지 않았다면
+                            // 서비스 시작
+                            timerStart = true;
+                            bindService(new Intent(getApplicationContext(), GPSDataReceiveService.class), mConnection, Context.BIND_AUTO_CREATE);
+                            timer.schedule(tt,0,3000); // 30초마다 타이머 run 1000mil = 1s
+                        }
+                    }
+                });
+        builder.setNegativeButton("취소",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
+    }
+    public static String reverseString(String s) {
+        return ( new StringBuffer(s) ).reverse().toString();
     }
 }
