@@ -16,7 +16,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBfcdK0fjudP8w_gdpil0lVl2HOleapa98" />
+            android:value="@string/google_map_api_key" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -25,8 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Dialog_Activity_Fragment.Dialog"></activity>
-        <activity android:name=".Dialog_Activity_Fragment.Activity"></activity>
         <activity android:name=".Layout.LinearLayout_Test"></activity>
         <activity android:name=".Layout.FrameLayout_Test"></activity>
         <activity android:name=".Layout.RelativeLayoutTest"></activity>
@@ -38,6 +36,15 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
         </activity>
+
+        <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_2"
+            android:theme="@style/Screen_2">
+        </activity>
+        <activity android:name=".Dialog_Activity_Fragment.FirstActivity"></activity>
+        <activity android:name=".Dialog_Activity_Fragment.SecondActivity"></activity>
+        <activity android:name=".Dialog_Activity_Fragment.Dialog"></activity>
+        <activity android:name=".Dialog_Activity_Fragment.Activity"></activity>
+
         <activity android:name=".Database.SQLiteTest"></activity>
         <activity android:name=".Database.SQLiteTest_2"></activity>
         <activity android:name=".Database.AddressBook"></activity>
@@ -48,24 +55,30 @@
         <activity android:name=".Database.CallReceive"></activity>
         <activity android:name=".Database.CallLogTest"></activity>
         <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_1"></activity>
-        <activity android:name=".Dialog_Activity_Fragment.Activity_Screen_2"
-            android:theme="@style/Screen_2">
-        </activity>
-        <activity android:name=".Dialog_Activity_Fragment.FirstActivity"></activity>
-        <activity android:name=".Dialog_Activity_Fragment.SecondActivity"></activity>
         <activity android:name=".Database.ContentProviderExample.CountryEdit" android:label="@string/app_name" />
         <activity android:name=".Database.ContentProviderExample.ContentProviderTest"></activity>
         <activity android:name=".Database.ContentProviderPractics.ContentProviderTest2"></activity>
         <activity android:name=".Database.ContentProviderPractics.AddressEdit2"></activity>
-        <activity android:name=".GoogleMap.GoogleMapTest"></activity>
+
         <activity android:name=".BLE.FastBle.FastBleMain"></activity>
         <activity android:name=".BLE.FastBle.operation.OperationActivity"></activity>
-        <activity android:name=".Handler.HandlerEx"></activity>
         <activity android:name=".BLE.Exam1.BleExam1_Main"/>
         <activity android:name=".BLE.Exam1.ControlActivity"></activity>
 
+        <activity android:name=".GoogleMap.SensorActivity"></activity>
+        <activity android:name=".GoogleMap.GoogleMapTest"></activity>
+        <activity android:name=".GoogleMap.GoogleMapTest2"></activity>
+        <activity android:name=".GoogleMap.AndroidDetOrientationActivity"></activity>
+        <activity android:name=".GoogleMap.MapsActivity"></activity>
+        <activity android:name=".GoogleMap.GoogleMapTest3"></activity>
+
         <service android:name=".BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".GoogleMap.GPSDataReceiveService"></service>
+
+        <activity android:name=".Handler.HandlerEx"></activity>
+
+
+
     </application>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
@@ -77,6 +90,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
 
 </manifest>

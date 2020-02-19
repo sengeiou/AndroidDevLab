@@ -6,12 +6,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +32,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -44,15 +49,16 @@ import java.util.TimerTask;
 public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
-    private String dtDeviceAddress, editTextAddress;
-    GPSDataReceiveService gpsDataReceiveService = new GPSDataReceiveService();
+    private String dtDeviceAddress;
     private Messenger mServiceMessenger = null;
     private boolean mIsBound;
-    private Button deviceChange;
     private boolean timerStart = false;
+    private Button deviceChange;
     private int sendCount = 0;
     private Timer timer;
     private TimerTask tt;
+    private SensorManager sensorManager;
+    private Sensor sensor;
     ArrayList<byte[]> gpsData = new ArrayList<>();
     LatLng startLatLng;
     MarkerOptions startMarkerOptions;
@@ -96,13 +102,20 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
         // 디바이스 주소 입력하는 Dialog
         final EditText edittext = new EditText(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        InputFilter[] maxLengthFilter= new InputFilter[1];
+        maxLengthFilter[0] = new InputFilter.LengthFilter(6);
+        edittext.setFilters(maxLengthFilter);
         builder.setMessage("Destination Device의 Mac주소를 입력하세요.");
         builder.setView(edittext);
         builder.setPositiveButton("입력",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dtDeviceAddress = reverseString(edittext.getText().toString());
-                        Toast.makeText(getApplicationContext(),edittext.getText().toString() ,Toast.LENGTH_LONG).show();
+                        if(edittext.getText().toString().length()==6){
+                            dtDeviceAddress = reverseString(edittext.getText().toString());
+                        }else{
+                            dtDeviceAddress = edittext.getText().toString();
+                        }
+                        Toast.makeText(getApplicationContext(),dtDeviceAddress ,Toast.LENGTH_LONG).show();
                         // 서비스 시작
                         timerStart = true;
                         bindService(new Intent(getApplicationContext(), GPSDataReceiveService.class), mConnection, Context.BIND_AUTO_CREATE);
@@ -188,8 +201,18 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
                         endMarkerOptions.title("End");
                         mMap.addMarker(startMarkerOptions);
                         endMarker = mMap.addMarker(endMarkerOptions);
+
+                        double bearing = bearingBetweenLocations(previousLatLan,endLatLng); // 이전위치와 현재 위치의 baering 생성.
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(endLatLng));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(19));
+
+                        CameraPosition cameraPosition = new CameraPosition.Builder()
+                                .target(endLatLng)       // 카메라가 해당 LatLng으로 포커스함.
+                                .zoom(15)                // 줌 설정
+                                .bearing((float)bearing) // 방향전환
+                                .tilt(0)                 // Sets the tilt of the camera to 0 degrees
+                                .build();                // CameraPosition 빌드 생성
+                        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
                     }else{ // 처음 시작 할 때 StartLatLng를 찍는다 sendCount = 0
                         startLatLng = new LatLng(DMSToDecimal2(new_hemisphere1,new_degree1,gpsbyte2Int(new_a,new_b,new_c,new_d)),
                                 DMSToDecimal2(new_hemisphere2,new_degree2,gpsbyte2Int(new_e,new_f,new_g,new_h)));
@@ -198,10 +221,11 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
                         startMarkerOptions.position(startLatLng);
                         startMarkerOptions.title("Start");
 
+
                         startMarker = mMap.addMarker(startMarkerOptions);
                         endMarker = mMap.addMarker(startMarkerOptions);
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(startLatLng));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(19));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                     }
                     break;
             }
@@ -307,6 +331,29 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
         builder.show();
     }
     public static String reverseString(String s) {
-        return ( new StringBuffer(s) ).reverse().toString();
+        return s.substring(4) + s.substring(2,4) + s.substring(0,2);
     }
+
+    private double bearingBetweenLocations(LatLng latLng1,LatLng latLng2) {
+
+        double PI = 3.14159;
+        double lat1 = latLng1.latitude * PI / 180;
+        double long1 = latLng1.longitude * PI / 180;
+        double lat2 = latLng2.latitude * PI / 180;
+        double long2 = latLng2.longitude * PI / 180;
+
+        double dLon = (long2 - long1);
+
+        double y = Math.sin(dLon) * Math.cos(lat2);
+        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
+                * Math.cos(lat2) * Math.cos(dLon);
+
+        double brng = Math.atan2(y, x);
+
+        brng = Math.toDegrees(brng);
+        brng = (brng + 360) % 360;
+
+        return brng;
+    }
+
 }

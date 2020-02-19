@@ -22,7 +22,12 @@ import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
 import com.example.technote.Dialog_Activity_Fragment.FirstActivity;
+import com.example.technote.GoogleMap.AndroidDetOrientationActivity;
 import com.example.technote.GoogleMap.GoogleMapTest;
+import com.example.technote.GoogleMap.GoogleMapTest2;
+import com.example.technote.GoogleMap.GoogleMapTest3;
+import com.example.technote.GoogleMap.MapsActivity;
+import com.example.technote.GoogleMap.SensorActivity;
 import com.example.technote.Handler.HandlerEx;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;
@@ -144,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.menu_ble_exam1:
                                 startActivity(new Intent(getApplicationContext(), BleExam1_Main.class));
                                 break;
+                            case R.id.menu_ble_exam2:
+                                startActivity(new Intent(getApplicationContext(), SensorActivity.class));
+                                break;
                             default:
                                 break;
                         }
@@ -157,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), GoogleMapTest.class));
+                startActivity(new Intent(getApplicationContext(), GoogleMapTest2.class));
             }
         });
         //Database
@@ -195,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         button11.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), HandlerEx.class));
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
             }
         });
     }

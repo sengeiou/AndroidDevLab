@@ -3,6 +3,7 @@
 
     <string name="menu_settings">Settings</string>
 
+    <string name="google_map_api_key">AIzaSyBfcdK0fjudP8w_gdpil0lVl2HOleapa98</string>
     <string name="add_country">Add a new Country</string>
     <string name="country_info">Country Information</string>
     <string name="country_code">Code</string>
