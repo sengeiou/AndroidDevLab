@@ -22,13 +22,9 @@ import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
 import com.example.technote.Dialog_Activity_Fragment.FirstActivity;
-import com.example.technote.GoogleMap.AndroidDetOrientationActivity;
-import com.example.technote.GoogleMap.GoogleMapTest;
 import com.example.technote.GoogleMap.GoogleMapTest2;
 import com.example.technote.GoogleMap.GoogleMapTest3;
-import com.example.technote.GoogleMap.MapsActivity;
 import com.example.technote.GoogleMap.SensorActivity;
-import com.example.technote.Handler.HandlerEx;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;
 import com.example.technote.Layout.DrawerLayout_Test;
@@ -203,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         button11.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                startActivity(new Intent(getApplicationContext(), GoogleMapTest3.class));
             }
         });
     }

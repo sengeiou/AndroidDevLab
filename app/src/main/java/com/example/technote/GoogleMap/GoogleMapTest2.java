@@ -1,5 +1,6 @@
 package com.example.technote.GoogleMap;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,10 +30,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallback, SensorEventListener{
@@ -45,13 +52,15 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     private Float azimut;
     private GoogleMap mMap;
     private CameraPosition cameraPosition;
-    private Marker marker, marker2;
+    private Marker marker, searchResultMarker;
     private MarkerOptions markerOptions;
     private LatLng currentLocation;
     private GPSInfo gps;
     private ImageButton bt_current_location;
     private SearchView searchView;
     boolean success = false;
+    int REQUEST_CODE_AUTOCOMPLETE = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,48 +77,14 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getString(R.string.google_map_api_key), Locale.KOREA);
         }
-        // Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
-        // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.d("onPlaceSelected","onPlaceSelected");
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.d("onError",status.toString());
-
-                // TODO: Handle the error.
-            }
-        });
-
-        /*
-        searchView = (SearchView)findViewById(R.id.sv_google_map_test2);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(GoogleMapTest2.this, "Submit : "+ query, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
-
-         */
         bt_current_location = (ImageButton)findViewById(R.id.imageButton_current_location);
         bt_current_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+                mMap.animateCamera( CameraUpdateFactory.zoomTo( mMap.getCameraPosition().zoom ) );
+
                 sensorOn();
                 Log.d("button","button");
                // sensorEventListener= new SensorEventListener()
@@ -135,10 +110,10 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
                 if (gps.isGetLocation) {
                     currentLocation = new LatLng(gps.getLatitude(), gps.getLongitude()); // 현재 위치 값 가져오기
                 }
+                float brng = (360 - ((degrees + 360) % 360));
 
                 cameraPosition = new CameraPosition(currentLocation, mMap.getCameraPosition().zoom, 0, degrees);
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 200, null);
-                float brng = (360 - ((degrees + 360) % 360));
                 marker.setRotation(degrees);
                 mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
                     @Override
@@ -160,6 +135,8 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         markerOptions = new MarkerOptions();
+        mMap.getUiSettings().setCompassEnabled(false); // 나침반 없애기
+
         gps = new GPSInfo(GoogleMapTest2.this);
         if(gps.isGetLocation){
             currentLocation = new LatLng(gps.getLatitude(),gps.getLongitude());
@@ -168,38 +145,15 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
+
         BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.dot_rader);
         Bitmap b=bitmapdraw.getBitmap();
         Bitmap navigationMarker = Bitmap.createScaledBitmap(b, 300, 300, false);
-
 
         marker = mMap.addMarker(new MarkerOptions()
                 .position(currentLocation)
                 .icon(BitmapDescriptorFactory.fromBitmap(navigationMarker))
                 .flat(true));
-        /*
-        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
-            @Override
-            public void onCameraMoveStarted(int reason) {
-                if (reason ==REASON_GESTURE) {
-                    Log.d("REASON_GESTURE","The user gestured on the map.");
-                    if(currentButton){
-                        moveCamra = true;
-                    }
-                } else if (reason ==REASON_API_ANIMATION) {
-                    Log.d("REASON_API_ANIMATION","The user tapped something on the map");
-                    if(currentButton){
-                        moveCamra = true;
-                    }
-                } else if (reason ==REASON_DEVELOPER_ANIMATION) {
-                    Log.d("DEVELOPER_ANIMATION","The app moved the camera");
-                    if(currentButton){
-                        moveCamra = true;
-                    }
-                }
-            }
-        });
-         */
     }
     @Override
     protected void onPause() {
@@ -218,5 +172,52 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     }
     public void sensorOff(){
         mSensorManager.unregisterListener(this);
+    }
+
+    public void autoCompletePlace(View view) { // autoCompletePlace 검색 API를 불러온다.
+
+        // Initialize Places.
+        Places.initialize(getApplicationContext(), getString(R.string.google_map_api_key));
+
+        // Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(this);
+
+        // Set the fields to specify which types of place data to return.
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ID, Place.Field.PHONE_NUMBER, Place.Field.RATING, Place.Field.WEBSITE_URI);
+
+        // Start the autocomplete intent.
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(this);
+
+        startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { // autoCompletePlace 검색을 한 Intent data를 받아서 이벤트를 처리한다.
+        super.onActivityResult(requestCode, resultCode, data);
+        sensorOff();
+        if (resultCode == RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+            if (resultCode == RESULT_OK) {
+
+                // Get Place data from intent
+                Place place = Autocomplete.getPlaceFromIntent(data);
+
+                if (place != null) {
+                    searchResultMarker = mMap.addMarker(new MarkerOptions()
+                            .title(place.getName())
+                            .position(place.getLatLng()));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
+                    mMap.animateCamera( CameraUpdateFactory.zoomTo( mMap.getCameraPosition().zoom ) );
+                }
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                Status status = Autocomplete.getStatusFromIntent(data);
+            } else if (resultCode == RESULT_CANCELED) {
+
+                // The user canceled the operation.
+                Toast.makeText(this, "Result got cancelled", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

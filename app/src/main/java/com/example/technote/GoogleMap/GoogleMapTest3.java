@@ -58,7 +58,7 @@ public class GoogleMapTest3 extends AppCompatActivity {
     public void autoCompletePlace(View view) {
 
         // Initialize Places.
-        Places.initialize(getApplicationContext(), "AIzaSyBfcdK0fjudP8w_gdpil0lVl2HOleapa98");
+        Places.initialize(getApplicationContext(), getString(R.string.google_map_api_key));
 
         // Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(this);

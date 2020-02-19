@@ -3,7 +3,7 @@
     package="com.example.technote">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/tech_note_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/tech_note_icon_round"
@@ -69,7 +69,6 @@
         <activity android:name=".GoogleMap.GoogleMapTest"></activity>
         <activity android:name=".GoogleMap.GoogleMapTest2"></activity>
         <activity android:name=".GoogleMap.AndroidDetOrientationActivity"></activity>
-        <activity android:name=".GoogleMap.MapsActivity"></activity>
         <activity android:name=".GoogleMap.GoogleMapTest3"></activity>
 
         <service android:name=".BLE.Exam1.BluetoothLeService" android:enabled="true"/>

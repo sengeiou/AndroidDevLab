@@ -45,6 +45,9 @@ dependencies {
     implementation project(path: ':FastBleLib')
     implementation 'com.google.firebase:firebase-appindexing:19.0.0'
 
+    implementation 'noman.placesapi:placesAPI:1.1.3'
+
+
 }
 repositories {
     mavenCentral()
