@@ -136,7 +136,7 @@ public class BleScanner {
 
         } else {
             String meSiPlusServiceUUID=
-                    "f000c0e0-0451-4000-b000-000000000000";
+                    "0000ffff-0000-1000-8000-00805f9b34fb";
             ParcelUuid ParcelUuid_meSiPlusServiceUUID =
                     ParcelUuid.fromString(meSiPlusServiceUUID);
 

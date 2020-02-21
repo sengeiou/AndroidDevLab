@@ -18,8 +18,9 @@
     <color name="screen_2_background_color">#FFFFF5EE</color>
     <color name="light_salmon">#FFFFA07A</color>
     <color name="salmon">#FFFA8072</color>
-    <color name="lightblue">#FFADD8E6</color>
     <color name="pink">#FFFFC0CB</color>
+
+    <color name="lightBlue">#FFADD8E6</color>
     <color name="lightPink">#FFFFB6C1</color>
     <color name="lightGreen">#00CC00</color>
 

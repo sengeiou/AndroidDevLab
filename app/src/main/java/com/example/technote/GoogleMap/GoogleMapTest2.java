@@ -1,40 +1,53 @@
 package com.example.technote.GoogleMap;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.technote.R;
+import com.example.technote.Utility.SphericalUtil;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.GroundOverlay;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.util.Arrays;
@@ -44,7 +57,6 @@ import java.util.Locale;
 public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallback, SensorEventListener{
 
     private SensorManager mSensorManager;
-    private SensorEventListener sensorEventListener;
     private Sensor accelerometer;
     private Sensor magnetometer;
     private float[] mGravity;
@@ -53,13 +65,24 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     private CameraPosition cameraPosition;
     private Marker marker, searchResultMarker;
-    private MarkerOptions markerOptions;
-    private LatLng currentLocation;
-    private GPSInfo gps;
-    private ImageButton bt_current_location;
-    private SearchView searchView;
+    private static LatLng currentLocation;
+    private static ImageButton bt_current_location;
     boolean success = false;
-    int REQUEST_CODE_AUTOCOMPLETE = 0;
+    private int REQUEST_CODE_AUTOCOMPLETE = 0;
+    private static int CURRENT_LOCATION = 1;
+    private static int CURRENT_LOCATION_BEARING = 2;
+    private static int CURRENT_LOCATION_DISABLED = 3;
+    private static int CURRENT_BUTTON_STATE = 3;
+
+    private double distance, radius = 50;
+    private LatLng searchPlace;
+    private GPSInfo gps;
+    private MyHandler myHandler = new MyHandler();
+    GroundOverlay groundOverlay;
+    private boolean isPlaceSearched = false;
+
+    public GoogleMapTest2() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +104,28 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
         bt_current_location = (ImageButton)findViewById(R.id.imageButton_current_location);
         bt_current_location.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-                mMap.animateCamera( CameraUpdateFactory.zoomTo( mMap.getCameraPosition().zoom ) );
-
-                sensorOn();
-                Log.d("button","button");
-               // sensorEventListener= new SensorEventListener()
+            public void onClick(View v) { // 현재위치 버튼 클릭 리스너
+                if(CURRENT_BUTTON_STATE == CURRENT_LOCATION_DISABLED){
+                    myHandler.sendEmptyMessage(CURRENT_LOCATION);
+                    gps = new GPSInfo(GoogleMapTest2.this);
+                    currentLocation = new LatLng(gps.getLatitude(),gps.getLongitude());
+                    groundOverlay.setPosition(currentLocation);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, mMap.getCameraPosition().zoom));
+                    if(isPlaceSearched){
+                        double distance = SphericalUtil.computeDistanceBetween(searchPlace, currentLocation);
+                        if(distance > radius ){
+                            Toast.makeText(getApplicationContext(), "범위 밖에 있습니다.", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "범위 안에 있습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }else if(CURRENT_BUTTON_STATE == CURRENT_LOCATION){
+                    myHandler.sendEmptyMessage(CURRENT_LOCATION_BEARING);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, mMap.getCameraPosition().zoom));
+                    sensorOn();
+                }else if(CURRENT_BUTTON_STATE == CURRENT_LOCATION_BEARING){
+                    sensorOff();
+                }
             }
         });
     }
@@ -107,23 +145,24 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
                 SensorManager.getOrientation(R, orientation);
                 azimut = orientation[0]; // orientation contains: azimut, pitch and roll
                 float degrees = (float) Math.toDegrees(azimut);
+                gps = new GPSInfo(GoogleMapTest2.this);
                 if (gps.isGetLocation) {
                     currentLocation = new LatLng(gps.getLatitude(), gps.getLongitude()); // 현재 위치 값 가져오기
                 }
                 float brng = (360 - ((degrees + 360) % 360));
-
+                groundOverlay.setPosition(currentLocation);
                 cameraPosition = new CameraPosition(currentLocation, mMap.getCameraPosition().zoom, 0, degrees);
+                groundOverlay.setBearing(degrees);
+               // marker.setRotation(degrees);
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 200, null);
-                marker.setRotation(degrees);
-                mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
-                    @Override
-                    public void onCameraMoveStarted(int reason) {
-                        if (reason ==REASON_GESTURE) { // 구글맵을 드래그하여 움직였을 때
-                            Log.d("onCameraMoveStarted","REASON_GESTURE");
-                            sensorOff();
-                        }
+                if(isPlaceSearched){
+                    double distance = SphericalUtil.computeDistanceBetween(searchPlace, currentLocation);
+                    if(distance > radius ){
+                        Toast.makeText(this, "범위 밖에 있습니다.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "범위 안에 있습니다.", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
             }
         }
     }
@@ -134,10 +173,10 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        markerOptions = new MarkerOptions();
         mMap.getUiSettings().setCompassEnabled(false); // 나침반 없애기
 
         gps = new GPSInfo(GoogleMapTest2.this);
+
         if(gps.isGetLocation){
             currentLocation = new LatLng(gps.getLatitude(),gps.getLongitude());
         }else{
@@ -146,47 +185,70 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
 
-        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.dot_rader);
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.dot);
         Bitmap b=bitmapdraw.getBitmap();
         Bitmap navigationMarker = Bitmap.createScaledBitmap(b, 300, 300, false);
 
+        //LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+
+        BitmapDrawable rader=(BitmapDrawable)getResources().getDrawable(R.drawable.dot_rader);
+        Bitmap b_rader=rader.getBitmap();
+        final Bitmap raderBounds = Bitmap.createScaledBitmap(b_rader, 300, 300, false);
+
+        /*
         marker = mMap.addMarker(new MarkerOptions()
                 .position(currentLocation)
                 .icon(BitmapDescriptorFactory.fromBitmap(navigationMarker))
                 .flat(true));
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mSensorManager.unregisterListener(this.sensorEventListener); // 센서 리스너 등록해제
-    }
+        */
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+        groundOverlay = mMap.addGroundOverlay(new GroundOverlayOptions()
+                        .image(BitmapDescriptorFactory.fromBitmap(raderBounds))
+                        .position(currentLocation,100,100)
+                        .transparency((float) 0.1));
+        /*
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+            }
+        });
+         */
 
-    public void sensorOn(){
-        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-    public void sensorOff(){
-        mSensorManager.unregisterListener(this);
+        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int reason) {
+                if (reason ==REASON_GESTURE) { // 구글맵을 드래그하여 움직였을 때
+                    Log.d("onCameraMoveStarted","REASON_GESTURE");
+                    if(CURRENT_BUTTON_STATE == CURRENT_LOCATION){
+                        myHandler.sendEmptyMessage(CURRENT_LOCATION_DISABLED);
+                    }else if(CURRENT_BUTTON_STATE == CURRENT_LOCATION_BEARING){
+                        sensorOff();
+                    }
+                }else if (reason == REASON_API_ANIMATION){
+                    Log.d("onCameraMoveStarted","REASON_API_ANIMATION");
+                }else if(reason == REASON_DEVELOPER_ANIMATION){
+                    Log.d("onCameraMoveStarted","REASON_DEVELOPER_ANIMATION");
+                }
+            }
+        });
     }
 
     public void autoCompletePlace(View view) { // autoCompletePlace 검색 API를 불러온다.
 
-        // Initialize Places.
+        // 장소 Initialize .
         Places.initialize(getApplicationContext(), getString(R.string.google_map_api_key));
 
         // Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(this);
 
-        // Set the fields to specify which types of place data to return.
+        // 반환 할 데이터를 지정한다.
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ID, Place.Field.PHONE_NUMBER, Place.Field.RATING, Place.Field.WEBSITE_URI);
 
         // Start the autocomplete intent.
-        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(this);
+        Intent intent = new Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY, fields)
+                .setCountry("KR") //검색 필터 설정 : https://developers.google.com/places/android-sdk/autocomplete#filter_results_by_place_type
+                .build(this); // autoCompletePlace Search View를 띄워준다.
 
         startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
     }
@@ -208,8 +270,17 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
                     searchResultMarker = mMap.addMarker(new MarkerOptions()
                             .title(place.getName())
                             .position(place.getLatLng()));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
-                    mMap.animateCamera( CameraUpdateFactory.zoomTo( mMap.getCameraPosition().zoom ) );
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(),17.0f)); // 맵 이동과 줌을 동시에하는 코드
+
+                    mMap.addCircle(new CircleOptions()
+                            .center(place.getLatLng())
+                            .radius(radius)
+                            .strokeColor(getResources().getColor(R.color.lightBlue))
+                            .strokeWidth(3)
+                            //.fillColor(getResources().getColor(R.color.lightBlue)));
+                            .fillColor(0x2261CAFF)); //22 : 투명한 정도( 높이 올라갈수록 투명도는 낮아진다.), 나머지 뒤 6개 : Color의 RGB Hex값
+                    searchPlace = place.getLatLng();
+                    isPlaceSearched = true;
                 }
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -220,4 +291,43 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
             }
         }
     }
+
+    public static class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            // 다른 Thread에서 전달받은 Message 처리
+            if (msg.what == CURRENT_LOCATION) {
+                CURRENT_BUTTON_STATE = CURRENT_LOCATION;
+                bt_current_location.setImageResource(R.drawable.current_location);
+            }
+            else if(msg.what == CURRENT_LOCATION_BEARING){
+                CURRENT_BUTTON_STATE = CURRENT_LOCATION_BEARING;
+                bt_current_location.setImageResource(R.drawable.current_location_bearing);
+            }
+            else if(msg.what == CURRENT_LOCATION_DISABLED){
+                CURRENT_BUTTON_STATE = CURRENT_LOCATION_DISABLED;
+                bt_current_location.setImageResource(R.drawable.current_location_disabled);
+            }
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorOff(); // 센서 리스너 등록해제
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    public void sensorOn(){
+        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    public void sensorOff(){
+        myHandler.sendEmptyMessage(CURRENT_LOCATION_DISABLED);
+        mSensorManager.unregisterListener(this);
+    }
+
 }

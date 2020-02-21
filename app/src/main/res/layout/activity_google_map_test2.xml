@@ -34,11 +34,12 @@
 
     <ImageButton
         android:id="@+id/imageButton_current_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="right|bottom"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/current_location" />
+        android:background="@drawable/circle_radius"
+        android:src="@drawable/current_location_disabled" />
 
 </FrameLayout>

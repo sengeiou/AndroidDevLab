@@ -24,7 +24,7 @@ import com.example.technote.Dialog_Activity_Fragment.Dialog;
 import com.example.technote.Dialog_Activity_Fragment.FirstActivity;
 import com.example.technote.GoogleMap.GoogleMapTest2;
 import com.example.technote.GoogleMap.GoogleMapTest3;
-import com.example.technote.GoogleMap.SensorActivity;
+import com.example.technote.GoogleMap.MapsActivityCurrentPlace;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;
 import com.example.technote.Layout.DrawerLayout_Test;
@@ -145,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.menu_ble_exam1:
                                 startActivity(new Intent(getApplicationContext(), BleExam1_Main.class));
                                 break;
-                            case R.id.menu_ble_exam2:
-                                startActivity(new Intent(getApplicationContext(), SensorActivity.class));
-                                break;
                             default:
                                 break;
                         }
@@ -199,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         button11.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), GoogleMapTest3.class));
+                startActivity(new Intent(getApplicationContext(), MapsActivityCurrentPlace.class));
             }
         });
     }
