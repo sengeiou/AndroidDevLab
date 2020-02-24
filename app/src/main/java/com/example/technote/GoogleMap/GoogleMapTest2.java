@@ -369,7 +369,7 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     public void onProviderDisabled(String provider) {
         // TODO Auto-generated method stub
     }
- 
+
     // 현재 위치 값을 가져오는 함수
     public Location getLocation() {
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -387,8 +387,19 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
 
             }else {
                 this.isGetLocation = true;
-                //네트워크 정보로 부터 위치값 알아오기
-                if(isNetworkEnabled){
+                if (isGPSEnabled){ //GPS 센서 정보로 부터 위치값 알아오기(GPS를 우선순위로 둔다)
+                    if(location == null){
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
+                        if(locationManager!=null){
+                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if(location != null){
+                                currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                                groundOverlay.setPosition(currentLocation);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
+                            }
+                        }
+                    }
+                }else{ //네트워크 정보로 부터 위치값 알아오기
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
 
                     if(locationManager != null){
@@ -401,19 +412,6 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
                         }
                     }
                 }
-                if (isGPSEnabled){
-                    if(location == null){
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
-                        if(locationManager!=null){
-                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if(location != null){
-                                currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
-                                groundOverlay.setPosition(currentLocation);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
-                            }
-                        }
-                    }
-                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -423,7 +421,9 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     @Override
     protected void onPause() {
         super.onPause();
-        sensorOff(); // Sensor Listener, Location Listener 등록해제
+        if(CURRENT_BUTTON_STATE == CURRENT_LOCATION){
+            sensorOff(); // Sensor Listener, Location Listener 등록해제
+        }
         isPlaceSearched = false; // placeSearch 해제
     }
 
