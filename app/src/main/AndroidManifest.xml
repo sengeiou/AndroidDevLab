@@ -67,15 +67,14 @@
 
         <activity android:name=".GoogleMap.GoogleMapTest"></activity>
         <activity android:name=".GoogleMap.GoogleMapTest2"></activity>
-        <activity android:name=".GoogleMap.AndroidDetOrientationActivity"></activity>
-        <activity android:name=".GoogleMap.GoogleMapTest3"></activity>
+        <activity android:name=".GoogleMap.AutoCompletePlaceSample"></activity>
         <activity android:name=".GoogleMap.MapsActivityCurrentPlace"></activity>
 
         <activity android:name=".Handler.HandlerEx"></activity>
 
         <service android:name=".BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".GoogleMap.GPSDataReceiveService"></service>
-
+        <service android:name=".GoogleMap.GPSInfo"></service>
 
     </application>
 
@@ -86,6 +85,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 

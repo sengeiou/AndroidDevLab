@@ -11,12 +11,23 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build; import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
-class GPSInfo extends Service implements LocationListener {
+import com.clj.fastble.BleManager;
+import com.clj.fastble.callback.BleNotifyCallback;
+import com.clj.fastble.callback.BleWriteCallback;
+import com.clj.fastble.exception.BleException;
+import com.clj.fastble.utils.HexUtil;
+
+public class GPSInfo extends Service implements LocationListener {
     private final Context mContext; // 현재 GPS 사용유무
     boolean isGPSEnabled = false; // 네트워크 사용유무
     boolean isNetworkEnabled = false; // GPS 상태값
@@ -30,11 +41,26 @@ class GPSInfo extends Service implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
     protected LocationManager locationManager;
 
+    public static final int MSG_RECEIVE_CLIENT = 1;
+    public static final int MSG_SEND_TO_ACTIVITY = 2;
+
+    private Messenger mClient = null; // Activity에서 가져온 Messenger
+
     public GPSInfo(Context context) {
         this.mContext = context;
         getLocation();
     }
-
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // 서비스에서 가장 먼저 호출됨(최초에 한번만)
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // 서비스가 호출될 때마다 실행
+        getLocation();
+        return super.onStartCommand(intent, flags, startId);
+    }
     @TargetApi(23)
     public Location getLocation() {
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -127,11 +153,12 @@ class GPSInfo extends Service implements LocationListener {
         });
         alertDialog.show();
     }
+
     @Override public IBinder onBind(Intent arg0) {
         return null;
     }
-    public void onLocationChanged(Location location) { //
-        // TODO Auto-generated method stub
+    public void onLocationChanged(Location location) { // 실시간으로 업데이트
+        getLocation();
     }
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub

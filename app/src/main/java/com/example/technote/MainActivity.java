@@ -23,7 +23,6 @@ import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
 import com.example.technote.Dialog_Activity_Fragment.FirstActivity;
 import com.example.technote.GoogleMap.GoogleMapTest2;
-import com.example.technote.GoogleMap.GoogleMapTest3;
 import com.example.technote.GoogleMap.MapsActivityCurrentPlace;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;

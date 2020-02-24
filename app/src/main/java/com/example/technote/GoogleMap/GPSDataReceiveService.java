@@ -108,8 +108,6 @@ public class GPSDataReceiveService extends Service {
                     }
                 });
 
-
-
         return super.onStartCommand(intent, flags, startId);
     }
 
