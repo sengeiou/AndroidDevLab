@@ -1,4 +1,4 @@
-package com.example.technote.Handler;
+package com.example.technote.Thread_Handler;
 
 import android.os.Bundle;
 import android.os.Handler;

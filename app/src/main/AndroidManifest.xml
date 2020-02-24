@@ -70,7 +70,7 @@
         <activity android:name=".GoogleMap.AutoCompletePlaceSample"></activity>
         <activity android:name=".GoogleMap.MapsActivityCurrentPlace"></activity>
 
-        <activity android:name=".Handler.HandlerEx"></activity>
+        <activity android:name=".Thread_Handler.HandlerEx"></activity>
 
         <service android:name=".BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".GoogleMap.GPSDataReceiveService"></service>

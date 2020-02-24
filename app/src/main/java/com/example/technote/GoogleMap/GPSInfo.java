@@ -85,6 +85,7 @@ public class GPSInfo extends Service implements LocationListener {
                     if(locationManager != null){
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (location !=null){
+                            Log.d("getGPS","NETWORK_PROVIDER");
                             //위도 경도 저장
                             lat = location.getLatitude();
                             lon = location.getLongitude();
@@ -97,6 +98,7 @@ public class GPSInfo extends Service implements LocationListener {
                         if(locationManager!=null){
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if(location != null){
+                                Log.d("getGPS","GPS_PROVIDER");
                                 lat = location.getLatitude();
                                 lon = location.getLongitude();
                             }
