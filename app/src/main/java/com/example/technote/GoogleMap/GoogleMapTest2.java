@@ -369,7 +369,7 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     public void onProviderDisabled(String provider) {
         // TODO Auto-generated method stub
     }
-
+ 
     // 현재 위치 값을 가져오는 함수
     public Location getLocation() {
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
