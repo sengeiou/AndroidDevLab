@@ -246,7 +246,7 @@ public class Dialog extends Activity
         // 캘린더 인스턴스 생성
 
         // 다이얼로그 셋팅
-        AlertDialog.Builder alBuilder = new AlertDialog.Builder(Dialog.this);
+        AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
         final Button datePicker = new Button(this);
         datePicker.setText("날짜 선택");
         datePicker.setOnClickListener(new View.OnClickListener() {

@@ -17,7 +17,7 @@ public class FirstActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_handler_first_activity);
+        setContentView(R.layout.activity_thread_handler_first_activity);
         
         textView1=(TextView)findViewById(R.id.textView1);
         button1=(Button)findViewById(R.id.button1);

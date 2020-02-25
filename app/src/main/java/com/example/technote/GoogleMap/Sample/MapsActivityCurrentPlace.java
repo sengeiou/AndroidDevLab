@@ -1,4 +1,4 @@
-package com.example.technote.GoogleMap;
+package com.example.technote.GoogleMap.Sample;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;

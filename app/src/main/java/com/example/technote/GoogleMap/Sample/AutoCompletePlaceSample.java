@@ -1,4 +1,4 @@
-package com.example.technote.GoogleMap;
+package com.example.technote.GoogleMap.Sample;
 
 import androidx.appcompat.app.AppCompatActivity;
 

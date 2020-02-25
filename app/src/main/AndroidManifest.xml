@@ -65,16 +65,17 @@
         <activity android:name=".BLE.Exam1.BleExam1_Main"/>
         <activity android:name=".BLE.Exam1.ControlActivity"></activity>
 
+        <activity android:name=".GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain"></activity>
         <activity android:name=".GoogleMap.GoogleMapTest"></activity>
-        <activity android:name=".GoogleMap.GoogleMapTest2"></activity>
-        <activity android:name=".GoogleMap.AutoCompletePlaceSample"></activity>
-        <activity android:name=".GoogleMap.MapsActivityCurrentPlace"></activity>
+        <activity android:name=".GoogleMap.Sample.AutoCompletePlaceSample"></activity>
+        <activity android:name=".GoogleMap.Sample.MapsActivityCurrentPlace"></activity>
 
         <activity android:name=".Thread_Handler.HandlerEx"></activity>
-        <activity android:name=".Thread_Handler.MyAsyncTaskMain"></activity>
+        <activity android:name=".Thread_Handler.MyAsyncTaskExample_1"></activity>
+        <activity android:name=".Thread_Handler.MyAsyncTaskExample_2"></activity>
 
         <service android:name=".BLE.Exam1.BluetoothLeService" android:enabled="true"/>
-        <service android:name=".GoogleMap.GPSDataReceiveService"></service>
+        <service android:name=".GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService"></service>
         <service android:name=".GoogleMap.GPSInfo"></service>
 
     </application>
@@ -92,5 +93,11 @@
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
+    <!-- SD카드 기록 허용하는 퍼미션 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- SD카드 읽기 허용하는 퍼미션, 킷캣이후로는 필요없음 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- CPU 상태 유지 및 화면 꺼짐 제어를 위한 퍼미션 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 </manifest>

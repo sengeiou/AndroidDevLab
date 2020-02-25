@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".GoogleMap.GoogleMapTest" >
+    tools:context=".GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain" >
     <Button
         android:id="@+id/button_device_change"
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map"
-        tools:context=".GoogleMap.GoogleMapTest"
+        tools:context=".GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
 
 

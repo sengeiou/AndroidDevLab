@@ -4,7 +4,9 @@
         android:id="@+id/menu_handlerEx"
         android:title="HandlerEx" />
     <item
-        android:id="@+id/menu_my_asyncTask"
-        android:title="MyAsyncTask" />
-
+        android:id="@+id/menu_my_asyncTaskExample_1"
+        android:title="MyAsyncTaskExample_1" />
+    <item
+        android:id="@+id/menu_my_asyncTaskExample_2"
+        android:title="MyAsyncTaskExample_2" />
 </menu>

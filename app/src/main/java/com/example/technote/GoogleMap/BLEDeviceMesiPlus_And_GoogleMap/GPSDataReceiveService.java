@@ -1,4 +1,4 @@
-package com.example.technote.GoogleMap;
+package com.example.technote.GoogleMap.BLEDeviceMesiPlus_And_GoogleMap;
 
 import android.app.Service;
 import android.content.Intent;

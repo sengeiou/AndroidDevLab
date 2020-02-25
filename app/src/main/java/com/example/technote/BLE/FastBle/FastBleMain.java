@@ -46,7 +46,7 @@ import com.clj.fastble.utils.HexUtil;
 import com.example.technote.BLE.FastBle.adapter.DeviceAdapter;
 import com.example.technote.BLE.FastBle.comm.ObserverManager;
 import com.example.technote.BLE.FastBle.operation.OperationActivity;
-import com.example.technote.GoogleMap.GoogleMapTest;
+import com.example.technote.GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain;
 import com.example.technote.MainActivity;
 import com.example.technote.R;
 
@@ -88,7 +88,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
         google_map.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FastBleMain.this, GoogleMapTest.class);
+                Intent intent = new Intent(FastBleMain.this, MesiPlusGoogleMapTestMain.class);
                 intent.putExtra("key_data",getBleDevice());
                 startActivity(intent);
             }
@@ -439,7 +439,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             google_map.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(FastBleMain.this, GoogleMapTest.class);
+                    Intent intent = new Intent(FastBleMain.this, MesiPlusGoogleMapTestMain.class);
                     intent.putExtra("value",value);
                     startActivity(intent);
                 }

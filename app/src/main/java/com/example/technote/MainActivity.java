@@ -22,8 +22,7 @@ import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.Dialog_Activity_Fragment.Dialog;
 import com.example.technote.Dialog_Activity_Fragment.FirstActivity;
-import com.example.technote.GoogleMap.GoogleMapTest2;
-import com.example.technote.GoogleMap.MapsActivityCurrentPlace;
+import com.example.technote.GoogleMap.GoogleMapTest;
 import com.example.technote.Layout.ConstraintLayout_Test;
 import com.example.technote.Layout.CoordinatorLayout_Test;
 import com.example.technote.Layout.DrawerLayout_Test;
@@ -31,8 +30,9 @@ import com.example.technote.Layout.FrameLayout_Test;
 import com.example.technote.Layout.LinearLayout_Test;
 import com.example.technote.Layout.RelativeLayoutTest;
 import com.example.technote.Layout.TableLayout_Test;
-import com.example.technote.Thread_Handler.MyAsyncTask;
-import com.example.technote.Thread_Handler.MyAsyncTaskMain;
+import com.example.technote.Thread_Handler.HandlerEx;
+import com.example.technote.Thread_Handler.MyAsyncTaskExample_1;
+import com.example.technote.Thread_Handler.MyAsyncTaskExample_2;
 
 public class MainActivity extends AppCompatActivity {
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), GoogleMapTest2.class));
+                startActivity(new Intent(getApplicationContext(), GoogleMapTest.class));
             }
         });
         //Database
@@ -205,10 +205,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.menu_handlerEx:
-                                startActivity(new Intent(getApplicationContext(), AddressBook.class));
+                                startActivity(new Intent(getApplicationContext(), HandlerEx.class));
                                 break;
-                            case R.id.menu_my_asyncTask:
-                                startActivity(new Intent(getApplicationContext(), MyAsyncTaskMain.class));
+                            case R.id.menu_my_asyncTaskExample_1:
+                                startActivity(new Intent(getApplicationContext(), MyAsyncTaskExample_1.class));
+                                break;
+                            case R.id.menu_my_asyncTaskExample_2:
+                                startActivity(new Intent(getApplicationContext(), MyAsyncTaskExample_2.class));
                                 break;
                             default:
                                 break;

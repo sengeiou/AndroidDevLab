@@ -25,7 +25,7 @@ public class HandlerEx extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_handler_ex);
+        setContentView(R.layout.activity_thread_handler_ex);
 
         sResultTextView = findViewById(R.id.resultTextView);
         mNormalButton = findViewById(R.id.normalButton);
