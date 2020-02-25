@@ -108,57 +108,12 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
             public void onClick(View v) { // 현재위치 버튼 클릭 리스너
                 if(CURRENT_BUTTON_STATE == CURRENT_LOCATION_DISABLED){ // 현재 위치 버튼이 CURRENT_LOCATION_DISABLED에서 눌렀을 때
                     myHandler.sendEmptyMessage(CURRENT_LOCATION);
-                    if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                            && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(GoogleMapTest2.this, "GPS데이터를 잡을 수 없습니다. 네트워크와 GPS를 확인하세요.", Toast.LENGTH_SHORT).show();
-                    }
-                    try {
-                        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-                        //GPS 정보 가져오기
-                        isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                        //현재 네트워크 상태 값 알아오기
-                        isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-                        if(!isGPSEnabled && !isNetworkEnabled){ //GPS와 네트워크 사용이 가능하지 않을 때
-                            Toast.makeText(GoogleMapTest2.this, "//GPS와 네트워크 사용이 가능하지 않을 때", Toast.LENGTH_SHORT).show();
-                        }else {
-                            if (isGPSEnabled){ //GPS 센서 정보로 부터 위치값 알아오기(GPS를 우선순위로 둔다)
-                                if(locationManager!=null){
-                                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                                    Log.d("getGPS","GPS_PROVIDER");
-                                    if(location != null){
-                                        currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
-                                        groundOverlay.setPosition(currentLocation);
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
-                                    }
-                                }
-                            }else{ //네트워크 정보로 부터 위치값 알아오기
-                                if(locationManager != null){
-                                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                                    Log.d("getGPS","NETWORK_PROVIDER");
-                                    if (location !=null){
-                                        //위도 경도 저장
-                                        currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
-                                        groundOverlay.setPosition(currentLocation);
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
-                                    }
-                                }
-                            }
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    if(isPlaceSearched){
-                        double distance = SphericalUtil.computeDistanceBetween(searchPlace, currentLocation); // 두 사이의 반경을 구한다.
-                        if(distance > radius ){
-                            Toast.makeText(getApplicationContext(), "범위 밖에 있습니다.", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(), "범위 안에 있습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                    getCurrentLocation();
+                    checkCircleIn();
                 }else if(CURRENT_BUTTON_STATE == CURRENT_LOCATION){ //현재 위치 버튼이 CURRENT_LOCATION에서 눌렀을 때
                     myHandler.sendEmptyMessage(CURRENT_LOCATION_BEARING);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, mMap.getCameraPosition().zoom));
+                    setCurrentLocationListener();
+                   // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, mMap.getCameraPosition().zoom));
                     sensorOn();
                 }else if(CURRENT_BUTTON_STATE == CURRENT_LOCATION_BEARING){ //현재 위치 버튼이 CURRENT_LOCATION_BEARING에서 눌렀을 때
                     sensorOff();
@@ -202,13 +157,8 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
         mMap = googleMap;
         mMap.getUiSettings().setCompassEnabled(false); // 나침반 없애기
 
-        gps = new GPSInfo(GoogleMapTest2.this);
-
-        if(gps.isGetLocation){
-            currentLocation = new LatLng(gps.getLatitude(),gps.getLongitude());
-        }else{
-            currentLocation = new LatLng(37.56, 126.97);
-        }
+        gps = new GPSInfo(this);
+        currentLocation = new LatLng(gps.getLatitude(),gps.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,17.0f)); // 맵 이동과 줌을 동시에하는 코드
 
         BitmapDrawable rader=(BitmapDrawable)getResources().getDrawable(R.drawable.dot_rader);
@@ -308,7 +258,6 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
                 CURRENT_BUTTON_STATE = CURRENT_LOCATION;
                 bt_current_location.setImageResource(R.drawable.current_location);
                 Log.d("CURRENT_BUTTON_STATE",String.valueOf(CURRENT_BUTTON_STATE));
-
             }
             else if(msg.what == CURRENT_LOCATION_BEARING){
                 CURRENT_BUTTON_STATE = CURRENT_LOCATION_BEARING;
@@ -324,60 +273,11 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
     }
 
     // LocationListener 부분
+    @Override
     public void onLocationChanged(Location location) { // 실시간으로 업데이트
-
-        try {
-            //GPS 정보 가져오기
-            if(!location.getProvider().equals(LocationManager.GPS_PROVIDER) && !location.getProvider().equals(LocationManager.NETWORK_PROVIDER)){ //GPS와 네트워크 사용이 가능하지 않을 때
-            }
-            else { // GPS, Network 중에 하나라도 사용 가능할 때
-                //네트워크 정보로 부터 위치값 알아오기
-                //GPS 데이터를 우선순위로 둔다.
-                if (location.getProvider().equals(LocationManager.GPS_PROVIDER)){ //GPS 센서 데이터
-                    if(location != null){
-                        Log.d("getGPS","GPS_PROVIDER");
-                        currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
-                        groundOverlay.setPosition(currentLocation);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
-                    }
-                }
-                else{ // 네트워크 GPS 데이터
-                    if(location != null) {
-                        Log.d("getGPS","GPS_PROVIDER");
-                        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        groundOverlay.setPosition(currentLocation);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(), mMap.getCameraPosition().zoom));
-                    }
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        if(isPlaceSearched){
-            double distance = SphericalUtil.computeDistanceBetween(this.searchPlace, this.currentLocation);
-            if(distance > radius ){
-                Toast.makeText(getApplicationContext(), "범위 밖에 있습니다.", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getApplicationContext(), "범위 안에 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-    }
-    public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
-    }
-    public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
-    }
-
-    // 현재 위치 값을 가져오는 함수
-    public Location getLocation() {
-        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return null;
+        Log.d("getGPS","onLocationChanged_In");
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }
         try {
             locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
@@ -387,28 +287,127 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if(!isGPSEnabled && !isNetworkEnabled){ //GPS와 네트워크 사용이 가능하지 않을 때
-
+                Toast.makeText(GoogleMapTest2.this, "getCurrentLocationListener GPS와 네트워크 사용이 가능하지 않을 때", Toast.LENGTH_SHORT).show();
             }else {
                 this.isGetLocation = true;
                 if (isGPSEnabled){ //GPS 센서 정보로 부터 위치값 알아오기(GPS를 우선순위로 둔다)
-                    if(location == null){
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
-                        if(locationManager!=null){
-                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            Log.d("getGPS","GPS_PROVIDER");
-                            if(location != null){
-                                currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
-                                groundOverlay.setPosition(currentLocation);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
-                            }
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
+                    if(locationManager!=null){
+                        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        Log.d("getGPS","onLocationChanged_GPS_PROVIDER");
+                        if(location != null){
+                            currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                            groundOverlay.setPosition(currentLocation);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
+                            checkCircleIn();
                         }
                     }
                 }else{ //네트워크 정보로 부터 위치값 알아오기
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
-
                     if(locationManager != null){
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        Log.d("getGPS","NETWORK_PROVIDER");
+                        Log.d("getGPS","onLocationChanged_NETWORK_PROVIDER");
+                        if (location !=null){
+                            //위도 경도 저장
+                            currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                            groundOverlay.setPosition(currentLocation);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
+                            checkCircleIn();
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+    }
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    // 현재 위치 값을 가져오는 함수
+    public void setCurrentLocationListener() {
+        //Log.d("getGPS","getCurrentLocationListener_In");
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+        }
+        try {
+            locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+            //GPS 정보 가져오기
+            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            //현재 네트워크 상태 값 알아오기
+            isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if(!isGPSEnabled && !isNetworkEnabled){ //GPS와 네트워크 사용이 가능하지 않을 때
+
+            }else {
+                this.isGetLocation = true;
+                //네트워크 정보로 부터 위치값 알아오기
+                if(isNetworkEnabled){
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
+                    if(locationManager != null){
+                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location !=null){
+                            Log.d("getGPS","setCurrentLocationListener_NETWORK_PROVIDER");
+                            //위도 경도 저장
+                        }
+                    }
+                }
+                if (isGPSEnabled){
+                    if(location == null){
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
+                        if(locationManager!=null){
+                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if(location != null){
+                                Log.d("getGPS","setCurrentLocationListener_GPS_PROVIDER");
+                            }
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void getCurrentLocation(){
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(GoogleMapTest2.this, "GPS 데이터를 잡을 수 없습니다. 네트워크와 GPS를 확인하세요.", Toast.LENGTH_SHORT).show();
+        }
+        try {
+            locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+            //GPS 정보 가져오기
+            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            //현재 네트워크 상태 값 알아오기
+            isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if(!isGPSEnabled && !isNetworkEnabled){ //GPS와 네트워크 사용이 가능하지 않을 때
+                Toast.makeText(GoogleMapTest2.this, "//GPS와 네트워크 사용이 가능하지 않을 때", Toast.LENGTH_SHORT).show();
+            }else {
+                if (isGPSEnabled){ //GPS 센서 정보로 부터 위치값 알아오기(GPS를 우선순위로 둔다)
+                    if(locationManager!=null){
+                        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        Log.d("getGPS","getCurrentLocation_GPS_PROVIDER");
+                        if(location != null){
+                            currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                            groundOverlay.setPosition(currentLocation);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlay.getPosition(),mMap.getCameraPosition().zoom));
+                        }
+                    }
+                }else{ //네트워크 정보로 부터 위치값 알아오기
+                    if(locationManager != null){
+                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        Log.d("getGPS","getCurrentLocation_NETWORK_PROVIDER");
                         if (location !=null){
                             //위도 경도 저장
                             currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
@@ -421,8 +420,8 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
         }catch (Exception e){
             e.printStackTrace();
         }
-        return location;
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -445,5 +444,15 @@ public class GoogleMapTest2 extends AppCompatActivity implements OnMapReadyCallb
         myHandler.sendEmptyMessage(CURRENT_LOCATION_DISABLED);
         locationManager.removeUpdates(this);
         mSensorManager.unregisterListener(this);
+    }
+    public void checkCircleIn(){
+        if(isPlaceSearched){
+            double distance = SphericalUtil.computeDistanceBetween(searchPlace, currentLocation); // 두 사이의 반경을 구한다.
+            if(distance > radius ){
+                Toast.makeText(getApplicationContext(), "범위 밖에 있습니다.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "범위 안에 있습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

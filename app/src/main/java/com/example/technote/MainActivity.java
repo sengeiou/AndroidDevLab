@@ -31,6 +31,8 @@ import com.example.technote.Layout.FrameLayout_Test;
 import com.example.technote.Layout.LinearLayout_Test;
 import com.example.technote.Layout.RelativeLayoutTest;
 import com.example.technote.Layout.TableLayout_Test;
+import com.example.technote.Thread_Handler.MyAsyncTask;
+import com.example.technote.Thread_Handler.MyAsyncTaskMain;
 
 public class MainActivity extends AppCompatActivity {
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11;
@@ -195,7 +197,26 @@ public class MainActivity extends AppCompatActivity {
         button11.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MapsActivityCurrentPlace.class));
+                PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+
+                getMenuInflater().inflate(R.menu.menu_thread_handler, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_handlerEx:
+                                startActivity(new Intent(getApplicationContext(), AddressBook.class));
+                                break;
+                            case R.id.menu_my_asyncTask:
+                                startActivity(new Intent(getApplicationContext(), MyAsyncTaskMain.class));
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();//Popup Menu 보이기
             }
         });
     }

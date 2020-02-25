@@ -140,7 +140,7 @@
             android:id="@+id/Button11"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="  11. Handler"
+            android:text="  11. Thread_Handler"
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"

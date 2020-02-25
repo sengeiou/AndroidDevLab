@@ -58,7 +58,6 @@ public class GPSInfo extends Service implements LocationListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 서비스가 호출될 때마다 실행
-        getLocation();
         return super.onStartCommand(intent, flags, startId);
     }
     @TargetApi(23)
@@ -80,12 +79,13 @@ public class GPSInfo extends Service implements LocationListener {
                 this.isGetLocation = true;
                 //네트워크 정보로 부터 위치값 알아오기
                 if(isNetworkEnabled){
+
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,this);
 
                     if(locationManager != null){
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (location !=null){
-                            Log.d("getGPS","NETWORK_PROVIDER");
+                            Log.d("getGPS","GPSInfo_NETWORK_PROVIDER");
                             //위도 경도 저장
                             lat = location.getLatitude();
                             lon = location.getLongitude();
@@ -98,7 +98,7 @@ public class GPSInfo extends Service implements LocationListener {
                         if(locationManager!=null){
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if(location != null){
-                                Log.d("getGPS","GPS_PROVIDER");
+                                Log.d("getGPS","GPSInfo_GPS_PROVIDER");
                                 lat = location.getLatitude();
                                 lon = location.getLongitude();
                             }
@@ -159,8 +159,9 @@ public class GPSInfo extends Service implements LocationListener {
     @Override public IBinder onBind(Intent arg0) {
         return null;
     }
+
     public void onLocationChanged(Location location) { // 실시간으로 업데이트
-        getLocation();
+        Log.d("getGPS","GPSInfo_onLocationChanged");
     }
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
