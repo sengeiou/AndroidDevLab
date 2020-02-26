@@ -9,4 +9,7 @@
     <item
         android:id="@+id/menu_my_asyncTaskExample_2"
         android:title="MyAsyncTaskExample_2" />
+    <item
+        android:id="@+id/menu_thread_network_example_1"
+        android:title="ThreadNetworkExample_1" />
 </menu>

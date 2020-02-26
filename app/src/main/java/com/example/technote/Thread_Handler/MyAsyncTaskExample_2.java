@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.technote.MainActivity;
 import com.example.technote.R;
 
 import java.io.IOException;

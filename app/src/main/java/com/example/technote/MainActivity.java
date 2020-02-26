@@ -33,6 +33,7 @@ import com.example.technote.Layout.TableLayout_Test;
 import com.example.technote.Thread_Handler.HandlerEx;
 import com.example.technote.Thread_Handler.MyAsyncTaskExample_1;
 import com.example.technote.Thread_Handler.MyAsyncTaskExample_2;
+import com.example.technote.Thread_Handler.ThreadNetworkExample_1;
 
 public class MainActivity extends AppCompatActivity {
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11;
@@ -212,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_my_asyncTaskExample_2:
                                 startActivity(new Intent(getApplicationContext(), MyAsyncTaskExample_2.class));
+                                break;
+                            case R.id.menu_thread_network_example_1:
+                                startActivity(new Intent(getApplicationContext(), ThreadNetworkExample_1.class));
                                 break;
                             default:
                                 break;

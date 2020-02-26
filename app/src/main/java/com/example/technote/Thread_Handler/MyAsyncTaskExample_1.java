@@ -64,7 +64,7 @@ public class MyAsyncTaskExample_1 extends AppCompatActivity {
     // MyAsyncTask is used to demonstrate async task process.
     private class MyAsyncTask extends AsyncTask<Integer, Integer, String>{
 
-        // onPreExecute() is used to do some UI operation before performing background tasks.
+        // Main Thread에서 실행되며, doInBackground 메소드 전에 호출 (초기화 작업을 하는데 사용)
         @Override
         protected void onPreExecute() {
             asyncTaskLogTextView.setText("Loading");
@@ -73,6 +73,9 @@ public class MyAsyncTaskExample_1 extends AppCompatActivity {
 
         // doInBackground(String... strings) is used to execute background task, can not modify UI component in this method.
         // It return a String object which can be used in onPostExecute() method.
+        // 백그라운드 상에 처리, 이곳에서 UI 처리하면 오류발생
+        // execute 메소드를 호출 시 전달한 인자를 파라메터로 받게 된다.
+        // 값을 리턴하면 onPostExecute 메소드에서 받는다.
         @Override
         protected String doInBackground(Integer... inputParams) {
 
@@ -118,6 +121,8 @@ public class MyAsyncTaskExample_1 extends AppCompatActivity {
         }
 
         // onProgressUpdate is used to update async task progress info.
+        // doInBackground 메소드에서 publishProgress 메소드를 호출함으로써 Main Thread에서 실행.
+        // publishProgress 메소드를 받아서 UI 처리.
         @Override
         protected void onProgressUpdate(Integer... values) {
             Log.i(ASYNC_TASK_TAG, "onProgressUpdate(" + values + ") is called");
@@ -126,6 +131,8 @@ public class MyAsyncTaskExample_1 extends AppCompatActivity {
         }
 
         // onPostExecute() is used to update UI component and show the result after async task execute.
+        // Main Thread에서 실행되며, doInBackground 메소드 종류 후 호출.
+        // doInBackground 메소드에서 리턴한 값을 받는다.
         @Override
         protected void onPostExecute(String result) {
             Log.i(ASYNC_TASK_TAG, "onPostExecute(" + result + ") is invoked.");
@@ -139,6 +146,7 @@ public class MyAsyncTaskExample_1 extends AppCompatActivity {
         }
 
         // onCancelled() is called when the async task is cancelled.
+        // doInBackground 메소드에서 수행중인 작업이 취소되면 호출.
         @Override
         protected void onCancelled(String result) {
             Log.i(ASYNC_TASK_TAG, "onCancelled(" + result + ") is invoked.");
