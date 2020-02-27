@@ -30,13 +30,16 @@ import com.example.technote.Layout.FrameLayout_Test;
 import com.example.technote.Layout.LinearLayout_Test;
 import com.example.technote.Layout.RelativeLayoutTest;
 import com.example.technote.Layout.TableLayout_Test;
+import com.example.technote.Network.FANExample;
+import com.example.technote.Network.OKHttpExample;
+import com.example.technote.Network.VolleyExample;
 import com.example.technote.Thread_Handler.HandlerEx;
 import com.example.technote.Thread_Handler.MyAsyncTaskExample_1;
 import com.example.technote.Thread_Handler.MyAsyncTaskExample_2;
 import com.example.technote.Thread_Handler.ThreadNetworkExample_1;
 
 public class MainActivity extends AppCompatActivity {
-    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11;
+    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         button9 = (Button) findViewById(R.id.Button9);
         button10 = (Button) findViewById(R.id.button10);
         button11 = (Button) findViewById(R.id.Button11);
+        button12 = (Button) findViewById(R.id.Button12);
 
         // Layout
         button1.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +199,30 @@ public class MainActivity extends AppCompatActivity {
                 popup.show();//Popup Menu 보이기
             }
         });
+        button8.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                /*
+                PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+
+                getMenuInflater().inflate(R.menu.menu_network, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_ok_http_example:
+                                startActivity(new Intent(getApplicationContext(), OKHttpExample.class));
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();//Popup Menu 보이기
+                */
+            }
+        });
         button11.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -216,6 +244,34 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_thread_network_example_1:
                                 startActivity(new Intent(getApplicationContext(), ThreadNetworkExample_1.class));
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();//Popup Menu 보이기
+            }
+        });
+        button12.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+
+                getMenuInflater().inflate(R.menu.menu_network, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_ok_http_example:
+                                startActivity(new Intent(getApplicationContext(), OKHttpExample.class));
+                                break;
+                            case R.id.menu_fan_example:
+                                startActivity(new Intent(getApplicationContext(), FANExample.class));
+                                break;
+                            case R.id.menu_volley_example:
+                                startActivity(new Intent(getApplicationContext(), VolleyExample.class));
                                 break;
                             default:
                                 break;

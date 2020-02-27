@@ -20,6 +20,4 @@
         android:id="@+id/map"
         tools:context=".GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
-
-
 </FrameLayout>

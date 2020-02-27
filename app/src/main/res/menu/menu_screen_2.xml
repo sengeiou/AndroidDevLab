@@ -37,5 +37,5 @@
         android:title="" />
     <item
         app:showAsAction="always"
-        android:title="" />\
+        android:title="" />
 </menu>
