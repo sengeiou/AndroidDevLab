@@ -29,7 +29,7 @@ public class VolleyExample extends AppCompatActivity {
 
         txtShowTextResult = findViewById(R.id.txtDisplay);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(this); //Queue Start
 
         final String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
 
@@ -41,7 +41,7 @@ public class VolleyExample extends AppCompatActivity {
                     StringBuilder formattedResult = new StringBuilder();
                     JSONArray responseJSONArray = response.getJSONArray("results");
                     for (int i = 0; i < responseJSONArray.length(); i++) {
-                        formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + "=> \t" + responseJSONArray.getJSONObject(i).get("rating"));
+                        formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + " => \t" + responseJSONArray.getJSONObject(i).get("rating"));
                     }
                     txtShowTextResult.setText("List of Restaurants \n" + " Name" + "\t Rating \n" + formattedResult);
                 } catch (JSONException e) {

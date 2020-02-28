@@ -9,4 +9,10 @@
     <item
         android:id="@+id/menu_volley_example"
         android:title="VolleyExample" />
+    <item
+        android:id="@+id/menu_android_async_http_example"
+        android:title="AndroidAsyncHttpExample" />
+    <item
+        android:id="@+id/menu_retrofit_example"
+        android:title="RetrofitExample" />
 </menu>

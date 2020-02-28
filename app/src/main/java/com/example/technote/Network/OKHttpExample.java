@@ -30,7 +30,7 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
     TextView txtString;
     Button asynchronousGet, synchronousGet, asynchronousPOST;
 
-    public String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
+    private String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
     public String postUrl = "https://reqres.in/api/users/";
     public String postBody = "{\n" +
             "    \"name\": \"morpheus\",\n" +
@@ -106,9 +106,9 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
                             JSONObject jsonObject = new JSONObject(myResponse);
                             JSONArray responseJSONArray = jsonObject.getJSONArray("results");
                             for (int i = 0; i < responseJSONArray.length(); i++) {
-                                formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + "=> \t" + responseJSONArray.getJSONObject(i).get("rating"));
+                                formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + " => \t" + responseJSONArray.getJSONObject(i).get("rating"));
                             }
-                            txtString.setText("List of Restaurants \n" + " Name" + "\t Rating \n" + formattedResult);
+                            txtString.setText("List of Restaurants \n" + " Name" + "\tRating \n" + formattedResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -139,7 +139,6 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
                     e.printStackTrace();
                 }
                 break;
-
         }
     }
 
@@ -155,6 +154,7 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
             Request request = builder.build();
 
             try {
+                //Post to a Server
                 Response response = client.newCall(request).execute();
                 return response.body().string();
             } catch (Exception e) {

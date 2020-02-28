@@ -30,8 +30,10 @@ import com.example.technote.Layout.FrameLayout_Test;
 import com.example.technote.Layout.LinearLayout_Test;
 import com.example.technote.Layout.RelativeLayoutTest;
 import com.example.technote.Layout.TableLayout_Test;
+import com.example.technote.Network.AndroidAsyncHttpExample;
 import com.example.technote.Network.FANExample;
 import com.example.technote.Network.OKHttpExample;
+import com.example.technote.Network.RetrofitExample.RetrofitExample;
 import com.example.technote.Network.VolleyExample;
 import com.example.technote.Thread_Handler.HandlerEx;
 import com.example.technote.Thread_Handler.MyAsyncTaskExample_1;
@@ -272,6 +274,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_volley_example:
                                 startActivity(new Intent(getApplicationContext(), VolleyExample.class));
+                                break;
+                            case R.id.menu_android_async_http_example:
+                                startActivity(new Intent(getApplicationContext(), AndroidAsyncHttpExample.class));
+                                break;
+                            case R.id.menu_retrofit_example:
+                                startActivity(new Intent(getApplicationContext(), RetrofitExample.class));
                                 break;
                             default:
                                 break;
