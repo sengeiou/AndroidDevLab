@@ -30,7 +30,8 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
     TextView txtString;
     Button asynchronousGet, synchronousGet, asynchronousPOST;
 
-    private String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
+    private String url =
+            "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
     public String postUrl = "https://reqres.in/api/users/";
     public String postBody = "{\n" +
             "    \"name\": \"morpheus\",\n" +
@@ -46,7 +47,7 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
 
         asynchronousGet = (Button) findViewById(R.id.asynchronousGet);
         synchronousGet = (Button) findViewById(R.id.synchronousGet);
-        asynchronousPOST = (Button) findViewById(R.id.asynchronousPost);
+        //asynchronousPOST = (Button) findViewById(R.id.asynchronousPost);
 
         asynchronousGet.setOnClickListener(this);
         synchronousGet.setOnClickListener(this);
@@ -55,7 +56,7 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
         txtString = (TextView) findViewById(R.id.txtString);
         txtString.setMovementMethod(new ScrollingMovementMethod());
     }
-
+    /*
     void postRequest(String postUrl, String postBody) throws IOException {
 
         OkHttpClient client = new OkHttpClient();
@@ -79,11 +80,13 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+     */
     void run() throws IOException {
 
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
+                .get()
                 .url(url)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -121,24 +124,26 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.asynchronousGet:
+            case R.id.asynchronousGet: //비동기 : 비동기적으로 Task를 실행하면 먼저 실행된 Task가 종료되지 않아도 다른 Task를 실행할 수 있다.
                 try {
                     run();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.synchronousGet:
+            case R.id.synchronousGet: // 동기 : 동기적으로 Task를 싱행한 후, 다른 Task를 실행하려면 먼저 실행된 Task가 종료되기를 기다려야 한다.
                 OkHttpHandler okHttpHandler = new OkHttpHandler();
                 okHttpHandler.execute(url);
                 break;
-            case R.id.asynchronousPost:
+                /*
+            case R.id.asynchronousPost: // 비동기
                 try {
                     postRequest(postUrl, postBody);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
+                 */
         }
     }
 

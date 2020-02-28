@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface RetrofitService {
-    @GET("users/{user}/repos")
-    Call<ArrayList<JsonObject>> getListRepos(@Path("user") String id);
+    @GET("json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o")
+    Call<JsonObject> getMyJsonObject();
 }

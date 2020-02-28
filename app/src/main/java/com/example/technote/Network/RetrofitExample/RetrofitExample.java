@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.technote.R;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,8 +20,6 @@ import retrofit2.Response;
 public class RetrofitExample extends AppCompatActivity {
     private TextView textView;
 
-    private static final String url =
-            "https://api.github.com/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +27,26 @@ public class RetrofitExample extends AppCompatActivity {
 
         textView = (TextView)findViewById(R.id.retrofit_text);
 
-        Call<ArrayList<JsonObject>> res = NetRetrofit.getInstance().getService().getListRepos("YunJaePark3908");
-        res.enqueue(new Callback<ArrayList<JsonObject>>() {
+        Call<JsonObject> res = NetRetrofit.getInstance().getService().getMyJsonObject();
+        res.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("RequestResult","RetrofitExample, Type : get, Result : onResponse");
-                if (response.body() != null)
-                    textView.setText(response.body().toString());
+                try {
+                    StringBuilder formattedResult = new StringBuilder();
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    JSONArray responseJSONArray = jsonObject.getJSONArray("results");
+                    for (int i = 0; i < responseJSONArray.length(); i++) {
+                        formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + " => \t" + responseJSONArray.getJSONObject(i).get("rating"));
+                    }
+                    textView.setText(formattedResult);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("RequestResult","RetrofitExample, Type : get, Result : onFailure, Error Message : " + t.getMessage());
                 Log.e("Err", t.getMessage());
             }

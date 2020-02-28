@@ -76,6 +76,7 @@
         <activity android:name=".Network.FANExample"></activity>
         <activity android:name=".Network.AndroidAsyncHttpExample"></activity>
         <activity android:name=".Network.RetrofitExample.RetrofitExample"></activity>
+        <activity android:name=".Network.RestAPIExample"></activity>
 
         <activity android:name=".Thread_Handler.HandlerEx"></activity>
         <activity android:name=".Thread_Handler.MyAsyncTaskExample_1"></activity>

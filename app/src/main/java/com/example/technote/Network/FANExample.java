@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.technote.R;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -44,10 +43,20 @@ public class FANExample extends AppCompatActivity {
                 //.setTag("test")
                 .setPriority(Priority.MEDIUM)
                 .build()
-                .getAsJSONArray(new JSONArrayRequestListener() {
+                .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         Log.d("onResponse","FANExample Type : get, result: onResponse");
+                        try {
+                            StringBuilder formattedResult = new StringBuilder();
+                            JSONArray responseJSONArray = response.getJSONArray("results");
+                            for (int i = 0; i < responseJSONArray.length(); i++) {
+                                formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + " => \t" + responseJSONArray.getJSONObject(i).get("rating"));
+                            }
+                            textView.setText("List of Restaurants \n" + " Name" + "\tRating \n" + formattedResult);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     @Override
                     public void onError(ANError error) {
@@ -56,6 +65,7 @@ public class FANExample extends AppCompatActivity {
                     }
                 });
 
+        /* post code
         AndroidNetworking.post(url)
                 //.addBodyParameter("firstname", "Amit")
                 //.addBodyParameter("lastname", "Shekhar")
@@ -84,5 +94,7 @@ public class FANExample extends AppCompatActivity {
                         Log.d("RequestResult","FANExample Type : post, result : onError" + error.toString());
                     }
                 });
+
+         */
     }
 }

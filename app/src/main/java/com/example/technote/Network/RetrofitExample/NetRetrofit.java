@@ -5,6 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetRetrofit {
     private static NetRetrofit ourInstance = new NetRetrofit();
+    private static final String url =
+            "https://maps.googleapis.com/maps/api/place/nearbysearch/";
     public static NetRetrofit getInstance() {
         return ourInstance;
     }
@@ -12,7 +14,7 @@ public class NetRetrofit {
     }
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
+            .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create()) // 파싱등록
             .build();
 

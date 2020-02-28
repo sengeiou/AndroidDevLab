@@ -15,4 +15,8 @@
     <item
         android:id="@+id/menu_retrofit_example"
         android:title="RetrofitExample" />
+    <item
+        android:id="@+id/menu_rest_api_example"
+        android:title="RestAPIExample" />
+
 </menu>

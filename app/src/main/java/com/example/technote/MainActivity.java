@@ -33,6 +33,7 @@ import com.example.technote.Layout.TableLayout_Test;
 import com.example.technote.Network.AndroidAsyncHttpExample;
 import com.example.technote.Network.FANExample;
 import com.example.technote.Network.OKHttpExample;
+import com.example.technote.Network.RestAPIExample;
 import com.example.technote.Network.RetrofitExample.RetrofitExample;
 import com.example.technote.Network.VolleyExample;
 import com.example.technote.Thread_Handler.HandlerEx;
@@ -280,6 +281,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_retrofit_example:
                                 startActivity(new Intent(getApplicationContext(), RetrofitExample.class));
+                                break;
+                            case R.id.menu_rest_api_example:
+                                startActivity(new Intent(getApplicationContext(), RestAPIExample.class));
                                 break;
                             default:
                                 break;
