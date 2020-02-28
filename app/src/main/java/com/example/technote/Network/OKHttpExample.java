@@ -51,7 +51,7 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
 
         asynchronousGet.setOnClickListener(this);
         synchronousGet.setOnClickListener(this);
-        asynchronousPOST.setOnClickListener(this);
+//        asynchronousPOST.setOnClickListener(this);
 
         txtString = (TextView) findViewById(R.id.txtString);
         txtString.setMovementMethod(new ScrollingMovementMethod());
