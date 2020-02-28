@@ -41,6 +41,6 @@ public class RetrofitExample extends AppCompatActivity {
                 Log.d("RequestResult","RetrofitExample, Type : get, Result : onFailure, Error Message : " + t.getMessage());
                 Log.e("Err", t.getMessage());
             }
-        }); }
-
+        });
+    }
 }
