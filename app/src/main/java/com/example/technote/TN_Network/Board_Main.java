@@ -60,7 +60,7 @@ public class Board_Main extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_one:
                         return true;
-                    case R.id.action_two:
+                    case R.id.action_two:  
                         return true;
                     case R.id.action_three:
                         return true;
