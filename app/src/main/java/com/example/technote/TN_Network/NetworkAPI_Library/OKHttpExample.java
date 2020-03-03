@@ -42,7 +42,7 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_network_ok_http_example);
+        setContentView(R.layout.activity_network_lib_ok_http_example);
 
         asynchronousGet = (Button) findViewById(R.id.asynchronousGet);
         synchronousGet = (Button) findViewById(R.id.synchronousGet);

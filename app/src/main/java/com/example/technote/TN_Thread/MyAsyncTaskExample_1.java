@@ -26,7 +26,7 @@ public class MyAsyncTaskExample_1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thread_handler_my_asynctask_example_1);
+        setContentView(R.layout.activity_thread_my_asynctask_example_1);
 
         setTitle("AsyncTask Example");
 

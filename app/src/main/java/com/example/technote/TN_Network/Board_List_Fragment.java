@@ -47,7 +47,7 @@ public class Board_List_Fragment extends Fragment implements BoardListAdapter.My
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_network_fragment_board, container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_network_board_list, container, false);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.listView_main_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mArrayList = new ArrayList<>();

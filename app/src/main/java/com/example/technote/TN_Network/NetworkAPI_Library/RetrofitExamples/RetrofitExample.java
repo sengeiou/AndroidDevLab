@@ -23,7 +23,7 @@ public class RetrofitExample extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_network_retrofit_example);
+        setContentView(R.layout.activity_network_lib_retrofit_example);
 
         textView = (TextView)findViewById(R.id.retrofit_text);
 

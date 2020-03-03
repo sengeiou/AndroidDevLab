@@ -26,7 +26,7 @@ public class CountryEdit extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_page);
+        setContentView(R.layout.activity_database_detail_page);
 
         // get the values passed to the activity from the calling activity
         // insert 할 것인지 delete 할 것인지, update를 할 것인지 mode로 받음.

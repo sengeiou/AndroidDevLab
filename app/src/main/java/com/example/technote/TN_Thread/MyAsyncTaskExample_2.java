@@ -27,7 +27,7 @@ public class MyAsyncTaskExample_2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thread_handler_my_asynctask_example_2);
+        setContentView(R.layout.activity_thread_my_asynctask_example_2);
         Button button=findViewById(R.id.asyncTask);
         imageView=findViewById(R.id.image);
         button.setOnClickListener(new View.OnClickListener() {

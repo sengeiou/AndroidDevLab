@@ -26,7 +26,7 @@ public class FANExample extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_network_fan_example);
+        setContentView(R.layout.activity_network_lib_fan_example);
 
         AndroidNetworking.initialize(getApplicationContext());
 

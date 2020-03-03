@@ -50,7 +50,8 @@
                     android:text="Mediterranean diet"
                     android:textStyle="bold"
                     android:textColor="@color/screen_2_text_color"
-                    android:textSize="20dp"></TextView>
+                    android:textSize="20dp">
+                </TextView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +87,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="30dp"
-                    android:background="@color/skyBlue"></View>
+                    android:background="@color/skyBlue">
+                </View>
 
                 <TextView
                     android:id="@+id/text_eaten"
@@ -95,7 +97,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_toRightOf="@+id/divition_eaten"
-                    android:text="Eaten"></TextView>
+                    android:text="Eaten">
+                </TextView>
 
                 <ImageView
                     android:id="@+id/image_rice"
@@ -104,7 +107,8 @@
                     android:layout_below="@+id/text_eaten"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/divition_eaten"
-                    android:src="@drawable/rice"></ImageView>
+                    android:src="@drawable/rice">
+                </ImageView>
 
                 <TextView
                     android:id="@+id/text_eaten_kcal"
@@ -117,7 +121,8 @@
                     android:text="1127"
                     android:textColor="@color/screen_2_text_color"
                     android:textSize="20dp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold">
+                </TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -127,7 +132,8 @@
                     android:layout_marginTop="12dp"
                     android:layout_toRightOf="@+id/text_eaten_kcal"
                     android:text="kcal"
-                    android:textSize="12dp"></TextView>
+                    android:textSize="12dp">
+                </TextView>
 
                 <View
                     android:id="@+id/divition_burned"
@@ -137,7 +143,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="40dp"
-                    android:background="@color/colorAccent"></View>
+                    android:background="@color/colorAccent">
+                </View>
 
                 <TextView
                     android:id="@+id/text_burned"
@@ -146,7 +153,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="110dp"
                     android:layout_toRightOf="@+id/divition_burned"
-                    android:text="Burned"></TextView>
+                    android:text="Burned">
+                </TextView>
 
                 <ImageView
                     android:id="@+id/image_burned"
@@ -155,7 +163,8 @@
                     android:layout_below="@+id/text_burned"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/divition_burned"
-                    android:src="@drawable/fire"></ImageView>
+                    android:src="@drawable/fire">
+                </ImageView>
 
                 <TextView
                     android:id="@+id/text_burned_kcal"
@@ -343,7 +352,8 @@
                     android:text="Meals today"
                     android:textStyle="bold"
                     android:textColor="@color/screen_2_text_color"
-                    android:textSize="20dp"></TextView>
+                    android:textSize="20dp">
+                </TextView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

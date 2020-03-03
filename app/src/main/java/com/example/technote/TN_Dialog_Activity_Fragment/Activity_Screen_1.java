@@ -11,7 +11,7 @@ public class Activity_Screen_1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_screen_1);
+        setContentView(R.layout.activity_activity_screen_1);
 
         screen_1_toolbar = (Toolbar)findViewById(R.id.screen_1_toolbar);
         setSupportActionBar(screen_1_toolbar);

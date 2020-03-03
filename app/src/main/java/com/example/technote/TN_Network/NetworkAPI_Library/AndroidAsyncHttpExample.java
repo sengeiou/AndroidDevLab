@@ -25,7 +25,7 @@ public class AndroidAsyncHttpExample extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_network_android_asnyc_http_example);
+        setContentView(R.layout.activity_network_lib_android_asnyc_http_example);
 
         textView = (TextView)findViewById(R.id.result_text);
 

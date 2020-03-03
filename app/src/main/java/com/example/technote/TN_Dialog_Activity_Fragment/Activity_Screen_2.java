@@ -18,7 +18,7 @@ public class Activity_Screen_2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_screen_2);
+        setContentView(R.layout.activity_activity_screen_2);
 
         screen_2_toolbar = (Toolbar) findViewById(R.id.screen_2_toolbar);
         carbs_progressbar = (ProgressBar)findViewById(R.id.carbs_progressbar);

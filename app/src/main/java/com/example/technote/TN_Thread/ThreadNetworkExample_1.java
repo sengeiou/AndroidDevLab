@@ -31,7 +31,7 @@ public class ThreadNetworkExample_1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thread_handler_thread_network_exam_1);
+        setContentView(R.layout.activity_thread_thread_network_exam_1);
         b1 = (Button) findViewById(R.id.button);
 
         b1.setOnClickListener(new View.OnClickListener() {

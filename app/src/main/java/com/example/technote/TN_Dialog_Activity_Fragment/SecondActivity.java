@@ -17,7 +17,7 @@ public class SecondActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_second);
+		setContentView(R.layout.activity_activity_second);
 		
 		    editText1=(EditText)findViewById(R.id.editText1);
 	        button1=(Button)findViewById(R.id.button1);

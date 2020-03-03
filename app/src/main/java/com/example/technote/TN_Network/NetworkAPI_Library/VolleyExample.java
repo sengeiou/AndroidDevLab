@@ -25,7 +25,7 @@ public class VolleyExample extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_network_volley_example);
+        setContentView(R.layout.activity_network_lib_volley_example);
 
         txtShowTextResult = findViewById(R.id.txtDisplay);
 

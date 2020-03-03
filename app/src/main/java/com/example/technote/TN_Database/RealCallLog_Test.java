@@ -70,13 +70,13 @@ public class RealCallLog_Test extends AppCompatActivity {
     private void loadLogs() {
         RealCallLogsManager realCallLogsManager = new RealCallLogsManager(this);
         List<LogObject> callLogs = realCallLogsManager.getLogs(RealCallLogsManager.ALL_CALLS);
-        RealCallLogsAdapter realCallLogsAdapter = new RealCallLogsAdapter(this, R.layout.log_layout, callLogs);
+        RealCallLogsAdapter realCallLogsAdapter = new RealCallLogsAdapter(this, R.layout.adapter_log_layout, callLogs);
         logList.setAdapter(realCallLogsAdapter);
     }
     private void loadSelectName(String s) {
         RealCallLogsManager realCallLogsManager = new RealCallLogsManager(this);
         List<LogObject> callLogs = realCallLogsManager.getLogs(RealCallLogsManager.SELECT_NAME,s);
-        RealCallLogsAdapter realCallLogsAdapter = new RealCallLogsAdapter(this, R.layout.log_layout, callLogs);
+        RealCallLogsAdapter realCallLogsAdapter = new RealCallLogsAdapter(this, R.layout.adapter_log_layout, callLogs);
         logList.setAdapter(realCallLogsAdapter);
     }
     // A method to check if a permission is granted then execute tasks depending on that particular permission

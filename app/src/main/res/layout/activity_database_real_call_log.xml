@@ -17,5 +17,5 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/search_call_log"
         android:dividerHeight="2dp"
-        tools:listitem="@layout/log_layout" />
+        tools:listitem="@layout/adapter_log_layout" />
 </RelativeLayout>

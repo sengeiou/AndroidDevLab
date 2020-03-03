@@ -47,7 +47,7 @@ public class OperationActivity extends AppCompatActivity implements Observer, Ch
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_operation);
+        setContentView(R.layout.activity_ble_operation);
         initData();
         initView();
         initPage();

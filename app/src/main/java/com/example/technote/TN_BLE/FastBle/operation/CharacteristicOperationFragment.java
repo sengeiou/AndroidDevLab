@@ -85,7 +85,7 @@ public class CharacteristicOperationFragment extends Fragment {
         } else {
             childList.add(child);
 
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_characteric_operation, null);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_ble_characteric_operation, null);
             view.setTag(bleDevice.getKey() + characteristic.getUuid().toString() + charaProp);
             LinearLayout layout_add = (LinearLayout) view.findViewById(R.id.layout_add);
             final TextView txt_title = (TextView) view.findViewById(R.id.txt_title);
@@ -95,7 +95,7 @@ public class CharacteristicOperationFragment extends Fragment {
 
             switch (charaProp) {
                 case PROPERTY_READ: {
-                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.layout_characteric_operation_button, null);
+                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.item_ble_characteric_operation_button, null);
                     Button btn = (Button) view_add.findViewById(R.id.btn);
                     btn.setText(getActivity().getString(R.string.read));
                     btn.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +142,7 @@ public class CharacteristicOperationFragment extends Fragment {
                 break;
 
                 case PROPERTY_WRITE: {
-                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.layout_characteric_operation_et, null);
+                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.item_ble_characteric_operation_et, null);
                     final EditText et = (EditText) view_add.findViewById(R.id.et);
                     Button btn = (Button) view_add.findViewById(R.id.btn);
                     btn.setText(getActivity().getString(R.string.write));
@@ -187,7 +187,7 @@ public class CharacteristicOperationFragment extends Fragment {
                 break;
 
                 case PROPERTY_WRITE_NO_RESPONSE: {
-                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.layout_characteric_operation_et, null);
+                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.item_ble_characteric_operation_et, null);
                     final EditText et = (EditText) view_add.findViewById(R.id.et);
                     Button btn = (Button) view_add.findViewById(R.id.btn);
                     btn.setText(getActivity().getString(R.string.write));
@@ -234,7 +234,7 @@ public class CharacteristicOperationFragment extends Fragment {
                 break;
 
                 case PROPERTY_NOTIFY: {
-                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.layout_characteric_operation_button, null);
+                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.item_ble_characteric_operation_button, null);
                     final Button btn = (Button) view_add.findViewById(R.id.btn);
                     btn.setText(getActivity().getString(R.string.open_notification));
                     btn.setOnClickListener(new View.OnClickListener() {
@@ -301,7 +301,7 @@ public class CharacteristicOperationFragment extends Fragment {
                 }
                 break;
                 case PROPERTY_INDICATE: {
-                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.layout_characteric_operation_button, null);
+                    View view_add = LayoutInflater.from(getActivity()).inflate(R.layout.item_ble_characteric_operation_button, null);
                     final Button btn = (Button) view_add.findViewById(R.id.btn);
                     btn.setText(getActivity().getString(R.string.open_notification));
                     btn.setOnClickListener(new View.OnClickListener() {

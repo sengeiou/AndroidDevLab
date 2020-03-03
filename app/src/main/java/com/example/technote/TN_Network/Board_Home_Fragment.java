@@ -15,7 +15,7 @@ public class Board_Home_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_a, container, false);
+        view = inflater.inflate(R.layout.fragment_network_board_home, container, false);
 
         return view;
     }
