@@ -11,35 +11,36 @@ import android.widget.PopupMenu;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.technote.BLE.Exam1.BleExam1_Main;
-import com.example.technote.BLE.FastBle.FastBleMain;
-import com.example.technote.Database.AddressBook;
-import com.example.technote.Database.ContentProviderPractics.ContentProviderTest2;
-import com.example.technote.Database.SQLiteTest;
-import com.example.technote.Database.SQLiteTest_2;
-import com.example.technote.Dialog_Activity_Fragment.Activity;
-import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_1;
-import com.example.technote.Dialog_Activity_Fragment.Activity_Screen_2;
-import com.example.technote.Dialog_Activity_Fragment.Dialog;
-import com.example.technote.Dialog_Activity_Fragment.FirstActivity;
-import com.example.technote.GoogleMap.GoogleMapTest;
-import com.example.technote.Layout.ConstraintLayout_Test;
-import com.example.technote.Layout.CoordinatorLayout_Test;
-import com.example.technote.Layout.DrawerLayout_Test;
-import com.example.technote.Layout.FrameLayout_Test;
-import com.example.technote.Layout.LinearLayout_Test;
-import com.example.technote.Layout.RelativeLayoutTest;
-import com.example.technote.Layout.TableLayout_Test;
-import com.example.technote.Network.AndroidAsyncHttpExample;
-import com.example.technote.Network.FANExample;
-import com.example.technote.Network.OKHttpExample;
-import com.example.technote.Network.RestAPIExample;
-import com.example.technote.Network.RetrofitExample.RetrofitExample;
-import com.example.technote.Network.VolleyExample;
-import com.example.technote.Thread_Handler.HandlerEx;
-import com.example.technote.Thread_Handler.MyAsyncTaskExample_1;
-import com.example.technote.Thread_Handler.MyAsyncTaskExample_2;
-import com.example.technote.Thread_Handler.ThreadNetworkExample_1;
+import com.example.technote.TN_BLE.Exam1.BleExam1_Main;
+import com.example.technote.TN_BLE.FastBle.FastBleMain;
+import com.example.technote.TN_Database.SQLiteTest.AddressBook;
+import com.example.technote.TN_Database.ContentProviderPractics.ContentProviderTest2;
+import com.example.technote.TN_Database.SQLiteTest.SQLiteTest;
+import com.example.technote.TN_Database.SQLiteTest.SQLiteTest_2;
+import com.example.technote.TN_Dialog_Activity_Fragment.Activity;
+import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_1;
+import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_2;
+import com.example.technote.TN_Dialog_Activity_Fragment.Dialog;
+import com.example.technote.TN_Dialog_Activity_Fragment.FirstActivity;
+import com.example.technote.TN_GoogleMap.GoogleMapTest;
+import com.example.technote.TN_Layout.ConstraintLayout_Test;
+import com.example.technote.TN_Layout.CoordinatorLayout_Test;
+import com.example.technote.TN_Layout.DrawerLayout_Test;
+import com.example.technote.TN_Layout.FrameLayout_Test;
+import com.example.technote.TN_Layout.LinearLayout_Test;
+import com.example.technote.TN_Layout.RelativeLayoutTest;
+import com.example.technote.TN_Layout.TableLayout_Test;
+import com.example.technote.TN_Network.Board_Main;
+import com.example.technote.TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample;
+import com.example.technote.TN_Network.NetworkAPI_Library.FANExample;
+import com.example.technote.TN_Network.NetworkAPI_Library.OKHttpExample;
+import com.example.technote.TN_Network.NetworkAPI_Library.RestAPIExample;
+import com.example.technote.TN_Network.NetworkAPI_Library.RetrofitExamples.RetrofitExample;
+import com.example.technote.TN_Network.NetworkAPI_Library.VolleyExample;
+import com.example.technote.TN_Thread.HandlerEx;
+import com.example.technote.TN_Thread.MyAsyncTaskExample_1;
+import com.example.technote.TN_Thread.MyAsyncTaskExample_2;
+import com.example.technote.TN_Thread.ThreadNetworkExample_1;
 
 public class MainActivity extends AppCompatActivity {
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12;
@@ -202,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 popup.show();//Popup Menu 보이기
             }
         });
+        //서버연동
         button8.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -224,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 popup.show();//Popup Menu 보이기
                 */
+                startActivity(new Intent(getApplicationContext(), Board_Main.class));
             }
         });
         button11.setOnClickListener(new View.OnClickListener(){

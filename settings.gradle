@@ -1,2 +1,2 @@
-include ':app', ':CircleProgressView', ':logmanager', ':FastBleLib'
+include ':app', ':CircleProgressView', ':logmanager', ':FastBleLib', ':android-smart-image-view-1.0.0'
 rootProject.name='TechNote'

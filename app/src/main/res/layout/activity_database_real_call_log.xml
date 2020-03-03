@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Database.RealCallLog_Test">
+    tools:context=".TN_Database.RealCallLog_Test">
     <SearchView
         android:id="@+id/search_real_call_log"
         android:layout_width="match_parent"

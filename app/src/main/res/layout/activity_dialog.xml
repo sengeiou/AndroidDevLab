@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Dialog_Activity_Fragment.Dialog">
+    tools:context=".TN_Dialog_Activity_Fragment.Dialog">
 
     <Button
         android:id="@+id/classic_dialog"
