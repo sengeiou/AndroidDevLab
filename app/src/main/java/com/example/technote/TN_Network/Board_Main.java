@@ -1,16 +1,23 @@
 package com.example.technote.TN_Network;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.technote.TN_Layout.ConstraintLayout_Test;
 import com.example.technote.TN_Network.Adapter.TabLayoutAdapter;
 import com.example.technote.R;
 import com.example.technote.TN_Utility.BottomNavigationHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.tabs.TabLayout;
 
 public class Board_Main extends AppCompatActivity {
@@ -20,6 +27,7 @@ public class Board_Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_board_main);
+
         vp = (ViewPager) findViewById(R.id.vp); //뷰 페이저
         TabLayout mTab = (TabLayout) findViewById(R.id.tabs);
         //mTab.setTabGravity(TabLayout.GRAVITY_FILL); // TabItem을 꽉채우지 않고 개별 크기로 통일 시켜서 놓음
@@ -70,7 +78,9 @@ public class Board_Main extends AppCompatActivity {
                 return false;
             }
         });
-        BottomNavigationHelper.disableShiftMode(bottomNavigationView);//하단 메뉴바 쉬프트 모드 없애기
+
+        //BottomNavigationHelper.disableShiftMode(bottomNavigationView);//하단 메뉴바 쉬프트 모드 없애기
+        bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
 
     }
 }

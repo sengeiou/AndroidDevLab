@@ -76,6 +76,7 @@
         <activity android:name=".TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.RetrofitExamples.RetrofitExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.RestAPIExample"></activity>
+        <activity android:name=".TN_Network.Board_Upload"></activity>
 
         <activity android:name=".TN_Thread.HandlerEx"></activity>
         <activity android:name=".TN_Thread.MyAsyncTaskExample_1"></activity>
