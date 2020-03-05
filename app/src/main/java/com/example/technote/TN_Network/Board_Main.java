@@ -79,9 +79,7 @@ public class Board_Main extends AppCompatActivity {
                 return false;
             }
         });
-
         //BottomNavigationHelper.disableShiftMode(bottomNavigationView);//하단 메뉴바 쉬프트 모드 없애기
         bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
-
     }
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.technote.TN_Network.Fragment_Board_Home;
 import com.example.technote.TN_Network.Fragment_Board_List;
+import com.example.technote.TN_Network.Fragment_Board_Video;
 
 public class TabLayoutAdapter extends FragmentStatePagerAdapter {
 
@@ -26,7 +27,8 @@ public class TabLayoutAdapter extends FragmentStatePagerAdapter {
                 return new Fragment_Board_Home();
             case 1:
                 return new Fragment_Board_List();
-
+            case 2:
+                return new Fragment_Board_Video();
             default:
                 return null;
         }
