@@ -146,7 +146,7 @@ public class Board_Upload extends AppCompatActivity
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
                             // 'YES'
                         }
                     }).setNegativeButton("취소",
@@ -160,7 +160,7 @@ public class Board_Upload extends AppCompatActivity
             AlertDialog alert = alert_confirm.create();
             alert.show();
         }else{
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
         }
     }
     @Override // 툴바 메뉴 설정하기
@@ -546,6 +546,7 @@ public class Board_Upload extends AppCompatActivity
                         .startUpload(); //Starting the uploadx
             }
             image_count = 0;
+
 
         } catch (Exception exc) {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();

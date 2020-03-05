@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.technote.R;
 
-public class Board_Home_Fragment extends Fragment {
+public class Fragment_Board_Home extends Fragment {
     View view;
     private Button writeButton;
 

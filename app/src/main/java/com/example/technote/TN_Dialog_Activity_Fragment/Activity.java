@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.technote.TN_Network.Board_List_Fragment;
+import com.example.technote.TN_Network.Fragment_Board_List;
 import com.example.technote.R;
 
 public class Activity extends AppCompatActivity {
@@ -18,7 +18,7 @@ public class Activity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        Board_List_Fragment fragment = new Board_List_Fragment();
+        Fragment_Board_List fragment = new Fragment_Board_List();
         fragmentTransaction.add(R.id.fragment_real, fragment);
         fragmentTransaction.commit();
     }

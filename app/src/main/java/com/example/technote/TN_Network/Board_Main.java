@@ -33,6 +33,7 @@ public class Board_Main extends AppCompatActivity {
         //mTab.setTabGravity(TabLayout.GRAVITY_FILL); // TabItem을 꽉채우지 않고 개별 크기로 통일 시켜서 놓음
         mTab.addTab(mTab.newTab().setText("홈"));
         mTab.addTab(mTab.newTab().setText("게시판"));
+        mTab.addTab(mTab.newTab().setText("동영상"));
 
         TabLayoutAdapter tabLayoutAdapter = new TabLayoutAdapter(getSupportFragmentManager(), mTab.getTabCount());
         tabLayoutAdapter.notifyDataSetChanged();

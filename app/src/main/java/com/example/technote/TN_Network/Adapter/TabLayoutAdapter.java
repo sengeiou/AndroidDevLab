@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.technote.TN_Network.Board_Home_Fragment;
-import com.example.technote.TN_Network.Board_List_Fragment;
+import com.example.technote.TN_Network.Fragment_Board_Home;
+import com.example.technote.TN_Network.Fragment_Board_List;
 
 public class TabLayoutAdapter extends FragmentStatePagerAdapter {
 
@@ -23,9 +23,9 @@ public class TabLayoutAdapter extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return new Board_Home_Fragment();
+                return new Fragment_Board_Home();
             case 1:
-                return new Board_List_Fragment();
+                return new Fragment_Board_List();
 
             default:
                 return null;

@@ -55,7 +55,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_board_list, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
-
         return viewHolder;
     }
 

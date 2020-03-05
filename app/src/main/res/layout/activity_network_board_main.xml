@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".TN_Network.Board_Main">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -17,10 +18,10 @@
             android:layout_height="56dp"
             app:tabMode="scrollable"
             app:tabGravity="center"
-            android:background="@color/skyBlue"
+            android:background="@color/white"
             android:textAlignment="center"
-            app:tabTextColor="@android:color/white"
-            app:tabIndicatorColor="@android:color/white" />
+            app:tabTextColor="@android:color/black"
+            app:tabIndicatorColor="@android:color/black" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vp"
