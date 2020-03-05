@@ -2,13 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TN_Network.Board_Upload">
-
+    tools:context=".TN_Network.BoardUpload">
     <ExpandableListView
         android:id="@+id/elv_list"
         android:layout_width="fill_parent"
         android:layout_height="300dp">
-
         <ImageView
             android:id="@+id/test_image"
             android:layout_width="286dp"
@@ -17,5 +15,4 @@
             android:scaleType="fitXY"
             android:src="@drawable/network_board_upload_image_upload" />
     </ExpandableListView>
-
 </RelativeLayout>

@@ -30,7 +30,7 @@ import com.example.technote.TN_Layout.FrameLayout_Test;
 import com.example.technote.TN_Layout.LinearLayout_Test;
 import com.example.technote.TN_Layout.RelativeLayoutTest;
 import com.example.technote.TN_Layout.TableLayout_Test;
-import com.example.technote.TN_Network.Board_Main;
+import com.example.technote.TN_Network.BoardMain;
 import com.example.technote.TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample;
 import com.example.technote.TN_Network.NetworkAPI_Library.FANExample;
 import com.example.technote.TN_Network.NetworkAPI_Library.OKHttpExample;
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 popup.show();//Popup Menu 보이기
                 */
-                startActivity(new Intent(getApplicationContext(), Board_Main.class));
+                startActivity(new Intent(getApplicationContext(), BoardMain.class));
             }
         });
         button11.setOnClickListener(new View.OnClickListener(){

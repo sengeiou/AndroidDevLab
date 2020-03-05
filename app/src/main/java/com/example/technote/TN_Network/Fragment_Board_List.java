@@ -227,4 +227,14 @@ public class Fragment_Board_List extends Fragment implements BoardListAdapter.My
         mLayoutManager.setItemPrefetchEnabled(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("onDestoryView","게시판");
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("onDestroy","게시판");
+    }
 }

@@ -33,7 +33,6 @@ import androidx.core.content.ContextCompat;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
-import com.example.technote.MainActivity;
 import com.example.technote.R;
 import com.example.technote.TN_Network.Adapter.BaseExpandableAdapter;
 
@@ -44,7 +43,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Board_Upload extends AppCompatActivity
+public class BoardUpload extends AppCompatActivity
         implements View.OnClickListener{
 
     private static final String UPLOAD_URL = "http://yjpapp.com/uploadPosters.php";
@@ -75,6 +74,7 @@ public class Board_Upload extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_board_upload);
+
         image_upload_toolbar = (Toolbar)findViewById(R.id.image_upload_toolbar);
         setSupportActionBar(image_upload_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바에 왼쪽버튼 추가하기
@@ -141,7 +141,7 @@ public class Board_Upload extends AppCompatActivity
     @Override // 이전 버튼 리스너
     public void onBackPressed() {
         if(etContent.getText().toString().length()!=0 || subjectCheck  || etTitle.getText().toString().length()!=0){
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Board_Upload.this);
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload.this);
             alert_confirm.setMessage("작성중인 게시물이 있습니다. 작성을 취소 하시겠습니까?").setCancelable(false).setPositiveButton("확인",
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -176,7 +176,7 @@ public class Board_Upload extends AppCompatActivity
                 return true; // 다른 버튼이 중복 클릭 되지않게 한다.
             case R.id.upload: //등록 버튼을 누르면
                 if(etSubject.getText().toString() == "카테고리"){
-                    AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(Board_Upload.this);
+                    AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardUpload.this);
                     alert_confirm_subject.setMessage("품목을 설정하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -188,7 +188,7 @@ public class Board_Upload extends AppCompatActivity
                     AlertDialog alert_subject = alert_confirm_subject.create();
                     alert_subject.show();
                     if(etTitle.length() == 0 && etSubject.getText().toString() !="카테고리"){
-                        AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(Board_Upload.this);
+                        AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardUpload.this);
                         alert_confirm_title.setMessage("제목을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -200,7 +200,7 @@ public class Board_Upload extends AppCompatActivity
                         AlertDialog alert_title = alert_confirm_title.create();
                         alert_title.show();
                         if(etContent.length() == 0 && etTitle.length() != 0 && etSubject.getText().toString() !="카테고리"){
-                            AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(Board_Upload.this);
+                            AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(BoardUpload.this);
                             alert_confirm_content.setMessage("내용을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -214,7 +214,7 @@ public class Board_Upload extends AppCompatActivity
                         }
                     }
                 }else if(etTitle.length() == 0 && etSubject.getText().toString() !="카테고리") {
-                    AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(Board_Upload.this);
+                    AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardUpload.this);
                     alert_confirm_title.setMessage("제목을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -226,7 +226,7 @@ public class Board_Upload extends AppCompatActivity
                     AlertDialog alert_title = alert_confirm_title.create();
                     alert_title.show();
                 }else if(etContent.length() == 0 && etTitle.length() != 0 && etSubject.getText().toString() !="카테고리"){
-                    AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(Board_Upload.this);
+                    AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(BoardUpload.this);
                     alert_confirm_content.setMessage("상품설명을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -238,7 +238,7 @@ public class Board_Upload extends AppCompatActivity
                     AlertDialog alert_content = alert_confirm_content.create();
                     alert_content.show();
                 }else if(image_count == 0){
-                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(Board_Upload.this);
+                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardUpload.this);
                     alert_confirm_image.setMessage("사진을 최소 한장이상 등록하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -251,7 +251,7 @@ public class Board_Upload extends AppCompatActivity
                     alert_image.show();
                 }else{
                     uploadMultipart();
-                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(Board_Upload.this);
+                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardUpload.this);
                     alert_confirm_image.setMessage("등록 완료 됐습니다.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -374,7 +374,7 @@ public class Board_Upload extends AppCompatActivity
         }
     }
     protected void deleteImage(){
-        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Board_Upload.this);
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload.this);
 
         alert_confirm.setMessage("업로드 이미지를 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인",
                 new DialogInterface.OnClickListener() {

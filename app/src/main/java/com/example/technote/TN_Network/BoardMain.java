@@ -20,7 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.tabs.TabLayout;
 
-public class Board_Main extends AppCompatActivity {
+public class BoardMain extends AppCompatActivity {
     ViewPager vp;
 
     @Override

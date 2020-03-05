@@ -2,6 +2,7 @@ package com.example.technote.TN_Network;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,21 @@ public class Fragment_Board_Home extends Fragment {
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), Board_Upload.class));
+                startActivity(new Intent(getContext(), BoardUpload.class));
             }
         });
-
         return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("onDestoryView","홈");
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("onDestroy","홈");
+    }
+
 }

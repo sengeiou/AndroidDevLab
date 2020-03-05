@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class Board_Activity extends AppCompatActivity implements BoardListAdapter.MyRecyclerViewClickListener{
+public class BoardActivity extends AppCompatActivity implements BoardListAdapter.MyRecyclerViewClickListener{
     private static String TAG = "phptest";
     private ArrayList<BoardData> mArrayList;
     private BoardListAdapter mAdapter;

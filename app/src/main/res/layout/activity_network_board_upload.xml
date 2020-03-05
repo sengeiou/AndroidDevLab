@@ -6,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TN_Network.Board_Upload">
-
+    tools:context=".TN_Network.BoardUpload">
     <!--CoordinatorLayout : 액션바 영역을 포함한 전체 화면의 위치를 잡아주는 역할-->
-
     <!--//AppBarLayout-->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/image_upload_toolbar"
