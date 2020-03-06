@@ -32,8 +32,6 @@ public class CoordinatorLayout_Test extends AppCompatActivity {
         for(int i = 0; i < 100; i++) {
             testStrings.add(i + " 번째 item");
         }
-
-
         RecyclerView recyclerView = findViewById(R.id.main_scrollview_recyclerview);
         recyclerView.setAdapter(new RecyclerView.Adapter<TestViewHolder>() {
             @Override

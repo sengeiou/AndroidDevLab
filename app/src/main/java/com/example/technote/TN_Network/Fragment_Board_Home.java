@@ -26,7 +26,7 @@ public class Fragment_Board_Home extends Fragment {
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), BoardUpload.class));
+                startActivity(new Intent(getContext(), BoardImageUpload.class));
             }
         });
         return view;

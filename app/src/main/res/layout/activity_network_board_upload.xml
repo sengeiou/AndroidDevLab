@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TN_Network.BoardUpload">
+    android:background="@color/white"
+    tools:context=".TN_Network.BoardImageUpload">
     <!--CoordinatorLayout : 액션바 영역을 포함한 전체 화면의 위치를 잡아주는 역할-->
     <!--//AppBarLayout-->
     <androidx.appcompat.widget.Toolbar
@@ -17,18 +18,20 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
     </androidx.appcompat.widget.Toolbar>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/image_upload_toolbar"
-        android:background="@color/rippleColor" />
-
+    <ImageView
+        android:id="@+id/upload_click_image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/network_board_upload_add_picture" />
     <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/scrollbar"
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:layout_height="67dp"
-        android:layout_marginStart="100dp"
+        android:layout_toRightOf="@+id/upload_click_image"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="60dp"
         android:background="@android:color/background_light"
         android:scrollbars="none"
@@ -96,30 +99,14 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="150dp"
-        android:background="@color/rippleColor"
-        />
-
-    <ImageView
-        android:id="@+id/upload_click_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/network_board_upload_add_picture" />
     <LinearLayout
         android:id="@+id/subject_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/upload_click_image"
+        android:background="@drawable/border_line_top_bottom"
         android:orientation="horizontal">
 
         <TextView
@@ -140,82 +127,80 @@
             android:layout_weight="1"
             app:srcCompat="@drawable/network_board_upload_down" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="200dp"
-        android:background="@color/rippleColor"
-        />
 
-    <TextView
-        android:id="@+id/wonText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginTop="210dp"
-        android:layout_marginStart="10dp"
-        android:textColor="@color/rippleColor"
-        android:text="\u20A9"
-        android:textSize="18dp" />
-    <EditText
-        android:id="@+id/etPrice"
+    <LinearLayout
+        android:id="@+id/price_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="210dp"
-        android:layout_marginStart="30dp"
-        android:hint="가격"
-        android:textColorHint="@color/rippleColor"
-        android:inputType="number"
-        android:maxLength="15"
-        android:imeOptions="actionDone"
-        android:background="@null"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="245dp"
-        android:background="@color/rippleColor"
-        />
-    <EditText
-        android:id="@+id/etTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="255dp"
-        android:layout_marginStart="10dp"
-        android:hint="제목"
-        android:maxLength="20"
-        android:textColorHint="@color/rippleColor"
-        android:imeOptions="actionDone"
-        android:background="@null"/>
+        android:layout_height="50dp"
+        android:layout_below="@+id/subject_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_line_bottom">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="290dp"
-        android:background="@color/rippleColor"
-        />
+        <TextView
+            android:id="@+id/wonText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="\u20A9"
+            android:textColor="@color/rippleColor"
+            android:textSize="18dp" />
 
-    <EditText
-        android:id="@+id/etContent"
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="가격"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="15"
+            android:textColorHint="@color/rippleColor" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/title_layout"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="300dp"
-        android:layout_marginStart="10dp"
-        android:maxLength="300"
-        android:hint="상품설명"
-        android:textColorHint="@color/rippleColor"
-        android:imeOptions="actionDone"
-        android:background="@null"/>
+        android:layout_height="50dp"
+        android:layout_below="@+id/price_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_line_bottom">
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:hint="제목"
+            android:maxLength="20"
+            android:textColorHint="@color/rippleColor"
+            android:imeOptions="actionDone"
+            android:background="@null"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_line_bottom">
+
+        <EditText
+            android:id="@+id/etContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:maxLength="300"
+            android:hint="상품설명"
+            android:textColorHint="@color/rippleColor"
+            android:imeOptions="actionDone"
+            android:background="@null"/>
+    </LinearLayout>
 
 </RelativeLayout>

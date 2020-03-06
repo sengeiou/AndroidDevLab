@@ -76,7 +76,7 @@
         <activity android:name=".TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.RetrofitExamples.RetrofitExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.RestAPIExample"></activity>
-        <activity android:name=".TN_Network.BoardUpload"></activity>
+        <activity android:name=".TN_Network.BoardImageUpload"></activity>
 
         <activity android:name=".TN_Thread.HandlerEx"></activity>
         <activity android:name=".TN_Thread.MyAsyncTaskExample_1"></activity>
@@ -85,7 +85,7 @@
         <activity android:name=".TN_Network.BoardActivity"></activity>
         <activity android:name=".TN_Network.BoardMain"></activity>
         <activity android:name=".TN_Network.BoardVideoPlay_1"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
         </activity>
 
         <service android:name=".TN_BLE.Exam1.BluetoothLeService" android:enabled="true"/>

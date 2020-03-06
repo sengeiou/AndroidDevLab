@@ -1,7 +1,6 @@
 package com.example.technote.TN_Network;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +15,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -31,8 +29,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
 import com.example.technote.R;
 import com.example.technote.TN_Network.Adapter.BaseExpandableAdapter;
 
@@ -43,7 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class BoardUpload extends AppCompatActivity
+public class BoardImageUpload extends AppCompatActivity
         implements View.OnClickListener{
 
     private static final String UPLOAD_URL = "http://yjpapp.com/uploadPosters.php";
@@ -53,9 +49,7 @@ public class BoardUpload extends AppCompatActivity
     private ImageView picture[] = new ImageView[5];
     private EditText etTitle, etContent, etPrice;
     private TextView wonText,etSubject;
-    private Button image1_check;
     private Bitmap bitmap;
-    private Bitmap[] deletebitmap = new Bitmap[6];
     private Uri[] filePath = new Uri[5] ;
     private LinearLayout choice_subject;
 
@@ -64,11 +58,9 @@ public class BoardUpload extends AppCompatActivity
     private ArrayList<String> mChildListContent = null,mChildListContent2 = null ,mChildListContent3 = null;
     private ExpandableListView mListView;
 
-    private int image_count = 0, delete_count=0, imageNum;
+    private int image_count = 0, imageNum;
     private String[] path = new String[10];
-    private boolean get_data;
     Toolbar image_upload_toolbar;
-    final Context context = this;
     private boolean subjectCheck = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +114,8 @@ public class BoardUpload extends AppCompatActivity
                 }
             }
         };
-        etPrice.addTextChangedListener(watcher);
+
+        etPrice.addTextChangedListener(watcher);//\표시가 가격을 입력하면 검은글씨 입력하지 않으면 흐린글씨로 설정
 
         choice_subject = (LinearLayout)findViewById(R.id.subject_layout);
 
@@ -141,7 +134,7 @@ public class BoardUpload extends AppCompatActivity
     @Override // 이전 버튼 리스너
     public void onBackPressed() {
         if(etContent.getText().toString().length()!=0 || subjectCheck  || etTitle.getText().toString().length()!=0){
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload.this);
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardImageUpload.this);
             alert_confirm.setMessage("작성중인 게시물이 있습니다. 작성을 취소 하시겠습니까?").setCancelable(false).setPositiveButton("확인",
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -172,11 +165,11 @@ public class BoardUpload extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 return true; // 다른 버튼이 중복 클릭 되지않게 한다.
             case R.id.upload: //등록 버튼을 누르면
                 if(etSubject.getText().toString() == "카테고리"){
-                    AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardUpload.this);
+                    AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardImageUpload.this);
                     alert_confirm_subject.setMessage("품목을 설정하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -188,7 +181,7 @@ public class BoardUpload extends AppCompatActivity
                     AlertDialog alert_subject = alert_confirm_subject.create();
                     alert_subject.show();
                     if(etTitle.length() == 0 && etSubject.getText().toString() !="카테고리"){
-                        AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardUpload.this);
+                        AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardImageUpload.this);
                         alert_confirm_title.setMessage("제목을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -200,7 +193,7 @@ public class BoardUpload extends AppCompatActivity
                         AlertDialog alert_title = alert_confirm_title.create();
                         alert_title.show();
                         if(etContent.length() == 0 && etTitle.length() != 0 && etSubject.getText().toString() !="카테고리"){
-                            AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(BoardUpload.this);
+                            AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(BoardImageUpload.this);
                             alert_confirm_content.setMessage("내용을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -214,7 +207,7 @@ public class BoardUpload extends AppCompatActivity
                         }
                     }
                 }else if(etTitle.length() == 0 && etSubject.getText().toString() !="카테고리") {
-                    AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardUpload.this);
+                    AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardImageUpload.this);
                     alert_confirm_title.setMessage("제목을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -226,7 +219,7 @@ public class BoardUpload extends AppCompatActivity
                     AlertDialog alert_title = alert_confirm_title.create();
                     alert_title.show();
                 }else if(etContent.length() == 0 && etTitle.length() != 0 && etSubject.getText().toString() !="카테고리"){
-                    AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(BoardUpload.this);
+                    AlertDialog.Builder alert_confirm_content = new AlertDialog.Builder(BoardImageUpload.this);
                     alert_confirm_content.setMessage("상품설명을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -238,7 +231,7 @@ public class BoardUpload extends AppCompatActivity
                     AlertDialog alert_content = alert_confirm_content.create();
                     alert_content.show();
                 }else if(image_count == 0){
-                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardUpload.this);
+                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardImageUpload.this);
                     alert_confirm_image.setMessage("사진을 최소 한장이상 등록하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -251,7 +244,7 @@ public class BoardUpload extends AppCompatActivity
                     alert_image.show();
                 }else{
                     uploadMultipart();
-                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardUpload.this);
+                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardImageUpload.this);
                     alert_confirm_image.setMessage("등록 완료 됐습니다.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -270,6 +263,41 @@ public class BoardUpload extends AppCompatActivity
         }
     }
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { //이미지를 선택하고 난 뒤 실행되는 함수
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath[image_count] = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath[image_count]);
+                if (image_count == 0) {
+                    picture[0].setImageBitmap(bitmap);
+                    picture[0].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움\
+                    image_count++;
+
+                } else if (image_count == 1) {
+                    picture[1].setImageBitmap(bitmap);
+                    picture[1].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
+                    image_count++;
+
+                } else if (image_count == 2) {
+                    picture[2].setImageBitmap(bitmap);
+                    picture[2].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
+                    image_count++;
+                } else if (image_count == 3) {
+                    picture[3].setImageBitmap(bitmap);
+                    picture[3].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
+                    image_count++;
+                } else if (image_count == 4) {
+                    picture[4].setImageBitmap(bitmap);
+                    picture[4].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
+                    image_count++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    @Override
     public void onClick(View view) { //view에 대한 클릭 이벤트. setOnClickListener에 적용된다.
         if(view == upload_imageView){ // 맨 왼쪽 카메라 이미지뷰를 클릭한다.
             Intent intent = new Intent();
@@ -285,22 +313,27 @@ public class BoardUpload extends AppCompatActivity
             mChildListContent2 = new ArrayList<String>();
             mChildListContent3 = new ArrayList<String>();
 
-            mGroupList.add("디지털/가전"); mGroupList.add("도서/티켓/음반"); mGroupList.add("생활/가공식품");
+            mGroupList.add("디지털/가전"); mGroupList.add("도서/티켓/음반/문구"); mGroupList.add("생활/가공식품");
 
             mChildListContent.add("TV");
             mChildListContent.add("컴퓨터/노트북");
             mChildListContent.add("컴퓨터기기");
             mChildListContent.add("모니터");
-            mChildListContent.add("시계");
             mChildListContent.add("핸드폰");
-            mChildListContent.add("기타");
+            mChildListContent.add("가전");
+            mChildListContent.add("기타 : 디지털/가전");
 
             mChildListContent2.add("도서");
             mChildListContent2.add("티켓");
             mChildListContent2.add("음반");
+            mChildListContent2.add("문구");
+            mChildListContent2.add("기타 : 도서/티켓/음반/문구");
 
             mChildListContent3.add("생활");
+            mChildListContent3.add("가구");
+            mChildListContent3.add("옷");
             mChildListContent3.add("가공식품");
+            mChildListContent3.add("기타 : 생활/가공식품");
 
             mChildList.add(mChildListContent);
             mChildList.add(mChildListContent2);
@@ -354,28 +387,25 @@ public class BoardUpload extends AppCompatActivity
                 }
             });
 
-
-
         }else if(view == picture[0]){ //첫 번째 업로드 이미지를 클릭했을 때 삭제하는 코드
             imageNum = 0;
             deleteImage();
         }else if(view == picture[1]) { //두 번째 업로드 이미지를 삭제하는 코드
             imageNum = 1;
             deleteImage();
-        }else if(view == picture[2]) { //두 번째 업로드 이미지를 삭제하는 코드
+        }else if(view == picture[2]) { //세 번째 업로드 이미지를 삭제하는 코드
             imageNum = 2;
             deleteImage();
-        }else if(view == picture[3]) { //두 번째 업로드 이미지를 삭제하는 코드
+        }else if(view == picture[3]) { //네 번째 업로드 이미지를 삭제하는 코드
             imageNum = 3;
             deleteImage();
-        }else if(view == picture[4]) { //두 번째 업로드 이미지를 삭제하는 코드
+        }else if(view == picture[4]) { //다섯 번째 업로드 이미지를 삭제하는 코드
             imageNum = 4;
             deleteImage();
         }
     }
     protected void deleteImage(){
-        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload.this);
-
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardImageUpload.this);
         alert_confirm.setMessage("업로드 이미지를 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -391,7 +421,6 @@ public class BoardUpload extends AppCompatActivity
                         picture[image_count-1].setImageResource(R.drawable.network_board_upload_image_upload);
                         filePath[image_count-1] = null;
                         image_count--;
-
                         // 'YES'
                     }
                 }).setNegativeButton("취소",
@@ -405,41 +434,6 @@ public class BoardUpload extends AppCompatActivity
         AlertDialog alert = alert_confirm.create();
         alert.show();
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) { //이미지를 선택하고 난 뒤 실행되는 함수
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath[image_count] = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath[image_count]);
-                if (image_count == 0) {
-                    picture[0].setImageBitmap(bitmap);
-                    picture[0].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움\
-                    image_count++;
-
-                } else if (image_count == 1) {
-                    picture[1].setImageBitmap(bitmap);
-                    picture[1].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-
-                } else if (image_count == 2) {
-                    picture[2].setImageBitmap(bitmap);
-                    picture[2].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-                } else if (image_count == 3) {
-                    picture[3].setImageBitmap(bitmap);
-                    picture[3].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-                } else if (image_count == 4) {
-                    picture[4].setImageBitmap(bitmap);
-                    picture[4].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public void uploadMultipart() { //업로드 버튼을 누르면 실행되는 함수
         String title = etTitle.getText().toString().trim();
@@ -447,7 +441,7 @@ public class BoardUpload extends AppCompatActivity
         String subject = etSubject.getText().toString().trim();
         String content = etContent.getText().toString().trim();
 
-        //이미지의 실제 경로 얻기
+        //이미지의 실제 경로를 String Array인 path[i]에 저장
         for(int i = 0; i<image_count;i++){
             path[i] = getPath(filePath[i]);
         }
@@ -455,15 +449,10 @@ public class BoardUpload extends AppCompatActivity
         //Uploading code
         try {
             String uploadId = UUID.randomUUID().toString();
-            AndroidNetworking.upload(UPLOAD_URL)
-                    .addPathParameter("image",path[0])
-                    .addMultipartParameter("title",title)
-                    .setTag("uploadTest")
-                    .setPriority(Priority.HIGH)
-                    .build();
 
             //Creating a multi part request
-            if(image_count == 0){
+                if(image_count == 0){
+
                 new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
                         .setUtf8Charset()
                         .addParameter("title", title) //Adding text parameter to the request
@@ -471,7 +460,7 @@ public class BoardUpload extends AppCompatActivity
                         .addParameter("subject",subject)
                         .addParameter("content",content)
                         .addParameter("image_count","0")
-                        .setNotificationConfig(new UploadNotificationConfig())
+                        .setNotificationConfig(new UploadNotificationConfig().setCompletedMessage("업로드 완료"))
                         .setMaxRetries(2)
                         .startUpload(); //Starting the upload
             }else if(image_count==1){
@@ -498,7 +487,7 @@ public class BoardUpload extends AppCompatActivity
                         .addParameter("image_count","2")
                         .setNotificationConfig(new UploadNotificationConfig())
                         .setMaxRetries(2)
-                        .startUpload(); //Starting the uploadx
+                        .startUpload(); //Starting the upload
             }else if(image_count==3){
                 new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
                         .setUtf8Charset()
@@ -512,7 +501,7 @@ public class BoardUpload extends AppCompatActivity
                         .addParameter("image_count","3")
                         .setNotificationConfig(new UploadNotificationConfig())
                         .setMaxRetries(2)
-                        .startUpload(); //Starting the uploadx
+                        .startUpload(); //Starting the upload
             }else if(image_count == 4){
                 new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
                         .setUtf8Charset()
@@ -527,7 +516,7 @@ public class BoardUpload extends AppCompatActivity
                         .addParameter("image_count","4")
                         .setNotificationConfig(new UploadNotificationConfig())
                         .setMaxRetries(2)
-                        .startUpload(); //Starting the uploadx
+                        .startUpload(); //Starting the upload
             }else if(image_count == 5){
                 new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
                         .setUtf8Charset()
@@ -543,17 +532,15 @@ public class BoardUpload extends AppCompatActivity
                         .addParameter("image_count","5")
                         .setNotificationConfig(new UploadNotificationConfig())
                         .setMaxRetries(2)
-                        .startUpload(); //Starting the uploadx
+                        .startUpload(); //Starting the upload
             }
             image_count = 0;
-
-
         } catch (Exception exc) {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public String getPath(Uri uri) {
+    public String getPath(Uri uri) { //이미지를 선택하면
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
         cursor.moveToFirst();
         String document_id = cursor.getString(0);
