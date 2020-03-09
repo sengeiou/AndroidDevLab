@@ -27,12 +27,12 @@ public class FirstActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent=new Intent(FirstActivity.this,SecondActivity.class);
-	            startActivityForResult(intent, 2);// Activity is started with requestCode 2
+	            startActivityForResult(intent, 2);// MyActivity is started with requestCode 2
 			}
 		});
     }
 
- // Call Back method  to get the Message form other Activity
+ // Call Back method  to get the Message form other MyActivity
     @Override
        protected void onActivityResult(int requestCode, int resultCode, Intent data)
        {

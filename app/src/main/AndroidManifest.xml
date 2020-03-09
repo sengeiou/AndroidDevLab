@@ -6,6 +6,7 @@
         android:allowBackup="false"
         android:icon="@mipmap/tech_note_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/tech_note_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -43,7 +44,8 @@
         <activity android:name=".TN_Dialog_Activity_Fragment.FirstActivity"></activity>
         <activity android:name=".TN_Dialog_Activity_Fragment.SecondActivity"></activity>
         <activity android:name=".TN_Dialog_Activity_Fragment.Dialog"></activity>
-        <activity android:name=".TN_Dialog_Activity_Fragment.Activity"></activity>
+        <activity android:name=".TN_Dialog_Activity_Fragment.MyActivity"></activity>
+        <activity android:name=".TN_Dialog_Activity_Fragment.MyTab_ViewPager.MyTab_ViewPager"></activity>
 
         <activity android:name=".TN_Database.SQLiteTest.SQLiteTest"></activity>
         <activity android:name=".TN_Database.SQLiteTest.SQLiteTest_2"></activity>
@@ -87,6 +89,7 @@
         <activity android:name=".TN_Network.BoardVideoPlay_1"
             android:screenOrientation="sensorLandscape">
         </activity>
+        <activity android:name=".TN_Network.BoardVideoUpload"></activity>
 
         <service android:name=".TN_BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".TN_GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService"></service>
@@ -107,11 +110,8 @@
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
-    <!-- SD카드 기록 허용하는 퍼미션 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- SD카드 읽기 허용하는 퍼미션, 킷캣이후로는 필요없음 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- CPU 상태 유지 및 화면 꺼짐 제어를 위한 퍼미션 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 </manifest>

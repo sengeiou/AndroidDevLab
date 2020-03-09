@@ -45,8 +45,8 @@ public class BoardImageUpload extends AppCompatActivity
     private static final String UPLOAD_URL = "http://yjpapp.com/uploadPosters.php";
     private static final int IMAGE_REQUEST_CODE = 3;
     private static final int STORAGE_PERMISSION_CODE = 123;
-    private ImageView upload_imageView;
-    private ImageView picture[] = new ImageView[5];
+    private ImageView imageView_image_upload;
+    private ImageView imageView_image_list[] = new ImageView[5];
     private EditText etTitle, etContent, etPrice;
     private TextView wonText,etSubject;
     private Bitmap bitmap;
@@ -70,14 +70,14 @@ public class BoardImageUpload extends AppCompatActivity
         image_upload_toolbar = (Toolbar)findViewById(R.id.image_upload_toolbar);
         setSupportActionBar(image_upload_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바에 왼쪽버튼 추가하기
-        getSupportActionBar().setTitle("상품등록");
+        getSupportActionBar().setTitle("사진 등록");
 
-        upload_imageView = (ImageView)findViewById(R.id.upload_click_image);
-        picture[0] = (ImageView)findViewById(R.id.image1);
-        picture[1] = (ImageView)findViewById(R.id.image2);
-        picture[2] = (ImageView)findViewById(R.id.image3);
-        picture[3] = (ImageView)findViewById(R.id.image4);
-        picture[4] = (ImageView)findViewById(R.id.image5);
+        imageView_image_upload = (ImageView)findViewById(R.id.upload_click_image);
+        imageView_image_list[0] = (ImageView)findViewById(R.id.image1);
+        imageView_image_list[1] = (ImageView)findViewById(R.id.image2);
+        imageView_image_list[2] = (ImageView)findViewById(R.id.image3);
+        imageView_image_list[3] = (ImageView)findViewById(R.id.image4);
+        imageView_image_list[4] = (ImageView)findViewById(R.id.image5);
         etPrice = (EditText)findViewById(R.id.etPrice);
         etTitle = (EditText)findViewById(R.id.etTitle);
         etContent = (EditText)findViewById(R.id.etContent);
@@ -109,26 +109,23 @@ public class BoardImageUpload extends AppCompatActivity
                         wonText.setTextColor(Color.parseColor("#C0C0C0"));
                     }else {
                         wonText.setTextColor(Color.parseColor("#000000"));
-
                     }
                 }
             }
         };
-
         etPrice.addTextChangedListener(watcher);//\표시가 가격을 입력하면 검은글씨 입력하지 않으면 흐린글씨로 설정
 
         choice_subject = (LinearLayout)findViewById(R.id.subject_layout);
-
         Intent intent = getIntent();
         mListView = (ExpandableListView)findViewById(R.id.elv_list);
 
         requestStoragePermission(); // 사용자에게 저장공간 접근을 허용하는 것을 묻는 함수
 
         //리스너 설정
-        upload_imageView.setOnClickListener(this);
+        imageView_image_upload.setOnClickListener(this);
         choice_subject.setOnClickListener(this);
         for(int i=0;i<5;i++){
-            picture[i].setOnClickListener(this);
+            imageView_image_list[i].setOnClickListener(this);
         }
     }
     @Override // 이전 버튼 리스너
@@ -158,7 +155,7 @@ public class BoardImageUpload extends AppCompatActivity
     }
     @Override // 툴바 메뉴 설정하기
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_board_upload,menu);
+        getMenuInflater().inflate(R.menu.menu_network_board_image_upload,menu);
         return true;
     }
     //툴바 아이콘 클릭 이벤트
@@ -256,7 +253,6 @@ public class BoardImageUpload extends AppCompatActivity
                             });
                     AlertDialog alert_image = alert_confirm_image.create();
                     alert_image.show();
-
                 }
             default:
                 return super.onOptionsItemSelected(item);
@@ -269,29 +265,7 @@ public class BoardImageUpload extends AppCompatActivity
             filePath[image_count] = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath[image_count]);
-                if (image_count == 0) {
-                    picture[0].setImageBitmap(bitmap);
-                    picture[0].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움\
-                    image_count++;
-
-                } else if (image_count == 1) {
-                    picture[1].setImageBitmap(bitmap);
-                    picture[1].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-
-                } else if (image_count == 2) {
-                    picture[2].setImageBitmap(bitmap);
-                    picture[2].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-                } else if (image_count == 3) {
-                    picture[3].setImageBitmap(bitmap);
-                    picture[3].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-                } else if (image_count == 4) {
-                    picture[4].setImageBitmap(bitmap);
-                    picture[4].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-                    image_count++;
-                }
+                setImageView(image_count);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -299,7 +273,7 @@ public class BoardImageUpload extends AppCompatActivity
     }
     @Override
     public void onClick(View view) { //view에 대한 클릭 이벤트. setOnClickListener에 적용된다.
-        if(view == upload_imageView){ // 맨 왼쪽 카메라 이미지뷰를 클릭한다.
+        if(view == imageView_image_upload){ // 맨 왼쪽 카메라 이미지뷰를 클릭한다.
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT); // 업로드 할 이미지를 선택하는 인텐트 창이 뜸
@@ -387,21 +361,31 @@ public class BoardImageUpload extends AppCompatActivity
                 }
             });
 
-        }else if(view == picture[0]){ //첫 번째 업로드 이미지를 클릭했을 때 삭제하는 코드
-            imageNum = 0;
-            deleteImage();
-        }else if(view == picture[1]) { //두 번째 업로드 이미지를 삭제하는 코드
-            imageNum = 1;
-            deleteImage();
-        }else if(view == picture[2]) { //세 번째 업로드 이미지를 삭제하는 코드
-            imageNum = 2;
-            deleteImage();
-        }else if(view == picture[3]) { //네 번째 업로드 이미지를 삭제하는 코드
-            imageNum = 3;
-            deleteImage();
-        }else if(view == picture[4]) { //다섯 번째 업로드 이미지를 삭제하는 코드
-            imageNum = 4;
-            deleteImage();
+        }else if(view == imageView_image_list[0]){ //첫 번째 업로드 이미지를 클릭했을 때 삭제하는 코드
+            if(image_count>0){
+                imageNum = 0;
+                deleteImage();
+            }
+        }else if(view == imageView_image_list[1]) { //두 번째 업로드 이미지를 삭제하는 코드
+            if(image_count>1){
+                imageNum = 1;
+                deleteImage();
+            }
+        }else if(view == imageView_image_list[2]) { //세 번째 업로드 이미지를 삭제하는 코드
+            if(image_count>2){
+                imageNum = 2;
+                deleteImage();
+            }
+        }else if(view == imageView_image_list[3]) { //네 번째 업로드 이미지를 삭제하는 코드
+            if(image_count>3){
+                imageNum = 3;
+                deleteImage();
+            }
+        }else if(view == imageView_image_list[4]) { //다섯 번째 업로드 이미지를 삭제하는 코드
+            if(image_count>4){
+                imageNum = 4;
+                deleteImage();
+            }
         }
     }
     protected void deleteImage(){
@@ -413,12 +397,13 @@ public class BoardImageUpload extends AppCompatActivity
                         for(int i =imageNum;i<image_count-1;i++){
                             try {
                                 filePath[i] = filePath[i+1];
-                                picture[i].setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), filePath[i+1]));
+                                imageView_image_list[i].setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), filePath[i+1]));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
-                        picture[image_count-1].setImageResource(R.drawable.network_board_upload_image_upload);
+                        imageView_image_list[image_count-1].setImageResource(R.drawable.network_board_upload_image_list);
+                        imageView_image_list[image_count-1].setScaleType(ImageView.ScaleType.FIT_START);
                         filePath[image_count-1] = null;
                         image_count--;
                         // 'YES'
@@ -583,5 +568,10 @@ public class BoardImageUpload extends AppCompatActivity
                 Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
             }
         }
+    }
+    public void setImageView(int i){
+        imageView_image_list[i].setImageBitmap(bitmap);
+        imageView_image_list[i].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움\
+        image_count++;
     }
 }

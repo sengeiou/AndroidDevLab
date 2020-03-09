@@ -15,18 +15,26 @@ import com.example.technote.R;
 
 public class Fragment_Board_Home extends Fragment {
     View view;
-    private Button writeButton;
+    private Button imageUploadButton, videoUploadButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_network_board_home, container, false);
 
-        writeButton = (Button)view.findViewById(R.id.button_network_board_write);
-        writeButton.setOnClickListener(new View.OnClickListener() {
+        imageUploadButton = (Button)view.findViewById(R.id.button_network_board_write);
+        imageUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), BoardImageUpload.class));
+            }
+        });
+
+        videoUploadButton = (Button)view.findViewById(R.id.button_network_board_upload_video);
+        videoUploadButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(getContext(), BoardVideoUpload.class));
             }
         });
         return view;
@@ -35,7 +43,7 @@ public class Fragment_Board_Home extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("onDestoryView","홈");
+        Log.d("onDestroyView","홈");
     }
     @Override
     public void onDestroy(){

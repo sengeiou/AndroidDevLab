@@ -13,6 +13,6 @@
             android:layout_height="161dp"
             android:layout_marginTop="11dp"
             android:scaleType="fitXY"
-            android:src="@drawable/network_board_upload_image_upload" />
+            android:src="@drawable/network_board_upload_image_list" />
     </ExpandableListView>
 </RelativeLayout>

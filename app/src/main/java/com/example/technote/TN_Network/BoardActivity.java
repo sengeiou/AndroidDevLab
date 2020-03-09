@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.technote.R;
-import com.example.technote.TN_Network.Data.BoardData;
-import com.example.technote.TN_Network.Adapter.BoardListAdapter;
+import com.example.technote.TN_Network.Adapter.Network_Board_ImageListAdapter;
+import com.example.technote.TN_Network.Data.Network_Board_ImageListData;
 import com.example.technote.TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -22,12 +22,12 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class BoardActivity extends AppCompatActivity implements BoardListAdapter.MyRecyclerViewClickListener{
+public class BoardActivity extends AppCompatActivity implements Network_Board_ImageListAdapter.MyRecyclerViewClickListener{
     private static String TAG = "phptest";
-    private ArrayList<BoardData> mArrayList;
-    private BoardListAdapter mAdapter;
+    private ArrayList<Network_Board_ImageListData> mArrayList;
+    private Network_Board_ImageListAdapter mAdapter;
     private RecyclerView mRecyclerView;
-    BoardData personalData;
+    Network_Board_ImageListData personalData;
     private String url = "http://yjpapp.com/getjson.php";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class BoardActivity extends AppCompatActivity implements BoardListAdapter
 
         mArrayList = new ArrayList<>();
 
-        mAdapter = new BoardListAdapter(this, mArrayList);
+        mAdapter = new Network_Board_ImageListAdapter(this, mArrayList);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         mAdapter.setOnClickListener(this);
@@ -73,7 +73,7 @@ public class BoardActivity extends AppCompatActivity implements BoardListAdapter
                 try {
                     JSONArray jsonArray = response.getJSONArray("yjpapp");
                     for(int i=0;i<jsonArray.length();i++){
-                        personalData = new BoardData();
+                        personalData = new Network_Board_ImageListData();
                         personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
                         personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
                         personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());

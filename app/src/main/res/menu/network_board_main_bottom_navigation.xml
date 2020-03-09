@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_one"
-        android:title="나의 정보"
-        android:icon="@drawable/profile"
+        android:title="홈"
+        android:icon="@drawable/home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_two"
-        android:icon="@drawable/market_condition"
-        android:title="최근본상품"
+        android:icon="@drawable/network_board_upload_image_list"
+        android:title="이미지"
         app:showAsAction="ifRoom"
          />
     <item
         android:id="@+id/action_three"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/search"
-        android:title="검색" />
+        android:icon="@drawable/network_board_video_list"
+        android:title="동영상" />
     <item
         android:id="@+id/action_four"
         app:showAsAction="ifRoom"
-        android:title="혜택"
+        android:title="리스트4"
         android:icon="@drawable/home"/>
 </menu>

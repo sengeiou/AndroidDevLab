@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
-        android:text="글쓰기">
+        android:text="이미지 업로드">
     </Button>
 
     <Button
@@ -21,7 +21,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/button_network_board_write"
-        android:text="동영상 업로드하기">
+        android:text="동영상 업로드">
     </Button>
 
 </RelativeLayout>

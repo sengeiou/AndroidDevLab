@@ -33,7 +33,7 @@ public class GPSDataReceiveService extends Service {
     private String requestData;
     private ArrayList<byte[]> gpsData = new ArrayList<>();
     public IBinder onBind(Intent intent) {
-        // Service 객체와 (화면단 Activity 사이에서)
+        // Service 객체와 (화면단 MyActivity 사이에서)
         // 통신(데이터를 주고받을) 때 사용하는 메서드
         // 데이터를 전달할 필요가 없으면 return null;
         return mMessenger.getBinder();

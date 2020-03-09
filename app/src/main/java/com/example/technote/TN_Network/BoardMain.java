@@ -1,79 +1,69 @@
 package com.example.technote.TN_Network;
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.example.technote.TN_Layout.ConstraintLayout_Test;
-import com.example.technote.TN_Network.Adapter.TabLayoutAdapter;
 import com.example.technote.R;
-import com.example.technote.TN_Utility.BottomNavigationHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
-import com.google.android.material.tabs.TabLayout;
 
 public class BoardMain extends AppCompatActivity {
-    ViewPager vp;
-
+    private int BOTTOM_NAVIGATION_STATE_HOME = 1;
+    private int BOTTOM_NAVIGATION_STATE_IMAGE_LIST = 2;
+    private int BOTTOM_NAVIGATION_STATE_VIDEO_LIST = 3;
+    private int bottomNavigationButtonState;
+    private BottomNavigationView bottomNavigationView;
+    private Toolbar toolbar;
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_board_main);
 
-        vp = (ViewPager) findViewById(R.id.vp); //뷰 페이저
-        TabLayout mTab = (TabLayout) findViewById(R.id.tabs);
-        //mTab.setTabGravity(TabLayout.GRAVITY_FILL); // TabItem을 꽉채우지 않고 개별 크기로 통일 시켜서 놓음
-        mTab.addTab(mTab.newTab().setText("홈"));
-        mTab.addTab(mTab.newTab().setText("게시판"));
-        mTab.addTab(mTab.newTab().setText("동영상"));
+        initView();
 
-        TabLayoutAdapter tabLayoutAdapter = new TabLayoutAdapter(getSupportFragmentManager(), mTab.getTabCount());
-        tabLayoutAdapter.notifyDataSetChanged();
-        vp.setAdapter(tabLayoutAdapter);
-        vp.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바에 왼쪽버튼 추가하기
+        getSupportActionBar().setTitle("게시판");
 
-        mTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                vp.setCurrentItem(tab.getPosition());
-                if(tab.getPosition()==0){
-                    /*getSupportActionBar().setTitle("홈");*/
-                }else if(tab.getPosition()==1){
-                    /* getSupportActionBar().setTitle("나의 장터");*/
-                }else if(tab.getPosition()==2){
-                    /*getSupportActionBar().setTitle("장터");*/
-                }else if(tab.getPosition()==3){
-                    /*getSupportActionBar().setTitle("마이페이지");*/
-                }
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
+        bottomNavigationButtonState = BOTTOM_NAVIGATION_STATE_HOME;
+        //fragment 선언
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container_network_board_main, new Fragment_Board_Home()).commit();
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) { // 하단 메뉴바 버튼 클릭 이벤트
                 switch (item.getItemId()) {
                     case R.id.action_one:
+                        if(bottomNavigationButtonState != BOTTOM_NAVIGATION_STATE_HOME){
+                            replaceFragment(new Fragment_Board_Home());
+                            bottomNavigationButtonState = BOTTOM_NAVIGATION_STATE_HOME;
+                        }
                         return true;
                     case R.id.action_two:
+                        if(bottomNavigationButtonState != BOTTOM_NAVIGATION_STATE_IMAGE_LIST){
+                            replaceFragment(new Fragment_Board_ImageList());
+                            bottomNavigationButtonState = BOTTOM_NAVIGATION_STATE_IMAGE_LIST;
+                        }
                         return true;
                     case R.id.action_three:
+                        Log.d("item",String.valueOf(item.getItemId()));
+                        if(bottomNavigationButtonState != BOTTOM_NAVIGATION_STATE_VIDEO_LIST){
+                            replaceFragment(new Fragment_Board_VideoList());
+                            bottomNavigationButtonState = BOTTOM_NAVIGATION_STATE_VIDEO_LIST;
+                        }
                         return true;
                     case R.id.action_four:
+                        Log.d("item",String.valueOf(item.getItemId()));
                         return true;
                 }
                 return false;
@@ -81,5 +71,14 @@ public class BoardMain extends AppCompatActivity {
         });
         //BottomNavigationHelper.disableShiftMode(bottomNavigationView);//하단 메뉴바 쉬프트 모드 없애기
         bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+    }
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container_network_board_main, fragment).commit();
+    }
+    public void initView(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar_network_board_main);
+        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation_network_board_main);
     }
 }

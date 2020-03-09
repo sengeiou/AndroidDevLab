@@ -43,5 +43,4 @@ public class SecondActivity extends Activity {
 		getMenuInflater().inflate(R.menu.second, menu);
 		return true;
 	}
-
 }

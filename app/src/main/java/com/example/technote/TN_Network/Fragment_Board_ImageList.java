@@ -1,7 +1,6 @@
 package com.example.technote.TN_Network;
 
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +17,9 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-
 import com.example.technote.R;
-import com.example.technote.TN_Network.Adapter.BoardListAdapter;
-import com.example.technote.TN_Network.Data.BoardData;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.example.technote.TN_Network.Adapter.Network_Board_ImageListAdapter;
+import com.example.technote.TN_Network.Data.Network_Board_ImageListData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,16 +28,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class Fragment_Board_List extends Fragment implements BoardListAdapter.MyRecyclerViewClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class Fragment_Board_ImageList extends Fragment implements Network_Board_ImageListAdapter.MyRecyclerViewClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static String TAG = "phptest";
-    private ArrayList<BoardData> mArrayList;
-    private BoardListAdapter mAdapter;
+    private ArrayList<Network_Board_ImageListData> mArrayList;
+    private Network_Board_ImageListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    BoardData personalData;
-    private String url = "http://yjpapp.com/getjson.php";
+    private Network_Board_ImageListData personalData;
+    private String url = "http://yjpapp.com/get_image_list.php";
     private SwipeRefreshLayout swipeRefreshLayout = null; // 위로 끌어당겨서 새로고침
     private int restArray, updateCount, firstArrayLength;
+    private JSONArray jsonArray;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -52,7 +48,7 @@ public class Fragment_Board_List extends Fragment implements BoardListAdapter.My
 
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_network_board_list, container, false);
         mArrayList = new ArrayList<>();
-        mAdapter = new BoardListAdapter(getActivity(), mArrayList);
+        mAdapter = new Network_Board_ImageListAdapter(getActivity(), mArrayList);
         mAdapter.notifyDataSetChanged();
         mAdapter.setOnClickListener(this);
 
@@ -64,7 +60,6 @@ public class Fragment_Board_List extends Fragment implements BoardListAdapter.My
         mRecyclerView.setItemViewCacheSize(20);
         mRecyclerView.setDrawingCacheEnabled(true);
         mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -99,16 +94,10 @@ public class Fragment_Board_List extends Fragment implements BoardListAdapter.My
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("yjpapp");
+                            jsonArray = response.getJSONArray("yjpapp");
                             if (jsonArray.length()>firstArrayLength){
                                 for(int i = firstArrayLength-1;i<jsonArray.length();i++){
-                                    personalData = new BoardData();
-                                    personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
-                                    personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
-                                    personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
-                                    personalData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
-                                    personalData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
-                                    mArrayList.add(personalData);
+                                    setImageData(i);
                                 }
                                 firstArrayLength = jsonArray.length();
                                 reversRecyclerView();
@@ -125,26 +114,10 @@ public class Fragment_Board_List extends Fragment implements BoardListAdapter.My
                     }
                 });
     }
-    //BoardListAdapter.MyRecyclerViewClickListener
+    //Network_Board_ImageListAdapter.MyRecyclerViewClickListener
     @Override
     public void onItemClicked(int position) {
 
-    }
-    public static class AndroidAsyncHttpClient{
-
-        private static AsyncHttpClient client = new AsyncHttpClient();
-
-        public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-            client.get(getAbsoluteUrl(url), params, responseHandler);
-        }
-
-        public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-            client.post(getAbsoluteUrl(url), params, responseHandler);
-        }
-
-        private static String getAbsoluteUrl(String relativeUrl) {
-            return relativeUrl;
-        }
     }
 
     public void listDataUpdate(){
@@ -154,56 +127,31 @@ public class Fragment_Board_List extends Fragment implements BoardListAdapter.My
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         Log.d("onResponse","FANExample Type : get,result: onResponse");
                         try {
-                            JSONArray jsonArray = response.getJSONArray("yjpapp");
+                            jsonArray = response.getJSONArray("yjpapp");
                             if (updateCount>1){ // 업데이트 횟수가 처음이 아니면
-                                Log.d("RestArray","RestArray : "+String.valueOf(restArray));
+                                //Log.d("RestArray","RestArray : "+String.valueOf(restArray));
                                 if(restArray<10){ // 마지막 페이지 업데이트
                                     for(int i=restArray-1;i>=0;i--){
-                                        personalData = new BoardData();
-                                        personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
-                                        personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
-                                        personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
-                                        personalData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
-                                        personalData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
-                                        mArrayList.add(personalData);
+                                        setImageData(i);
                                     }
                                 }else{ // 중간 페이지 업데이트
                                     for (int i = restArray-1 - 1; i >= restArray - 10; i--) {
-                                        personalData = new BoardData();
-                                        personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
-                                        personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
-                                        personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
-                                        personalData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
-                                        personalData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
-                                        mArrayList.add(personalData);
+                                        setImageData(i);
                                     }
                                 }
-                            }else {
+                            }else { // 이미지 업데이트 횟수가 처음일 때
                                 firstArrayLength = jsonArray.length();
                                 if(jsonArray.length()<10){ // 쌓인 데이터가 10개 미만이면
                                     for(int i=0;i<jsonArray.length();i++){
-                                        personalData = new BoardData();
-                                        personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
-                                        personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
-                                        personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
-                                        personalData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
-                                        personalData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
-                                        mArrayList.add(personalData);
+                                        setImageData(i);
                                     }
                                     reversRecyclerView();//RecyclerView를 역순으로 정렬하는 함수
 
                                 }else{ // 첫 번째로 보여줄 리스트 업데이트
                                     for (int i = jsonArray.length() - 1; i >= jsonArray.length() - (10 * updateCount); i--) {
-                                        personalData = new BoardData();
-                                        personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
-                                        personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
-                                        personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
-                                        personalData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
-                                        personalData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
-                                        mArrayList.add(personalData);
+                                        setImageData(i);
                                     }
                                 }
                             }
@@ -220,21 +168,30 @@ public class Fragment_Board_List extends Fragment implements BoardListAdapter.My
                     }
                 });
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("onDestroyView","게시판");
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("onDestroy","게시판");
+    }
+    public void setImageData(int i) throws JSONException {
+        personalData = new Network_Board_ImageListData();
+        personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
+        personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
+        personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
+        personalData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
+        personalData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
+        mArrayList.add(personalData);
+    }
     public void reversRecyclerView(){
         //RecyclerView를 역순으로 정렬하는 코드
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         mLayoutManager.setItemPrefetchEnabled(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.d("onDestoryView","게시판");
-    }
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        Log.d("onDestroy","게시판");
     }
 }

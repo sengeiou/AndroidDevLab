@@ -17,11 +17,12 @@ import com.example.technote.TN_Database.SQLiteTest.AddressBook;
 import com.example.technote.TN_Database.ContentProviderPractics.ContentProviderTest2;
 import com.example.technote.TN_Database.SQLiteTest.SQLiteTest;
 import com.example.technote.TN_Database.SQLiteTest.SQLiteTest_2;
-import com.example.technote.TN_Dialog_Activity_Fragment.Activity;
+import com.example.technote.TN_Dialog_Activity_Fragment.MyActivity;
 import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.TN_Dialog_Activity_Fragment.Dialog;
 import com.example.technote.TN_Dialog_Activity_Fragment.FirstActivity;
+import com.example.technote.TN_Dialog_Activity_Fragment.MyTab_ViewPager.MyTab_ViewPager;
 import com.example.technote.TN_GoogleMap.GoogleMapTest;
 import com.example.technote.TN_Layout.ConstraintLayout_Test;
 import com.example.technote.TN_Layout.CoordinatorLayout_Test;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 popup.show();//Popup Menu 보이기
             }
         });
-        // Dialog, Activity, Fragment
+        // Dialog, MyActivity, Fragment
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), Dialog.class));
                                 break;
                             case R.id.menu_activity:
-                                startActivity(new Intent(getApplicationContext(), Activity.class));
+                                startActivity(new Intent(getApplicationContext(), MyActivity.class));
                                 break;
                             case R.id.menu_go_screen_1:
                                 startActivity(new Intent(getApplicationContext(), Activity_Screen_1.class));
@@ -128,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.menu_go_screen_2:
                                 startActivity(new Intent(getApplicationContext(), Activity_Screen_2.class));
                                 break;
-                            case R.id.menu_firstScreen:
-                                startActivity(new Intent(getApplicationContext(), FirstActivity.class));
+                            case R.id.menu_tap_viewpager:
+                                startActivity(new Intent(getApplicationContext(), MyTab_ViewPager.class));
                             default:
                                 break;
                         }

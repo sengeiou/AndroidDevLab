@@ -1,15 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".TN_Network.BoardVideoUpload">
+    <!--CoordinatorLayout : 액션바 영역을 포함한 전체 화면의 위치를 잡아주는 역할-->
+    <!--//AppBarLayout-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/video_upload_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/border_line_bottom">
+    </androidx.appcompat.widget.Toolbar>
 
-    <Button
-        android:id="@+id/button_video_select"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="동영상 선택">
-    </Button>
+    <ImageView
+        android:id="@+id/imageview_video_upload"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="center"
+        android:layout_below="@+id/video_upload_toolbar"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/network_board_video_upload" />
 
+
+    <LinearLayout
+        android:id="@+id/upload_video_title_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageview_video_upload"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_line_top_bottom">
+
+        <EditText
+            android:id="@+id/video_upload_etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:hint="제목"
+            android:maxLength="20"
+            android:textColorHint="@color/rippleColor"
+            android:imeOptions="actionDone"
+            android:background="@null"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/upload_video_title_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_line_bottom">
+
+        <EditText
+            android:id="@+id/video_upload_etContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:gravity="top"
+            android:maxLength="300"
+            android:hint="동영상 설명"
+            android:textColorHint="@color/rippleColor"
+            android:imeOptions="actionDone"
+            android:background="@null"/>
+    </LinearLayout>
 </RelativeLayout>

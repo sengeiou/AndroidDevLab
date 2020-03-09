@@ -10,20 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.technote.TN_Network.Data.BoardData;
 import com.example.technote.R;
+import com.example.technote.TN_Network.Data.Network_Board_ImageListData;
+import com.example.technote.TN_Network.Data.Network_Board_VideoListData;
 import com.loopj.android.image.SmartImageView;
 
 import java.util.ArrayList;
 
+public class Network_Board_VideoListAdapter extends RecyclerView.Adapter<Network_Board_VideoListAdapter.CustomViewHolder> {
 
-public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.CustomViewHolder> {
-
-    private ArrayList<BoardData> mList = null;
+    private ArrayList<Network_Board_VideoListData> mList = null;
     private Activity context = null;
     private MyRecyclerViewClickListener mListener;
 
-    public BoardListAdapter(Activity context, ArrayList<BoardData> list) {
+    public Network_Board_VideoListAdapter(Activity context, ArrayList<Network_Board_VideoListData> list) {
         this.context = context;
         this.mList = list;
 
@@ -40,20 +40,16 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     class CustomViewHolder extends RecyclerView.ViewHolder {
         protected SmartImageView title_image;
         protected TextView title;
-        protected TextView subject;
-        protected TextView price;
 
         public CustomViewHolder(View view) {
             super(view);
             this.title_image = (SmartImageView) view.findViewById(R.id.title_image_view);
             this.title = (TextView) view.findViewById(R.id.title_text_view);
-            this.subject = (TextView) view.findViewById(R.id.subject_text_view);
-            this.price = (TextView) view.findViewById(R.id.price_text_view);
         }
     }
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_board_list, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_board_video_list, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
@@ -62,10 +58,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
 
-        viewholder.title_image.setImageUrl(mList.get(position).getPhoto_url_1());
+        viewholder.title_image.setImageUrl(mList.get(position).getVideo_url());
         viewholder.title.setText(mList.get(position).getTitle());
-        viewholder.subject.setText(mList.get(position).getSubject());
-        viewholder.price.setText(mList.get(position).getPrice());
         viewholder.title_image.setScaleType(ImageView.ScaleType.FIT_XY);
 
         /*클릭 이벤트
