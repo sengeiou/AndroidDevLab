@@ -58,7 +58,7 @@ public class Network_Board_VideoListAdapter extends RecyclerView.Adapter<Network
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
 
-        viewholder.title_image.setImageUrl(mList.get(position).getVideo_url());
+        viewholder.title_image.setImageUrl(mList.get(position).getThumbnail_url());
         viewholder.title.setText(mList.get(position).getTitle());
         viewholder.title_image.setScaleType(ImageView.ScaleType.FIT_XY);
 

@@ -34,7 +34,7 @@ public class BoardActivity extends AppCompatActivity implements Network_Board_Im
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_board);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.listView_main_list);
+        mRecyclerView = (RecyclerView)findViewById(R.id.network_board_image_list_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 

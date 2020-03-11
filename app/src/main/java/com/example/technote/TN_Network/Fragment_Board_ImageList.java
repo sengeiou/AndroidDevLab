@@ -1,5 +1,6 @@
 package com.example.technote.TN_Network;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
     private Network_Board_ImageListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private Network_Board_ImageListData personalData;
+    private Network_Board_ImageListData imageListData;
     private String url = "http://yjpapp.com/get_image_list.php";
     private SwipeRefreshLayout swipeRefreshLayout = null; // 위로 끌어당겨서 새로고침
     private int restArray, updateCount, firstArrayLength;
@@ -46,14 +47,16 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_network_board_list, container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_network_board_image_list, container, false);
         mArrayList = new ArrayList<>();
         mAdapter = new Network_Board_ImageListAdapter(getActivity(), mArrayList);
         mAdapter.notifyDataSetChanged();
-        mAdapter.setOnClickListener(this);
 
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.listView_main_list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        swipeRefreshLayout = (SwipeRefreshLayout)layout.findViewById(R.id.network_board_image_list_swipeRefreshLayout);
+        mLayoutManager = new LinearLayoutManager(getContext());
+
+        mRecyclerView = (RecyclerView) layout.findViewById(R.id.network_board_image_list_recyclerview);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         //mRecyclerView.addItemDecoration(new DividerItemDecoration(layout.getContext(), 1));
         mRecyclerView.setHasFixedSize(true);
@@ -71,12 +74,13 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
             }
         });
 
-        mLayoutManager = new LinearLayoutManager(getContext());
+        mAdapter.setOnClickListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         restArray=0; updateCount=1;
 
-        swipeRefreshLayout = (SwipeRefreshLayout)layout.findViewById(R.id.network_board_list_swipeRefreshLayout);
+
         //swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan); swipeRefreshLayout Color 지정하기
-        swipeRefreshLayout.setOnRefreshListener(this);
 
         listDataUpdate();
 
@@ -117,7 +121,10 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
     //Network_Board_ImageListAdapter.MyRecyclerViewClickListener
     @Override
     public void onItemClicked(int position) {
+        Intent startImageSliderTest = new Intent(getActivity(), BoardImageContent.class);
 
+        startImageSliderTest.putExtra("id_send",mArrayList.get(position).getId());
+        startActivity(startImageSliderTest);
     }
 
     public void listDataUpdate(){
@@ -179,13 +186,13 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         Log.d("onDestroy","게시판");
     }
     public void setImageData(int i) throws JSONException {
-        personalData = new Network_Board_ImageListData();
-        personalData.setId(jsonArray.getJSONObject(i).get("id").toString());
-        personalData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
-        personalData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
-        personalData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
-        personalData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
-        mArrayList.add(personalData);
+        imageListData = new Network_Board_ImageListData();
+        imageListData.setId(jsonArray.getJSONObject(i).get("id").toString());
+        imageListData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
+        imageListData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
+        imageListData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
+        imageListData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
+        mArrayList.add(imageListData);
     }
     public void reversRecyclerView(){
         //RecyclerView를 역순으로 정렬하는 코드

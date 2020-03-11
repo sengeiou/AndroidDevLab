@@ -90,6 +90,7 @@
             android:screenOrientation="sensorLandscape">
         </activity>
         <activity android:name=".TN_Network.BoardVideoUpload"></activity>
+        <activity android:name=".TN_Network.BoardImageContent"></activity>
 
         <service android:name=".TN_BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".TN_GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService"></service>

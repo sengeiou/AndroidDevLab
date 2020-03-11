@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,7 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
         protected TextView title;
         protected TextView subject;
         protected TextView price;
+        protected RelativeLayout layout_image_list;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -49,6 +52,7 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
             this.title = (TextView) view.findViewById(R.id.title_text_view);
             this.subject = (TextView) view.findViewById(R.id.subject_text_view);
             this.price = (TextView) view.findViewById(R.id.price_text_view);
+            this.layout_image_list = (RelativeLayout)view.findViewById(R.id.layout_image_list);
         }
     }
     @Override
@@ -68,17 +72,16 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
         viewholder.price.setText(mList.get(position).getPrice());
         viewholder.title_image.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        /*클릭 이벤트
+        //레이아웃 클릭 이벤트
         if(mListener != null) {
             final int pos = position;
-            viewholder.post.setOnClickListener(new View.OnClickListener() {
+            viewholder.layout_image_list.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mListener.onItemClicked(pos);
                 }
             });
         }
-         */
 
     }
     @Override
