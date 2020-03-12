@@ -37,6 +37,6 @@
         app:itemIconTint="@color/selector_bottom_nav_color_state"
         app:labelVisibilityMode="labeled"
         app:layout_constraintVertical_chainStyle="spread_inside"
-        app:menu="@menu/network_board_main_bottom_navigation" />
+        app:menu="@menu/menu_network_board_main_bottom_navigation" />
 
 </RelativeLayout>

@@ -69,7 +69,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                 super.onScrolled(recyclerView, dx, dy);
                 if(!mRecyclerView.canScrollVertically(1)&&restArray>=0){ //restArray가 양수 일때
                     ++updateCount;
-                    listDataUpdate();
+                    imageListDataUpdate();
                 }
             }
         });
@@ -78,11 +78,9 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         swipeRefreshLayout.setOnRefreshListener(this);
 
         restArray=0; updateCount=1;
-
-
         //swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan); swipeRefreshLayout Color 지정하기
 
-        listDataUpdate();
+        imageListDataUpdate();
 
         return layout;
 
@@ -101,7 +99,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                             jsonArray = response.getJSONArray("yjpapp");
                             if (jsonArray.length()>firstArrayLength){
                                 for(int i = firstArrayLength-1;i<jsonArray.length();i++){
-                                    setImageData(i);
+                                    setImageListData(i);
                                 }
                                 firstArrayLength = jsonArray.length();
                                 reversRecyclerView();
@@ -126,7 +124,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         startActivity(startImageSliderTest);
     }
 
-    public void listDataUpdate(){
+    public void imageListDataUpdate(){
         AndroidNetworking.get(url)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -140,24 +138,24 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                                 //Log.d("RestArray","RestArray : "+String.valueOf(restArray));
                                 if(restArray<10){ // 마지막 페이지 업데이트
                                     for(int i=restArray-1;i>=0;i--){
-                                        setImageData(i);
+                                        setImageListData(i);
                                     }
                                 }else{ // 중간 페이지 업데이트
                                     for (int i = restArray-1 - 1; i >= restArray - 10; i--) {
-                                        setImageData(i);
+                                        setImageListData(i);
                                     }
                                 }
                             }else { // 이미지 업데이트 횟수가 처음일 때
                                 firstArrayLength = jsonArray.length();
                                 if(jsonArray.length()<10){ // 쌓인 데이터가 10개 미만이면
                                     for(int i=0;i<jsonArray.length();i++){
-                                        setImageData(i);
+                                        setImageListData(i);
                                     }
                                     reversRecyclerView();//RecyclerView를 역순으로 정렬하는 함수
 
                                 }else{ // 첫 번째로 보여줄 리스트 업데이트
                                     for (int i = jsonArray.length() - 1; i >= jsonArray.length() - (10 * updateCount); i--) {
-                                        setImageData(i);
+                                        setImageListData(i);
                                     }
                                 }
                             }
@@ -184,7 +182,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         super.onDestroy();
         Log.d("onDestroy","게시판");
     }
-    public void setImageData(int i) throws JSONException {
+    public void setImageListData(int i) throws JSONException {
         imageListData = new Network_Board_ImageListData();
         imageListData.setId(jsonArray.getJSONObject(i).get("id").toString());
         imageListData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());

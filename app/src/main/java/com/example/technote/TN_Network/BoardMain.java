@@ -2,6 +2,7 @@ package com.example.technote.TN_Network;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -71,6 +72,22 @@ public class BoardMain extends AppCompatActivity {
         });
         //BottomNavigationHelper.disableShiftMode(bottomNavigationView);//하단 메뉴바 쉬프트 모드 없애기
         bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+    }
+
+    @Override // 툴바 메뉴 설정하기
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_network_board_main,menu);
+        return true;
+    }
+    //툴바 아이콘 클릭 이벤트
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

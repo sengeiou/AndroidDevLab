@@ -62,7 +62,9 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
         mAdapter.setOnClickListener(this);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        listDataUpdate();
+        restArray=0; updateCount=1;
+
+        videoListDataUpdate();
         return view;
     }
     //Network_Board_VideoListAdapter.MyRecyclerViewClickListener
@@ -86,7 +88,7 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
                             jsonArray = response.getJSONArray("yjpapp");
                             if (jsonArray.length()>firstArrayLength){
                                 for(int i = firstArrayLength-1;i<jsonArray.length();i++){
-                                    setImageData(i);
+                                    setVideoListData(i);
                                 }
                                 firstArrayLength = jsonArray.length();
                                 reversRecyclerView();
@@ -104,7 +106,7 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
                 });
     }
 
-    public void listDataUpdate(){
+    public void videoListDataUpdate(){
         AndroidNetworking.get(url)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -118,24 +120,24 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
                                 //Log.d("RestArray","RestArray : "+String.valueOf(restArray));
                                 if(restArray<10){ // 마지막 페이지 업데이트
                                     for(int i=restArray-1;i>=0;i--){
-                                        setImageData(i);
+                                        setVideoListData(i);
                                     }
                                 }else{ // 중간 페이지 업데이트
                                     for (int i = restArray-1 - 1; i >= restArray - 10; i--) {
-                                        setImageData(i);
+                                        setVideoListData(i);
                                     }
                                 }
                             }else { // 이미지 업데이트 횟수가 처음일 때
                                 firstArrayLength = jsonArray.length();
                                 if(jsonArray.length()<10){ // 쌓인 데이터가 10개 미만이면
                                     for(int i=0;i<jsonArray.length();i++){
-                                        setImageData(i);
+                                        setVideoListData(i);
                                     }
                                     reversRecyclerView();//RecyclerView를 역순으로 정렬하는 함수
 
                                 }else{ // 첫 번째로 보여줄 리스트 업데이트
                                     for (int i = jsonArray.length() - 1; i >= jsonArray.length() - (10 * updateCount); i--) {
-                                        setImageData(i);
+                                        setVideoListData(i);
                                     }
                                 }
                             }
@@ -153,7 +155,7 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
                 });
     }
     // json 데이터를 가져와서 set하는 함수
-    public void setImageData(int i) throws JSONException {
+    public void setVideoListData(int i) throws JSONException {
         videoListData = new Network_Board_VideoListData();
         videoListData.setId(jsonArray.getJSONObject(i).get("id").toString());
         videoListData.setVideo_url(jsonArray.getJSONObject(i).get("video_url").toString());

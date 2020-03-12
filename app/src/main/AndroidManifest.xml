@@ -84,11 +84,7 @@
         <activity android:name=".TN_Thread.MyAsyncTaskExample_1"></activity>
         <activity android:name=".TN_Thread.MyAsyncTaskExample_2"></activity>
         <activity android:name=".TN_Thread.ThreadNetworkExample_1"></activity>
-        <activity android:name=".TN_Network.BoardActivity"></activity>
         <activity android:name=".TN_Network.BoardMain"></activity>
-        <activity android:name=".TN_Network.BoardVideoPlay_1"
-            android:screenOrientation="sensorLandscape">
-        </activity>
         <activity android:name=".TN_Network.BoardUpload_Video"></activity>
         <activity android:name=".TN_Network.BoardContent_Image"></activity>
         <activity android:name=".TN_Network.BoardContent_Video"></activity>

@@ -12,23 +12,18 @@ import android.view.WindowManager;
 import android.widget.MediaController;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.technote.R;
-import com.example.technote.TN_Network.Adapter.AutoScrollAdapter;
-import com.example.technote.TN_Network.Adapter.CircleIndicator;
-import com.example.technote.TN_Network.Data.ImageSliderData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class BoardContent_Video extends AppCompatActivity implements SurfaceHolder.Callback, android.widget.MediaController.MediaPlayerControl{
 

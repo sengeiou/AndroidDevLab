@@ -45,7 +45,7 @@
             app:itemTextColor="@color/black"
             app:labelVisibilityMode="labeled"
             app:layout_constraintVertical_chainStyle="spread_inside"
-            app:menu="@menu/network_board_main_bottom_navigation" />
+            app:menu="@menu/menu_network_board_main_bottom_navigation" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>
