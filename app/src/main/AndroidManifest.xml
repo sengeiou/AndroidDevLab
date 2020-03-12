@@ -78,7 +78,7 @@
         <activity android:name=".TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.RetrofitExamples.RetrofitExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.RestAPIExample"></activity>
-        <activity android:name=".TN_Network.BoardImageUpload"></activity>
+        <activity android:name=".TN_Network.BoardUpload_Image"></activity>
 
         <activity android:name=".TN_Thread.HandlerEx"></activity>
         <activity android:name=".TN_Thread.MyAsyncTaskExample_1"></activity>
@@ -89,8 +89,9 @@
         <activity android:name=".TN_Network.BoardVideoPlay_1"
             android:screenOrientation="sensorLandscape">
         </activity>
-        <activity android:name=".TN_Network.BoardVideoUpload"></activity>
-        <activity android:name=".TN_Network.BoardImageContent"></activity>
+        <activity android:name=".TN_Network.BoardUpload_Video"></activity>
+        <activity android:name=".TN_Network.BoardContent_Image"></activity>
+        <activity android:name=".TN_Network.BoardContent_Video"></activity>
 
         <service android:name=".TN_BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".TN_GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService"></service>

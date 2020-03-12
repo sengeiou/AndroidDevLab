@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".TN_Network.BoardImageContent"
+    tools:context=".TN_Network.BoardContent_Image"
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/imageSliderToolbars"

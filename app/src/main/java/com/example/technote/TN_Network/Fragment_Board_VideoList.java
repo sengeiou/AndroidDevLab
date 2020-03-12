@@ -1,5 +1,6 @@
 package com.example.technote.TN_Network;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,7 +68,9 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
     //Network_Board_VideoListAdapter.MyRecyclerViewClickListener
     @Override
     public void onItemClicked(int position) {
-
+        Intent startImageSliderTest = new Intent(getActivity(), BoardContent_Video.class);
+        startImageSliderTest.putExtra("id_send",mArrayList.get(position).getId());
+        startActivity(startImageSliderTest);
     }
 
     @Override

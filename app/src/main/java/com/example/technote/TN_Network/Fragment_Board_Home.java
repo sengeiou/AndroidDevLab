@@ -26,7 +26,7 @@ public class Fragment_Board_Home extends Fragment {
         imageUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), BoardImageUpload.class));
+                startActivity(new Intent(getContext(), BoardUpload_Image.class));
             }
         });
 
@@ -34,7 +34,7 @@ public class Fragment_Board_Home extends Fragment {
         videoUploadButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                startActivity(new Intent(getContext(), BoardVideoUpload.class));
+                startActivity(new Intent(getContext(), BoardUpload_Video.class));
             }
         });
         return view;

@@ -1,8 +1,6 @@
 package com.example.technote.TN_Network;
 
 import android.Manifest;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,12 +31,9 @@ import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.UUID;
 
-public class BoardVideoUpload extends AppCompatActivity implements View.OnClickListener {
+public class BoardUpload_Video extends AppCompatActivity implements View.OnClickListener {
     private int VIDEO_REQUST_CODE = 2;
     private final String[] permissions = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -57,7 +52,7 @@ public class BoardVideoUpload extends AppCompatActivity implements View.OnClickL
 
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.activity_network_board_video_upload);
+        setContentView(R.layout.activity_network_board_upload_video);
 
         context = getApplicationContext();
         initView();
@@ -67,9 +62,9 @@ public class BoardVideoUpload extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바에 왼쪽버튼 추가하기
         getSupportActionBar().setTitle("동영상 등록");
 
-        if (ActivityCompat.checkSelfPermission(BoardVideoUpload.this, permissions[0]) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(BoardVideoUpload.this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(BoardVideoUpload.this, permissions, REQUEST_CODE);
+        if (ActivityCompat.checkSelfPermission(BoardUpload_Video.this, permissions[0]) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(BoardUpload_Video.this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(BoardUpload_Video.this, permissions, REQUEST_CODE);
         }
     }
     @Override
@@ -107,7 +102,7 @@ public class BoardVideoUpload extends AppCompatActivity implements View.OnClickL
                 return true; // 다른 버튼이 중복 클릭 되지않게 한다.
             case R.id.video_upload: //등록 버튼을 누르면
                 if(etTitle.length() ==0){
-                    AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardVideoUpload.this);
+                    AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardUpload_Video.this);
                     alert_confirm_subject.setMessage("제목을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -119,7 +114,7 @@ public class BoardVideoUpload extends AppCompatActivity implements View.OnClickL
                     AlertDialog alert_subject = alert_confirm_subject.create();
                     alert_subject.show();
                     if(etContent.length() == 0) {
-                        AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardVideoUpload.this);
+                        AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardUpload_Video.this);
                         alert_confirm_title.setMessage("내용을 입력하세요.").setCancelable(false).setPositiveButton("확인",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -131,7 +126,7 @@ public class BoardVideoUpload extends AppCompatActivity implements View.OnClickL
                     }
                 }else{
                     uploadMultipart();
-                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardVideoUpload.this);
+                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardUpload_Video.this);
                     alert_confirm_image.setMessage("등록 완료 됐습니다.").setCancelable(false).setPositiveButton("확인",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -222,10 +217,10 @@ public class BoardVideoUpload extends AppCompatActivity implements View.OnClickL
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
-                Toast.makeText(BoardVideoUpload.this, "Permission granted!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(BoardUpload_Video.this, "Permission granted!!!", Toast.LENGTH_LONG).show();
             }
             else {
-                Toast.makeText(BoardVideoUpload.this, "Necessary permissions not granted...", Toast.LENGTH_LONG).show();
+                Toast.makeText(BoardUpload_Video.this, "Necessary permissions not granted...", Toast.LENGTH_LONG).show();
                 finish();
             }
         }

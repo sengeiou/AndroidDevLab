@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,11 +42,13 @@ public class Network_Board_VideoListAdapter extends RecyclerView.Adapter<Network
     class CustomViewHolder extends RecyclerView.ViewHolder {
         protected SmartImageView title_image;
         protected TextView title;
+        protected RelativeLayout post;
 
         public CustomViewHolder(View view) {
             super(view);
             this.title_image = (SmartImageView) view.findViewById(R.id.title_image_view);
             this.title = (TextView) view.findViewById(R.id.title_text_view);
+            this.post = (RelativeLayout)view.findViewById(R.id.post);
         }
     }
     @Override
@@ -62,7 +66,6 @@ public class Network_Board_VideoListAdapter extends RecyclerView.Adapter<Network
         viewholder.title.setText(mList.get(position).getTitle());
         viewholder.title_image.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        /*클릭 이벤트
         if(mListener != null) {
             final int pos = position;
             viewholder.post.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +75,6 @@ public class Network_Board_VideoListAdapter extends RecyclerView.Adapter<Network
                 }
             });
         }
-         */
 
     }
     @Override

@@ -121,8 +121,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
     //Network_Board_ImageListAdapter.MyRecyclerViewClickListener
     @Override
     public void onItemClicked(int position) {
-        Intent startImageSliderTest = new Intent(getActivity(), BoardImageContent.class);
-
+        Intent startImageSliderTest = new Intent(getActivity(), BoardContent_Image.class);
         startImageSliderTest.putExtra("id_send",mArrayList.get(position).getId());
         startActivity(startImageSliderTest);
     }
