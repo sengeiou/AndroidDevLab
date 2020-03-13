@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.technote.R;
 
-public class Fragment_Board_Remain extends Fragment {
+public class Fragment_Board_Test extends Fragment {
     private View view;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package com.example.technote.TN_Network;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
@@ -10,6 +11,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +19,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.technote.R;
 
 import org.json.JSONArray;
@@ -34,6 +37,8 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
     private String url = "http://yjpapp.com/get_video_content.php";
     private  String id;
     private JSONArray jsonArray;
+    private ProgressDialog progressDialog;
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_board_content_video);
@@ -68,6 +73,8 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         } else {
             mediaPlayer.reset();
         }
+        progressDialog = ProgressDialog.show(BoardContent_Video.this,
+                "Please Wait", null, true, true);
         AndroidNetworking.upload(url)
                 .addMultipartParameter("id",id)
                 .setPriority(Priority.HIGH)
@@ -75,15 +82,30 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("Result", "onResponse");
+                        Log.d("GetVideoResult", "onResponse");
                         try{
                             jsonArray = response.getJSONArray("yjpapp");
-                            mediaPlayer.setDataSource(jsonArray.getJSONObject(0).get("video_url").toString());
                             //mediaPlayer.setVolume(0, 0); //볼륨 제거
                             mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
+                            mediaPlayer.setDataSource(jsonArray.getJSONObject(0).get("video_url").toString());
                             mediaPlayer.prepare(); // 비디오 load 준비
-                            //mediaPlayer.setOnCompletionListener(completionListener); // 비디오 재생 완료 리스너
+                            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                @Override
+                                public void onPrepared(MediaPlayer mp) {
+                                    mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                                        @Override
+                                        public void onBufferingUpdate(MediaPlayer mp, int percent) { //버퍼링 리스너
+                                            Log.d("Buffering","buffering = " + String.valueOf(percent));
+                                            if(percent>35 ){
+                                                progressDialog.dismiss();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+
                             mediaPlayer.start();
+
                         } catch (IOException e) { // setDataSource 에러
                             e.printStackTrace();
                             Log.e("MyTag","surface view error : " + e.getMessage());
@@ -93,7 +115,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
                     }
                     @Override
                     public void onError(ANError anError) {
-                        Log.d("Result","onError" + anError.toString());
+                        Log.d("GetVideoResult","onError" + anError.toString());
                     }
                 });
     }
@@ -107,7 +129,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         }
     }
 
-    //Media Control Override 부분
+    //Media Control Click Listener Override 부분
     @Override
     public void start() {
         mediaPlayer.start();
@@ -135,6 +157,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
 
     @Override
     public boolean isPlaying() {
+
         return mediaPlayer.isPlaying();
     }
 
@@ -167,4 +190,5 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
+
 }

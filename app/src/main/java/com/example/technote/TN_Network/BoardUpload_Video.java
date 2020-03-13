@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,13 +27,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.technote.R;
 
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.util.UUID;
+import java.io.File;
 
 public class BoardUpload_Video extends AppCompatActivity implements View.OnClickListener {
     private int VIDEO_REQUST_CODE = 2;
@@ -45,10 +51,11 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
 
     private Toolbar toolbar;
     private EditText etTitle, etContent;
-    private Uri videoFilePath, thumbnailFilePath;
+    private Uri videoFileUriPath, thumbnailFileUriPath;
     private Bitmap thumbNailBitmap;
-    private String imagePath, thumbnailPath;
     private Context context;
+    private File videoFile, thumbnailFile;
+    private boolean uploadComplete = false;
 
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
@@ -66,17 +73,16 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
                 ActivityCompat.checkSelfPermission(BoardUpload_Video.this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(BoardUpload_Video.this, permissions, REQUEST_CODE);
         }
-    }
+}
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { //이미지를 선택하고 난 뒤 실행되는 함수
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VIDEO_REQUST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            videoFilePath = data.getData();
-
-            thumbNailBitmap = ThumbnailUtils.createVideoThumbnail(getVideoPath(videoFilePath),MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+            videoFileUriPath = data.getData();
+            thumbNailBitmap = ThumbnailUtils.createVideoThumbnail(getVideoPath(videoFileUriPath),MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
             imageView_video_upload.setImageBitmap(thumbNailBitmap);
             imageView_video_upload.setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
-            thumbnailFilePath = getImageUri(getApplicationContext(),thumbNailBitmap);
+            thumbnailFileUriPath = bitmapToUri(getApplicationContext(),thumbNailBitmap);
         }
     }
     @Override
@@ -101,43 +107,24 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
                 finish();
                 return true; // 다른 버튼이 중복 클릭 되지않게 한다.
             case R.id.video_upload: //등록 버튼을 누르면
-                if(etTitle.length() ==0){
-                    AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardUpload_Video.this);
-                    alert_confirm_subject.setMessage("제목을 입력하세요.").setCancelable(false).setPositiveButton("확인",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // 'YES'
-                                    return;
-                                }
-                            });
-                    AlertDialog alert_subject = alert_confirm_subject.create();
-                    alert_subject.show();
-                    if(etContent.length() == 0) {
-                        AlertDialog.Builder alert_confirm_title = new AlertDialog.Builder(BoardUpload_Video.this);
-                        alert_confirm_title.setMessage("내용을 입력하세요.").setCancelable(false).setPositiveButton("확인",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // 'YES'
-                                        return;
-                                    }
-                                });
+                //네트워크 상태 체크
+                ConnectivityManager cm =
+                        (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+                if( etTitle.length() != 0 && etContent.length() != 0 && isConnected) { // 모든 조건 충족
+                    uploadVideo();
+                    uploadComplete = true;
+                    setDialogMessage("등록 완료 됐습니다.");
+                }else{ // 예외처리
+                    if(!isConnected){
+                        setDialogMessage("네트워크 상태를 확인하세요.");
+                    }else if (etTitle.length() == 0){
+                        setDialogMessage("제목을 입력하세요.");
+                    }else if(etContent.length() == 0 && etTitle.length() != 0){
+                        setDialogMessage("동영상 설명을 입력하세요.");
                     }
-                }else{
-                    uploadMultipart();
-                    AlertDialog.Builder alert_confirm_image = new AlertDialog.Builder(BoardUpload_Video.this);
-                    alert_confirm_image.setMessage("등록 완료 됐습니다.").setCancelable(false).setPositiveButton("확인",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // 'YES'
-                                    finish();
-                                    return;
-                                }
-                            });
-                    AlertDialog alert_image = alert_confirm_image.create();
-                    alert_image.show();
                 }
             default:
                 return super.onOptionsItemSelected(item);
@@ -172,44 +159,48 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
         cursor.close();
         return path;
     }
-    public Uri getImageUri(Context inContext, Bitmap inImage) { // Bitmap을 Uri로 변경하는 함수
+    public Uri bitmapToUri(Context inContext, Bitmap inImage) { // Bitmap을 Uri로 변경하는 함수
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        Log.d("getImageUri",path);
         return Uri.parse(path);
     }
-    public void uploadMultipart() { //업로드 버튼을 누르면 실행되는 함수
+    public void uploadVideo() { //업로드 버튼을 누르면 실행되는 함수
         String title = etTitle.getText().toString().trim();
         String content = etContent.getText().toString().trim();
 
-        //이미지의 실제 경로를 String Array인 imagePath[i]에 저장
-        imagePath = getVideoPath(videoFilePath);
-        thumbnailPath = getImagePath(thumbnailFilePath);
-        //Uploading code
+        videoFile = new File(getVideoPath(videoFileUriPath));
+        thumbnailFile = new File(getImagePath(thumbnailFileUriPath));
+
         try {
-            String uploadId = UUID.randomUUID().toString();
-            //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                    .setUtf8Charset()
-                    .addFileToUpload(imagePath, "video") //Adding file
-                    .addFileToUpload(thumbnailPath,"thumbnail")
-                    .addParameter("title", title) //Adding text parameter to the request
-                    .addParameter("content",content)
-                    .setNotificationConfig(new UploadNotificationConfig())
-                    .setMaxRetries(2)
-                    .startUpload(); //Starting the upload
+            AndroidNetworking.upload(UPLOAD_URL)
+                    .addMultipartFile("video",videoFile)
+                    .addMultipartFile("thumbnail",thumbnailFile)
+                    .addMultipartParameter("title", title) //Adding text parameter to the request
+                    .addMultipartParameter("content",content)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .setUploadProgressListener(new UploadProgressListener() {
+                        @Override
+                        public void onProgress(long bytesUploaded, long totalBytes) {
+                            // do anything with progress
+                        }
+                    })
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // do anything with response
+                            Log.d("UploadResult","onResponse");
+                        }
+                        @Override
+                        public void onError(ANError error) {
+                            Log.d("UploadResult","OnError : " + error.toString());
+                        }
+                    });
         } catch (Exception exc) {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d("UploadState", exc.getMessage());
         }
-    }
-
-    public void initView(){
-        etTitle = (EditText)findViewById(R.id.video_upload_etTitle);
-        etContent = (EditText)findViewById(R.id.video_upload_etContent);
-        imageView_video_upload = (ImageView)findViewById(R.id.imageview_video_upload);
-        toolbar = findViewById(R.id.video_upload_toolbar);
     }
 
     @Override
@@ -224,5 +215,29 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
                 finish();
             }
         }
+    }
+    public void setDialogMessage(String s){
+        AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardUpload_Video.this);
+        alert_confirm_subject.setMessage(s).setCancelable(false).setPositiveButton("확인",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'YES'
+                        if (uploadComplete){
+                            finish();
+                            return;
+                        }else {
+                            return;
+                        }
+                    }
+                });
+        AlertDialog alert_subject = alert_confirm_subject.create();
+        alert_subject.show();
+    }
+    public void initView(){
+        etTitle = (EditText)findViewById(R.id.video_upload_etTitle);
+        etContent = (EditText)findViewById(R.id.video_upload_etContent);
+        imageView_video_upload = (ImageView)findViewById(R.id.imageview_video_upload);
+        toolbar = findViewById(R.id.video_upload_toolbar);
     }
 }

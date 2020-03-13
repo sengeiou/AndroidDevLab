@@ -193,6 +193,7 @@
             android:id="@+id/etContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:gravity="top"
             android:maxLength="300"
             android:hint="상품설명"

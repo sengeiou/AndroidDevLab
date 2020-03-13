@@ -54,6 +54,8 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        //RecyclerVIew Performance 향상
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemViewCacheSize(20);
         mRecyclerView.setDrawingCacheEnabled(true);
@@ -61,8 +63,21 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
 
         mAdapter.setOnClickListener(this);
         swipeRefreshLayout.setOnRefreshListener(this);
+        //RecyclerView를 아래로 내릴 때 작동
 
-        restArray=0; updateCount=1;
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(!mRecyclerView.canScrollVertically(1)&&restArray>=0){ //restArray가 양수 일때
+                    // List update
+                    ++updateCount;
+                    videoListDataUpdate();
+                }
+            }
+        });
+        restArray = 0; //restArray 값 초기화
+        updateCount=1; // 동영상 리스트를 클릭하면 첫 1회 업데이트를 함으로 1로 설정
 
         videoListDataUpdate();
         return view;
@@ -75,6 +90,7 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
         startActivity(startImageSliderTest);
     }
 
+    // swipeRefreshLayout의 OnRefreshListener (Recycler View를 위로 당길 때 작동)
     @Override
     public void onRefresh() {
         Toast.makeText(getContext(), "onRefresh()", Toast.LENGTH_SHORT).show();
@@ -116,31 +132,35 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
                         Log.d("onResponse","FANExample Type : get,result: onResponse");
                         try {
                             jsonArray = response.getJSONArray("yjpapp");
-                            if (updateCount>1){ // 업데이트 횟수가 처음이 아니면
-                                //Log.d("RestArray","RestArray : "+String.valueOf(restArray));
-                                if(restArray<10){ // 마지막 페이지 업데이트
-                                    for(int i=restArray-1;i>=0;i--){
-                                        setVideoListData(i);
-                                    }
-                                }else{ // 중간 페이지 업데이트
-                                    for (int i = restArray-1 - 1; i >= restArray - 10; i--) {
-                                        setVideoListData(i);
-                                    }
-                                }
-                            }else { // 이미지 업데이트 횟수가 처음일 때
-                                firstArrayLength = jsonArray.length();
-                                if(jsonArray.length()<10){ // 쌓인 데이터가 10개 미만이면
+
+                            if(updateCount==1){ // 첫 이미지 리스트 업데이트
+                                firstArrayLength = jsonArray.length(); // 데이터 개수를 저장
+
+                                if(jsonArray.length()<10){ // 쌓인 이미지 리스트 데이터가 10개 미만이면
                                     for(int i=0;i<jsonArray.length();i++){
                                         setVideoListData(i);
                                     }
                                     reversRecyclerView();//RecyclerView를 역순으로 정렬하는 함수
 
-                                }else{ // 첫 번째로 보여줄 리스트 업데이트
+                                }else{ // 10개 이상
                                     for (int i = jsonArray.length() - 1; i >= jsonArray.length() - (10 * updateCount); i--) {
                                         setVideoListData(i);
                                     }
                                 }
+                            }else { // 아래로 스크롤해서 업데이트
+                                //Log.d("RestArray","RestArray : "+String.valueOf(restArray));
+                                if(restArray<10){ // 마지막 페이지 업데이트
+                                    for(int i=restArray-1;i>=0;i--){
+                                        setVideoListData(i);
+                                    }
+
+                                }else{ // 중간 페이지 업데이트
+                                    for (int i = restArray-1 - 1; i >= restArray - 10; i--) {
+                                        setVideoListData(i);
+                                    }
+                                }
                             }
+
                             restArray = jsonArray.length() - (10 * updateCount);
                             mAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {

@@ -29,10 +29,6 @@ import java.util.ArrayList;
 public class BoardContent_Image extends AppCompatActivity {
 
     private String url = "http://yjpapp.com/get_image_content.php";
-    private static String IP_ADDRESS = "yjpapp.com";
-    private static String TAG = "phptest";
-    private String mJsonString;
-    private PageIndicatorView itemIndicator;
     private Toolbar imageSliderTestToolbar;
     private TextView post_title, post_price, post_content;
     private ViewPager viewPager;
@@ -92,6 +88,8 @@ public class BoardContent_Image extends AppCompatActivity {
                                 data.add(jsonArray.getJSONObject(0).get("photo_url_5").toString());
                             }
                             post_title.setText(jsonArray.getJSONObject(0).get("title").toString());
+                            post_price.setText(jsonArray.getJSONObject(0).get("price").toString());
+                            post_content.setText(jsonArray.getJSONObject(0).get("content").toString());
 
                             viewPager = (ViewPager) findViewById(R.id.autoViewPager);
                             AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getApplicationContext(), data);

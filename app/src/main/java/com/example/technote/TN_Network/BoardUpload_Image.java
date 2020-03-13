@@ -1,12 +1,15 @@
 package com.example.technote.TN_Network;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,20 +37,15 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.technote.R;
 import com.example.technote.TN_Network.Adapter.BaseExpandableAdapter;
 
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class BoardUpload_Image extends AppCompatActivity
         implements View.OnClickListener{
@@ -60,58 +58,43 @@ public class BoardUpload_Image extends AppCompatActivity
     private EditText etTitle, etContent, etPrice;
     private TextView wonText,etSubject;
     private Bitmap bitmap;
-    private Uri[] filePath = new Uri[5] ;
+    private Uri[] fileUriPath = new Uri[5] ;
     private LinearLayout choice_subject;
 
     private ArrayList<String> mGroupList = null;
     private ArrayList<ArrayList<String>> mChildList = null;
     private ArrayList<String> mChildListContent = null,mChildListContent2 = null ,mChildListContent3 = null;
     private ExpandableListView mListView;
-    private File file;
+    private File[] imageFile = new File[5];
 
     private int image_count = 0, imageNum;
-    private String[] path = new String[10];
     Toolbar image_upload_toolbar;
     private boolean uploadComplete = false, subjectSelect = false;
+    private String[] path = new String[10];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_board_upload_image);
 
-        image_upload_toolbar = (Toolbar)findViewById(R.id.image_upload_toolbar);
+        initView(); //findViewById()
+
         setSupportActionBar(image_upload_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바에 왼쪽버튼 추가하기
         getSupportActionBar().setTitle("사진 등록");
 
-        imageView_image_upload = (ImageView)findViewById(R.id.upload_click_image);
-        imageView_image_list[0] = (ImageView)findViewById(R.id.image1);
-        imageView_image_list[1] = (ImageView)findViewById(R.id.image2);
-        imageView_image_list[2] = (ImageView)findViewById(R.id.image3);
-        imageView_image_list[3] = (ImageView)findViewById(R.id.image4);
-        imageView_image_list[4] = (ImageView)findViewById(R.id.image5);
-        etPrice = (EditText)findViewById(R.id.etPrice);
-        etTitle = (EditText)findViewById(R.id.etTitle);
-        etContent = (EditText)findViewById(R.id.etContent);
-        etSubject = (TextView)findViewById(R.id.subject_textview);
-        wonText = (TextView)findViewById(R.id.wonText);
-
         // 가격을 입력하면 '\' 글씨가 검은색이 돼고, 입력하지 않은 상태면 회색 상태로 되게한다.
-        TextWatcher watcher = new TextWatcher()
-        {
+        TextWatcher watcher = new TextWatcher(){
             @Override
             public void afterTextChanged(Editable s) {
                 //텍스트 변경 후 발생할 이벤트를 작성.
             }
-
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 //텍스트의 길이가 변경되었을 경우 발생할 이벤트를 작성.
             }
-
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //텍스트가 변경될때마다 발생할 이벤트를 작성.
                 if (etPrice.isFocusable())
                 {
@@ -126,10 +109,6 @@ public class BoardUpload_Image extends AppCompatActivity
         };
         etPrice.addTextChangedListener(watcher);//\표시가 가격을 입력하면 검은글씨 입력하지 않으면 흐린글씨로 설정
 
-        choice_subject = (LinearLayout)findViewById(R.id.subject_layout);
-        Intent intent = getIntent();
-        mListView = (ExpandableListView)findViewById(R.id.elv_list);
-
         requestStoragePermission(); // 사용자에게 저장공간 접근을 허용하는 것을 묻는 함수
 
         //리스너 설정
@@ -137,31 +116,6 @@ public class BoardUpload_Image extends AppCompatActivity
         choice_subject.setOnClickListener(this);
         for(int i=0;i<5;i++){
             imageView_image_list[i].setOnClickListener(this);
-        }
-    }
-    @Override // 이전 버튼 리스너
-    public void onBackPressed() {
-        if(etContent.getText().toString().length()!=0 || subjectSelect  || etTitle.getText().toString().length()!=0){
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload_Image.this);
-            alert_confirm.setMessage("작성중인 게시물이 있습니다. 작성을 취소 하시겠습니까?").setCancelable(false).setPositiveButton("확인",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                            // 'YES'
-                        }
-                    }).setNegativeButton("취소",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // 'No'
-                            return;
-                        }
-                    });
-            AlertDialog alert = alert_confirm.create();
-            alert.show();
-        }else{
-            finish();
         }
     }
     @Override // 툴바 메뉴 설정하기
@@ -176,12 +130,21 @@ public class BoardUpload_Image extends AppCompatActivity
                 finish();
                 return true; // 다른 버튼이 중복 클릭 되지않게 한다.
             case R.id.upload: //등록 버튼을 누르면
-                if(subjectSelect && etTitle.length() != 0 && etContent.length() != 0){
+                //네트워크 상태 체크
+                ConnectivityManager cm =
+                        (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+
+                if(subjectSelect && etTitle.length() != 0 && etContent.length() != 0 && isConnected) { // 모든 조건 충족
                     uploadMultipart();
                     uploadComplete = true;
                     setDialogMessage("등록 완료 됐습니다.");
-                }else{
-                    if(!subjectSelect){
+                }else{ // 예외처리
+                    if(!isConnected){
+                        setDialogMessage("네트워크 상태를 확인하세요.");
+                    }else if(!subjectSelect){
                         setDialogMessage("품목을 선택하세요.");
                     }else if (etTitle.length() == 0 && subjectSelect){
                         setDialogMessage("제목을 입력하세요.");
@@ -196,110 +159,14 @@ public class BoardUpload_Image extends AppCompatActivity
         }
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) { //이미지를 선택하고 난 뒤 실행되는 함수
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            filePath[image_count] = data.getData();
-
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath[image_count]);
-                setImageView(image_count);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    @Override
-    public void onClick(View view) { //view에 대한 클릭 이벤트. setOnClickListener에 적용된다.
+    public void onClick(View view) { //ViewClick에 대한 클릭 이벤트.
         if(view == imageView_image_upload){ // 맨 왼쪽 카메라 이미지뷰를 클릭한다.
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT); // 업로드 할 이미지를 선택하는 인텐트 창이 뜸
             startActivityForResult(Intent.createChooser(intent, "Complete action using"), IMAGE_REQUEST_CODE);
         }else if(view == choice_subject){ //카테고리를 누르면 진행되는 코드
-            mGroupList = new ArrayList<String>();
-
-            mChildList = new ArrayList<ArrayList<String>>();
-
-            mChildListContent = new ArrayList<String>();
-            mChildListContent2 = new ArrayList<String>();
-            mChildListContent3 = new ArrayList<String>();
-
-            mGroupList.add("디지털/가전"); mGroupList.add("도서/티켓/음반/문구"); mGroupList.add("생활/가공식품");
-
-            mChildListContent.add("TV");
-            mChildListContent.add("컴퓨터/노트북");
-            mChildListContent.add("컴퓨터기기");
-            mChildListContent.add("모니터");
-            mChildListContent.add("핸드폰");
-            mChildListContent.add("가전");
-            mChildListContent.add("기타 : 디지털/가전");
-
-            mChildListContent2.add("도서");
-            mChildListContent2.add("티켓");
-            mChildListContent2.add("음반");
-            mChildListContent2.add("문구");
-            mChildListContent2.add("기타 : 도서/티켓/음반/문구");
-
-            mChildListContent3.add("생활");
-            mChildListContent3.add("가구");
-            mChildListContent3.add("옷");
-            mChildListContent3.add("가공식품");
-            mChildListContent3.add("기타 : 생활/가공식품");
-
-            mChildList.add(mChildListContent);
-            mChildList.add(mChildListContent2);
-            mChildList.add(mChildListContent3);
-
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-            builder.setTitle("카테고리 선택");
-
-            ExpandableListView myList = new ExpandableListView(this);
-
-            final BaseExpandableAdapter be = new BaseExpandableAdapter(this, mGroupList, mChildList);
-            myList.setAdapter(be);
-
-            builder.setView(myList);
-            myList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    //Toast.makeText(getApplicationContext(), " " + groupPosition, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
-            final android.app.AlertDialog dialog = builder.create();
-            dialog.show();
-            myList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v,
-                                            int groupPosition, int childPosition, long id) {
-                    //Toast.makeText(getApplicationContext(),be.getChild(groupPosition,childPosition),
-                    //                    //      Toast.LENGTH_SHORT).show();
-                    etSubject.setText(be.getChild(groupPosition,childPosition));
-                    etSubject.setTextColor(Color.parseColor("#000000"));
-                    subjectSelect = true;
-                    dialog.dismiss();
-                    return false;
-                }
-            });
-
-            myList.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-                @Override
-                public void onGroupCollapse(int groupPosition) {
-                    //Toast.makeText(getApplicationContext(), "g Collapse = " + groupPosition,
-                    //Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            myList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-                @Override
-                public void onGroupExpand(int groupPosition) {
-                    //Toast.makeText(getApplicationContext(), "g Expand = " + groupPosition,
-                    //Toast.LENGTH_SHORT).show();
-                }
-            });
-
+            loadSelectSubject();
         }else if(view == imageView_image_list[0]){ //첫 번째 업로드 이미지를 클릭했을 때 삭제하는 코드
             if(image_count>0){
                 imageNum = 0;
@@ -327,6 +194,46 @@ public class BoardUpload_Image extends AppCompatActivity
             }
         }
     }
+    @Override // 이전 버튼 리스너
+    public void onBackPressed() {
+        if(etContent.getText().toString().length()!=0 || subjectSelect  || etTitle.getText().toString().length()!=0){
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload_Image.this);
+            alert_confirm.setMessage("작성중인 게시물이 있습니다. 작성을 취소 하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            // 'YES'
+                        }
+                    }).setNegativeButton("취소",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 'No'
+                            return;
+                        }
+                    });
+            AlertDialog alert = alert_confirm.create();
+            alert.show();
+        }else{
+            finish();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { //이미지를 선택하고 난 뒤 실행되는 함수
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            fileUriPath[image_count] = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUriPath[image_count]);
+                setImageView(image_count);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void uploadMultipart() { //업로드 버튼을 누르면 실행되는 함수
         String title = etTitle.getText().toString().trim();
         String price = etPrice.getText().toString().trim() + "원";
@@ -335,95 +242,158 @@ public class BoardUpload_Image extends AppCompatActivity
 
         //이미지의 실제 경로를 String Array인 path[i]에 저장
         for(int i = 0; i<image_count;i++){
-            path[i] = getPath(filePath[i]);
+            imageFile[i] = new File(getPath(fileUriPath[i]));
         }
+
         //Uploading code
         try {
-            String uploadId = UUID.randomUUID().toString();
 
             //Creating a multi part request
-                if(image_count == 0){
-                    new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                        .setUtf8Charset()
-                        .addParameter("title", title) //Adding text parameter to the request
-                        .addParameter("price",price)
-                        .addParameter("subject",subject)
-                        .addParameter("content",content)
-                        .addParameter("image_count","0")
-                        .setNotificationConfig(new UploadNotificationConfig().setCompletedMessage("업로드 완료"))
-                        .setMaxRetries(2)
-                        .startUpload(); //Starting the upload
-                }else if(image_count==1){
-                    new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                        .setUtf8Charset()
-                        .addFileToUpload(path[0], "image") //Adding file
-                        .addParameter("title", title) //Adding text parameter to the request
-                        .addParameter("price",price)
-                        .addParameter("subject",subject)
-                        .addParameter("content",content)
-                        .addParameter("image_count","1")
-                        .setNotificationConfig(new UploadNotificationConfig())
-                        .setMaxRetries(2)
-                        .startUpload(); //Starting the upload
-
-                }else if(image_count==2){
-                    new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                        .setUtf8Charset()
-                        .addFileToUpload(path[0], "image") //Adding file
-                        .addFileToUpload(path[1],"image2")
-                        .addParameter("title", title) //Adding text parameter to the request
-                        .addParameter("price",price)
-                        .addParameter("subject",subject)
-                        .addParameter("content",content)
-                        .addParameter("image_count","2")
-                        .setNotificationConfig(new UploadNotificationConfig())
-                        .setMaxRetries(2)
-                        .startUpload(); //Starting the upload
-                }else if(image_count==3){
-                    new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                        .setUtf8Charset()
-                        .addFileToUpload(path[0], "image") //Adding file
-                        .addFileToUpload(path[1],"image2")
-                        .addFileToUpload(path[2],"image3")
-                        .addParameter("title", title) //Adding text parameter to the request
-                        .addParameter("price",price)
-                        .addParameter("subject",subject)
-                        .addParameter("content",content)
-                        .addParameter("image_count","3")
-                        .setNotificationConfig(new UploadNotificationConfig())
-                        .setMaxRetries(2)
-                        .startUpload(); //Starting the upload
-                }else if(image_count == 4){
-                    new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                        .setUtf8Charset()
-                        .addFileToUpload(path[0], "image") //Adding file
-                        .addFileToUpload(path[1],"image2")
-                        .addFileToUpload(path[2],"image3")
-                        .addFileToUpload(path[3], "image4")
-                        .addParameter("title", title) //Adding text parameter to the request
-                        .addParameter("price",price)
-                        .addParameter("subject",subject)
-                        .addParameter("content",content)
-                        .addParameter("image_count","4")
-                        .setNotificationConfig(new UploadNotificationConfig())
-                        .setMaxRetries(2)
-                        .startUpload(); //Starting the upload
-                }else if(image_count == 5){
-                    new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                        .setUtf8Charset()
-                        .addFileToUpload(path[0], "image") //Adding file
-                        .addFileToUpload(path[1],"image2")
-                        .addFileToUpload(path[2],"image3")
-                        .addFileToUpload(path[3], "image4")
-                        .addFileToUpload(path[4], "image5")
-                        .addParameter("title", title) //Adding text parameter to the request
-                        .addParameter("price",price)
-                        .addParameter("subject",subject)
-                        .addParameter("content",content)
-                        .addParameter("image_count","5")
-                        .setNotificationConfig(new UploadNotificationConfig())
-                        .setMaxRetries(2)
-                        .startUpload(); //Starting the upload
+            if(image_count==1){
+                AndroidNetworking.upload(UPLOAD_URL)
+                        .addMultipartFile("image", imageFile[0])
+                        .addMultipartParameter("title", title) //Adding text parameter to the request
+                        .addMultipartParameter("price",price)
+                        .addMultipartParameter("subject",subject)
+                        .addMultipartParameter("content",content)
+                        .addMultipartParameter("image_count","1")
+                        .setPriority(Priority.HIGH)
+                        .build()
+                        .setUploadProgressListener(new UploadProgressListener() {
+                            @Override
+                            public void onProgress(long bytesUploaded, long totalBytes) {
+                                // do anything with progress
+                            }
+                        })
+                        .getAsJSONObject(new JSONObjectRequestListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // do anything with response
+                                Log.d("UploadResult","onResponse");
+                            }
+                            @Override
+                            public void onError(ANError error) {
+                                Log.d("UploadResult","OnError : " + error.toString());
+                            }
+                        });
+            }else if(image_count==2){
+                AndroidNetworking.upload(UPLOAD_URL)
+                        .addMultipartFile("image", imageFile[0])
+                        .addMultipartFile("image2", imageFile[1])
+                        .addMultipartParameter("title", title) //Adding text parameter to the request
+                        .addMultipartParameter("price",price)
+                        .addMultipartParameter("subject",subject)
+                        .addMultipartParameter("content",content)
+                        .addMultipartParameter("image_count","2")
+                        .setPriority(Priority.HIGH)
+                        .build()
+                        .setUploadProgressListener(new UploadProgressListener() {
+                            @Override
+                            public void onProgress(long bytesUploaded, long totalBytes) {
+                                // do anything with progress
+                            }
+                        })
+                        .getAsJSONObject(new JSONObjectRequestListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // do anything with response
+                                Log.d("UploadResult","onResponse");
+                            }
+                            @Override
+                            public void onError(ANError error) {
+                                Log.d("UploadResult","OnError : " + error.toString());
+                            }
+                        });
+            }else if(image_count==3){
+                AndroidNetworking.upload(UPLOAD_URL)
+                        .addMultipartFile("image", imageFile[0])
+                        .addMultipartFile("image2", imageFile[1])
+                        .addMultipartFile("image3", imageFile[2])
+                        .addMultipartParameter("title", title) //Adding text parameter to the request
+                        .addMultipartParameter("price",price)
+                        .addMultipartParameter("subject",subject)
+                        .addMultipartParameter("content",content)
+                        .addMultipartParameter("image_count","3")
+                        .setPriority(Priority.HIGH)
+                        .build()
+                        .setUploadProgressListener(new UploadProgressListener() {
+                            @Override
+                            public void onProgress(long bytesUploaded, long totalBytes) {
+                                // do anything with progress
+                            }
+                        })
+                        .getAsJSONObject(new JSONObjectRequestListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // do anything with response
+                                Log.d("UploadResult","onResponse");
+                            }
+                            @Override
+                            public void onError(ANError error) {
+                                Log.d("UploadResult","OnError : " + error.toString());
+                            }
+                        });
+            }else if(image_count == 4){
+                AndroidNetworking.upload(UPLOAD_URL)
+                        .addMultipartFile("image", imageFile[0])
+                        .addMultipartFile("image2", imageFile[1])
+                        .addMultipartFile("image3", imageFile[2])
+                        .addMultipartFile("image4", imageFile[3])
+                        .addMultipartParameter("title", title) //Adding text parameter to the request
+                        .addMultipartParameter("price",price)
+                        .addMultipartParameter("subject",subject)
+                        .addMultipartParameter("content",content)
+                        .addMultipartParameter("image_count","4")
+                        .setPriority(Priority.HIGH)
+                        .build()
+                        .setUploadProgressListener(new UploadProgressListener() {
+                            @Override
+                            public void onProgress(long bytesUploaded, long totalBytes) {
+                                // do anything with progress
+                            }
+                        })
+                        .getAsJSONObject(new JSONObjectRequestListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // do anything with response
+                                Log.d("UploadResult","onResponse");
+                            }
+                            @Override
+                            public void onError(ANError error) {
+                                Log.d("UploadResult","OnError : " + error.toString());
+                            }
+                        });
+            }else if(image_count == 5){
+                AndroidNetworking.upload(UPLOAD_URL)
+                        .addMultipartFile("image", imageFile[0])
+                        .addMultipartFile("image2", imageFile[1])
+                        .addMultipartFile("image3", imageFile[2])
+                        .addMultipartFile("image4", imageFile[3])
+                        .addMultipartFile("image5", imageFile[4])
+                        .addMultipartParameter("title", title) //Adding text parameter to the request
+                        .addMultipartParameter("price",price)
+                        .addMultipartParameter("subject",subject)
+                        .addMultipartParameter("content",content)
+                        .addMultipartParameter("image_count","5")
+                        .setPriority(Priority.HIGH)
+                        .build()
+                        .setUploadProgressListener(new UploadProgressListener() {
+                            @Override
+                            public void onProgress(long bytesUploaded, long totalBytes) {
+                                // do anything with progress
+                            }
+                        })
+                        .getAsJSONObject(new JSONObjectRequestListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // do anything with response
+                                Log.d("UploadResult","onResponse");
+                            }
+                            @Override
+                            public void onError(ANError error) {
+                                Log.d("UploadResult","OnError : " + error.toString());
+                            }
+                        });
             }
             image_count = 0;
         } catch (Exception exc) {
@@ -506,15 +476,15 @@ public class BoardUpload_Image extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         for(int i =imageNum;i<image_count-1;i++){
                             try {
-                                filePath[i] = filePath[i+1];
-                                imageView_image_list[i].setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), filePath[i+1]));
+                                fileUriPath[i] = fileUriPath[i+1];
+                                imageView_image_list[i].setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), fileUriPath[i+1]));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
                         imageView_image_list[image_count-1].setImageResource(R.drawable.network_board_upload_image_list);
                         imageView_image_list[image_count-1].setScaleType(ImageView.ScaleType.FIT_START);
-                        filePath[image_count-1] = null;
+                        fileUriPath[image_count-1] = null;
                         image_count--;
                         // 'YES'
                     }
@@ -528,5 +498,104 @@ public class BoardUpload_Image extends AppCompatActivity
                 });
         AlertDialog alert = alert_confirm.create();
         alert.show();
+    }
+    public void initView(){
+        imageView_image_upload = (ImageView)findViewById(R.id.upload_click_image);
+        imageView_image_list[0] = (ImageView)findViewById(R.id.image1);
+        imageView_image_list[1] = (ImageView)findViewById(R.id.image2);
+        imageView_image_list[2] = (ImageView)findViewById(R.id.image3);
+        imageView_image_list[3] = (ImageView)findViewById(R.id.image4);
+        imageView_image_list[4] = (ImageView)findViewById(R.id.image5);
+        etPrice = (EditText)findViewById(R.id.etPrice);
+        etTitle = (EditText)findViewById(R.id.etTitle);
+        etContent = (EditText)findViewById(R.id.etContent);
+        etSubject = (TextView)findViewById(R.id.subject_textview);
+        wonText = (TextView)findViewById(R.id.wonText);
+        image_upload_toolbar = (Toolbar)findViewById(R.id.image_upload_toolbar);
+        choice_subject = (LinearLayout)findViewById(R.id.subject_layout);
+        mListView = (ExpandableListView)findViewById(R.id.elv_list);
+    }
+    public void loadSelectSubject(){
+        mGroupList = new ArrayList<String>();
+
+        mChildList = new ArrayList<ArrayList<String>>();
+
+        mChildListContent = new ArrayList<String>();
+        mChildListContent2 = new ArrayList<String>();
+        mChildListContent3 = new ArrayList<String>();
+
+        mGroupList.add("디지털/가전"); mGroupList.add("도서/티켓/음반/문구"); mGroupList.add("생활/가공식품");
+
+        mChildListContent.add("TV");
+        mChildListContent.add("컴퓨터/노트북");
+        mChildListContent.add("컴퓨터기기");
+        mChildListContent.add("모니터");
+        mChildListContent.add("핸드폰");
+        mChildListContent.add("가전");
+        mChildListContent.add("기타 : 디지털/가전");
+
+        mChildListContent2.add("도서");
+        mChildListContent2.add("티켓");
+        mChildListContent2.add("음반");
+        mChildListContent2.add("문구");
+        mChildListContent2.add("기타 : 도서/티켓/음반/문구");
+
+        mChildListContent3.add("생활");
+        mChildListContent3.add("가구");
+        mChildListContent3.add("옷");
+        mChildListContent3.add("가공식품");
+        mChildListContent3.add("기타 : 생활/가공식품");
+
+        mChildList.add(mChildListContent);
+        mChildList.add(mChildListContent2);
+        mChildList.add(mChildListContent3);
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("카테고리 선택");
+
+        ExpandableListView myList = new ExpandableListView(this);
+
+        final BaseExpandableAdapter be = new BaseExpandableAdapter(this, mGroupList, mChildList);
+        myList.setAdapter(be);
+
+        builder.setView(myList);
+        myList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                //Toast.makeText(getApplicationContext(), " " + groupPosition, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        final android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+        myList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                //Toast.makeText(getApplicationContext(),be.getChild(groupPosition,childPosition),
+                //                    //      Toast.LENGTH_SHORT).show();
+                etSubject.setText(be.getChild(groupPosition,childPosition));
+                etSubject.setTextColor(Color.parseColor("#000000"));
+                subjectSelect = true;
+                dialog.dismiss();
+                return false;
+            }
+        });
+
+        myList.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                //Toast.makeText(getApplicationContext(), "g Collapse = " + groupPosition,
+                //Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        myList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                //Toast.makeText(getApplicationContext(), "g Expand = " + groupPosition,
+                //Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -20,6 +20,6 @@
     <item
         android:id="@+id/action_four"
         app:showAsAction="ifRoom"
-        android:title="리스트4"
-        android:icon="@drawable/home"/>
+        android:title="테스트"
+        android:icon="@drawable/profile"/>
 </menu>
