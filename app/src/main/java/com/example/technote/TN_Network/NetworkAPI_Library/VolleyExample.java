@@ -1,7 +1,6 @@
 package com.example.technote.TN_Network.NetworkAPI_Library;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;

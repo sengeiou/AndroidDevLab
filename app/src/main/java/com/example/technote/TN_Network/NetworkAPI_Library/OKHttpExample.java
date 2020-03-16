@@ -1,11 +1,7 @@
 package com.example.technote.TN_Network.NetworkAPI_Library;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +26,6 @@ public class OKHttpExample extends AppCompatActivity {
 
     private String url =
             "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
-
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +67,5 @@ public class OKHttpExample extends AppCompatActivity {
                 });
             }
         });
-
     }
 }
