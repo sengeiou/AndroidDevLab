@@ -38,7 +38,7 @@ public class FANExample extends AppCompatActivity {
         AndroidNetworking.setParserFactory(new JacksonParserFactory());
 
         textView = (TextView)findViewById(R.id.result_text);
-        AndroidNetworking.get("http://yjpapp.com/getjson.php")
+        AndroidNetworking.get(url)
                 //.setTag("test")
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -48,12 +48,11 @@ public class FANExample extends AppCompatActivity {
                         Log.d("onResponse","FANExample Type : get, result: onResponse");
                         try {
                             StringBuilder formattedResult = new StringBuilder();
-                            JSONArray responseJSONArray = response.getJSONArray("yjpapp");
+                            JSONArray responseJSONArray = response.getJSONArray("results");
                             for (int i = 0; i < responseJSONArray.length(); i++) {
-                                formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("photo_url_1") + " => \t" + responseJSONArray.getJSONObject(i).get("subject"));
+                                formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + " => \t" + responseJSONArray.getJSONObject(i).get("rating"));
                             }
-                          //  textView.setText("List of Restaurants \n" + " Name" + "\tRating \n" + formattedResult);
-                            textView.setText(responseJSONArray.getJSONObject(0).get("photo_url_1").toString());
+                            textView.setText("List of Restaurants \n" + " Name" + "\tRating \n" + formattedResult);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

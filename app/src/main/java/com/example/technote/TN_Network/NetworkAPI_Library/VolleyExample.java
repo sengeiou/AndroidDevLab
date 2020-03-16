@@ -31,7 +31,8 @@ public class VolleyExample extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this); //Queue Start
 
-        final String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
+        final String url
+                = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -47,7 +48,6 @@ public class VolleyExample extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                findViewById(R.id.progressBar).setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
