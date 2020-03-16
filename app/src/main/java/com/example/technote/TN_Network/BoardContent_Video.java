@@ -73,8 +73,8 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         } else {
             mediaPlayer.reset();
         }
-        progressDialog = ProgressDialog.show(BoardContent_Video.this,
-                "Please Wait", null, true, true);
+        //progressDialog = ProgressDialog.show(BoardContent_Video.this,
+          //      "Please Wait", null, true, true);
         AndroidNetworking.upload(url)
                 .addMultipartParameter("id",id)
                 .setPriority(Priority.HIGH)
@@ -89,22 +89,31 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
                             mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
                             mediaPlayer.setDataSource(jsonArray.getJSONObject(0).get("video_url").toString());
                             mediaPlayer.prepare(); // 비디오 load 준비
+                            mediaPlayer.start();
+                            mediaPlayer.prepareAsync();
+
+                           /*
                             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                 @Override
                                 public void onPrepared(MediaPlayer mp) {
+                                    mediaPlayer.start();
+
                                     mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                                         @Override
                                         public void onBufferingUpdate(MediaPlayer mp, int percent) { //버퍼링 리스너
                                             Log.d("Buffering","buffering = " + String.valueOf(percent));
-                                            if(percent>35 ){
+                                            if(percent>99){
+                                                mediaPlayer.start();
                                                 progressDialog.dismiss();
                                             }
                                         }
                                     });
+
                                 }
                             });
 
-                            mediaPlayer.start();
+                            */
+
 
                         } catch (IOException e) { // setDataSource 에러
                             e.printStackTrace();

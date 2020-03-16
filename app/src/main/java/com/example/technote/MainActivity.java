@@ -21,7 +21,6 @@ import com.example.technote.TN_Dialog_Activity_Fragment.MyActivity;
 import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.TN_Dialog_Activity_Fragment.Dialog;
-import com.example.technote.TN_Dialog_Activity_Fragment.FirstActivity;
 import com.example.technote.TN_Dialog_Activity_Fragment.MyTab_ViewPager.MyTab_ViewPager;
 import com.example.technote.TN_GoogleMap.GoogleMapTest;
 import com.example.technote.TN_Layout.ConstraintLayout_Test;

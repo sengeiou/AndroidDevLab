@@ -25,17 +25,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class OKHttpExample extends AppCompatActivity implements View.OnClickListener {
+public class OKHttpExample extends AppCompatActivity {
     TextView txtString;
-    Button asynchronousGet, synchronousGet, asynchronousPOST;
 
     private String url =
             "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
-
-    public String postBody = "{\n" +
-            "    \"name\": \"morpheus\",\n" +
-            "    \"job\": \"leader\"\n" +
-            "}";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -44,25 +38,13 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_lib_ok_http_example);
 
-        asynchronousGet = (Button) findViewById(R.id.asynchronousGet);
-        synchronousGet = (Button) findViewById(R.id.synchronousGet);
-
-        asynchronousGet.setOnClickListener(this);
-        synchronousGet.setOnClickListener(this);
-
         txtString = (TextView) findViewById(R.id.txtString);
-        txtString.setMovementMethod(new ScrollingMovementMethod());
-    }
-
-
-    void run() throws IOException {
-
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .get()
                 .url(url)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(request).enqueue(new Callback() { // OkHttpClient에 사용자가 정의한 Requst Call
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("RequestResult","onFailure");
@@ -91,50 +73,6 @@ public class OKHttpExample extends AppCompatActivity implements View.OnClickList
                 });
             }
         });
-    }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.asynchronousGet: //비동기 : 비동기적으로 Task를 실행하면 먼저 실행된 Task가 종료되지 않아도 다른 Task를 실행할 수 있다.
-                try {
-                    run();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.synchronousGet: // 동기 : 동기적으로 Task를 싱행한 후, 다른 Task를 실행하려면 먼저 실행된 Task가 종료되기를 기다려야 한다.
-                OkHttpHandler okHttpHandler = new OkHttpHandler();
-                okHttpHandler.execute(url);
-                break;
-        }
-    }
-
-    public class OkHttpHandler extends AsyncTask<String, Void, String> {
-
-        OkHttpClient client = new OkHttpClient();
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            Request.Builder builder = new Request.Builder().get(); //getType으로 Data를 가져온다.
-            builder.url(params[0]);
-            Request request = builder.build();
-
-            try {
-                //Post to a Server
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            txtString.setText(s);
-        }
     }
 }
