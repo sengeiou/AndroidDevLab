@@ -16,7 +16,6 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -47,19 +46,19 @@ public class OKHttpExample extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-                final String myResponse = response.body().string();
+                final String myResponse = response.body().string(); // 응답된 Json Data의 Body를 저장
                 OKHttpExample.this.runOnUiThread(new Runnable() { // 버튼을 누르면 핸들러가 없기 때문에 MainThread에서 UI 작업을 실행해야한다.
                     @Override
                     public void run() {
                         Log.d("RequestResult","OkHttpExample run() onResponse");
                         try {
-                            StringBuilder formattedResult = new StringBuilder();
+                            StringBuilder formattedResult = new StringBuilder(); // TextView에 set할 StringBuilder 선언
                             JSONObject jsonObject = new JSONObject(myResponse);
                             JSONArray responseJSONArray = jsonObject.getJSONArray("results");
                             for (int i = 0; i < responseJSONArray.length(); i++) {
                                 formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + " => \t" + responseJSONArray.getJSONObject(i).get("rating"));
                             }
-                            txtString.setText("List of Restaurants \n" + " Name" + "\tRating \n" + formattedResult);
+                            txtString.setText("List of Restaurants \n" + "Name" + "\tRating \n" + formattedResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

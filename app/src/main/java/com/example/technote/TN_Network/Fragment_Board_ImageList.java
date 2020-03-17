@@ -40,6 +40,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
     private SwipeRefreshLayout swipeRefreshLayout = null; // 위로 끌어당겨서 새로고침
     private int restArray, updateCount, firstArrayLength;
     private JSONArray jsonArray;
+    private int scrollRange;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -63,26 +64,34 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         mRecyclerView.setItemViewCacheSize(20);
         mRecyclerView.setDrawingCacheEnabled(true);
         mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        Log.d("onScrolled","computeVerticalScrollOffset : " + String.valueOf(scrollRange));
+
+        // restArray는 0, updateCount는 onCreate에서 한번 업데이트를 함으로 1, 초기 ScrollBar OffsetRange에서 49/50한 값은 대략 1600
+        restArray=0; updateCount=1; scrollRange = 1600;
+
+        mAdapter.setOnClickListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        //swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan); swipeRefreshLayout Color 지정하기
+
+        imageListDataUpdate();
 
         //RecyclerView를 아래로 내릴 때 작동
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if(!mRecyclerView.canScrollVertically(1)&&restArray>=0){ //restArray가 양수 일때
+                Log.d("onScrolled","computeVerticalScrollOffset : " + String.valueOf(recyclerView.computeVerticalScrollOffset()));
+                Log.d("onScrolled","computeVerticalScrollRange : " + String.valueOf(recyclerView.computeVerticalScrollRange()));
+                Log.d("onScrolled","computeVerticalScrollRange : " + String.valueOf(mRecyclerView.computeVerticalScrollRange()));
+                if(recyclerView.computeVerticalScrollOffset() >= scrollRange){ //restArray가 양수 일때
+                    Log.d("onScrolled","ifIn");
+                    scrollRange = (49 * mRecyclerView.computeVerticalScrollRange()) / 50; // ScrollBar가 49/50 지점에서 업데이트하도록 설정.
                     ++updateCount;
                     imageListDataUpdate();
                 }
             }
         });
-
-        mAdapter.setOnClickListener(this);
-        swipeRefreshLayout.setOnRefreshListener(this);
-
-        restArray=0; updateCount=1;
-        //swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan); swipeRefreshLayout Color 지정하기
-
-        imageListDataUpdate();
 
         return layout;
 
@@ -133,7 +142,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("onResponse","FANExample Type : get,result: onResponse");
+                        Log.d("RequestResult","FANExample Type : get,result: onResponse");
                         try {
                             jsonArray = response.getJSONArray("yjpapp");
 

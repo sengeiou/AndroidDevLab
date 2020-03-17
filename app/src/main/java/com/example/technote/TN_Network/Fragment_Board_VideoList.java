@@ -85,9 +85,10 @@ public class Fragment_Board_VideoList extends Fragment implements Network_Board_
     //Network_Board_VideoListAdapter.MyRecyclerViewClickListener
     @Override
     public void onItemClicked(int position) {
-        Intent startImageSliderTest = new Intent(getActivity(), BoardContent_Video.class);
-        startImageSliderTest.putExtra("id_send",mArrayList.get(position).getId());
-        startActivity(startImageSliderTest);
+        Intent videoContent = new Intent(getActivity(), BoardContent_Video.class);
+        videoContent.putExtra("video_url",mArrayList.get(position).getVideo_url());
+
+        startActivity(videoContent);
     }
 
     // swipeRefreshLayout의 OnRefreshListener (Recycler View를 위로 당길 때 작동)

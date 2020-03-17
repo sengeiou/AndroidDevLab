@@ -11,20 +11,12 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.MediaController;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.technote.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -34,9 +26,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
     private SurfaceHolder surfaceHolder;
     private MediaPlayer mediaPlayer;
     private MediaController mediaController;
-    private String url = "http://yjpapp.com/get_video_content.php";
-    private  String id;
-    private JSONArray jsonArray;
+    private String video_url;
     private ProgressDialog progressDialog;
 
     protected void onCreate(Bundle savedInstanceState){
@@ -63,7 +53,8 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); // FullScreenMode 설정
 
         Intent intent = getIntent();
-        id = intent.getExtras().getString("id_send");
+        video_url = intent.getExtras().getString("video_url");
+        Log.d("VideoUrl",video_url);
     }
     //SurfaceHolder.Callback Override 부분
     @Override
@@ -73,60 +64,16 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         } else {
             mediaPlayer.reset();
         }
-        //progressDialog = ProgressDialog.show(BoardContent_Video.this,
-          //      "Please Wait", null, true, true);
-        AndroidNetworking.upload(url)
-                .addMultipartParameter("id",id)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("GetVideoResult", "onResponse");
-                        try{
-                            jsonArray = response.getJSONArray("yjpapp");
-                            //mediaPlayer.setVolume(0, 0); //볼륨 제거
-                            mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
-                            mediaPlayer.setDataSource(jsonArray.getJSONObject(0).get("video_url").toString());
-                            mediaPlayer.prepare(); // 비디오 load 준비
-                            mediaPlayer.start();
-                            mediaPlayer.prepareAsync();
 
-                           /*
-                            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                @Override
-                                public void onPrepared(MediaPlayer mp) {
-                                    mediaPlayer.start();
-
-                                    mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-                                        @Override
-                                        public void onBufferingUpdate(MediaPlayer mp, int percent) { //버퍼링 리스너
-                                            Log.d("Buffering","buffering = " + String.valueOf(percent));
-                                            if(percent>99){
-                                                mediaPlayer.start();
-                                                progressDialog.dismiss();
-                                            }
-                                        }
-                                    });
-
-                                }
-                            });
-
-                            */
-
-
-                        } catch (IOException e) { // setDataSource 에러
-                            e.printStackTrace();
-                            Log.e("MyTag","surface view error : " + e.getMessage());
-                        } catch (JSONException e) { // jsonArray 에러
-                            e.printStackTrace();
-                        }
-                    }
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.d("GetVideoResult","onError" + anError.toString());
-                    }
-                });
+        mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
+        try {
+            mediaPlayer.setDataSource(video_url);
+            mediaPlayer.prepare(); // 비디오 load 준비
+            //mediaPlayer.prepareAsync();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {

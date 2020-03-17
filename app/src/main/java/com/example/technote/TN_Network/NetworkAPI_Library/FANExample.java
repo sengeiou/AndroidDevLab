@@ -22,7 +22,8 @@ import okhttp3.OkHttpClient;
 
 public class FANExample extends AppCompatActivity {
     TextView textView;
-    private String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
+    private String url
+            = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyBrJ3ec9wTuS6L-xHkaXLU8BJbFsx_LZ9o";
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class FANExample extends AppCompatActivity {
         textView = (TextView)findViewById(R.id.result_text);
         AndroidNetworking.get(url)
                 //.setTag("test")
-                .setPriority(Priority.MEDIUM)
+                .setPriority(Priority.MEDIUM) //request 우선순위 설정
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -64,37 +65,5 @@ public class FANExample extends AppCompatActivity {
                         // handle error
                     }
                 });
-
-        /* post code
-        AndroidNetworking.post(url)
-                //.addBodyParameter("firstname", "Amit")
-                //.addBodyParameter("lastname", "Shekhar")
-                .setTag("test")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // do anything with response
-                        try {
-                            StringBuilder formattedResult = new StringBuilder();
-                            JSONArray responseJSONArray = response.getJSONArray("results");
-                            for (int i = 0; i < responseJSONArray.length(); i++) {
-                                formattedResult.append("\n" + responseJSONArray.getJSONObject(i).get("name") + " => \t" + responseJSONArray.getJSONObject(i).get("rating"));
-                            }
-                            textView.setText("List of Restaurants \n" + " Name" + "\tRating \n" + formattedResult);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("RequestResult","FANExample Type : post, result : onResponse");
-                    }
-                    @Override
-                    public void onError(ANError error) {
-                        // handle error
-                        Log.d("RequestResult","FANExample Type : post, result : onError" + error.toString());
-                    }
-                });
-
-         */
     }
 }

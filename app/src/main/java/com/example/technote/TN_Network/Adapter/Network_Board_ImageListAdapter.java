@@ -5,16 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.technote.TN_Network.Data.Network_Board_ImageListData;
 import com.example.technote.R;
-import com.loopj.android.image.SmartImageView;
+import com.example.technote.TN_Network.Data.Network_Board_ImageListData;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected SmartImageView title_image;
+        protected ImageView title_image;
         protected TextView title;
         protected TextView subject;
         protected TextView price;
@@ -48,7 +47,7 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
 
         public CustomViewHolder(View view) {
             super(view);
-            this.title_image = (SmartImageView) view.findViewById(R.id.title_image_view);
+            this.title_image = (ImageView) view.findViewById(R.id.title_image_view);
             this.title = (TextView) view.findViewById(R.id.title_text_view);
             this.subject = (TextView) view.findViewById(R.id.subject_text_view);
             this.price = (TextView) view.findViewById(R.id.price_text_view);
@@ -65,12 +64,15 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
     // 뷰 홀더를 생성하는 부분
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
-
-        viewholder.title_image.setImageUrl(mList.get(position).getPhoto_url_1());
+        Picasso.with(context)
+                .load(mList.get(position).getPhoto_url_1())
+                .resize(250,250)
+                .centerCrop()
+                .into(viewholder.title_image);
+        //viewholder.title_image.setImageUrl(mList.get(position).getPhoto_url_1());
         viewholder.title.setText(mList.get(position).getTitle());
         viewholder.subject.setText(mList.get(position).getSubject());
         viewholder.price.setText(mList.get(position).getPrice());
-        viewholder.title_image.setScaleType(ImageView.ScaleType.FIT_XY);
 
         //레이아웃 클릭 이벤트
         if(mListener != null) {

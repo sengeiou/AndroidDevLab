@@ -1,6 +1,9 @@
 package com.example.technote.TN_Network;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +14,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -31,16 +35,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.technote.R;
 import com.example.technote.TN_Network.Adapter.BaseExpandableAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -140,7 +148,17 @@ public class BoardUpload_Image extends AppCompatActivity
                 if(subjectSelect && etTitle.length() != 0 && etContent.length() != 0 && isConnected) { // 모든 조건 충족
                     uploadMultipart();
                     uploadComplete = true;
+                    createNotificationChannel();
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(getApplicationContext(),"0")
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setContentTitle("TechNote")
+                                    .setSmallIcon(R.drawable.tech_note_icon)
+                                    .setContentText("업로드 됐습니다.");
+                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+                    notificationManagerCompat.notify(0,mBuilder.build());
                     setDialogMessage("등록 완료 됐습니다.");
+
                 }else{ // 예외처리
                     if(!isConnected){
                         setDialogMessage("네트워크 상태를 확인하세요.");
@@ -161,10 +179,15 @@ public class BoardUpload_Image extends AppCompatActivity
     @Override
     public void onClick(View view) { //ViewClick에 대한 클릭 이벤트.
         if(view == imageView_image_upload){ // 맨 왼쪽 카메라 이미지뷰를 클릭한다.
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT); // 업로드 할 이미지를 선택하는 인텐트 창이 뜸
-            startActivityForResult(Intent.createChooser(intent, "Complete action using"), IMAGE_REQUEST_CODE);
+            if(image_count<=5){
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                intent.setAction(Intent.ACTION_GET_CONTENT); // 업로드 할 이미지를 선택하는 인텐트 창이 뜸
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), IMAGE_REQUEST_CODE);
+            }else{
+                Toast.makeText(this, "이미지를 더 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
         }else if(view == choice_subject){ //카테고리를 누르면 진행되는 코드
             loadSelectSubject();
         }else if(view == imageView_image_list[0]){ //첫 번째 업로드 이미지를 클릭했을 때 삭제하는 코드
@@ -240,14 +263,15 @@ public class BoardUpload_Image extends AppCompatActivity
         String subject = etSubject.getText().toString().trim();
         String content = etContent.getText().toString().trim();
 
+        ContentResolver contentResolver = getContentResolver();
         //이미지의 실제 경로를 String Array인 path[i]에 저장
         for(int i = 0; i<image_count;i++){
             imageFile[i] = new File(getPath(fileUriPath[i]));
+            //imageFile[i] = new File(contentResolver.canonicalize(fileUriPath[i]).d);
         }
 
         //Uploading code
         try {
-
             //Creating a multi part request
             if(image_count==1){
                 AndroidNetworking.upload(UPLOAD_URL)
@@ -262,18 +286,16 @@ public class BoardUpload_Image extends AppCompatActivity
                         .setUploadProgressListener(new UploadProgressListener() {
                             @Override
                             public void onProgress(long bytesUploaded, long totalBytes) {
-                                // do anything with progress
                             }
                         })
-                        .getAsJSONObject(new JSONObjectRequestListener() {
+                        .getAsJSONArray(new JSONArrayRequestListener() {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                // do anything with response
+                            public void onResponse(JSONArray response) {
                                 Log.d("UploadResult","onResponse");
                             }
                             @Override
-                            public void onError(ANError error) {
-                                Log.d("UploadResult","OnError : " + error.toString());
+                            public void onError(ANError anError) {
+                                Log.d("UploadResult","OnError : " + anError.toString());
                             }
                         });
             }else if(image_count==2){
@@ -411,6 +433,7 @@ public class BoardUpload_Image extends AppCompatActivity
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         cursor.moveToFirst();
+
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
         return path;
@@ -457,12 +480,7 @@ public class BoardUpload_Image extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
-                        if (uploadComplete){
-                            finish();
-                            return;
-                        }else {
-                            return;
-                        }
+                       finish();
                     }
                 });
         AlertDialog alert_subject = alert_confirm_subject.create();
@@ -597,5 +615,20 @@ public class BoardUpload_Image extends AppCompatActivity
                 //Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "name";
+            String description = "description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("0", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

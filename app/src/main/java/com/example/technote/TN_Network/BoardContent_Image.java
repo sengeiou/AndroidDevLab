@@ -18,7 +18,6 @@ import com.example.technote.R;
 import com.example.technote.TN_Network.Adapter.AutoScrollAdapter;
 import com.example.technote.TN_Network.Adapter.CircleIndicator;
 import com.example.technote.TN_Network.Data.ImageSliderData;
-import com.rd.PageIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +69,6 @@ public class BoardContent_Image extends AppCompatActivity {
                             }else if (image_count==2){
                                 data.add(jsonArray.getJSONObject(0).get("photo_url_1").toString());
                                 data.add(jsonArray.getJSONObject(0).get("photo_url_2").toString());
-
                             }else if (image_count==3){
                                 data.add(jsonArray.getJSONObject(0).get("photo_url_1").toString());
                                 data.add(jsonArray.getJSONObject(0).get("photo_url_2").toString());

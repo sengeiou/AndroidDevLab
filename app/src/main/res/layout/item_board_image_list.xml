@@ -8,7 +8,7 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
-    <com.loopj.android.image.SmartImageView
+    <ImageView
         android:id="@+id/title_image_view"
         android:layout_width="110dp"
         android:layout_height="120dp"
