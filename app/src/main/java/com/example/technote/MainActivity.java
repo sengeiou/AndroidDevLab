@@ -1,5 +1,6 @@
 package com.example.technote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Context context;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar tb = (Toolbar) findViewById(R.id.main_toolbar) ;

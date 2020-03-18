@@ -15,7 +15,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.technote.R;
-import com.example.technote.TN_Network.Adapter.AutoScrollAdapter;
+import com.example.technote.TN_Network.Adapter.ImageViewPagerAdapter;
 import com.example.technote.TN_Network.Adapter.CircleIndicator;
 import com.example.technote.TN_Network.Data.ImageSliderData;
 
@@ -32,15 +32,16 @@ public class BoardContent_Image extends AppCompatActivity {
     private TextView post_title, post_price, post_content;
     private ViewPager viewPager;
     private JSONArray jsonArray;
-
+    private CircleIndicator circleIndicator;
+    public static int viewPagerPosition;
+    public static ArrayList<String> data;
+    public static boolean itemClick;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_board_content_image);
-        imageSliderTestToolbar = (Toolbar)findViewById(R.id.imageSliderToolbars);
-        post_title = (TextView)findViewById(R.id.post_title);
-        post_price = (TextView)findViewById(R.id.post_price);
-        post_content = (TextView)findViewById(R.id.post_content);
+
+        initView();
 
         Intent intent = getIntent();
         String id = intent.getExtras().getString("id_send");
@@ -60,7 +61,7 @@ public class BoardContent_Image extends AppCompatActivity {
                         try {
                             jsonArray = response.getJSONArray("yjpapp");
                             ImageSliderData imageSliderData= new ImageSliderData();
-                            ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
+                            data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
 
                             int image_count = Integer.parseInt(jsonArray.getJSONObject(0).get("image_count").toString());
 
@@ -89,12 +90,10 @@ public class BoardContent_Image extends AppCompatActivity {
                             post_price.setText(jsonArray.getJSONObject(0).get("price").toString());
                             post_content.setText(jsonArray.getJSONObject(0).get("content").toString());
 
-                            viewPager = (ViewPager) findViewById(R.id.autoViewPager);
-                            AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getApplicationContext(), data);
+                            ImageViewPagerAdapter scrollAdapter = new ImageViewPagerAdapter(getApplicationContext(), data);
                             viewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
                             //viewPager.setInterval(5000); // 페이지 넘어갈 시간 간격 설정
                             //viewPager.startAutoScroll(); //Auto Scroll 시작
-                            CircleIndicator circleIndicator = (CircleIndicator) findViewById(R.id.circle_indicator);
                             circleIndicator.setupWithViewPager(viewPager);
                             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
                             {
@@ -107,7 +106,7 @@ public class BoardContent_Image extends AppCompatActivity {
                                 @Override
                                 public void onPageSelected(int position) {
                                     Log.d("OnPageChangeListener","onPageSelected");
-
+                                    viewPagerPosition = position;
                                 }
 
                                 @Override
@@ -135,5 +134,13 @@ public class BoardContent_Image extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void initView(){
+        imageSliderTestToolbar = (Toolbar)findViewById(R.id.imageSliderToolbars);
+        post_title = (TextView)findViewById(R.id.post_title);
+        post_price = (TextView)findViewById(R.id.post_price);
+        post_content = (TextView)findViewById(R.id.post_content);
+        viewPager = (ViewPager) findViewById(R.id.zoomInViewPager);
+        circleIndicator = (CircleIndicator) findViewById(R.id.circle_indicator);
     }
 }

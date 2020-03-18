@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -45,6 +46,8 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.example.technote.R;
 import com.example.technote.TN_Network.Adapter.BaseExpandableAdapter;
 
@@ -52,8 +55,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardUpload_Image extends AppCompatActivity
         implements View.OnClickListener{
@@ -65,7 +70,6 @@ public class BoardUpload_Image extends AppCompatActivity
     private ImageView imageView_image_list[] = new ImageView[5];
     private EditText etTitle, etContent, etPrice;
     private TextView wonText,etSubject;
-    private Bitmap bitmap;
     private Uri[] fileUriPath = new Uri[5] ;
     private LinearLayout choice_subject;
 
@@ -75,11 +79,10 @@ public class BoardUpload_Image extends AppCompatActivity
     private ExpandableListView mListView;
     private File[] imageFile = new File[5];
 
-    private int image_count = 0, imageNum;
+    private int image_count = 0, imageNum, images_size = 0;
     Toolbar image_upload_toolbar;
     private boolean uploadComplete = false, subjectSelect = false;
-    private String[] path = new String[10];
-
+    private String[] filePath = new String[5];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,15 +179,47 @@ public class BoardUpload_Image extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override // 이전 버튼 리스너
+    public void onBackPressed() {
+        if(etContent.getText().toString().length()!=0 || subjectSelect  || etTitle.getText().toString().length()!=0){
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload_Image.this);
+            alert_confirm.setMessage("작성중인 게시물이 있습니다. 작성을 취소 하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            // 'YES'
+                        }
+                    }).setNegativeButton("취소",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 'No'
+                            return;
+                        }
+                    });
+            AlertDialog alert = alert_confirm.create();
+            alert.show();
+        }else{
+            finish();
+        }
+    }
     @Override
     public void onClick(View view) { //ViewClick에 대한 클릭 이벤트.
         if(view == imageView_image_upload){ // 맨 왼쪽 카메라 이미지뷰를 클릭한다.
             if(image_count<=5){
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-                intent.setAction(Intent.ACTION_GET_CONTENT); // 업로드 할 이미지를 선택하는 인텐트 창이 뜸
-                startActivityForResult(Intent.createChooser(intent, "Complete action using"), IMAGE_REQUEST_CODE);
+                ImagePicker.create(this)
+                        .folderMode(true)
+                        .multi()
+                        .showCamera(true)
+                        .limit(5-image_count)
+                        .start();
+
+                //intent.setType("image/*");
+                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                //intent.setAction(Intent.ACTION_GET_CONTENT); // 업로드 할 이미지를 선택하는 인텐트 창이 뜸
+                //startActivityForResult(Intent.createChooser(intent, "Complete action using"), IMAGE_REQUEST_CODE);
+
             }else{
                 Toast.makeText(this, "이미지를 더 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -217,46 +252,29 @@ public class BoardUpload_Image extends AppCompatActivity
             }
         }
     }
-    @Override // 이전 버튼 리스너
-    public void onBackPressed() {
-        if(etContent.getText().toString().length()!=0 || subjectSelect  || etTitle.getText().toString().length()!=0){
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BoardUpload_Image.this);
-            alert_confirm.setMessage("작성중인 게시물이 있습니다. 작성을 취소 하시겠습니까?").setCancelable(false).setPositiveButton("확인",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                            // 'YES'
-                        }
-                    }).setNegativeButton("취소",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // 'No'
-                            return;
-                        }
-                    });
-            AlertDialog alert = alert_confirm.create();
-            alert.show();
-        }else{
-            finish();
-        }
-    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) { //이미지를 선택하고 난 뒤 실행되는 함수
+    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            // Get a list of picked images
+            List<Image> images = ImagePicker.getImages(data);
+            images_size += images.size();
+            Log.d("ImagePickerResult",images.get(0).getPath());
+            Log.d("ImagePickerResult",String.valueOf(images_size));
 
-            fileUriPath[image_count] = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUriPath[image_count]);
-                setImageView(image_count);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            for(int i = 0;i<images.size();i++){
+                imageFile[image_count] = new File(images.get(i).getPath());
+                filePath[image_count] = images.get(i).getPath();
+                imageView_image_list[image_count].setImageBitmap(pathToBitmap(images.get(i).getPath()));
+                imageView_image_list[image_count].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
+                image_count++;
             }
+
+
         }
     }
-
     public void uploadMultipart() { //업로드 버튼을 누르면 실행되는 함수
         String title = etTitle.getText().toString().trim();
         String price = etPrice.getText().toString().trim() + "원";
@@ -265,8 +283,9 @@ public class BoardUpload_Image extends AppCompatActivity
 
         ContentResolver contentResolver = getContentResolver();
         //이미지의 실제 경로를 String Array인 path[i]에 저장
+
         for(int i = 0; i<image_count;i++){
-            imageFile[i] = new File(getPath(fileUriPath[i]));
+            //imageFile[i] = new File(getPath(fileUriPath[i]));
             //imageFile[i] = new File(contentResolver.canonicalize(fileUriPath[i]).d);
         }
 
@@ -468,11 +487,6 @@ public class BoardUpload_Image extends AppCompatActivity
             }
         }
     }
-    public void setImageView(int i){
-        imageView_image_list[i].setImageBitmap(bitmap);
-        imageView_image_list[i].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움\
-        image_count++;
-    }
     public void setDialogMessage(String s){
         AlertDialog.Builder alert_confirm_subject = new AlertDialog.Builder(BoardUpload_Image.this);
         alert_confirm_subject.setMessage(s).setCancelable(false).setPositiveButton("확인",
@@ -493,16 +507,12 @@ public class BoardUpload_Image extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         for(int i =imageNum;i<image_count-1;i++){
-                            try {
-                                fileUriPath[i] = fileUriPath[i+1];
-                                imageView_image_list[i].setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), fileUriPath[i+1]));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            filePath[i] = filePath[i+1];
+                            imageView_image_list[i].setImageBitmap(pathToBitmap(filePath[i+1]));
                         }
                         imageView_image_list[image_count-1].setImageResource(R.drawable.network_board_upload_image_list);
                         imageView_image_list[image_count-1].setScaleType(ImageView.ScaleType.FIT_START);
-                        fileUriPath[image_count-1] = null;
+                        filePath[image_count-1] = null;
                         image_count--;
                         // 'YES'
                     }
@@ -630,5 +640,17 @@ public class BoardUpload_Image extends AppCompatActivity
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+    public Bitmap pathToBitmap(String path) {
+        Bitmap bitmap=null;
+        try {
+            File f= new File(path);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap ;
     }
 }

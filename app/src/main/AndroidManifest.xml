@@ -88,6 +88,7 @@
         <activity android:name=".TN_Network.BoardUpload_Video"></activity>
         <activity android:name=".TN_Network.BoardContent_Image"></activity>
         <activity android:name=".TN_Network.BoardContent_Video"></activity>
+        <activity android:name=".TN_Network.BoardContent_Image_ZoomIn"></activity>
 
         <service android:name=".TN_BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".TN_GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService"></service>

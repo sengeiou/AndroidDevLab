@@ -1,6 +1,7 @@
 package com.example.technote.TN_Network.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +9,10 @@ import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.bumptech.glide.Glide;
 import com.example.technote.R;
+import com.example.technote.TN_Network.BoardContent_Image;
+import com.example.technote.TN_Network.BoardContent_Image_ZoomIn;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,12 +22,13 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  * Created by gdtbg on 2017-09-16.
  */
 
-public class AutoScrollAdapter extends PagerAdapter {
+public class ImageViewPagerAdapter extends PagerAdapter {
 
     Context context;
     ArrayList<String> data;
+    private boolean imageClick;
 
-    public AutoScrollAdapter(Context context, ArrayList<String> data) {
+    public ImageViewPagerAdapter(Context context, ArrayList<String> data) {
         this.context = context;
         this.data = data;
     }
@@ -35,11 +39,26 @@ public class AutoScrollAdapter extends PagerAdapter {
         //뷰페이지 슬라이딩 할 레이아웃 인플레이션
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-        View v = inflater.inflate(R.layout.adapter_auto_viewpager,null);
+        View v = inflater.inflate(R.layout.adapter_image_viewpager,null);
         ImageView image_container = (ImageView) v.findViewById(R.id.image_container);
         image_container.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(context).load(data.get(position)).into(image_container);
+        Picasso.with(context)
+                .load(data.get(position))
+                .into(image_container);
         container.addView(v);
+        imageClick = false;
+        image_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!BoardContent_Image.itemClick){
+                    Intent imageZoomInIntent = new Intent(context.getApplicationContext(), BoardContent_Image_ZoomIn.class);
+                    imageZoomInIntent.putExtra("position",BoardContent_Image.viewPagerPosition);
+                    imageZoomInIntent.putExtra("data",BoardContent_Image.data);
+                    context.startActivity(imageZoomInIntent);
+                    imageClick = true;
+                }
+            }
+        });
         return v;
     }
 
@@ -59,4 +78,5 @@ public class AutoScrollAdapter extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
+
 }
