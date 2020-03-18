@@ -16,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
 
-import org.json.JSONArray;
-
 import java.io.IOException;
 
 public class BoardContent_Video extends AppCompatActivity implements SurfaceHolder.Callback, android.widget.MediaController.MediaPlayerControl{

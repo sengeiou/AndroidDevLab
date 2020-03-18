@@ -135,6 +135,7 @@ public class BleScanner {
             mBleScanPresenter.notifyScanStarted(true);  // 스캔이 시작됐다는 것을 알리면서 Progress와 스캔 시작 버튼을 스캔 중지 버튼으로 바꾼다.
 
         } else {
+            //filtering 할 Device UUID 설정
             String meSiPlusServiceUUID=
                     "0000ffff-0000-1000-8000-00805f9b34fb";
             ParcelUuid ParcelUuid_meSiPlusServiceUUID =
@@ -159,7 +160,11 @@ public class BleScanner {
     }
 
     public synchronized void stopLeScan() {
-        BleManager.getInstance().getBluetoothAdapter().stopLeScan(mBleScanPresenter);
+        if (Build.VERSION.SDK_INT < 21) {
+            BleManager.getInstance().getBluetoothAdapter().stopLeScan(mBleScanPresenter);
+        }else{
+            BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().stopScan(mBleScanPresenter);
+        }
         mBleScanState = BleScanState.STATE_IDLE;
         mBleScanPresenter.notifyScanStopped();
     }
