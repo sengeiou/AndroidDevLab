@@ -15,15 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.ListPopupWindow;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +25,16 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.ListPopupWindow;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import com.squareup.picasso.Picasso;
 
@@ -219,7 +221,9 @@ public class MultiImageSelectorFragment extends Fragment {
                         mFolderPopupWindow.dismiss();
 
                         if (index == 0) {
-                            getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderCallback);
+                            LoaderManager.getInstance(getActivity()).initLoader(LOADER_ALL,null,mLoaderCallback);
+
+                            //getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderCallback);
                             mCategoryText.setText(R.string.mis_folder_all);
                             if (showCamera()) {
                                 mImageAdapter.setShowCamera(true);
@@ -264,7 +268,8 @@ public class MultiImageSelectorFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // load image data
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+        LoaderManager.getInstance(this).initLoader(LOADER_ALL,null,mLoaderCallback);
+        //getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
     }
 
     @Override

@@ -90,6 +90,11 @@
         <activity android:name=".TN_Network.BoardContent_Video"></activity>
         <activity android:name=".TN_Network.BoardContent_Image_ZoomIn"></activity>
 
+        <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+
+
         <service android:name=".TN_BLE.Exam1.BluetoothLeService" android:enabled="true"/>
         <service android:name=".TN_GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService"></service>
         <service android:name=".TN_GoogleMap.GPSInfo"></service>

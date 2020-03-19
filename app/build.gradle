@@ -76,6 +76,8 @@ dependencies {
     implementation files('src/main/java/com/example/technote/TN_Utility/android-smart-image-view-1.0.0.jar')
 
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.2.0'
+    implementation project(path: ':multi-image-selector')
+
 
 }
 repositories {

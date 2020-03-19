@@ -6,9 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -26,14 +27,12 @@ public class MultiImageSelector {
     private ArrayList<String> mOriginData;
     private static MultiImageSelector sSelector;
 
-    @Deprecated
     private MultiImageSelector(Context context){
 
     }
 
     private MultiImageSelector(){}
 
-    @Deprecated
     public static MultiImageSelector create(Context context){
         if(sSelector == null){
             sSelector = new MultiImageSelector(context);

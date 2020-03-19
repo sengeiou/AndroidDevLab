@@ -60,6 +60,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+
 public class BoardUpload_Image extends AppCompatActivity
         implements View.OnClickListener{
 
@@ -208,12 +211,19 @@ public class BoardUpload_Image extends AppCompatActivity
     public void onClick(View view) { //ViewClick에 대한 클릭 이벤트.
         if(view == imageView_image_upload){ // 맨 왼쪽 카메라 이미지뷰를 클릭한다.
             if(image_count<=5){
+                MultiImageSelector.create(this)
+                        .multi()
+                        .count(5-image_count)
+                        .start(this,IMAGE_REQUEST_CODE);
+                /*
                 ImagePicker.create(this)
                         .folderMode(true)
                         .multi()
                         .showCamera(true)
                         .limit(5-image_count)
                         .start();
+
+                 */
 
                 //intent.setType("image/*");
                 //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
@@ -256,18 +266,19 @@ public class BoardUpload_Image extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+        if (requestCode == IMAGE_REQUEST_CODE) {
             // Get a list of picked images
-            List<Image> images = ImagePicker.getImages(data);
-            images_size += images.size();
-            Log.d("ImagePickerResult",images.get(0).getPath());
+            List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            //List<Image> images = ImagePicker.getImages(data);
+            images_size += path.size();
+            Log.d("ImagePickerResult",path.get(0));
             Log.d("ImagePickerResult",String.valueOf(images_size));
 
 
-            for(int i = 0;i<images.size();i++){
-                imageFile[image_count] = new File(images.get(i).getPath());
-                filePath[image_count] = images.get(i).getPath();
-                imageView_image_list[image_count].setImageBitmap(pathToBitmap(images.get(i).getPath()));
+            for(int i = 0;i<path.size();i++){
+                imageFile[image_count] = new File(path.get(i));
+                filePath[image_count] = path.get(i);
+                imageView_image_list[image_count].setImageBitmap(pathToBitmap(path.get(i)));
                 imageView_image_list[image_count].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
                 image_count++;
             }
