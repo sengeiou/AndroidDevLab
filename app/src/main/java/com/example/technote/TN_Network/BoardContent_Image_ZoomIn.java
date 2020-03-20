@@ -24,6 +24,6 @@ public class BoardContent_Image_ZoomIn extends AppCompatActivity {
         ImageViewPagerAdapter_ZoomIn scrollAdapter = new ImageViewPagerAdapter_ZoomIn(getApplicationContext(), intent.getStringArrayListExtra("data"));
         viewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
         circleIndicator.setupWithViewPager(viewPager);
-        circleIndicator.setVerticalScrollbarPosition(intent.getIntExtra("position",0));
+        viewPager.setCurrentItem(intent.getIntExtra("position",0));
     }
 }

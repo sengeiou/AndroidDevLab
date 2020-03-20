@@ -1,7 +1,10 @@
 package com.example.technote.TN_Network;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,52 +34,84 @@ import java.util.ArrayList;
 
 public class Fragment_Board_ImageList extends Fragment implements Network_Board_ImageListAdapter.MyRecyclerViewClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static String TAG = "phptest";
-    private ArrayList<Network_Board_ImageListData> mArrayList;
-    private Network_Board_ImageListAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private Network_Board_ImageListData imageListData;
-    private String url = "http://yjpapp.com/get_image_list.php";
-    private SwipeRefreshLayout swipeRefreshLayout = null; // 위로 끌어당겨서 새로고침
-    private int restArray, updateCount, firstArrayLength;
-    private JSONArray jsonArray;
-    private int scrollRange;
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
+    public static int THREAD_REQUEST = 1;
+    public static int THREAD_RESPONSE = 2;
+    public static int offset;
 
+    private static ArrayList<Network_Board_ImageListData> mArrayList = new ArrayList<>();
+    private static Network_Board_ImageListAdapter mAdapter;
+    private static Network_Board_ImageListData imageListData;
+    private RecyclerView mRecyclerView;
+
+    private LinearLayoutManager mLayoutManager;
+    private String url = "http://yjpapp.com/get_image_list.php";
+    private String total_recode_url = "http://www.yjpapp.com/get_recode_count.php";
+    private SwipeRefreshLayout swipeRefreshLayout = null; // 위로 끌어당겨서 새로고침
+    private JSONArray jsonArray;
+
+    private int scrollRange, imageId, total_recode;
+
+    private MyHandler myHandler;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_network_board_image_list, container, false);
-        mArrayList = new ArrayList<>();
         mAdapter = new Network_Board_ImageListAdapter(getActivity(), mArrayList);
-        mAdapter.notifyDataSetChanged();
+        myHandler = new MyHandler();
+        AndroidNetworking.get(total_recode_url) // 서버에 전체 recode 개수를 가져온다.
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("GetRecodeResult","GetRecodeResult Type : get,result: onResponse");
+                        try {
+                            jsonArray = response.getJSONArray("yjpapp");
+                            total_recode = Integer.parseInt(jsonArray.getJSONObject(0).get("recode").toString());
+                            Log.d("total",String.valueOf(total_recode));
 
+                            firstImageListDataUpdate(10,offset); // 처음 표현할 10개의 데이터 업데이트
+
+                            offset+=10;
+                            myHandler.sendEmptyMessage(THREAD_REQUEST); // 핸들러에 백그라운드 Thread run을 Request한다.
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        Log.d("GetRecodeResult","GetRecodeResult Type : get, result : onError" + error.toString());
+                        // handle error
+                    }
+                });
         swipeRefreshLayout = (SwipeRefreshLayout)layout.findViewById(R.id.network_board_image_list_swipeRefreshLayout);
         mLayoutManager = new LinearLayoutManager(getContext());
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.network_board_image_list_recyclerview);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
         //mRecyclerView.addItemDecoration(new DividerItemDecoration(layout.getContext(), 1));
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemViewCacheSize(20);
         mRecyclerView.setDrawingCacheEnabled(true);
         mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         Log.d("onScrolled","computeVerticalScrollOffset : " + String.valueOf(scrollRange));
 
-        // restArray는 0, updateCount는 onCreate에서 한번 업데이트를 함으로 1, 초기 ScrollBar OffsetRange에서 49/50한 값은 대략 1600
-        restArray=0; updateCount=1; scrollRange = 1600;
-
+        // offset는 0, updateCount는 onCreate에서 한번 업데이트를 함으로 1, 초기 ScrollBar OffsetRange에서 49/50한 값은 대략 1600
+        scrollRange = 1600;  offset = 0;
         mAdapter.setOnClickListener(this);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        //swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan); swipeRefreshLayout Color 지정하기
+        //swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan); swipeRefreshLayout Color &#xc9c0;&#xc815;&#xd558;&#xae30;
 
-        imageListDataUpdate();
-
-        //RecyclerView를 아래로 내릴 때 작동
+        /*RecyclerView를 아래로 내릴 때 작동
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -84,17 +119,17 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                 Log.d("onScrolled","computeVerticalScrollOffset : " + String.valueOf(recyclerView.computeVerticalScrollOffset()));
                 Log.d("onScrolled","computeVerticalScrollRange : " + String.valueOf(recyclerView.computeVerticalScrollRange()));
                 Log.d("onScrolled","computeVerticalScrollRange : " + String.valueOf(mRecyclerView.computeVerticalScrollRange()));
+
                 if(recyclerView.computeVerticalScrollOffset() >= scrollRange){ //restArray가 양수 일때
-                    Log.d("onScrolled","ifIn");
+                    mAdapter.notifyDataSetChanged();
+
                     scrollRange = (49 * mRecyclerView.computeVerticalScrollRange()) / 50; // ScrollBar가 49/50 지점에서 업데이트하도록 설정.
-                    ++updateCount;
-                    imageListDataUpdate();
+                    Log.d("onScrolled","ifIn");
                 }
             }
         });
-
+         */
         return layout;
-
     }
     // SwipeRefreshLayout.OnRefreshListener
     @Override
@@ -108,11 +143,10 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                     public void onResponse(JSONObject response) {
                         try {
                             jsonArray = response.getJSONArray("yjpapp");
-                            if (jsonArray.length()>firstArrayLength){
-                                for(int i = firstArrayLength-1;i<jsonArray.length();i++){
-                                    setImageListData(i);
+                            if (Integer.parseInt(jsonArray.getJSONObject(0).get("id").toString())>imageId){
+                                for(int i = 0;i<jsonArray.length();i++){
+                                    firstImageListDataUpdate(10,0);
                                 }
-                                firstArrayLength = jsonArray.length();
                                 reversRecyclerView();
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -135,9 +169,10 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         startActivity(startImageSliderTest);
     }
 
-    public void imageListDataUpdate(){
+    public void firstImageListDataUpdate(int updateSize, int settingOffset){
         AndroidNetworking.get(url)
                 .setPriority(Priority.HIGH)
+                .addQueryParameter("offset",String.valueOf(settingOffset))
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -146,37 +181,24 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                         try {
                             jsonArray = response.getJSONArray("yjpapp");
 
-                            if(updateCount==1){ // 첫 이미지 리스트 업데이트
-                                firstArrayLength = jsonArray.length(); // 데이터 개수를 저장
-                                if(jsonArray.length()<10){ // 쌓인 이미지 리스트 데이터가 10개 미만이면
-                                    for(int i=0;i<jsonArray.length();i++){
-                                        setImageListData(i);
-                                    }
-                                    reversRecyclerView();//RecyclerView를 역순으로 정렬하는 함수
-                                }else{ // 10개 이상
-                                    for (int i = jsonArray.length() - 1; i >= jsonArray.length() - (10 * updateCount); i--) {
-                                        setImageListData(i);
-                                    }
-                                }
-                            }else { // 아래로 스크롤해서 업데이트
-                                //Log.d("RestArray","RestArray : "+String.valueOf(restArray));
-                                if(restArray<10){ // 마지막 페이지 업데이트
-                                    for(int i=restArray-1;i>=0;i--){
-                                        setImageListData(i);
-                                    }
-                                }else{ // 중간 페이지 업데이트
-                                    for (int i = restArray-1 - 1; i >= restArray - 10; i--) {
-                                        setImageListData(i);
-                                    }
-                                }
+                            imageId = Integer.parseInt(jsonArray.getJSONObject(0).get("id").toString());
+                            for (int i = 0; i < updateSize; i++) { // 쌓인 데이터 중 최신꺼를 updateSize 표현
+                                imageListData = new Network_Board_ImageListData();
+                                imageListData.setId(jsonArray.getJSONObject(i).get("id").toString());
+                                imageListData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
+                                imageListData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
+                                imageListData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
+                                imageListData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
+                                mArrayList.add(imageListData);
                             }
-
-                            restArray = jsonArray.length() - (10 * updateCount);
+                            total_recode -= 10;
                             mAdapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             Log.d(TAG, "showResult : ", e);
                         }
                     }
+
                     @Override
                     public void onError(ANError error) {
                         Log.d("RequestResult","FANExample Type : get, result : onError" + error.toString());
@@ -184,6 +206,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                     }
                 });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -194,20 +217,74 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         super.onDestroy();
         Log.d("onDestroy","게시판");
     }
-    public void setImageListData(int i) throws JSONException {
-        imageListData = new Network_Board_ImageListData();
-        imageListData.setId(jsonArray.getJSONObject(i).get("id").toString());
-        imageListData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
-        imageListData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
-        imageListData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
-        imageListData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
-        mArrayList.add(imageListData);
-    }
+
     public void reversRecyclerView(){
         //RecyclerView를 역순으로 정렬하는 코드
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         mLayoutManager.setItemPrefetchEnabled(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    public class BackgroundThread extends Thread {
+        public void run() {
+            AndroidNetworking.get(url)
+                    .setPriority(Priority.HIGH)
+                    .addQueryParameter("offset",String.valueOf(offset))
+                    .build()
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("RequestResult","ImageListData_BackgroundThread Type : get,result: onResponse");
+                            try {
+                                jsonArray = response.getJSONArray("yjpapp");
+                                for (int i = 0; i < 10; i++) { // 쌓인 데이터 중 최신꺼를 updateSize 표현
+                                    imageListData = new Network_Board_ImageListData();
+                                    imageListData.setId(jsonArray.getJSONObject(i).get("id").toString());
+                                    imageListData.setPhoto_url_1(jsonArray.getJSONObject(i).get("photo_url_1").toString());
+                                    imageListData.setTitle(jsonArray.getJSONObject(i).get("title").toString());
+                                    imageListData.setSubject(jsonArray.getJSONObject(i).get("subject").toString());
+                                    imageListData.setPrice(jsonArray.getJSONObject(i).get("price").toString());
+                                    mArrayList.add(imageListData);
+                                }
+                            } catch (JSONException e) {
+                                Log.d(TAG, "showResult : ", e);
+                            }
+
+                            offset += 10; // 상위 10개 데이터를 구현했음으로 그 다음 상위 10개 데이터를 구현하기 위해 10을 더한다.
+                            total_recode -= 10; // 10개의 이미지 리스트 데이터를 넣었음으로 표현할 전체 남은 개수를 10개 줄인다.
+                            myHandler.sendEmptyMessage(THREAD_RESPONSE);
+
+                        }
+                        @Override
+                        public void onError(ANError error) {
+                            Log.d("RequestResult","ImageListData_BackgroundThread Type : get, result : onError" + error.toString());
+                            // handle error
+                        }
+                    });
+        }
+    }
+
+    public class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == THREAD_REQUEST){
+                BackgroundThread backgroundThread = new BackgroundThread();
+                if(total_recode>0){
+                    Log.d("HandlerState", "THREAD_REQUEST start thread");
+                    backgroundThread.start();
+                }else{
+                    //End Thread
+                    Log.d("HandlerState", "THREAD_REQUEST interrupt thread");
+
+                    backgroundThread.interrupt();
+                }
+            }else if (msg.what == THREAD_RESPONSE) {
+                Log.d("HandlerState","THREAD_RESPONSE");
+
+                mAdapter.notifyDataSetChanged();
+                sendEmptyMessage(THREAD_REQUEST);
+            }
+        }
     }
 }

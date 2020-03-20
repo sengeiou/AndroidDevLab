@@ -109,6 +109,7 @@ public class CharacteristicOperationFragment extends Fragment {
 
                                         @Override
                                         public void onReadSuccess(final byte[] data) {
+
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {

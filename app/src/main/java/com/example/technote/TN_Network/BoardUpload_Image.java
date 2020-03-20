@@ -266,14 +266,13 @@ public class BoardUpload_Image extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_REQUEST_CODE) {
+        if (resultCode == RESULT_OK) {
             // Get a list of picked images
             List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             //List<Image> images = ImagePicker.getImages(data);
             images_size += path.size();
             Log.d("ImagePickerResult",path.get(0));
             Log.d("ImagePickerResult",String.valueOf(images_size));
-
 
             for(int i = 0;i<path.size();i++){
                 imageFile[image_count] = new File(path.get(i));
@@ -282,8 +281,6 @@ public class BoardUpload_Image extends AppCompatActivity
                 imageView_image_list[image_count].setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
                 image_count++;
             }
-
-
         }
     }
     public void uploadMultipart() { //업로드 버튼을 누르면 실행되는 함수

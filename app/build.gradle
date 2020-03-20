@@ -78,6 +78,7 @@ dependencies {
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.2.0'
     implementation project(path: ':multi-image-selector')
 
+    implementation 'com.linsea:universalvideoview:1.1.0@aar'
 
 }
 repositories {

@@ -23,6 +23,7 @@ public class BoardMain extends AppCompatActivity {
     private int bottomNavigationButtonState;
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
+    FragmentTransaction fragmentTransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class BoardMain extends AppCompatActivity {
 
         bottomNavigationButtonState = BOTTOM_NAVIGATION_STATE_HOME;
         //fragment 선언
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container_network_board_main, new Fragment_Board_Home()).commit();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -47,7 +48,6 @@ public class BoardMain extends AppCompatActivity {
                         if(bottomNavigationButtonState != BOTTOM_NAVIGATION_STATE_HOME){
                             replaceFragment(new Fragment_Board_Home());
                             bottomNavigationButtonState = BOTTOM_NAVIGATION_STATE_HOME;
-
                         }
                         return true;
                     case R.id.action_two:

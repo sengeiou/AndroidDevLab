@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
+import android.media.MediaTimestamp;
+import android.media.SubtitleData;
+import android.media.TimedMetaData;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -11,7 +14,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.MediaController;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
@@ -51,8 +56,14 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); // FullScreenMode 설정
 
         Intent intent = getIntent();
-        video_url = intent.getExtras().getString("video_url");
+        if (intent.getExtras().getString("video_url") !=null){
+            video_url = intent.getExtras().getString("video_url");
+        }
         Log.d("VideoUrl",video_url);
+    }
+    protected void onPause(){
+        super.onPause();
+        video_url = video_url;
     }
     //SurfaceHolder.Callback Override 부분
     @Override
@@ -64,11 +75,13 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         }
 
         mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
+
         try {
             mediaPlayer.setDataSource(video_url);
             mediaPlayer.prepare(); // 비디오 load 준비
             //mediaPlayer.prepareAsync();
             mediaPlayer.start();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
