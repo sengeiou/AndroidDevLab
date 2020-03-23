@@ -138,7 +138,7 @@ public class CustomMediaController extends FrameLayout {
      * This can for example be a VideoView, or your Activity's main view.
      * @param view The view to which to anchor the controller when it is visible.
      */
-    public void setAnchorView(ViewGroup view) {
+    public void setAnchorView(ViewGroup view) { // 커스터마이징 된 뷰를 addView한다.
         mAnchor = view;
 
         LayoutParams frameParams = new LayoutParams(
@@ -147,7 +147,7 @@ public class CustomMediaController extends FrameLayout {
         );
 
         removeAllViews();
-        View v = makeControllerView();
+        View v = makeControllerView(); // 커스터마이징 된 뷰를 저장.
         addView(v, frameParams);
     }
 
@@ -157,7 +157,7 @@ public class CustomMediaController extends FrameLayout {
      * @return The controller view.
      * @hide This doesn't work as advertised
      */
-    protected View makeControllerView() {
+    protected View makeControllerView() { // 커스터마이징 된 컨트롤러 뷰를 생성.
         LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRoot = inflate.inflate(R.layout.custom_my_media_controller, null);
 
@@ -227,7 +227,7 @@ public class CustomMediaController extends FrameLayout {
      * automatically after 3 seconds of inactivity.
      */
     public void show() {
-        show(sDefaultTimeout);
+        show(sDefaultTimeout); 
     }
 
     /**
@@ -428,6 +428,7 @@ public class CustomMediaController extends FrameLayout {
 
     private OnClickListener mFullscreenListener = new OnClickListener() {
         public void onClick(View v) {
+            //if()
             doToggleFullscreen();
             show(sDefaultTimeout);
         }

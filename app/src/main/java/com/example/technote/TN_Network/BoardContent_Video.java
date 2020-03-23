@@ -65,8 +65,8 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
     //SurfaceHolder.Callback Override 부분
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        if (simpleExoPlayer == null) {
-            simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayer();
         } else {
             mediaPlayer.reset();
         }
@@ -150,16 +150,31 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
 
     @Override
     public boolean isFullScreen() {
-        return false;
+        return true;
     }
 
     @Override
     public void toggleFullScreen() {
-
+        // 풀스크린
+        Log.d("FullScreenClick","BoardContent_Video toggleFullScreen");
+        setFullscreen(true);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+    private void setFullscreen(boolean fullscreen)
+    {
+        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        if (fullscreen)
+        {
+            attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        }
+        else
+        {
+            attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        }
+        getWindow().setAttributes(attrs);
     }
 }
