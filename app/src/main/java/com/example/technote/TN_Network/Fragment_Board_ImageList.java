@@ -61,7 +61,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_network_board_image_list, container, false);
         mAdapter = new Network_Board_ImageListAdapter(getActivity(), mArrayList);
         myHandler = new MyHandler();
-        AndroidNetworking.get(total_recode_url) // 서버에 전체 recode 개수를 가져온다.
+        AndroidNetworking.get(total_recode_url) // 처음 서버에 전체 recode 개수를 가져온 후 서버에서 ImageView 로드
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -109,7 +109,8 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
         mAdapter.setOnClickListener(this);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        //swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan); swipeRefreshLayout Color &#xc9c0;&#xc815;&#xd558;&#xae30;
+        // swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorCyan);
+        // swipeRefreshLayout Color &#xc9c0;&#xc815;&#xd558;&#xae30;
 
         /*RecyclerView를 아래로 내릴 때 작동
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

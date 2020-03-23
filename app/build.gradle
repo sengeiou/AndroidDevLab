@@ -80,6 +80,10 @@ dependencies {
 
     implementation 'com.linsea:universalvideoview:1.1.0@aar'
 
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.3'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.11.3'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.3'
 }
 repositories {
     mavenCentral()

@@ -4,31 +4,28 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
-import android.media.MediaTimestamp;
-import android.media.SubtitleData;
-import android.media.TimedMetaData;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.MediaController;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import java.io.IOException;
 
-public class BoardContent_Video extends AppCompatActivity implements SurfaceHolder.Callback, android.widget.MediaController.MediaPlayerControl{
+public class BoardContent_Video extends AppCompatActivity implements SurfaceHolder.Callback, com.example.technote.TN_Network.CustomMediaController.MediaPlayerControl {
 
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
+    private SimpleExoPlayer simpleExoPlayer;
     private MediaPlayer mediaPlayer;
-    private MediaController mediaController;
+    private com.example.technote.TN_Network.CustomMediaController mediaController;
     private String video_url;
     private ProgressDialog progressDialog;
 
@@ -49,9 +46,9 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
 
-        mediaController = new MediaController(this);
+        mediaController = new com.example.technote.TN_Network.CustomMediaController(this);
         mediaController.setMediaPlayer(this);
-        mediaController.setAnchorView(findViewById(R.id.surfaceView));
+        mediaController.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
         mediaController.setEnabled(true);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); // FullScreenMode 설정
 
@@ -68,8 +65,8 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
     //SurfaceHolder.Callback Override 부분
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
+        if (simpleExoPlayer == null) {
+            simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
         } else {
             mediaPlayer.reset();
         }
@@ -86,6 +83,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
             e.printStackTrace();
         }
     }
+
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
     }
@@ -96,6 +94,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         }
     }
 
+    // Implement MediaPlayer.OnPreparedListener
     //Media Control Click Listener Override 부분
     @Override
     public void start() {
@@ -148,14 +147,19 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         return true;
     }
 
+
     @Override
-    public int getAudioSessionId() {
-        return 0;
+    public boolean isFullScreen() {
+        return false;
+    }
+
+    @Override
+    public void toggleFullScreen() {
+
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
-
 }

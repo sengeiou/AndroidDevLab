@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">TechNote</string>
+    <string name="app_name" translatable="false">TechNote</string>
 
-    <string name="menu_settings">Settings</string>
+    <string name="menu_settings" translatable="false">Settings</string>
 
-    <string name="google_map_api_key">AIzaSyBfcdK0fjudP8w_gdpil0lVl2HOleapa98</string>
-    <string name="add_country">Add a new Country</string>
-    <string name="country_info">Country Information</string>
-    <string name="country_code">Code</string>
-    <string name="country_name">Name</string>
-    <string name="save_country">Save</string>
-    <string name="del_country">Delete</string>
-    <string name="choose_text">Choose Continent</string>
+    <string name="google_map_api_key" translatable="false">AIzaSyBfcdK0fjudP8w_gdpil0lVl2HOleapa98</string>
+    <string name="add_country" translatable="false">Add a new Country</string>
+    <string name="country_info" translatable="false">Country Information</string>
+    <string name="country_code" translatable="false">Code</string>
+    <string name="country_name" translatable="false">Name</string>
+    <string name="save_country" translatable="false">Save</string>
+    <string name="del_country" translatable="false">Delete</string>
+    <string name="choose_text" translatable="false">Choose Continent</string>
 
     <string-array name="continent_array">
         <item>Africa</item>
@@ -23,39 +23,39 @@
     </string-array>
 
 
-    <string name="notifyTitle">힌트</string>
-    <string name="gpsNotifyMsg">현재 휴대 전화는 블루투스를 스캔 할 때 위치 확인 기능을 켜야합니다.</string>
-    <string name="setting">설정으로 이동</string>
-    <string name="cancel">취소</string>
-    <string name="start_scan">스캔 시작</string>
-    <string name="stop_scan">스캔 중지</string>
-    <string name="expand_search_settings">검색 설정 확장</string>
-    <string name="retrieve_search_settings">검색 설정 축소</string>
-    <string name="connect_fail">연결 실패</string>
-    <string name="active_disconnected">액티브 연결 해제</string>
-    <string name="disconnected">연결 해제</string>
-    <string name="please_open_blue">먼저 블루투스를 켜십시오</string>
-    <string name="select_operation_type">작업 유형 선택</string>
-    <string name="characteristic">특징</string>
-    <string name="data_changed">데이터 변경：</string>
-    <string name="read">읽기</string>
-    <string name="write">쓰기</string>
-    <string name="open_notification">공개 알림</string>
-    <string name="close_notification">알림 해제</string>
-    <string name="service_list">서비스 목록</string>
-    <string name="characteristic_list">기능 목록</string>
-    <string name="console">운영 콘솔</string>
-    <string name="name">장치 브로드 캐스트 이름：</string>
-    <string name="mac">MAC:</string>
-    <string name="service">서비스</string>
-    <string name="type">서비스 유형 (주요 서비스)</string>
-    <string name="scan_setting">아래에서 스캔해야하는 장치의 조건을 구성 할 수 있으며 비어있을 수 있습니다</string>
-    <string name="setting_name">Bluetooth 장치 브로드 캐스트 이름을 쉼표로 구분하여 입력하십시오.</string>
-    <string name="setting_mac">블루투스 장치의 맥 주소를 입력하십시오</string>
-    <string name="setting_uuid">쉼표로 구분하여 Bluetooth 장치의 UUID를 입력하십시오.</string>
-    <string name="input_hex">16 진수 형식 명령을 입력하십시오</string>
-    <string name="connect">연결</string>
-    <string name="connected">연결됨</string>
-    <string name="disconnect">분리</string>
-    <string name="enter">상세정보</string>
+    <string name="notifyTitle" translatable="false">힌트</string>
+    <string name="gpsNotifyMsg" translatable="false">현재 휴대 전화는 블루투스를 스캔 할 때 위치 확인 기능을 켜야합니다.</string>
+    <string name="setting" translatable="false">설정으로 이동</string>
+    <string name="cancel" translatable="false">취소</string>
+    <string name="start_scan" translatable="false">스캔 시작</string>
+    <string name="stop_scan" translatable="false">스캔 중지</string>
+    <string name="expand_search_settings" translatable="false">검색 설정 확장</string>
+    <string name="retrieve_search_settings" translatable="false">검색 설정 축소</string>
+    <string name="connect_fail" translatable="false">연결 실패</string>
+    <string name="active_disconnected" translatable="false">액티브 연결 해제</string>
+    <string name="disconnected" translatable="false">연결 해제</string>
+    <string name="please_open_blue" translatable="false">먼저 블루투스를 켜십시오</string>
+    <string name="select_operation_type" translatable="false">작업 유형 선택</string>
+    <string name="characteristic" translatable="false">특징</string>
+    <string name="data_changed" translatable="false">데이터 변경：</string>
+    <string name="read" translatable="false">읽기</string>
+    <string name="write" translatable="false">쓰기</string>
+    <string name="open_notification" translatable="false">공개 알림</string>
+    <string name="close_notification" translatable="false">알림 해제</string>
+    <string name="service_list" translatable="false">서비스 목록</string>
+    <string name="characteristic_list" translatable="false">기능 목록</string>
+    <string name="console" translatable="false">운영 콘솔</string>
+    <string name="name" translatable="false">장치 브로드 캐스트 이름：</string>
+    <string name="mac" translatable="false">MAC:</string>
+    <string name="service" translatable="false">서비스</string>
+    <string name="type" translatable="false">서비스 유형 (주요 서비스)</string>
+    <string name="scan_setting" translatable="false">아래에서 스캔해야하는 장치의 조건을 구성 할 수 있으며 비어있을 수 있습니다</string>
+    <string name="setting_name" translatable="false">Bluetooth 장치 브로드 캐스트 이름을 쉼표로 구분하여 입력하십시오.</string>
+    <string name="setting_mac" translatable="false">블루투스 장치의 맥 주소를 입력하십시오</string>
+    <string name="setting_uuid" translatable="false">쉼표로 구분하여 Bluetooth 장치의 UUID를 입력하십시오.</string>
+    <string name="input_hex" translatable="false">16 진수 형식 명령을 입력하십시오</string>
+    <string name="connect" translatable="false">연결</string>
+    <string name="connected" translatable="false">연결됨</string>
+    <string name="disconnect" translatable="false">분리</string>
+    <string name="enter" translatable="false">상세정보</string>
 </resources>
