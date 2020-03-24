@@ -18,9 +18,7 @@ import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Folder;
 
 /**
- * 文件夹Adapter
- * Created by Nereo on 2015/4/7.
- * Updated by nereo on 2016/1/19.
+ * 폴더 어댑터
  */
 public class FolderAdapter extends BaseAdapter {
 
@@ -40,7 +38,7 @@ public class FolderAdapter extends BaseAdapter {
     }
 
     /**
-     * 设置数据集
+     * 데이터 세트 설정
      * @param folders
      */
     public void setData(List<Folder> folders) {
@@ -156,7 +154,7 @@ public class FolderAdapter extends BaseAdapter {
                 size.setText("*"+mContext.getResources().getString(R.string.mis_photo_unit));
             }
             if (data.cover != null) {
-                // 显示图片
+                // 사진 표시
                 Picasso.with(mContext)
                         .load(new File(data.cover.path))
                         .placeholder(R.drawable.mis_default_error)

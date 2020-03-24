@@ -21,9 +21,7 @@ import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
 
 /**
- * 图片Adapter
- * Created by Nereo on 2015/4/7.
- * Updated by nereo on 2016/1/19.
+ * 어댑터 사진
  */
 public class ImageGridAdapter extends BaseAdapter {
 
@@ -57,7 +55,7 @@ public class ImageGridAdapter extends BaseAdapter {
         mGridWidth = width / column;
     }
     /**
-     * 显示选择指示器
+     * 선택 표시기 표시
      * @param b
      */
     public void showSelectIndicator(boolean b) {
@@ -76,7 +74,7 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
     /**
-     * 选择某个图片，改变选择状态
+     * 사진을 선택하고 선택 상태를 변경하십시오
      * @param image
      */
     public void select(Image image) {
@@ -89,7 +87,7 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
     /**
-     * 通过图片路径设置默认选择
+     * 사진 경로별로 기본 선택 설정
      * @param resultList
      */
     public void setDefaultSelected(ArrayList<String> resultList) {
@@ -116,7 +114,7 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
     /**
-     * 设置数据集
+     * 데이터 세트 설정
      * @param images
      */
     public void setData(List<Image> images) {
@@ -204,15 +202,15 @@ public class ImageGridAdapter extends BaseAdapter {
 
         void bindData(final Image data){
             if(data == null) return;
-            // 处理单选和多选状态
+            // 단일 및 다중 선택 상태 처리
             if(showSelectIndicator){
                 indicator.setVisibility(View.VISIBLE);
                 if(mSelectedImages.contains(data)){
-                    // 设置选中状态
+                    // 선택된 상태 설정
                     indicator.setImageResource(R.drawable.mis_btn_selected);
                     mask.setVisibility(View.VISIBLE);
                 }else{
-                    // 未选择
+                    // 선택하지 않음
                     indicator.setImageResource(R.drawable.mis_btn_unselected);
                     mask.setVisibility(View.GONE);
                 }
@@ -221,7 +219,7 @@ public class ImageGridAdapter extends BaseAdapter {
             }
             File imageFile = new File(data.path);
             if (imageFile.exists()) {
-                // 显示图片
+                // 사진 표시
                 Picasso.with(mContext)
                         .load(imageFile)
                         .placeholder(R.drawable.mis_default_error)

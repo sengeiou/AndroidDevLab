@@ -14,8 +14,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 /**
- * 图片选择器
- * Created by nereo on 16/3/17.
+ * 사진 선택기
  */
 public class MultiImageSelector {
 

@@ -227,7 +227,7 @@ public class CustomMediaController extends FrameLayout {
      * automatically after 3 seconds of inactivity.
      */
     public void show() {
-        show(sDefaultTimeout); 
+        show(sDefaultTimeout);
     }
 
     /**
