@@ -38,14 +38,14 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
         mListener = listener;
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView title_image;
-        protected TextView title;
-        protected TextView subject;
-        protected TextView price;
-        protected RelativeLayout layout_image_list;
+    public class CustomViewHolder extends RecyclerView.ViewHolder {
+        private ImageView title_image;
+        public TextView title;
+        private TextView subject;
+        public TextView price;
+        private RelativeLayout layout_image_list;
 
-        public CustomViewHolder(View view) {
+        private CustomViewHolder(View view) {
             super(view);
             this.title_image = (ImageView) view.findViewById(R.id.title_image_view);
             this.title = (TextView) view.findViewById(R.id.title_text_view);

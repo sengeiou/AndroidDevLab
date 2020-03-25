@@ -154,15 +154,21 @@ public class BoardUpload_Image extends AppCompatActivity
                 if(subjectSelect && etTitle.length() != 0 && etContent.length() != 0 && isConnected) { // 모든 조건 충족
                     uploadMultipart();
                     uploadComplete = true;
-                    createNotificationChannel();
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getApplicationContext(),"0")
-                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                    .setContentTitle("TechNote")
-                                    .setSmallIcon(R.drawable.tech_note_icon)
-                                    .setContentText("업로드 됐습니다.");
-                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-                    notificationManagerCompat.notify(0,mBuilder.build());
+
+                    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP_MR1){ // API 22이상
+                        createNotificationChannel();
+                        NotificationCompat.Builder mBuilder =
+                                new NotificationCompat.Builder(getApplicationContext(),"0")
+                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                        .setContentTitle("TechNote")
+                                        .setSmallIcon(R.drawable.tech_note_icon)
+                                        .setContentText("이미지가 업로드 됐습니다.");
+                        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+                        notificationManagerCompat.notify(0,mBuilder.build());
+                    }else{ // API 22미만
+
+                    }
+
                     setDialogMessage("등록 완료 됐습니다.");
 
                 }else{ // 예외처리
@@ -215,15 +221,6 @@ public class BoardUpload_Image extends AppCompatActivity
                         .multi()
                         .count(5-image_count)
                         .start(this,IMAGE_REQUEST_CODE);
-                /*
-                ImagePicker.create(this)
-                        .folderMode(true)
-                        .multi()
-                        .showCamera(true)
-                        .limit(5-image_count)
-                        .start();
-
-                 */
 
                 //intent.setType("image/*");
                 //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
@@ -289,7 +286,6 @@ public class BoardUpload_Image extends AppCompatActivity
         String subject = etSubject.getText().toString().trim();
         String content = etContent.getText().toString().trim();
 
-        ContentResolver contentResolver = getContentResolver();
         //이미지의 실제 경로를 String Array인 path[i]에 저장
 
         for(int i = 0; i<image_count;i++){

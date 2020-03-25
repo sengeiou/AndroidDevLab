@@ -211,6 +211,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mArrayList.clear();
         Log.d("onDestroyView","게시판");
     }
     @Override

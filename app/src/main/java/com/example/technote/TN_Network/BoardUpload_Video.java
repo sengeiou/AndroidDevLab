@@ -1,6 +1,8 @@
 package com.example.technote.TN_Network;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -26,6 +29,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -117,6 +122,18 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
                     uploadVideo();
                     uploadComplete = true;
                     setDialogMessage("등록 완료 됐습니다.");
+
+                    createNotificationChannel();
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(getApplicationContext(),"1")
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setContentTitle("TechNote")
+                                    .setSmallIcon(R.drawable.tech_note_icon)
+                                    .setContentText("비디오가 업로드 됐습니다.");
+                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+                    notificationManagerCompat.notify(0,mBuilder.build());
+                    setDialogMessage("등록 완료 됐습니다.");
+
                 }else{ // 예외처리
                     if(!isConnected){
                         setDialogMessage("네트워크 상태를 확인하세요.");
@@ -239,5 +256,20 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
         etContent = (EditText)findViewById(R.id.video_upload_etContent);
         imageView_video_upload = (ImageView)findViewById(R.id.imageview_video_upload);
         toolbar = findViewById(R.id.video_upload_toolbar);
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "name";
+            String description = "description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("1", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
