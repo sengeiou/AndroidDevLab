@@ -67,7 +67,6 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
         Picasso.with(context)
                 .load(mList.get(position).getPhoto_url_1())
                 .resize(250,250)
-                .centerCrop()
                 .into(viewholder.title_image);
         //viewholder.title_image.setImageUrl(mList.get(position).getPhoto_url_1());
         viewholder.title.setText(mList.get(position).getTitle());

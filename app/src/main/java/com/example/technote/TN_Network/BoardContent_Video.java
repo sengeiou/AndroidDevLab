@@ -82,6 +82,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
                 //mediaPlayer.prepareAsync();
                 mediaPlayer.start();
                 mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
+                Log.d("getTimestamp", mediaPlayer.getTimestamp().toString());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -172,21 +173,36 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
                 return false;
             }
         });
-
-        mediaPlayer.setOnMediaTimeDiscontinuityListener(new MediaPlayer.OnMediaTimeDiscontinuityListener() {
+        mediaPlayer.setOnMediaTimeDiscontinuityListener(new MediaPlayer.OnMediaTimeDiscontinuityListener() { // API 레벨 28이상
             @Override
             public void onMediaTimeDiscontinuity(@NonNull MediaPlayer mp, @NonNull MediaTimestamp mts) {
                 Log.d("MediaTimeDiscontinue","mts : " +mts.toString());
             }
         });
-        mediaPlayer.setOnSubtitleDataListener(new MediaPlayer.OnSubtitleDataListener() {
+
+
+        // 그냥 플레이로는 안불려지는 리스너
+        mediaPlayer.setOnSubtitleDataListener(new MediaPlayer.OnSubtitleDataListener() { // API 레벨 28이상,
+            // 자막이 존재하는 비디오를 재생해본결과 나오지 않음
+            // MP4 파일이 아닌 AVI 파일 형식으로 다른 비디오를 재생한 결과 :
             @Override
             public void onSubtitleData(@NonNull MediaPlayer mp, @NonNull SubtitleData data) {
                 Log.d("onSubtitleData","data : " +data.toString() + " getData() : " + data.getData());
 
             }
         });
-
+        mediaPlayer.setOnTimedMetaDataAvailableListener(new MediaPlayer.OnTimedMetaDataAvailableListener() { // API 23이상
+            @Override
+            public void onTimedMetaDataAvailable(MediaPlayer mp, TimedMetaData data) {
+                Log.d("TimedMetaData","data : " +data.toString() + " getMetaData() : " + data.getMetaData().toString() + "getTimestamp : " + data.getTimestamp());
+            }
+        });
+        mediaPlayer.setOnTimedTextListener(new MediaPlayer.OnTimedTextListener() {
+            @Override
+            public void onTimedText(MediaPlayer mp, TimedText text) {
+                Log.d("onTimedText","data : " +text.toString()+ " getText() : " + text.getText()+ "getTimestamp : " + text.getBounds().toString());
+            }
+        });
     }
 
     @Override

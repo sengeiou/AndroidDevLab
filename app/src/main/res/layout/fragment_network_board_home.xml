@@ -24,4 +24,15 @@
         android:text="동영상 업로드">
     </Button>
 
+    <Button
+        android:id="@+id/btn_play_video"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_network_board_upload_video"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:text="URL 비디오 플레이">
+    </Button>
+
+
 </RelativeLayout>

@@ -155,19 +155,15 @@ public class BoardUpload_Image extends AppCompatActivity
                     uploadMultipart();
                     uploadComplete = true;
 
-                    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP_MR1){ // API 22이상
-                        createNotificationChannel();
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(getApplicationContext(),"0")
-                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                        .setContentTitle("TechNote")
-                                        .setSmallIcon(R.drawable.tech_note_icon)
-                                        .setContentText("이미지가 업로드 됐습니다.");
-                        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-                        notificationManagerCompat.notify(0,mBuilder.build());
-                    }else{ // API 22미만
-
-                    }
+                    createNotificationChannel();
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(getApplicationContext(),"0")
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setContentTitle("TechNote")
+                                    .setSmallIcon(R.drawable.tech_note_icon)
+                                    .setContentText("이미지가 업로드 됐습니다.");
+                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+                    notificationManagerCompat.notify(0,mBuilder.build());
 
                     setDialogMessage("등록 완료 됐습니다.");
 

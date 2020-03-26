@@ -36,7 +36,7 @@
     </style>
     <style name="OrengeProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressBackgroundTint">@color/black</item>
-        <item name="android:progressTint">@color/orenge</item>
+        <item name="android:progressTint">@color/orange</item>
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">

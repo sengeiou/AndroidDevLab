@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/tech_note_icon_round"
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <provider android:name=".TN_Database.ContentProviderPractics.MyContentProvider2" android:exported="true"
             android:readPermission="true" android:writePermission="true"
