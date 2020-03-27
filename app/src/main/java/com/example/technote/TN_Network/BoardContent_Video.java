@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.MediaController;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -27,13 +28,18 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-public class BoardContent_Video extends AppCompatActivity implements SurfaceHolder.Callback, com.example.technote.TN_Network.CustomMediaController.MediaPlayerControl {
+public class BoardContent_Video extends AppCompatActivity implements SurfaceHolder.Callback, CustomMediaController.MediaPlayerControl {
+
 
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
     private SimpleExoPlayer simpleExoPlayer;
     private MediaPlayer mediaPlayer;
-    private com.example.technote.TN_Network.CustomMediaController mediaController;
+
+    //private MediaController mediaController;
+    private CustomMediaController mediaController;
+    //private MyMediaController mediaController;
+    //private MyMediaController mediaController;
     private String video_url;
     private ProgressDialog progressDialog;
 
@@ -42,6 +48,17 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         setContentView(R.layout.activity_network_board_content_video);
 
         surfaceView = findViewById(R.id.surfaceView);
+
+        surfaceHolder = surfaceView.getHolder();
+        surfaceHolder.addCallback(this);
+
+        //mediaController = new com.example.technote.TN_Network.CustomMediaController(this);
+        mediaController = new CustomMediaController(this);
+
+        mediaController.setMediaPlayer(this);
+        mediaController.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
+        mediaController.setEnabled(true);
+
         surfaceView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,13 +68,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
                     mediaController.show();
             }
         });
-        surfaceHolder = surfaceView.getHolder();
-        surfaceHolder.addCallback(this);
 
-        mediaController = new com.example.technote.TN_Network.CustomMediaController(this);
-        mediaController.setMediaPlayer(this);
-        mediaController.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-        mediaController.setEnabled(true);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); // FullScreenMode 설정
 
         Intent intent = getIntent();
@@ -77,11 +88,14 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
             mediaPlayer = new MediaPlayer();
 
             try {
+                //simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
+
                 mediaPlayer.setDataSource(video_url);
                 mediaPlayer.prepare(); // 비디오 load 준비
                 //mediaPlayer.prepareAsync();
                 mediaPlayer.start();
                 mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
+
                 Log.d("getTimestamp", mediaPlayer.getTimestamp().toString());
 
             } catch (IOException e) {
@@ -173,24 +187,31 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
                 return false;
             }
         });
-        mediaPlayer.setOnMediaTimeDiscontinuityListener(new MediaPlayer.OnMediaTimeDiscontinuityListener() { // API 레벨 28이상
-            @Override
-            public void onMediaTimeDiscontinuity(@NonNull MediaPlayer mp, @NonNull MediaTimestamp mts) {
-                Log.d("MediaTimeDiscontinue","mts : " +mts.toString());
-            }
-        });
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.P){
+            mediaPlayer.setOnMediaTimeDiscontinuityListener(new MediaPlayer.OnMediaTimeDiscontinuityListener() { // API 레벨 28이상
+                @Override
+                public void onMediaTimeDiscontinuity(@NonNull MediaPlayer mp, @NonNull MediaTimestamp mts) {
+                    Log.d("MediaTimeDiscontinue","mts : " +mts.toString());
+                }
+            });
+
+            //그냥 안불러지는 리스너
+            mediaPlayer.setOnSubtitleDataListener(new MediaPlayer.OnSubtitleDataListener() { // API 레벨 28이상,
+                // 자막이 존재하는 비디오를 재생해본결과 나오지 않음
+                // MP4 파일이 아닌 AVI 파일 형식으로 다른 비디오를 재생한 결과 :
+                @Override
+                public void onSubtitleData(@NonNull MediaPlayer mp, @NonNull SubtitleData data) {
+                    Log.d("onSubtitleData","data : " +data.toString() + " getData() : " + data.getData());
+
+                }
+            });
+        }
+
 
 
         // 그냥 플레이로는 안불려지는 리스너
-        mediaPlayer.setOnSubtitleDataListener(new MediaPlayer.OnSubtitleDataListener() { // API 레벨 28이상,
-            // 자막이 존재하는 비디오를 재생해본결과 나오지 않음
-            // MP4 파일이 아닌 AVI 파일 형식으로 다른 비디오를 재생한 결과 :
-            @Override
-            public void onSubtitleData(@NonNull MediaPlayer mp, @NonNull SubtitleData data) {
-                Log.d("onSubtitleData","data : " +data.toString() + " getData() : " + data.getData());
 
-            }
-        });
         mediaPlayer.setOnTimedMetaDataAvailableListener(new MediaPlayer.OnTimedMetaDataAvailableListener() { // API 23이상
             @Override
             public void onTimedMetaDataAvailable(MediaPlayer mp, TimedMetaData data) {
@@ -267,7 +288,6 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
     public boolean canSeekForward() {
         return true;
     }
-
 
     @Override
     public boolean isFullScreen() {

@@ -83,7 +83,9 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { //이미지를 선택하고 난 뒤 실행되는 함수
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VIDEO_REQUST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            videoFileUriPath = data.getData();
+
+            Log.d("VideoPath",getVideoPath(videoFileUriPath));
+            Log.d("VideoPath","getData.getPath : " + data.getData().getPath());
             thumbNailBitmap = ThumbnailUtils.createVideoThumbnail(getVideoPath(videoFileUriPath),MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
             imageView_video_upload.setImageBitmap(thumbNailBitmap);
             imageView_video_upload.setScaleType(ImageView.ScaleType.FIT_XY); // 이미지 비율맞게 꽉 채움
@@ -121,7 +123,6 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
                 if( etTitle.length() != 0 && etContent.length() != 0 && isConnected) { // 모든 조건 충족
                     uploadVideo();
                     uploadComplete = true;
-                    setDialogMessage("등록 완료 됐습니다.");
 
                     createNotificationChannel();
                     NotificationCompat.Builder mBuilder =
@@ -185,7 +186,6 @@ public class BoardUpload_Video extends AppCompatActivity implements View.OnClick
     public void uploadVideo() { //업로드 버튼을 누르면 실행되는 함수
         String title = etTitle.getText().toString().trim();
         String content = etContent.getText().toString().trim();
-
         videoFile = new File(getVideoPath(videoFileUriPath));
         thumbnailFile = new File(getImagePath(thumbnailFileUriPath));
 

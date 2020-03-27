@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -85,7 +86,7 @@ public class CustomMediaController extends FrameLayout {
     private boolean             mUseFastForward;
     private boolean             mFromXml;
     private boolean             mListenersSet;
-    private OnClickListener mNextListener, mPrevListener;
+    private OnClickListener     mNextListener, mPrevListener;
     StringBuilder               mFormatBuilder;
     Formatter                   mFormatter;
     private ImageButton         mPauseButton;
@@ -198,7 +199,7 @@ public class CustomMediaController extends FrameLayout {
         // By default these are hidden. They will be enabled when setPrevNextListeners() is called
         mNextButton = (ImageButton) v.findViewById(R.id.next);
         if (mNextButton != null && !mFromXml && !mListenersSet) {
-            mNextButton.setVisibility(View.GONE);
+            mNextButton.setVisibility(View.VISIBLE);
         }
         mPrevButton = (ImageButton) v.findViewById(R.id.prev);
         if (mPrevButton != null && !mFromXml && !mListenersSet) {

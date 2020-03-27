@@ -42,8 +42,8 @@ public class Fragment_Board_Home extends Fragment {
         videoPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BoardContent_Video.class);
-                intent.putExtra("video_url","http://yjpapp.com/upload_video/video/8.mp4");
+                Intent intent = new Intent(getActivity(), BoardContent_Video2.class);
+                //intent.putExtra("video_url","http://yjpapp.com/upload_video/video/8.mp4");
                 startActivity(intent);
             }
         });
