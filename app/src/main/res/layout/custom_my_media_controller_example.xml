@@ -6,41 +6,26 @@
     android:layout_height="wrap_content"
     android:gravity="center">
 
-    <ImageView
-        android:id="@+id/custom_play"
-        android:layout_height="50dp"
-        android:layout_width="50dp"
-        android:src="@drawable/play"
-        android:onClick="onClick"/>
+
     <ImageView
         android:src="@drawable/pause"
-        android:id="@+id/custom_pause"
+        android:id="@+id/custom_play_pause"
+        android:layout_centerInParent="true"
         android:layout_height="50dp"
-        android:layout_width="50dp"
-        android:layout_toRightOf="@+id/custom_play"/>
+        android:layout_width="50dp" />
     <TextView
         android:id="@+id/custom_current_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:layout_toRightOf="@+id/custom_pause">
+        android:layout_marginLeft="20dp"
+        android:layout_above="@+id/custom_seekbar">
     </TextView>
-
     <SeekBar
         android:id="@+id/custom_seekbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/custom_pause"
-        android:layout_toLeftOf="@+id/fullscreen"
-
-        android:layout_marginRight="50dp"
-        android:layout_below="@id/custom_current_time">
-    </SeekBar>
-    <ImageView
-        android:src="@drawable/fullscreen"
-        android:id="@+id/custom_fullscreen"
         android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_width="50dp"/>
+        android:layout_alignParentBottom="true">
+    </SeekBar>
 
 </RelativeLayout>

@@ -31,6 +31,7 @@ import com.example.technote.TN_Layout.FrameLayout_Test;
 import com.example.technote.TN_Layout.LinearLayout_Test;
 import com.example.technote.TN_Layout.RelativeLayoutTest;
 import com.example.technote.TN_Layout.TableLayout_Test;
+import com.example.technote.TN_Media.MediaPlayer_Video;
 import com.example.technote.TN_Network.BoardMain;
 import com.example.technote.TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample;
 import com.example.technote.TN_Network.NetworkAPI_Library.FANExample;
@@ -58,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
         button3 = (Button) findViewById(R.id.Button3);
         button4 = (Button) findViewById(R.id.Button4);
         button5 = (Button) findViewById(R.id.Button5);
-        button6 = (Button) findViewById(R.id.button6);
+        button6 = (Button) findViewById(R.id.Button6);
         button7 = (Button) findViewById(R.id.Button7);
         button8 = (Button) findViewById(R.id.Button8);
         button9 = (Button) findViewById(R.id.Button9);
-        button10 = (Button) findViewById(R.id.button10);
+        button10 = (Button) findViewById(R.id.Button10);
         button11 = (Button) findViewById(R.id.Button11);
         button12 = (Button) findViewById(R.id.Button12);
 
@@ -195,6 +196,32 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_content_provider:
                                 startActivity(new Intent(getApplicationContext(), ContentProviderTest2.class));
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();//Popup Menu 보이기
+            }
+        });
+        //Media
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+
+                getMenuInflater().inflate(R.menu.menu_mediaplay, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_mediaplay_mediaplayer:
+                                startActivity(new Intent(getApplicationContext(), MediaPlayer_Video.class));
+                                break;
+                            case R.id.menu_mediaplay_expoplyer:
+                                startActivity(new Intent(getApplicationContext(), MyAsyncTaskExample_1.class));
                                 break;
                             default:
                                 break;

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.technote.R;
+import com.example.technote.TN_Media.MediaPlayer_Video;
 
 public class Fragment_Board_Home extends Fragment {
     View view;
@@ -42,7 +43,7 @@ public class Fragment_Board_Home extends Fragment {
         videoPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BoardContent_Video2.class);
+                Intent intent = new Intent(getActivity(), MediaPlayer_Video.class);
                 //intent.putExtra("video_url","http://yjpapp.com/upload_video/video/8.mp4");
                 startActivity(intent);
             }

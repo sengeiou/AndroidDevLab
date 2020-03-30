@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.technote.TN_Network;
+package com.example.technote.TN_Media;
 
 import android.content.Context;
 import android.os.Handler;
@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;

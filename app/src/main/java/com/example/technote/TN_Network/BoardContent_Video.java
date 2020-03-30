@@ -16,15 +16,14 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.MediaController;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
+import com.example.technote.TN_Media.CustomMediaController;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -52,7 +51,7 @@ public class BoardContent_Video extends AppCompatActivity implements SurfaceHold
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
 
-        //mediaController = new com.example.technote.TN_Network.CustomMediaController(this);
+        //mediaController = new com.example.technote.TN_Media.CustomMediaController(this);
         mediaController = new CustomMediaController(this);
 
         mediaController.setMediaPlayer(this);

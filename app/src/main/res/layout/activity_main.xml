@@ -80,7 +80,7 @@
             android:id="@+id/Button6"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="  6. MediaRecord/MediaPlay/Camera"
+            android:text="  6. MediaPlay"
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
@@ -125,7 +125,7 @@
             android:background="@color/white"/>
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/Button10"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="  10. Jni"
@@ -145,7 +145,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:layout_centerInParent="true"
-            android:layout_below="@+id/button10"
+            android:layout_below="@+id/Button10"
             android:textAllCaps="false"
             android:background="@color/white"/>
         <Button
