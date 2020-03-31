@@ -23,6 +23,7 @@ import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_1;
 import com.example.technote.TN_Dialog_Activity_Fragment.Activity_Screen_2;
 import com.example.technote.TN_Dialog_Activity_Fragment.Dialog;
 import com.example.technote.TN_Dialog_Activity_Fragment.MyTab_ViewPager.MyTab_ViewPager;
+import com.example.technote.TN_File.XML_ParsingExample;
 import com.example.technote.TN_GoogleMap.GoogleMapTest;
 import com.example.technote.TN_Layout.ConstraintLayout_Test;
 import com.example.technote.TN_Layout.CoordinatorLayout_Test;
@@ -32,6 +33,7 @@ import com.example.technote.TN_Layout.LinearLayout_Test;
 import com.example.technote.TN_Layout.RelativeLayoutTest;
 import com.example.technote.TN_Layout.TableLayout_Test;
 import com.example.technote.TN_Media.MediaPlayer_Video;
+import com.example.technote.TN_Media.TN_ExoPlayer.ExoPlayerExample;
 import com.example.technote.TN_Network.BoardMain;
 import com.example.technote.TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample;
 import com.example.technote.TN_Network.NetworkAPI_Library.FANExample;
@@ -221,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), MediaPlayer_Video.class));
                                 break;
                             case R.id.menu_mediaplay_expoplyer:
-                                startActivity(new Intent(getApplicationContext(), MyAsyncTaskExample_1.class));
+                                startActivity(new Intent(getApplicationContext(), ExoPlayerExample.class));
                                 break;
                             default:
                                 break;
@@ -230,6 +232,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 popup.show();//Popup Menu 보이기
+            }
+        });
+        //File
+        button7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), XML_ParsingExample.class));
             }
         });
         //서버연동

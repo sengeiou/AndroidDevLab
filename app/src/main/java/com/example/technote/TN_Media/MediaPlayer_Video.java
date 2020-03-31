@@ -24,7 +24,7 @@ public class MediaPlayer_Video extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mediaplyer_video_view);
+        setContentView(R.layout.activity_mediaplayer_video_view);
 
         videoView = findViewById(R.id.video_view);
         videoView.requestFocus();

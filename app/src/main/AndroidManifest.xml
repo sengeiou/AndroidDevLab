@@ -74,6 +74,11 @@
         <activity android:name=".TN_GoogleMap.Sample.AutoCompletePlaceSample"></activity>
         <activity android:name=".TN_GoogleMap.Sample.MapsActivityCurrentPlace"></activity>
 
+        <activity android:name=".TN_Media.MediaPlayer_Video"></activity>
+        <activity android:name=".TN_Media.TN_ExoPlayer.ExoPlayerExample"></activity>
+
+        <activity android:name=".TN_File.XML_ParsingExample"></activity>
+
         <activity android:name=".TN_Network.NetworkAPI_Library.OKHttpExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.VolleyExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.FANExample"></activity>
@@ -86,7 +91,6 @@
         <activity android:name=".TN_Network.BoardContent_Video"></activity>
         <activity android:name=".TN_Network.BoardContent_Image_ZoomIn"></activity>
         <activity android:name=".TN_Network.BoardUpload_Image"></activity>
-        <activity android:name=".TN_Media.MediaPlayer_Video"></activity>
 
         <activity android:name=".TN_Thread.HandlerEx"></activity>
         <activity android:name=".TN_Thread.MyAsyncTaskExample_1"></activity>

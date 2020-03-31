@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root time="1571183516">
     <ListVersion num="15" region=""/>
-    <Channel ch="311" ip="239.192.70.161" port="49220" ch_no="1" apid="2901" ppid="2901" ast="129" opid="7589" ctype="0" title="최신인기가요" image="" ca_id="0" ca_pid="0"  channelUri="skbiptv://239.192.70.161:49220?ch=311&amp;audio=0&amp;ci=0&amp;cp=0&amp;pp=2901&amp;ap=2901&amp;ac=129&amp;op=7589" />
+    <Channel ch="311" ip="239.192.70.161" port="49220" ch_no="1" apid="2901" ppid="2901" ast="129" opid="7589" ctype="0" title="최신인기가요" image="" ca_id="0" ca_pid="0"  channelUri="skbiptv://239.192.70.161:49220?ch=311&amp;audio=0&amp;ci=0&amp;cp=0&amp;pp=2901&amp;ap=2901&amp;ac=129&amp;op=7589"></Channel>
     <Channel ch="311" ip="239.192.70.162" port="49220" ch_no="2" apid="2902" ppid="2902" ast="129" opid="7591" ctype="0" title="K-POP 아이돌" image="" ca_id="0" ca_pid="0"  channelUri="skbiptv://239.192.70.162:49220?ch=311&amp;audio=0&amp;ci=0&amp;cp=0&amp;pp=2902&amp;ap=2902&amp;ac=129&amp;op=7591" />
     <Channel ch="311" ip="239.192.70.167" port="49220" ch_no="3" apid="2907" ppid="2907" ast="129" opid="7601" ctype="0" title="2000년대 인기가요" image="" ca_id="0" ca_pid="0"  channelUri="skbiptv://239.192.70.167:49220?ch=311&amp;audio=0&amp;ci=0&amp;cp=0&amp;pp=2907&amp;ap=2907&amp;ac=129&amp;op=7601" />
     <Channel ch="311" ip="239.192.70.163" port="49220" ch_no="4" apid="2903" ppid="2903" ast="129" opid="7593" ctype="0" title="발라드가요" image="" ca_id="0" ca_pid="0"  channelUri="skbiptv://239.192.70.163:49220?ch=311&amp;audio=0&amp;ci=0&amp;cp=0&amp;pp=2903&amp;ap=2903&amp;ac=129&amp;op=7593" />

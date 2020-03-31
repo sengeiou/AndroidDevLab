@@ -81,7 +81,6 @@ class MyMediaController extends MediaController {
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
 
@@ -104,7 +103,6 @@ class MyMediaController extends MediaController {
             }
         });
         thread.start();
-
         addView(controllerView);
     }
 
