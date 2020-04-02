@@ -20,7 +20,6 @@ class Music_Channel extends MyChannel{
     @Attribute(name = "region")
     String region;
 
-    @Path("Channel")
     @Element
     List<MyChannel> channel;
 }

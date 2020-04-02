@@ -93,14 +93,11 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
 
             InputStream is = getResources().getAssets().open("music_channel.xml");
             Music_Channel music_channel = tikXml.read(new Buffer().readFrom(is),Music_Channel.class);
-            MyChannel myChannel = tikXml.read(new Buffer().readFrom(is),MyChannel.class);
 
             Buffer buffer = new Buffer();
 
             tikXml.write(buffer,music_channel);
-            Log.d("getNode", music_channel.channel.get(0).getTitle());
-            //Log.d("getNode",tikXml.read(new Buffer().writeUtf8("music_channel.xml"), MyChannel.class).getTitle());
-            //Log.d("getNode",music_channel.channel.get(0).getTitle());
+            Log.d("getNode", music_channel.num);
 
         } catch (IOException e) {
             Log.d("getNode","IOException : " + e.toString());
