@@ -1,19 +1,38 @@
 package com.example.technote.TN_File;
 
-public class XML_MusicChannel_Data {
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.Path;
+import com.tickaroo.tikxml.annotation.Xml;
+
+@Xml
+public class MyChannel {
+    @Attribute(name = "ch")
     private String ch;
+    @Attribute(name = "ip")
     private String ip;
+    @Attribute(name = "port")
     private String port;
+    @Attribute(name = "ch_no")
     private String ch_no;
+    @Attribute(name = "apid")
     private String apid;
+    @Attribute(name = "ppid")
     private String ppid;
+    @Attribute(name = "ast")
     private String ast;
+    @Attribute(name = "opid")
     private String opid;
+    @Attribute(name = "ctype")
     private String ctype;
+    @Attribute(name = "title")
     private String title;
+    @Attribute(name = "image")
     private String image;
+    @Attribute(name = "ca_id")
     private String ca_id;
+    @Attribute(name = "ca_pid")
     private String ca_pid;
+    @Attribute(name = "channelUri")
     private String channelUri;
 
     public String getCh(){
