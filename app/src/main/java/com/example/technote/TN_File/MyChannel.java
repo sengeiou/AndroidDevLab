@@ -6,32 +6,59 @@ import com.tickaroo.tikxml.annotation.Xml;
 
 @Xml
 public class MyChannel {
+    @Path("Channel")
     @Attribute(name = "ch")
     private String ch;
+
+    @Path("Channel")
     @Attribute(name = "ip")
     private String ip;
+
+    @Path("Channel")
     @Attribute(name = "port")
     private String port;
+
+    @Path("Channel")
     @Attribute(name = "ch_no")
     private String ch_no;
+
+    @Path("Channel")
     @Attribute(name = "apid")
     private String apid;
+
+    @Path("Channel")
     @Attribute(name = "ppid")
     private String ppid;
+
+    @Path("Channel")
     @Attribute(name = "ast")
     private String ast;
+
+    @Path("Channel")
     @Attribute(name = "opid")
     private String opid;
+
+    @Path("Channel")
     @Attribute(name = "ctype")
     private String ctype;
+
+    @Path("Channel")
     @Attribute(name = "title")
     private String title;
+
+    @Path("Channel")
     @Attribute(name = "image")
     private String image;
+
+    @Path("Channel")
     @Attribute(name = "ca_id")
     private String ca_id;
+
+    @Path("Channel")
     @Attribute(name = "ca_pid")
     private String ca_pid;
+
+    @Path("Channel")
     @Attribute(name = "channelUri")
     private String channelUri;
 

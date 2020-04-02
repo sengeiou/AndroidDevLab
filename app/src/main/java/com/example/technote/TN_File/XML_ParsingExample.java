@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,13 +18,17 @@ import com.tickaroo.tikxml.TikXml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import okio.Buffer;
 
 public class XML_ParsingExample extends AppCompatActivity implements View.OnClickListener {
     private ArrayList<MyChannel> arrayList = new ArrayList<>();
-    private MyChannel myChannel = new MyChannel();
-    private Music_Channel music_channel = new Music_Channel();
+    //private MyChannel myChannel = new MyChannel();
+    //private Music_Channel music_channel = new Music_Channel();
     private Button bt_ch_1,bt_ch_2,bt_ch_3,bt_ch_4,bt_ch_5,bt_ch_6,bt_ch_7,bt_ch_8,bt_ch_9,bt_ch_10,
             bt_ch_11, bt_ch_12, bt_ch_13,bt_ch_14,bt_ch_15,bt_ch_16,bt_ch_17,bt_ch_18,bt_ch_19,bt_ch_20;
     private TextView textView;
@@ -81,13 +86,19 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
          */
         try {
 
-            TikXml tikXml = new TikXml.Builder().addTypeAdapter(null,new MyTypeAdapter())
+            TikXml tikXml = new TikXml.Builder()
                     .exceptionOnUnreadXml(true)
                     .writeDefaultXmlDeclaration(true)
                     .build();
 
             InputStream is = getResources().getAssets().open("music_channel.xml");
-            tikXml.write(new Buffer().readFrom(is), Music_Channel.class);
+            Music_Channel music_channel = tikXml.read(new Buffer().readFrom(is),Music_Channel.class);
+            MyChannel myChannel = tikXml.read(new Buffer().readFrom(is),MyChannel.class);
+
+            Buffer buffer = new Buffer();
+
+            tikXml.write(buffer,music_channel);
+            Log.d("getNode", music_channel.channel.get(0).getTitle());
             //Log.d("getNode",tikXml.read(new Buffer().writeUtf8("music_channel.xml"), MyChannel.class).getTitle());
             //Log.d("getNode",music_channel.channel.get(0).getTitle());
 
@@ -152,7 +163,8 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
                     "\nport : " + arrayList.get(msg.what).getPort() + "\nch_no : " + arrayList.get(msg.what).getCh_no() +
                     "\napid : " + arrayList.get(msg.what).getApid() + "\nppid : " + arrayList.get(msg.what).getPpid() +
                     "\nast : " + arrayList.get(msg.what).getAst() + "\nopid : " + arrayList.get(msg.what).getOpid() +
-                    "\nctype : " + arrayList.get(msg.what).getCtype() + "\ntitle : "+arrayList.get(msg.what).getTitle() +
+                    "\nctype : " + arrayList.get(msg.what).getCtype() + "\ntitle : "//+arrayList.get(msg.what).getTitle()
+                     +
                     "\nimage : " + arrayList.get(msg.what).getImage() + "\nca_id : " + arrayList.get(msg.what).getCa_id() +
                     "\nca_pid : " + arrayList.get(msg.what).getCa_pid() +"\nchannelUri : " + arrayList.get(msg.what).getChannelUri());
         }

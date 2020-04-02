@@ -8,19 +8,19 @@ import com.tickaroo.tikxml.annotation.Xml;
 import java.util.List;
 
 @Xml
-class Music_Channel {
+class Music_Channel extends MyChannel{
     @Attribute(name = "time")
     String time;
 
-    @Path("root/ListVersion")
+    @Path("ListVersion")
     @Attribute(name = "num")
     String num;
 
-    @Path("root/ListVersion")
+    @Path("ListVersion")
     @Attribute(name = "region")
     String region;
 
-    @Path("root/Channel")
+    @Path("Channel")
     @Element
     List<MyChannel> channel;
 }
