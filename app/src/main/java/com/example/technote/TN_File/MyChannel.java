@@ -48,7 +48,8 @@ public class MyChannel {
     @Attribute(name = "channelUri")
     String channelUri;
 
-    /*
+
+
     public String getCh(){
         return ch;
     }
@@ -134,7 +135,5 @@ public class MyChannel {
     public void setChannelUri(String channelUri) {
         this.channelUri = channelUri;
     }
-
-     */
 
 }

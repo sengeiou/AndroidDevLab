@@ -15,6 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.technote.R;
 import com.tickaroo.tikxml.TikXml;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,11 +28,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import okio.Buffer;
 
 public class XML_ParsingExample extends AppCompatActivity implements View.OnClickListener {
     private ArrayList<MyChannel> arrayList = new ArrayList<>();
-    //private MyChannel myChannel = new MyChannel();
+    private MyChannel xml_musicChannel_data;
     private Music_Channel music_channel;
     private Button bt_ch_1,bt_ch_2,bt_ch_3,bt_ch_4,bt_ch_5,bt_ch_6,bt_ch_7,bt_ch_8,bt_ch_9,bt_ch_10,
             bt_ch_11, bt_ch_12, bt_ch_13,bt_ch_14,bt_ch_15,bt_ch_16,bt_ch_17,bt_ch_18,bt_ch_19,bt_ch_20;
@@ -38,8 +46,11 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xml_xml_parsing_example);
         initView();
+
         /*
         try {
+
+            Log.d("getNode", "Before read data");
             InputStream is = getResources().getAssets().open("music_channel.xml");
 
             //파서 인스턴스화
@@ -50,15 +61,13 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
             Element element=doc.getDocumentElement();
             element.normalize();
             NodeList nList = doc.getElementsByTagName("MyChannel");
-            Log.d("getNode", "nList.toString : " + String.valueOf(nList.getLength()));
-            Log.d("getNode","nList.item(0).getNodeValue() : " +nList.item(0).getAttributes().getNamedItem("title").getNodeValue());
+
             for (int i=0; i<nList.getLength(); i++) {
 
                 Node node = nList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     //Element element2 = (Element) node;
 
-                    Log.d("getNode", "node.getAttributes().getNamedItem(title).getNodeValue() : " + String.valueOf(i) + " " +  node.getAttributes().getNamedItem("title").getNodeValue());
                     xml_musicChannel_data = new MyChannel();
                     xml_musicChannel_data.setCh(node.getAttributes().getNamedItem("ch").getNodeValue());
                     xml_musicChannel_data.setIp(node.getAttributes().getNamedItem("ip").getNodeValue());
@@ -74,18 +83,19 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
                     xml_musicChannel_data.setCa_id(node.getAttributes().getNamedItem("ca_id").getNodeValue());
                     xml_musicChannel_data.setChannelUri(node.getAttributes().getNamedItem("channelUri").getNodeValue());
                     arrayList.add(xml_musicChannel_data);
-                    Log.d("InsertData","i : " + String.valueOf(i));
                 }
             }
 
-            Log.d("InsertData","textView.setText");
+            Log.d("getNode", "After read data");
 
         } catch (Exception e) {
             Log.d("getNode","Exception e : " + e.getMessage());
         }
+
          */
+
         try {
-            Log.d("getNode", "Before set Data");
+            Log.d("getNode", "Before read data");
 
             TikXml tikXml = new TikXml.Builder()
                     .exceptionOnUnreadXml(true)
@@ -95,15 +105,16 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
             InputStream is = getResources().getAssets().open("music_channel.xml");
             music_channel = tikXml.read(new Buffer().readFrom(is),Music_Channel.class);
 
-            Buffer buffer = new Buffer();
+            //Buffer buffer = new Buffer();
+            //tikXml.write(buffer,music_channel);
 
-            tikXml.write(buffer,music_channel);
-            Log.d("getNode", "After set Data");
+            Log.d("getNode", "After read Data");
 
         } catch (IOException e) {
             Log.d("getNode","IOException : " + e.toString());
             e.printStackTrace();
         }
+
     }
 
     public void initView(){
@@ -151,6 +162,36 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
             myHandler.sendEmptyMessage(3);
         }else if(v==bt_ch_5){
             myHandler.sendEmptyMessage(4);
+        }else if(v==bt_ch_6){
+            myHandler.sendEmptyMessage(5);
+        }else if(v==bt_ch_7){
+            myHandler.sendEmptyMessage(6);
+        }else if(v==bt_ch_8){
+            myHandler.sendEmptyMessage(7);
+        }else if(v==bt_ch_9){
+            myHandler.sendEmptyMessage(8);
+        }else if(v==bt_ch_10){
+            myHandler.sendEmptyMessage(9);
+        }else if(v==bt_ch_11){
+            myHandler.sendEmptyMessage(10);
+        }else if(v==bt_ch_12){
+            myHandler.sendEmptyMessage(11);
+        }else if(v==bt_ch_13){
+            myHandler.sendEmptyMessage(12);
+        }else if(v==bt_ch_14){
+            myHandler.sendEmptyMessage(13);
+        }else if(v==bt_ch_15){
+            myHandler.sendEmptyMessage(14);
+        }else if(v==bt_ch_16){
+            myHandler.sendEmptyMessage(15);
+        }else if(v==bt_ch_17){
+            myHandler.sendEmptyMessage(16);
+        }else if(v==bt_ch_18){
+            myHandler.sendEmptyMessage(17);
+        }else if(v==bt_ch_19){
+            myHandler.sendEmptyMessage(18);
+        }else if(v==bt_ch_20){
+            myHandler.sendEmptyMessage(19);
         }
 
     }
@@ -168,6 +209,13 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
                     "\nca_pid : " + arrayList.get(msg.what).getCa_pid() +"\nchannelUri : " + arrayList.get(msg.what).getChannelUri());
 
              */
+            textView.setText("ch : " + music_channel.channel.get(msg.what).ch +"\nip : "+music_channel.channel.get(msg.what).ip +
+                    "\nport : " + music_channel.channel.get(msg.what).port + "\nch_no : " + music_channel.channel.get(msg.what).ch_no  +
+                    "\napid : " + music_channel.channel.get(msg.what).apid + "\nppid : " + music_channel.channel.get(msg.what).ppid +
+                    "\nast : " + music_channel.channel.get(msg.what).ast + "\nopid : " + music_channel.channel.get(msg.what).opid +
+                    "\nctype : " + music_channel.channel.get(msg.what).ctype  + "\ntitle : " + music_channel.channel.get(msg.what).title +
+                    "\nimage : " + music_channel.channel.get(msg.what).image + "\nca_id : " + music_channel.channel.get(msg.what).ca_id +
+                    "\nca_pid : " + music_channel.channel.get(msg.what).ca_pid  +"\nchannelUri : " + music_channel.channel.get(msg.what).channelUri);
         }
     }
 }
