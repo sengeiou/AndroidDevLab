@@ -28,7 +28,7 @@ import okio.Buffer;
 public class XML_ParsingExample extends AppCompatActivity implements View.OnClickListener {
     private ArrayList<MyChannel> arrayList = new ArrayList<>();
     //private MyChannel myChannel = new MyChannel();
-    //private Music_Channel music_channel = new Music_Channel();
+    private Music_Channel music_channel;
     private Button bt_ch_1,bt_ch_2,bt_ch_3,bt_ch_4,bt_ch_5,bt_ch_6,bt_ch_7,bt_ch_8,bt_ch_9,bt_ch_10,
             bt_ch_11, bt_ch_12, bt_ch_13,bt_ch_14,bt_ch_15,bt_ch_16,bt_ch_17,bt_ch_18,bt_ch_19,bt_ch_20;
     private TextView textView;
@@ -85,6 +85,7 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
         }
          */
         try {
+            Log.d("getNode", "Before set Data");
 
             TikXml tikXml = new TikXml.Builder()
                     .exceptionOnUnreadXml(true)
@@ -92,12 +93,12 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
                     .build();
 
             InputStream is = getResources().getAssets().open("music_channel.xml");
-            Music_Channel music_channel = tikXml.read(new Buffer().readFrom(is),Music_Channel.class);
+            music_channel = tikXml.read(new Buffer().readFrom(is),Music_Channel.class);
 
             Buffer buffer = new Buffer();
 
             tikXml.write(buffer,music_channel);
-            Log.d("getNode", music_channel.num);
+            Log.d("getNode", "After set Data");
 
         } catch (IOException e) {
             Log.d("getNode","IOException : " + e.toString());
@@ -156,6 +157,7 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
     public class MyHandler extends Handler{
         @Override
         public void handleMessage(Message msg) {
+            /*
             textView.setText("ch : " + arrayList.get(msg.what).getCh() +"\nip : "+arrayList.get(msg.what).getIp() +
                     "\nport : " + arrayList.get(msg.what).getPort() + "\nch_no : " + arrayList.get(msg.what).getCh_no() +
                     "\napid : " + arrayList.get(msg.what).getApid() + "\nppid : " + arrayList.get(msg.what).getPpid() +
@@ -164,6 +166,8 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
                      +
                     "\nimage : " + arrayList.get(msg.what).getImage() + "\nca_id : " + arrayList.get(msg.what).getCa_id() +
                     "\nca_pid : " + arrayList.get(msg.what).getCa_pid() +"\nchannelUri : " + arrayList.get(msg.what).getChannelUri());
+
+             */
         }
     }
 }

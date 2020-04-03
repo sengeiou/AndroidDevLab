@@ -20,6 +20,6 @@ class Music_Channel extends MyChannel{
     @Attribute(name = "region")
     String region;
 
-    @Element
+    @Element(name = "Channel")
     List<MyChannel> channel;
 }
