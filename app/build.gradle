@@ -96,6 +96,8 @@ dependencies {
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
     annotationProcessor 'com.tickaroo.tikxml:auto-value-tikxml:0.8.13'
 
+    implementation 'com.googlecode.android-query:android-query:0.25.9'
+
 }
 repositories {
     mavenCentral()
