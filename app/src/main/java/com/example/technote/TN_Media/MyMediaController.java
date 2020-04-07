@@ -7,9 +7,12 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.technote.R;
 
@@ -17,10 +20,15 @@ class MyMediaController extends MediaController {
     private int VIDEO_START = 1;
     private int VIDEO_PAUSE = 2;
     private int PROGRESS_CHANGE = 3;
-
+    View controlView;
     Context context;
-    private MyMediaControllerView controllerView;
+    ImageView btn_full,btn_play, btn_play_pause;
+    SeekBar seekBar;
+    TextView textView_time;
+
+    private MyMediaController controllerView;
     MyMediaControllerHandler myMediaControllerHandler = new MyMediaControllerHandler();
+
 
     MyMediaController(Context context, boolean useFastFoward) {
         super(context, useFastFoward);
@@ -43,11 +51,11 @@ class MyMediaController extends MediaController {
 
         removeAllViews();
         //View 세팅
-        controllerView = new MyMediaControllerView(context.getApplicationContext());
+        //controllerView = new MyMediaControllerView(context.getApplicationContext());
+        init();
 
-        MediaPlayer_Video.textView_time = controllerView.textView_time;
-        MediaPlayer_Video.seekBar = controllerView.seekBar;
-        MediaPlayer_Video.btn_play_pause = controllerView.btn_play_pause;
+        //MediaPlayer_Video.seekBar = seekBar;
+        //MediaPlayer_Video.btn_play_pause = btn_play_pause;
 
         MediaPlayer_Video.btn_play_pause.setOnClickListener(new OnClickListener() {
             @Override
@@ -103,7 +111,7 @@ class MyMediaController extends MediaController {
             }
         });
         thread.start();
-        addView(controllerView);
+        //addView(controllerView);
     }
 
     @Override
@@ -131,5 +139,13 @@ class MyMediaController extends MediaController {
                MediaPlayer_Video.textView_time.setText(MediaPlayer_Video.stringForTime(MediaPlayer_Video.position) + "/" + MediaPlayer_Video.stringForTime(MediaPlayer_Video.duration));
            }
         }
+    }
+    private void init() {
+        controlView= LayoutInflater.from(context).inflate(R.layout.custom_my_media_controller_example,this,true);
+
+        //btn_play=view.findViewById(R.id.custom_play);
+        MediaPlayer_Video.btn_play_pause =controlView.findViewById(R.id.custom_play_pause);
+        MediaPlayer_Video.seekBar=controlView.findViewById(R.id.custom_seekbar);
+        MediaPlayer_Video.textView_time=controlView.findViewById(R.id.custom_current_time);
     }
 }

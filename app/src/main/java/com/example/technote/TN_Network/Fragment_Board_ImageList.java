@@ -279,12 +279,17 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                     //End Thread
                     Log.d("HandlerState", "THREAD_REQUEST interrupt thread");
 
-                    backgroundThread.interrupt();
+                    //backgroundThread.interrupt();
                 }
             }else if (msg.what == THREAD_RESPONSE) {
                 Log.d("HandlerState","THREAD_RESPONSE");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyDataSetChanged();
 
-                mAdapter.notifyDataSetChanged();
+                    }
+                });
                 sendEmptyMessage(THREAD_REQUEST);
             }
         }

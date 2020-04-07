@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.androidquery.AQuery;
+import com.androidquery.service.MarketService;
 import com.example.technote.TN_BLE.Exam1.BleExam1_Main;
 import com.example.technote.TN_BLE.FastBle.FastBleMain;
 import com.example.technote.TN_Database.SQLiteTest.AddressBook;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         initView();
+
+        MarketService ms = new MarketService(this);
+        ms.level(MarketService.MINOR).checkVersion();
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.example.technote.TN_Media;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -42,8 +44,9 @@ public class MediaPlayer_Video extends AppCompatActivity {
             }
         });
         controller = new MyMediaController(this);
+        controller.setAnchorView((FrameLayout)findViewById(R.id.vv_frame_layout));
+        videoView.setVideoURI(Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
         videoView.setMediaController(controller);
-        videoView.setVideoPath("/storage/emulated/0/Download/8.mp4");
         videoView.start();
     }
 
@@ -58,7 +61,6 @@ public class MediaPlayer_Video extends AppCompatActivity {
 
     public static int setProgress() {
         position = videoView.getCurrentPosition();
-
         if(duration > 0) {
             // use long to avoid overflow
             long pos = 1000L * position / duration;

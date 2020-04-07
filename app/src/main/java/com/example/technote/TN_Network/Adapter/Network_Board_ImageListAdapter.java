@@ -1,6 +1,7 @@
 package com.example.technote.TN_Network.Adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.technote.R;
 import com.example.technote.TN_Network.Data.Network_Board_ImageListData;
 import com.squareup.picasso.Picasso;
@@ -64,6 +66,7 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
     // 뷰 홀더를 생성하는 부분
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
+        Log.d("onBindViewHolder","In onBindViewHolder");
         Picasso.with(context)
                 .load(mList.get(position).getPhoto_url_1())
                 .resize(250,250)
@@ -83,11 +86,9 @@ public class Network_Board_ImageListAdapter extends RecyclerView.Adapter<Network
                 }
             });
         }
-
     }
     @Override
     public int getItemCount() {
         return (null != mList ? mList.size() : 0);
     }
-
 }

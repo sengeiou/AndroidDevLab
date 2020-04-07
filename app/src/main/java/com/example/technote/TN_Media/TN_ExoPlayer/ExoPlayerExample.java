@@ -19,7 +19,6 @@ public class ExoPlayerExample extends AppCompatActivity {
     private SimpleExoPlayer player;
     private String sample = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
-
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
@@ -31,14 +30,15 @@ public class ExoPlayerExample extends AppCompatActivity {
         //플레이어 연결
         exoPlayerView.setPlayer(player);
 
-        // Produces DataSource instances through which media data is loaded.
+        // 미디어 데이터가 로드 되는 DataSource 인스턴스 생성
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this,
                 Util.getUserAgent(this, "TechNote"));
-        // This is the MediaSource representing the media to be played.
+        // 재생 할 미디어를 나타내는 MediaSource
         MediaSource videoSource =
                 new ProgressiveMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(Uri.parse(sample));
         // Prepare the player with the source.
         player.prepare(videoSource);
+
     }
 }
