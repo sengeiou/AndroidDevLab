@@ -97,6 +97,8 @@ dependencies {
     annotationProcessor 'com.tickaroo.tikxml:auto-value-tikxml:0.8.13'
 
     implementation files('src/main/java/com/example/technote/TN_OpenLibrary/MyLibrarys/android-query-full.0.26.7.jar')
+    implementation 'com.github.rubensousa:previewseekbar-exoplayer:2.8.1.0'
+    implementation 'com.github.rubensousa:previewseekbar:2.0.0'
 
 }
 repositories {

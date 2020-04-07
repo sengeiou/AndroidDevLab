@@ -40,5 +40,6 @@ public class ExoPlayerExample extends AppCompatActivity {
         // Prepare the player with the source.
         player.prepare(videoSource);
 
+        
     }
 }
