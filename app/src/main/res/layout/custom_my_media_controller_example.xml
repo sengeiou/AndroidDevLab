@@ -1,31 +1,34 @@
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <ImageView
-        android:src="@drawable/pause"
-        android:id="@+id/custom_play_pause"
-        android:layout_centerInParent="true"
-        android:layout_height="50dp"
-        android:layout_width="50dp" />
-    <TextView
-        android:id="@+id/custom_current_time"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_marginLeft="20dp"
-        android:layout_above="@+id/custom_seekbar">
-    </TextView>
-    <SeekBar
-        android:id="@+id/custom_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true">
-    </SeekBar>
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/custom_play_pause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/pause" />
+
+        <TextView
+            android:id="@+id/custom_current_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/custom_seekbar"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black">
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/custom_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true">
+        </SeekBar>
+    </RelativeLayout>
+</FrameLayout>

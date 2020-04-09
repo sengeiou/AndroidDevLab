@@ -1,41 +1,98 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/frame_exo_controller"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@id/exo_play"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageButton
+            android:id="@id/exo_play"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/play_white"
+            style="@style/ExoMediaButton.Play"/>
+
+        <ImageButton
+            android:id="@id/exo_pause"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/pause_white"
+            style="@style/ExoMediaButton.Pause"/>
+
+        <ImageButton
+            android:id="@+id/exo_rew"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="50dp"
+            android:layout_gravity="left|center_vertical"
+            app:srcCompat="@drawable/rewind_white"
+            style="@style/ExoMediaButton.Rewind"/>
+
+        <ImageButton
+            android:id="@+id/exo_ffwd"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="50dp"
+            android:layout_gravity= "right|center_vertical"
+            app:srcCompat="@drawable/fast_forward_white"
+            style="@style/ExoMediaButton.FastForward"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/exo_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/exo_progress"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="5dp" />
+    <TextView
+        android:id="@+id/slash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/exo_position"
+        android:layout_above="@+id/exo_progress"
+        android:text=" / "
+        android:textColor="@color/white"
+        android:layout_marginBottom="5dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/exo_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/slash"
+        android:layout_above="@+id/exo_progress"
+        android:textColor="@color/white"
+        android:layout_marginBottom="5dp">
+    </TextView>
+    <View
+        android:id="@+id/exo_buffering"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:visibility="visible"
+        android:src="@drawable/home">
+    </View>
+    <ImageButton
+        android:id="@+id/exo_screen_mode"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_gravity="center"
-        app:srcCompat="@drawable/play_white"
-        style="@style/ExoMediaButton.Play"/>
-
-    <ImageButton
-        android:id="@id/exo_pause"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/pause_white"
-        style="@style/ExoMediaButton.Pause"/>
-
-    <ImageButton
-        android:id="@+id/exo_rew"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="30dp"
-        android:layout_gravity="left|center_vertical"
-        app:srcCompat="@drawable/rewind_white"
-        style="@style/ExoMediaButton.Rewind"/>
-
-    <ImageButton
-        android:id="@+id/exo_ffwd"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity= "right|center_vertical"
-        app:srcCompat="@drawable/fast_forward_white"
-        style="@style/ExoMediaButton.FastForward"/>
-
-</FrameLayout>
+        android:layout_above="@+id/exo_progress"
+        android:layout_alignParentRight="true"
+        android:background="@color/transparency"
+        app:srcCompat="@drawable/fullscreen_white"/>
+    <com.google.android.exoplayer2.ui.DefaultTimeBar
+        android:id="@+id/exo_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:played_color="@color/white"
+        app:buffered_color="@color/quantum_yellow"/>
+</RelativeLayout>
