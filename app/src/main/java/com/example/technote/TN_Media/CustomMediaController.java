@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -234,7 +235,8 @@ public class CustomMediaController extends FrameLayout {
      * Disable pause or seek buttons if the stream cannot be paused or seeked.
      * This requires the control interface to be a MediaPlayerControlExt
      */
-    private void disableUnsupportedButtons() {
+    private void disableUnsupportedButtons()
+    {
         if (mPlayer == null) {
             return;
         }
@@ -256,7 +258,6 @@ public class CustomMediaController extends FrameLayout {
             // the buttons.
         }
     }
-
     /**
      * Show the controller on screen. It will go away
      * automatically after 'timeout' milliseconds of inactivity.

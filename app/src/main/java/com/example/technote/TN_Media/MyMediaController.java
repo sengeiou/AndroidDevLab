@@ -1,151 +1,109 @@
 package com.example.technote.TN_Media;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.technote.R;
 
 class MyMediaController extends MediaController {
-    private int VIDEO_START = 1;
-    private int VIDEO_PAUSE = 2;
-    private int PROGRESS_CHANGE = 3;
-    View controlView;
-    Context context;
-    ImageView btn_full,btn_play, btn_play_pause;
-    SeekBar seekBar;
-    TextView textView_time;
+    private Context             context;
+    private View                mRoot;
+    private ImageView           btn_play_pause;
+    private SeekBar             seekBar;
+    private TextView            textView_time;
+    private MediaPlayerControl  mPlayer;
+    private View                mAnchor;
+    private static final int    sDefaultTimeout = 3000;
 
-    private MyMediaController controllerView;
-    MyMediaControllerHandler myMediaControllerHandler = new MyMediaControllerHandler();
-
-
-    MyMediaController(Context context, boolean useFastFoward) {
-        super(context, useFastFoward);
-        this.context = context;
-    }
-
-    MyMediaController(Context context, AttributeSet attrs) {
+    public MyMediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
     }
-
-    MyMediaController(Context context) {
+    public MyMediaController(Context context) {
         super(context);
         this.context = context;
     }
 
     @Override
+    public void onFinishInflate() {
+        super.onFinishInflate();
+    }
+    @Override
     public void setAnchorView(View view) {
         super.setAnchorView(view);
-
+        mAnchor = view;
+        FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
         removeAllViews();
-        //View 세팅
-        //controllerView = new MyMediaControllerView(context.getApplicationContext());
-        init();
 
-        //MediaPlayer_Video.seekBar = seekBar;
-        //MediaPlayer_Video.btn_play_pause = btn_play_pause;
+        View v = makeControllerView();
+        addView(v, frameParams);
+    }
+    private View makeControllerView(){
+        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mRoot = inflate.inflate(R.layout.custom_my_media_controller_example, null);
 
-        MediaPlayer_Video.btn_play_pause.setOnClickListener(new OnClickListener() {
+        initControllerView(mRoot);
+
+        return mRoot;
+    }
+    private void initControllerView(View v) {
+
+        btn_play_pause =v.findViewById(R.id.custom_play_pause);
+        seekBar=v.findViewById(R.id.custom_seekbar);
+        textView_time=v.findViewById(R.id.custom_current_time);
+
+        btn_play_pause.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!MediaPlayer_Video.videoView.isPlaying()){
-                    MediaPlayer_Video.videoView.start();
-                    myMediaControllerHandler.sendEmptyMessage(VIDEO_START);
-                }else{
-                    MediaPlayer_Video.videoView.pause();
-                    myMediaControllerHandler.sendEmptyMessage(VIDEO_PAUSE);
-                }
-
+                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
             }
         });
-        MediaPlayer_Video.seekBar.setMax(1000);
-        MediaPlayer_Video.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    }
 
-                if(fromUser) {
-                    //int where = (progress * MediaPlayer_Video.duration / seekBar.getMax());
-                    long newposition = (MediaPlayer_Video.duration * progress) / 1000L;
+    @Override
+    public void setMediaPlayer(MediaPlayerControl player) {
+        super.setMediaPlayer(player);
+        mPlayer = player;
+        //updatePausePlay();
 
-                    MediaPlayer_Video.videoView.seekTo((int)newposition);
-                    MediaPlayer_Video.textView_time.setText(MediaPlayer_Video.stringForTime((int)newposition) + "/" + MediaPlayer_Video.stringForTime(MediaPlayer_Video.duration));
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while(true) {
-                        Thread.sleep(100);
-
-                        if(MediaPlayer_Video.videoView == null || MediaPlayer_Video.textView_time == null || MediaPlayer_Video.seekBar == null)
-                            continue;
-
-                        MediaPlayer_Video.setProgress();
-                        myMediaControllerHandler.sendEmptyMessage(PROGRESS_CHANGE);
-                    }
-                } catch(Exception e) {
-                    Log.e("TAG HI", "ERROR", e);
-                }
-            }
-        });
-        thread.start();
-        //addView(controllerView);
+    }
+    @Override
+    public void show() {
+        show(sDefaultTimeout);
+    }
+    @Override
+    public void show(int timeout){
+        super.show(timeout);
     }
 
     @Override
     public void hide() {
-        show();
+        super.hide();
     }
-
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event){
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP)
-            ((Activity) getContext()).finish();
-
-        return super.dispatchKeyEvent(event);
-    }
-
-    public class MyMediaControllerHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-           if(msg.what == VIDEO_START){
-               MediaPlayer_Video.btn_play_pause.setImageResource(R.drawable.pause);
-           }else if(msg.what==VIDEO_PAUSE){
-               MediaPlayer_Video.btn_play_pause.setImageResource(R.drawable.play);
-           }
-           else if(msg.what==PROGRESS_CHANGE){
-               MediaPlayer_Video.textView_time.setText(MediaPlayer_Video.stringForTime(MediaPlayer_Video.position) + "/" + MediaPlayer_Video.stringForTime(MediaPlayer_Video.duration));
-           }
+    public void setEnabled(boolean enabled){
+        if (btn_play_pause != null) {
+            btn_play_pause.setEnabled(enabled);
         }
-    }
-    private void init() {
-        controlView= LayoutInflater.from(context).inflate(R.layout.custom_my_media_controller_example,this,true);
-
-        //btn_play=view.findViewById(R.id.custom_play);
-        MediaPlayer_Video.btn_play_pause =controlView.findViewById(R.id.custom_play_pause);
-        MediaPlayer_Video.seekBar=controlView.findViewById(R.id.custom_seekbar);
-        MediaPlayer_Video.textView_time=controlView.findViewById(R.id.custom_current_time);
+        if (textView_time != null) {
+            textView_time.setEnabled(enabled);
+        }
+        if (seekBar != null) {
+            seekBar.setEnabled(enabled);
+        }
+        super.setEnabled(enabled);
     }
 }

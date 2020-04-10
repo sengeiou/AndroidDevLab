@@ -4,6 +4,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -15,54 +18,46 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.technote.R;
 
-public class MediaPlayer_Video extends AppCompatActivity {
-    static VideoView videoView;
-    static MyMediaController controller;
-    static int duration, position;
-    //Custom Controller
-    static TextView textView_time;
-    static SeekBar seekBar;
-    static ImageView btn_play;
-    static ImageView btn_play_pause;
+import java.io.IOException;
+
+public class MediaPlayer_Video extends AppCompatActivity implements SurfaceHolder.Callback, MediaController.MediaPlayerControl{
+    private MyMediaController controller;
+    private String videoUri = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    private SurfaceView surfaceView;
+    private SurfaceHolder surfaceHolder;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mediaplayer_video_view);
 
-        videoView = findViewById(R.id.video_view);
-        videoView.requestFocus();
+        surfaceView = findViewById(R.id.surface_view2);
 
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        surfaceHolder = surfaceView.getHolder();
+        surfaceHolder.addCallback(this);
+
+        controller = new MyMediaController(this);
+        controller.setMediaPlayer(this);
+        controller.setAnchorView((FrameLayout)findViewById(R.id.vv_frame_layout));
+        surfaceView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        duration = videoView.getDuration();
-                        textView_time.setText("00:00:00/" + stringForTime(duration));
-                    }
-                });
+            public void onClick(View v) {
+                if (controller.isShowing())
+                    controller.hide();
+                else
+                    controller.show();
             }
         });
-        controller = new MyMediaController(this);
-        controller.setAnchorView((FrameLayout)findViewById(R.id.vv_frame_layout));
-        videoView.setVideoURI(Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
-        videoView.setMediaController(controller);
 
-        /*
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        android.widget.FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoView.getLayoutParams();
-        params.width = metrics.widthPixels;
-        params.height = metrics.heightPixels;
-        params.leftMargin = 0;
-        videoView.setLayoutParams(params);
-         */
-
-        videoView.start();
+        //mediaController = new MediaController(this);
+        controller.setEnabled(true);
     }
 
+    protected void onPause(){
+        super.onPause();
+        mediaPlayer.stop();
+    }
     public static String stringForTime(int timeMs) {
         int totalSeconds = timeMs / 1000;
         int seconds = totalSeconds % 60;
@@ -72,13 +67,89 @@ public class MediaPlayer_Video extends AppCompatActivity {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds).toString();
     }
 
-    public static int setProgress() {
-        position = videoView.getCurrentPosition();
-        if(duration > 0) {
-            // use long to avoid overflow
-            long pos = 1000L * position / duration;
-            seekBar.setProgress((int) pos);
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        mediaPlayer = new MediaPlayer();
+
+        try {
+            //simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
+
+            mediaPlayer.setDataSource(videoUri);
+            mediaPlayer.prepare(); // 비디오 load 준비
+
+            //mediaPlayer.prepareAsync();
+            mediaPlayer.start();
+            mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return position;
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public int getDuration() {
+        return 0;
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        return 0;
+    }
+
+    @Override
+    public void seekTo(int pos) {
+
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return false;
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public boolean canPause() {
+        return false;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return false;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return false;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return 0;
     }
 }
