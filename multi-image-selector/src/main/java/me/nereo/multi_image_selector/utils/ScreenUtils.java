@@ -7,7 +7,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 /**
- *  스크린 도구
+ *  스크린 유틸
  */
 public class ScreenUtils {
 

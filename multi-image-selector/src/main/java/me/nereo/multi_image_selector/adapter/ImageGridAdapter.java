@@ -45,7 +45,7 @@ public class ImageGridAdapter extends BaseAdapter {
         this.showCamera = showCamera;
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int width = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) { //API 13
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
             width = size.x;
@@ -74,7 +74,7 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
     /**
-     * 사진을 선택하고 선택 상태를 변경하십시오
+     * 사진을 선택하고 선택 상태를 변경
      * @param image
      */
     public void select(Image image) {
@@ -217,7 +217,7 @@ public class ImageGridAdapter extends BaseAdapter {
             }else{
                 indicator.setVisibility(View.GONE);
             }
-            File imageFile = new File(data.path);
+            File imageFile = new File(data.path); // 내부 이미지 파일 저장
             if (imageFile.exists()) {
                 // 사진 표시
                 Picasso.with(mContext)

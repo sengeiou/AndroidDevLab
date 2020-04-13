@@ -50,12 +50,7 @@ class MyMediaController2 extends MediaController {
         super.setAnchorView(view);
 
         removeAllViews();
-        //View 세팅
-        //controllerView = new MyMediaControllerView(context.getApplicationContext());
         init();
-
-        //MediaPlayer_Video.seekBar = seekBar;
-        //MediaPlayer_Video.btn_play_pause = btn_play_pause;
 
         MediaPlayer_Video2.btn_play_pause.setOnClickListener(new OnClickListener() {
             @Override
@@ -67,7 +62,6 @@ class MyMediaController2 extends MediaController {
                     MediaPlayer_Video2.videoView.pause();
                     myMediaControllerHandler.sendEmptyMessage(VIDEO_PAUSE);
                 }
-
             }
         });
         MediaPlayer_Video2.seekBar.setMax(1000);
@@ -104,6 +98,8 @@ class MyMediaController2 extends MediaController {
 
                         MediaPlayer_Video2.setProgress();
                         myMediaControllerHandler.sendEmptyMessage(PROGRESS_CHANGE);
+                        Log.d("ThreadStart", "Thread run");
+
                     }
                 } catch(Exception e) {
                     Log.e("TAG HI", "ERROR", e);
@@ -111,7 +107,6 @@ class MyMediaController2 extends MediaController {
             }
         });
         thread.start();
-        //addView(controllerView);
     }
 
     @Override
@@ -141,11 +136,11 @@ class MyMediaController2 extends MediaController {
         }
     }
     private void init() {
-        controlView= LayoutInflater.from(context).inflate(R.layout.custom_my_media_controller_example,this,true);
+        controlView= LayoutInflater.from(context).inflate(R.layout.custom_my_media_controller_example2,this,true);
 
         //btn_play=view.findViewById(R.id.custom_play);
-        MediaPlayer_Video2.btn_play_pause =controlView.findViewById(R.id.custom_play_pause);
-        MediaPlayer_Video2.seekBar=controlView.findViewById(R.id.custom_seekbar);
-        MediaPlayer_Video2.textView_time=controlView.findViewById(R.id.custom_current_time);
+        MediaPlayer_Video2.btn_play_pause =controlView.findViewById(R.id.custom_play_pause2);
+        MediaPlayer_Video2.seekBar=controlView.findViewById(R.id.custom_seekbar2);
+        MediaPlayer_Video2.textView_time=controlView.findViewById(R.id.custom_play_time2);
     }
 }

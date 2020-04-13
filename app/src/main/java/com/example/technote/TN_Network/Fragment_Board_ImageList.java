@@ -256,7 +256,7 @@ public class Fragment_Board_ImageList extends Fragment implements Network_Board_
                             offset += 10; // 상위 10개 데이터를 구현했음으로 그 다음 상위 10개 데이터를 구현하기 위해 10을 더한다.
                             total_recode -= 10; // 10개의 이미지 리스트 데이터를 넣었음으로 표현할 전체 남은 개수를 10개 줄인다.
                             myHandler.sendEmptyMessage(THREAD_RESPONSE);
-
+                            Log.d("ThreadCheck","Thread Run");
                         }
                         @Override
                         public void onError(ANError error) {

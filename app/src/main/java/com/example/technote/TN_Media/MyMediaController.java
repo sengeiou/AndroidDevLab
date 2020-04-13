@@ -1,10 +1,12 @@
 package com.example.technote.TN_Media;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,11 +14,18 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.technote.R;
 
+import java.util.Formatter;
+import java.util.Locale;
+
 class MyMediaController extends MediaController {
+    private int                 VIDEO_START = 1;
+    private int                 VIDEO_PAUSE = 2;
+    private int                 PROGRESS_CHANGE = 3;
+    private int                 position;
+    private MyHandler           myMediaControllerHandler = new MyHandler();
     private Context             context;
     private View                mRoot;
     private ImageView           btn_play_pause;
@@ -25,6 +34,8 @@ class MyMediaController extends MediaController {
     private MediaPlayerControl  mPlayer;
     private View                mAnchor;
     private static final int    sDefaultTimeout = 3000;
+    StringBuilder               mFormatBuilder;
+    Formatter                   mFormatter;
 
     public MyMediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -63,12 +74,42 @@ class MyMediaController extends MediaController {
 
         btn_play_pause =v.findViewById(R.id.custom_play_pause);
         seekBar=v.findViewById(R.id.custom_seekbar);
-        textView_time=v.findViewById(R.id.custom_current_time);
+        textView_time =v.findViewById(R.id.custom_play_time);
+        mFormatBuilder = new StringBuilder();
+        mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
         btn_play_pause.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                if(mPlayer.isPlaying()){
+                    mPlayer.pause();
+                    myMediaControllerHandler.sendEmptyMessage(VIDEO_PAUSE);
+                }else{
+                    mPlayer.start();
+                    myMediaControllerHandler.sendEmptyMessage(VIDEO_START);
+                }
+            }
+        });
+
+        seekBar.setMax(1000);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                if(fromUser) {
+                    //int where = (progress * MediaPlayer_Video.duration / seekBar.getMax());
+                    long newposition = (mPlayer.getDuration()* progress) / 1000L;
+
+                    mPlayer.seekTo((int)newposition);
+                    textView_time.setText(stringForTime((int)newposition) + "/" + stringForTime(mPlayer.getDuration()));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
     }
@@ -105,5 +146,45 @@ class MyMediaController extends MediaController {
             seekBar.setEnabled(enabled);
         }
         super.setEnabled(enabled);
+    }
+    public class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == VIDEO_START){
+                btn_play_pause.setImageResource(R.drawable.pause_white);
+            }else if(msg.what==VIDEO_PAUSE){
+                btn_play_pause.setImageResource(R.drawable.play_white);
+            }
+            else if(msg.what==PROGRESS_CHANGE){
+                textView_time.setText(stringForTime(position) + "/" + stringForTime(mPlayer.getDuration()));
+            }
+        }
+    }
+    public String stringForTime(int timeMs) {
+        int totalSeconds = timeMs / 1000;
+        int seconds = totalSeconds % 60;
+        int minutes = (totalSeconds / 60) % 60;
+        int hours = totalSeconds / 3600;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds).toString();
+    }
+    
+    private int setProgress() {
+
+        int position = mPlayer.getCurrentPosition();
+        int duration = mPlayer.getDuration();
+        if (seekBar != null) {
+            if (duration > 0) {
+                // use long to avoid overflow
+                long pos = 1000L * position / duration;
+                seekBar.setProgress( (int) pos);
+            }
+            int percent = mPlayer.getBufferPercentage();
+            seekBar.setSecondaryProgress(percent * 10);
+        }
+
+        if (textView_time != null)
+            textView_time.setText(stringForTime(position));
+        return position;
     }
 }

@@ -42,8 +42,8 @@ public class MultiImageSelectorActivity extends AppCompatActivity
     // Default image size
     private static final int DEFAULT_IMAGE_SIZE = 9;
 
-    private ArrayList<String> resultList = new ArrayList<>();
-    private Button mSubmitButton;
+    private ArrayList<String> resultList = new ArrayList<>(); // 선택한 이미지의 경로를 저장하는 ArrayList
+    private Button mSubmitButton; // Done 버튼
     private int mDefaultCount = DEFAULT_IMAGE_SIZE;
 
     @Override
@@ -52,7 +52,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
         setTheme(R.style.MIS_NO_ACTIONBAR);
         setContentView(R.layout.mis_activity_default);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //API 21 이상
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
@@ -63,22 +63,22 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true); // 액션바 홈 버튼 추가
         }
 
         final Intent intent = getIntent();
-        mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_IMAGE_SIZE);
-        final int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
-        final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
+        mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_IMAGE_SIZE); //max_select_count 읽어오기
+        final int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI); // 싱글, 멀티모드 식별
+        final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true); // Take Photo 활성화
         if(mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
             resultList = intent.getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
         }
 
-        mSubmitButton = (Button) findViewById(R.id.commit);
-        if(mode == MODE_MULTI){
-            updateDoneText(resultList);
+        mSubmitButton = (Button) findViewById(R.id.commit); // Done 버튼
+        if(mode == MODE_MULTI){ // 멀티모드 일 때
+            updateDoneText(resultList); // 선택가능한 이미지 개수를 Done 버튼에 표시하기
             mSubmitButton.setVisibility(View.VISIBLE);
-            mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            mSubmitButton.setOnClickListener(new View.OnClickListener() { // Done버튼 클릭
                 @Override
                 public void onClick(View view) {
                     if(resultList != null && resultList.size() >0){
@@ -96,7 +96,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
             mSubmitButton.setVisibility(View.GONE);
         }
 
-        if(savedInstanceState == null){
+        if(savedInstanceState == null){ // 라이브러리를 생성할 때 아무런 설정이 없다면 Default 설정으로 생성.
             Bundle bundle = new Bundle();
             bundle.putInt(MultiImageSelectorFragment.EXTRA_SELECT_COUNT, mDefaultCount);
             bundle.putInt(MultiImageSelectorFragment.EXTRA_SELECT_MODE, mode);
@@ -107,9 +107,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
                     .add(R.id.image_grid, Fragment.instantiate(this, MultiImageSelectorFragment.class.getName(), bundle))
                     .commit();
         }
-
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -128,14 +126,14 @@ public class MultiImageSelectorActivity extends AppCompatActivity
     private void updateDoneText(ArrayList<String> resultList){
         int size = 0;
         if(resultList == null || resultList.size()<=0){
-            mSubmitButton.setText(R.string.mis_action_done);
+            mSubmitButton.setText(R.string.mis_action_done); //"Done"
             mSubmitButton.setEnabled(false);
         }else{
             size = resultList.size();
             mSubmitButton.setEnabled(true);
         }
         mSubmitButton.setText(getString(R.string.mis_action_button_string,
-                getString(R.string.mis_action_done), size, mDefaultCount));
+                getString(R.string.mis_action_done), size, mDefaultCount)); //
     }
 
     @Override
@@ -152,7 +150,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
         if(!resultList.contains(path)) {
             resultList.add(path);
         }
-        updateDoneText(resultList);
+        updateDoneText(resultList); // resultList의 사이즈를 업데이트
     }
 
     @Override
@@ -160,7 +158,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
         if(resultList.contains(path)){
             resultList.remove(path);
         }
-        updateDoneText(resultList);
+        updateDoneText(resultList); // 이미지의 path를 resulㅅ
     }
 
     @Override

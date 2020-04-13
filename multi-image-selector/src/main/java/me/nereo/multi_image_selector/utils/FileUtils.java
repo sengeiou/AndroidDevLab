@@ -11,8 +11,7 @@ import java.io.IOException;
 import static android.os.Environment.MEDIA_MOUNTED;
 
 /**
- * 파일 작업 클래스
- * Created by Nereo on 2015/4/8.
+ * 파일 작업 유틸
  */
 public class FileUtils {
 

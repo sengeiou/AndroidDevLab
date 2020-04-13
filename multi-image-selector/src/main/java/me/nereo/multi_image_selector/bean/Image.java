@@ -3,10 +3,10 @@ package me.nereo.multi_image_selector.bean;
 import android.text.TextUtils;
 
 /**
- * 그림 실체
+ * 이미지
  */
 public class Image {
-    public String path;
+    public String path; // 이미지 경로
     public String name;
     public long time;
 

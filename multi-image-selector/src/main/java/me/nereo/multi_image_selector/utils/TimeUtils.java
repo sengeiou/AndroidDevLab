@@ -1,15 +1,12 @@
 package me.nereo.multi_image_selector.utils;
 
-import android.media.ExifInterface;
-
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 /**
- * 시간 처리 도구
+ * 날짜 처리 유틸
  */
 public class TimeUtils {
 

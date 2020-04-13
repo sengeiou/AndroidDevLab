@@ -4,6 +4,9 @@
         android:id="@+id/menu_mediaplay_mediaplayer"
         android:title="MediaPlayer" />
     <item
+        android:id="@+id/menu_mediaplay_mediaplayer2"
+        android:title="MediaPlayer2" />
+    <item
         android:id="@+id/menu_mediaplay_expoplyer"
         android:title="ExpoPlayer" />
 </menu>

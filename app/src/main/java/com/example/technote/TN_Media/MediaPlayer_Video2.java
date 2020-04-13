@@ -20,7 +20,6 @@ public class MediaPlayer_Video2 extends AppCompatActivity {
     //Custom Controller
     static TextView textView_time;
     static SeekBar seekBar;
-    static ImageView btn_play;
     static ImageView btn_play_pause;
 
     @Override
@@ -47,16 +46,6 @@ public class MediaPlayer_Video2 extends AppCompatActivity {
         controller.setAnchorView((FrameLayout)findViewById(R.id.vv_frame_layout));
         videoView.setVideoURI(Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
         videoView.setMediaController(controller);
-
-        /*
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        android.widget.FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoView.getLayoutParams();
-        params.width = metrics.widthPixels;
-        params.height = metrics.heightPixels;
-        params.leftMargin = 0;
-        videoView.setLayoutParams(params);
-         */
 
         videoView.start();
     }

@@ -77,8 +77,15 @@
         <activity android:name=".TN_File.XML_ParsingExample"
             android:screenOrientation="landscape"/>
 
-        <activity android:name=".TN_Media.MediaPlayer_Video"></activity>
-        <activity android:name=".TN_Media.TN_ExoPlayer.ExoPlayerExample"></activity>
+        <activity android:name=".TN_Media.MediaPlayer_Video"
+            android:screenOrientation="sensorLandscape">
+        </activity>
+        <activity android:name=".TN_Media.MediaPlayer_Video2"
+            android:screenOrientation="sensorLandscape">
+        </activity>
+        <activity android:name=".TN_Media.TN_ExoPlayer.ExoPlayerExample"
+            android:screenOrientation="sensorLandscape">
+        </activity>
 
         <activity android:name=".TN_Network.NetworkAPI_Library.OKHttpExample"></activity>
         <activity android:name=".TN_Network.NetworkAPI_Library.VolleyExample"></activity>

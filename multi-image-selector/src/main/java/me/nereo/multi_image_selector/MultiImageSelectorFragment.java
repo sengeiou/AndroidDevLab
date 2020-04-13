@@ -129,10 +129,10 @@ public class MultiImageSelectorFragment extends Fragment {
         mImageAdapter = new ImageGridAdapter(getActivity(), showCamera(), 3);
         mImageAdapter.showSelectIndicator(mode == MODE_MULTI);
 
-        mPopupAnchorView = view.findViewById(R.id.footer);
+        mPopupAnchorView = view.findViewById(R.id.footer); // 이미지 폴더 설정하는 View
 
         mCategoryText = (TextView) view.findViewById(R.id.category_btn);
-        mCategoryText.setText(R.string.mis_folder_all);
+        mCategoryText.setText(R.string.mis_folder_all); // All Images 텍스트 뷰
         mCategoryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,7 +192,7 @@ public class MultiImageSelectorFragment extends Fragment {
     /**
      * Create popup ListView
      */
-    private void createPopupFolderList() {
+    private void createPopupFolderList() { //이미지 리스트를 띄워주는 함수
         Point point = ScreenUtils.getScreenSize(getActivity());
         int width = point.x;
         int height = (int) (point.y * (4.5f/8.0f));
@@ -393,13 +393,13 @@ public class MultiImageSelectorFragment extends Fragment {
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
-        private final String[] IMAGE_PROJECTION = {
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.DATE_ADDED,
-                MediaStore.Images.Media.MIME_TYPE,
-                MediaStore.Images.Media.SIZE,
-                MediaStore.Images.Media._ID };
+        private final String[] IMAGE_PROJECTION = {   // 기기 내부의 실제 이미지를 불러온다.
+                MediaStore.Images.Media.DATA,         // IMAGE_PROJECTION[0]
+                MediaStore.Images.Media.DISPLAY_NAME, // IMAGE_PROJECTION[1]
+                MediaStore.Images.Media.DATE_ADDED,   // IMAGE_PROJECTION[2]
+                MediaStore.Images.Media.MIME_TYPE,    // IMAGE_PROJECTION[3]
+                MediaStore.Images.Media.SIZE,         // IMAGE_PROJECTION[4]
+                MediaStore.Images.Media._ID };        // IMAGE_PROJECTION[5]
 
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -431,7 +431,7 @@ public class MultiImageSelectorFragment extends Fragment {
                 if (data.getCount() > 0) {
                     List<Image> images = new ArrayList<>();
                     data.moveToFirst();
-                    do{
+                    do{ // pathm name, dateTime을 지정하고 기기 내부의 이미지가 존재하는지 않하는지 확인.
                         String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
                         String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
                         long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
@@ -464,7 +464,7 @@ public class MultiImageSelectorFragment extends Fragment {
 
                     }while(data.moveToNext());
 
-                    mImageAdapter.setData(images);
+                    mImageAdapter.setData(images); // Adapter에 image = new Image(path, name, dateTime); 한 것을 집어넣는다.
                     if(resultList != null && resultList.size()>0){
                         mImageAdapter.setDefaultSelected(resultList);
                     }

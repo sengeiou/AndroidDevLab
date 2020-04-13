@@ -100,17 +100,17 @@ public class MediaPlayer_Video extends AppCompatActivity implements SurfaceHolde
 
     @Override
     public void start() {
-
+        mediaPlayer.start();
     }
 
     @Override
     public void pause() {
-
+        mediaPlayer.pause();
     }
 
     @Override
     public int getDuration() {
-        return 0;
+        return mediaPlayer.getDuration();
     }
 
     @Override
@@ -120,12 +120,16 @@ public class MediaPlayer_Video extends AppCompatActivity implements SurfaceHolde
 
     @Override
     public void seekTo(int pos) {
-
+        mediaPlayer.seekTo(pos);
     }
 
     @Override
     public boolean isPlaying() {
-        return false;
+        if (mediaPlayer.isPlaying()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
