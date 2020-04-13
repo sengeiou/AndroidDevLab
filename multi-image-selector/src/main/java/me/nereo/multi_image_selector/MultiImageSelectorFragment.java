@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 
 import android.text.TextUtils;
@@ -152,7 +153,7 @@ public class MultiImageSelectorFragment extends Fragment {
             }
         });
 
-        mGridView = (GridView) view.findViewById(R.id.grid);
+        mGridView = (GridView) view.findViewById(R.id.grid); // 기기 내 Image를 띄워주는 GridView
         mGridView.setAdapter(mImageAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -303,7 +304,7 @@ public class MultiImageSelectorFragment extends Fragment {
     }
 
     /**
-     * Open camera
+     * 카메라 Open
      */
     private void showCameraAction() {
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -320,6 +321,9 @@ public class MultiImageSelectorFragment extends Fragment {
                     e.printStackTrace();
                 }
                 if (mTmpFile != null && mTmpFile.exists()) {
+                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                    StrictMode.setVmPolicy(builder.build());
+                    
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
                     startActivityForResult(intent, REQUEST_CAMERA);
                 } else {
@@ -464,7 +468,7 @@ public class MultiImageSelectorFragment extends Fragment {
 
                     }while(data.moveToNext());
 
-                    mImageAdapter.setData(images); // Adapter에 image = new Image(path, name, dateTime); 한 것을 집어넣는다.
+                    mImageAdapter.setData(images); // Adapter에 image = new Image(path, name, dateTime);를 집어넣는다.
                     if(resultList != null && resultList.size()>0){
                         mImageAdapter.setDefaultSelected(resultList);
                     }

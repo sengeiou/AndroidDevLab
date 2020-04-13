@@ -67,6 +67,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
         }
 
         final Intent intent = getIntent();
+        // 라이브러리 사용자가 설정한 값을 불러오기.
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_IMAGE_SIZE); //max_select_count 읽어오기
         final int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI); // 싱글, 멀티모드 식별
         final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true); // Take Photo 활성화
@@ -120,7 +121,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
     }
 
     /**
-     * Update done button by select image data
+     * 이미지를 선택하면 Done Text를 업데이트 시킨다.
      * @param resultList selected image data
      */
     private void updateDoneText(ArrayList<String> resultList){
@@ -158,7 +159,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
         if(resultList.contains(path)){
             resultList.remove(path);
         }
-        updateDoneText(resultList); // 이미지의 path를 resulㅅ
+        updateDoneText(resultList); // resultList의 사이즈를 업데이트
     }
 
     @Override

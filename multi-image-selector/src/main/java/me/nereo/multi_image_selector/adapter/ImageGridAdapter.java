@@ -21,7 +21,7 @@ import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
 
 /**
- * 어댑터 사진
+ * 사진 어댑터
  */
 public class ImageGridAdapter extends BaseAdapter {
 
