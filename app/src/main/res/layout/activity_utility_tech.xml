@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:text="상단바 알림">
+        android:text="Notification">
     </Button>
 </RelativeLayout>

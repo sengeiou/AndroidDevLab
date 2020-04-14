@@ -53,6 +53,7 @@ public class UtilityTech extends AppCompatActivity implements View.OnClickListen
             notificationManager.createNotificationChannel(channel);
         }
     }
+
     private void myNotification(){
         createNotificationChannel();
         Intent intent = new Intent(this, MainActivity.class);
@@ -64,7 +65,7 @@ public class UtilityTech extends AppCompatActivity implements View.OnClickListen
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setSmallIcon(R.drawable.tech_note_icon)
                         .setContentTitle("TechNote")
-                        .setContentText("이미지가 업로드 됐습니다.")
+                        .setContentText("Image upload")
                         .setContentIntent(pendingIntent) // 상단바 아이콘을 누르면 해당 Activity로 이동
                         .setAutoCancel(true); // notification을 누르면 자동으로제거
 

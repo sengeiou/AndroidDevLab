@@ -80,11 +80,8 @@
         <activity android:name=".TN_Media.MediaPlayer_Video"
             android:screenOrientation="sensorLandscape">
         </activity>
-        <activity android:name=".TN_Media.MediaPlayer_Video2"
-            android:screenOrientation="sensorLandscape">
-        </activity>
         <activity android:name=".TN_Media.TN_ExoPlayer.ExoPlayerExample"
-            android:screenOrientation="sensorLandscape">
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
 
         <activity android:name=".TN_Network.NetworkAPI_Library.OKHttpExample"></activity>

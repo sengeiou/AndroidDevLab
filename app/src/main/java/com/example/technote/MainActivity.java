@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +34,6 @@ import com.example.technote.TN_Layout.LinearLayout_Test;
 import com.example.technote.TN_Layout.RelativeLayoutTest;
 import com.example.technote.TN_Layout.TableLayout_Test;
 import com.example.technote.TN_Media.MediaPlayer_Video;
-import com.example.technote.TN_Media.MediaPlayer_Video2;
 import com.example.technote.TN_Media.TN_ExoPlayer.ExoPlayerExample;
 import com.example.technote.TN_Network.BoardMain;
 import com.example.technote.TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample;
@@ -213,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), MediaPlayer_Video.class));
                             break;
                         case R.id.menu_mediaplay_mediaplayer2:
-                            startActivity(new Intent(getApplicationContext(), MediaPlayer_Video2.class));
                             break;
                         case R.id.menu_mediaplay_expoplyer:
                             startActivity(new Intent(getApplicationContext(), ExoPlayerExample.class));

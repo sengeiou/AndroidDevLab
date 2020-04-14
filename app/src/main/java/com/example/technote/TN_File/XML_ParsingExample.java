@@ -39,7 +39,46 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xml_xml_parsing_example);
         initView();
-
+        /*
+        try {
+            InputStream is = getResources().getAssets().open("music_channel.xml");
+            //파서 인스턴스화
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(is);
+            Element element=doc.getDocumentElement();
+            element.normalize();
+            NodeList nList = doc.getElementsByTagName("MyChannel");
+            Log.d("getNode", "nList.toString : " + String.valueOf(nList.getLength()));
+            Log.d("getNode","nList.item(0).getNodeValue() : " +nList.item(0).getAttributes().getNamedItem("title").getNodeValue());
+            for (int i=0; i<nList.getLength(); i++) {
+                Node node = nList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    //Element element2 = (Element) node;
+                    Log.d("getNode", "node.getAttributes().getNamedItem(title).getNodeValue() : " + String.valueOf(i) + " " +  node.getAttributes().getNamedItem("title").getNodeValue());
+                    xml_musicChannel_data = new MyChannel();
+                    xml_musicChannel_data.setCh(node.getAttributes().getNamedItem("ch").getNodeValue());
+                    xml_musicChannel_data.setIp(node.getAttributes().getNamedItem("ip").getNodeValue());
+                    xml_musicChannel_data.setPort(node.getAttributes().getNamedItem("port").getNodeValue());
+                    xml_musicChannel_data.setCh_no(node.getAttributes().getNamedItem("ch_no").getNodeValue());
+                    xml_musicChannel_data.setApid(node.getAttributes().getNamedItem("apid").getNodeValue());
+                    xml_musicChannel_data.setPpid(node.getAttributes().getNamedItem("ppid").getNodeValue());
+                    xml_musicChannel_data.setAst(node.getAttributes().getNamedItem("ast").getNodeValue());
+                    xml_musicChannel_data.setOpid(node.getAttributes().getNamedItem("opid").getNodeValue());
+                    xml_musicChannel_data.setCtype(node.getAttributes().getNamedItem("ctype").getNodeValue());
+                    xml_musicChannel_data.setTitle(node.getAttributes().getNamedItem("title").getNodeValue());
+                    xml_musicChannel_data.setImage(node.getAttributes().getNamedItem("image").getNodeValue());
+                    xml_musicChannel_data.setCa_id(node.getAttributes().getNamedItem("ca_id").getNodeValue());
+                    xml_musicChannel_data.setChannelUri(node.getAttributes().getNamedItem("channelUri").getNodeValue());
+                    arrayList.add(xml_musicChannel_data);
+                    Log.d("InsertData","i : " + String.valueOf(i));
+                }
+            }
+            Log.d("InsertData","textView.setText");
+        } catch (Exception e) {
+            Log.d("getNode","Exception e : " + e.getMessage());
+        }
+         */
         try {
             Log.d("XMLParsing", "Before xml parsing");
 
@@ -196,9 +235,4 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
         aq.id(R.id.bt_ch_19).visible().clicked(this);
         aq.id(R.id.bt_ch_20).visible().clicked(this);
     }
-    public void buttonClicked(View view){
-        myHandler.sendEmptyMessage(0);
-        Toast.makeText(this, "Simple Listener", Toast.LENGTH_SHORT).show();
-    } //a button is clicked
-
 }

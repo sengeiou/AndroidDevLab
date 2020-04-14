@@ -72,13 +72,7 @@
         android:textColor="@color/white"
         android:layout_marginBottom="5dp">
     </TextView>
-    <View
-        android:id="@+id/exo_buffering"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:visibility="visible"
-        android:src="@drawable/home">
-    </View>
+
     <ImageButton
         android:id="@+id/exo_screen_mode"
         android:layout_width="25dp"

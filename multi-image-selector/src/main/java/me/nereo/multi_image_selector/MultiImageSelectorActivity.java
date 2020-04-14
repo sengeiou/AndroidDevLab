@@ -68,7 +68,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 
         final Intent intent = getIntent();
         // 라이브러리 사용자가 설정한 값을 불러오기.
-        mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_IMAGE_SIZE); //max_select_count 읽어오기
+        mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_IMAGE_SIZE); //최대 몇개를 선택 할 수 있는지 읽어오기
         final int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI); // 싱글, 멀티모드 식별
         final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true); // Take Photo 활성화
         if(mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {

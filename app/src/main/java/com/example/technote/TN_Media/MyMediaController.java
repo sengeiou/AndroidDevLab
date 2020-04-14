@@ -1,11 +1,9 @@
 package com.example.technote.TN_Media;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,24 +165,5 @@ class MyMediaController extends MediaController {
         int hours = totalSeconds / 3600;
 
         return String.format("%02d:%02d:%02d", hours, minutes, seconds).toString();
-    }
-    
-    private int setProgress() {
-
-        int position = mPlayer.getCurrentPosition();
-        int duration = mPlayer.getDuration();
-        if (seekBar != null) {
-            if (duration > 0) {
-                // use long to avoid overflow
-                long pos = 1000L * position / duration;
-                seekBar.setProgress( (int) pos);
-            }
-            int percent = mPlayer.getBufferPercentage();
-            seekBar.setSecondaryProgress(percent * 10);
-        }
-
-        if (textView_time != null)
-            textView_time.setText(stringForTime(position));
-        return position;
     }
 }
