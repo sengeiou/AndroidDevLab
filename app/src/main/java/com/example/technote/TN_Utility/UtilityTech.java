@@ -4,9 +4,14 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,12 +35,15 @@ public class UtilityTech extends AppCompatActivity implements View.OnClickListen
     public void initView(){
         aQuery = new AQuery(this);
         aQuery.id(R.id.bt_util_notification).visible().enabled(true).clicked(this);
+        aQuery.id(R.id.bt_util_dpi_check).visible().enabled(true).clicked(this);
     }
 
     @Override
     public void onClick(View v) {
         if(v == aQuery.id(R.id.bt_util_notification).getView()){
             myNotification();
+        }else if(v == aQuery.id(R.id.bt_util_notification).getView()){
+            displayCheck();
         }
     }
     private void createNotificationChannel() {
@@ -71,5 +79,34 @@ public class UtilityTech extends AppCompatActivity implements View.OnClickListen
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(0,mBuilder.build());
+    }
+
+    private void displayCheck(){
+        String dpi = null;
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        if (metrics.densityDpi<=160) { // mdpi
+            dpi = "mdpi";
+        } else if (metrics.densityDpi<=240) { // hdpi
+            dpi = "hdpi";
+        } else if (metrics.densityDpi<=320) { // xhdpi
+            dpi = "xhdpi";
+        } else if (metrics.densityDpi<=480) { // xxhdpi
+            dpi = "xxhdpi";
+        } else if (metrics.densityDpi<=640) { // xxxhdpi
+            dpi = "xxxhdpi";
+        }
+
+        Toast.makeText(this, "dpi => " + metrics.densityDpi + "(" + dpi + ")\n" +
+                "display => size.x : " + size.x + ", size.y : " + size.y, Toast.LENGTH_SHORT).show();
+
+        Log.d("deviceInformation", "dpi => " + metrics.densityDpi + "(" + dpi + ")");
+        Log.d("deviceInformation", "display => size.x : " + size.x + ", size.y : " + size.y);
     }
 }

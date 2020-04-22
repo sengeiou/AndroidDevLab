@@ -75,10 +75,10 @@
         <activity android:name=".TN_GoogleMap.Sample.MapsActivityCurrentPlace"></activity>
 
         <activity android:name=".TN_File.XML_ParsingExample"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="fullSensor"/>
 
         <activity android:name=".TN_Media.MediaPlayer_Video"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="fullSensor">
         </activity>
         <activity android:name=".TN_Media.TN_ExoPlayer.ExoPlayerExample"
             android:configChanges="keyboardHidden|orientation|screenSize">

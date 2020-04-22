@@ -396,7 +396,7 @@ public class MultiImageSelectorFragment extends Fragment {
         }
     }
 
-    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
+    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() { // LoaderCallback 설정.
 
         private final String[] IMAGE_PROJECTION = {   // 기기 내부의 실제 이미지를 불러온다.
                 MediaStore.Images.Media.DATA,         // IMAGE_PROJECTION[0]
