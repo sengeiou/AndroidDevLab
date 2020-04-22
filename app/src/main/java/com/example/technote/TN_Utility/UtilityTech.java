@@ -42,7 +42,7 @@ public class UtilityTech extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         if(v == aQuery.id(R.id.bt_util_notification).getView()){
             myNotification();
-        }else if(v == aQuery.id(R.id.bt_util_notification).getView()){
+        }else if(v == aQuery.id(R.id.bt_util_dpi_check).getView()){
             displayCheck();
         }
     }
