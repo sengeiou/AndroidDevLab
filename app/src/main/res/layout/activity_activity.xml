@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".TN_Dialog_Activity_Fragment.MyActivity">
 
-    <fragment android:name="com.example.technote.TN_Network.Fragment_Board_ImageList"
+    <fragment android:name="com.yunjeapark.technote.TN_Network.Fragment_Board_ImageList"
         android:id="@+id/article_fragment"
         android:layout_weight="1"
         android:layout_width="match_parent"

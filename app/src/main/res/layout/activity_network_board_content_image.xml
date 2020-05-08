@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp">
         </androidx.viewpager.widget.ViewPager>
-        <com.example.technote.TN_Network.Adapter.CircleIndicator
+        <com.yunjeapark.technote.TN_Network.Adapter.CircleIndicator
             android:id="@+id/circle_indicator"
             android:layout_width="match_parent"
             android:layout_height="50dp"
