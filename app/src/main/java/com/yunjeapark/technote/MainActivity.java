@@ -47,6 +47,7 @@ import com.yunjeapark.technote.TN_Thread.HandlerEx;
 import com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_1;
 import com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_2;
 import com.yunjeapark.technote.TN_Thread.ThreadNetworkExample_1;
+import com.yunjeapark.technote.TN_UI.ScrollingGalleryControls.ScrollingGalleryControls;
 import com.yunjeapark.technote.TN_Utility.UtilityTech;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -326,6 +327,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (v == aQuery.id(R.id.Button12).getView()){
             startActivity(new Intent(getApplicationContext(), UtilityTech.class));
         }
+
+        // 13. UI
+        else if (v == aQuery.id(R.id.Button13).getView()){
+            startActivity(new Intent(getApplicationContext(), ScrollingGalleryControls.class));
+        }
     }
     public void initView(){
         Toolbar tb = (Toolbar) findViewById(R.id.main_toolbar) ;
@@ -346,6 +352,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aQuery.id(R.id.Button10).visible().clicked(this);
         aQuery.id(R.id.Button11).visible().clicked(this);
         aQuery.id(R.id.Button12).visible().clicked(this);
+        aQuery.id(R.id.Button13).visible().clicked(this);
 
     }
 }

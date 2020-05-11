@@ -35,4 +35,16 @@
     <color name="divider">#B6B6B6</color>
 
     <color name="transparency">#00ff0000</color>
+
+    <!--공통 백그라운드색-->
+    <color name="background_top">#1a1d27</color>
+    <color name="background_center">#29334d</color>
+    <color name="background_bottom">#141419</color>
+    <color name="background_subpage">#15171c</color>
+    <color name="background_body">#15171c</color>
+    <color name="background_leftmenu">#23262c</color>
+    <color name="background_leftmenu_line">#2b2e35</color>
+    <!--23262c-->
+    <color name="background_leftmenu_userinfo">#191b21</color>
+    <!--191b21-->
 </resources>

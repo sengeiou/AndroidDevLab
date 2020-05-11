@@ -97,10 +97,17 @@
         <activity android:name="com.yunjeapark.technote.TN_Network.BoardContent_Image_ZoomIn"></activity>
         <activity android:name="com.yunjeapark.technote.TN_Network.BoardUpload_Image"></activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_Thread.HandlerEx"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_1"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_2"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Thread.ThreadNetworkExample_1"></activity>
+        <activity android:name="com.yunjeapark.technote.TN_Thread.HandlerEx">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_1">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_2">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.TN_Thread.ThreadNetworkExample_1">
+        </activity>
+
+        <activity android:name=".TN_UI.ScrollingGalleryControls.ScrollingGalleryControls">
+        </activity>
 
         <activity android:name="com.yunjeapark.technote.TN_OpenLibrary.AQuery_Example"></activity>
 

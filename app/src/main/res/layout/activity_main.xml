@@ -157,11 +157,23 @@
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginBottom="25dp"
             android:layout_centerInParent="true"
             android:layout_below="@+id/Button11"
             android:textAllCaps="false"
             android:background="@color/white"/>
 
+        <Button
+            android:id="@+id/Button13"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="  13. UI"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="25dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/Button12"
+            android:textAllCaps="false"
+            android:background="@color/white"/>
     </RelativeLayout>
 </ScrollView>

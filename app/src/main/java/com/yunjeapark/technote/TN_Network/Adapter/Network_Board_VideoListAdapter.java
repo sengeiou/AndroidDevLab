@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.yunjeapark.technote.R;
 import com.yunjeapark.technote.TN_Network.Data.Network_Board_VideoListData;
-import com.loopj.android.image.SmartImageView;
 
 import java.util.ArrayList;
 
@@ -38,13 +38,13 @@ public class Network_Board_VideoListAdapter extends RecyclerView.Adapter<Network
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected SmartImageView title_image;
+        protected ImageView title_image;
         protected TextView title;
         protected RelativeLayout post;
 
         public CustomViewHolder(View view) {
             super(view);
-            this.title_image = (SmartImageView) view.findViewById(R.id.title_image_view);
+            this.title_image = (ImageView) view.findViewById(R.id.title_image_view);
             this.title = (TextView) view.findViewById(R.id.title_text_view);
             this.post = (RelativeLayout)view.findViewById(R.id.post);
         }
@@ -60,7 +60,10 @@ public class Network_Board_VideoListAdapter extends RecyclerView.Adapter<Network
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
 
-        viewholder.title_image.setImageUrl(mList.get(position).getThumbnail_url());
+        Picasso.with(context)
+                .load(mList.get(position).getThumbnail_url())
+                .resize(250,250)
+                .into(viewholder.title_image);
         viewholder.title.setText(mList.get(position).getTitle());
         viewholder.title_image.setScaleType(ImageView.ScaleType.FIT_XY);
 
