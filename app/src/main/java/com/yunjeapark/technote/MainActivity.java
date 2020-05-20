@@ -4,15 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.androidquery.AQuery;
 import com.androidquery.service.MarketService;
+import com.skydoves.powermenu.MenuAnimation;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 import com.yunjeapark.technote.TN_BLE.Exam1.BleExam1_Main;
 import com.yunjeapark.technote.TN_BLE.FastBle.FastBleMain;
 import com.yunjeapark.technote.TN_Database.SQLiteTest.AddressBook;
@@ -330,7 +335,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 13. UI
         else if (v == aQuery.id(R.id.Button13).getView()){
-            startActivity(new Intent(getApplicationContext(), ScrollingGalleryControls.class));
+            //startActivity(new Intent(getApplicationContext(), ScrollingGalleryControls.class));
+            PowerMenu powerMenu = new PowerMenu.Builder(this)
+                    .addItem(new PowerMenuItem("2019 SONATA",false))
+                    .addItem(new PowerMenuItem("2019 SANTAPE",false))
+                    .addItem(new PowerMenuItem("2019 AVANTE",false))
+                    .setAnimation(MenuAnimation.SHOWUP_TOP_LEFT) // Animation start point (TOP | LEFT).
+                    .setMenuRadius(10f) // sets the corner radius.
+                    .setMenuShadow(10f) // sets the shadow.
+                    .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black))
+                    .setTextGravity(Gravity.CENTER)
+                    .setSelectedTextColor(Color.BLACK)
+                    .setMenuColor(Color.BLACK)
+                    .setSelectedMenuColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
+                    .build();
+            powerMenu.showAsDropDown(aQuery.id(R.id.Button13).getView());
         }
     }
     public void initView(){

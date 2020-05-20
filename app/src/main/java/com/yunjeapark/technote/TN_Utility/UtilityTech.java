@@ -109,4 +109,6 @@ public class UtilityTech extends AppCompatActivity implements View.OnClickListen
         Log.d("deviceInformation", "dpi => " + metrics.densityDpi + "(" + dpi + ")");
         Log.d("deviceInformation", "display => size.x : " + size.x + ", size.y : " + size.y);
     }
+
+
 }

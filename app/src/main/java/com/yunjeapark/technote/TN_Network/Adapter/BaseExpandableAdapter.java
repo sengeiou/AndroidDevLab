@@ -23,7 +23,6 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
     private ViewHolder viewHolder = null;
 
     public BaseExpandableAdapter(Context c, ArrayList<String> groupList, ArrayList<ArrayList<String>> childList){
-
         super();
         this.inflater = LayoutInflater.from(c);
         this.groupList = groupList;

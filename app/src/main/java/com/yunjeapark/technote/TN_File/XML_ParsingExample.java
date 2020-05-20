@@ -145,6 +145,7 @@ public class XML_ParsingExample extends AppCompatActivity implements View.OnClic
     public class MyHandler extends Handler{
         @Override
         public void handleMessage(Message msg) {
+
             /*
             textView.setText("ch : " + arrayList.get(msg.what).getCh() +"\nip : "+arrayList.get(msg.what).getIp() +
                     "\nport : " + arrayList.get(msg.what).getPort() + "\nch_no : " + arrayList.get(msg.what).getCh_no() +
