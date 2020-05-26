@@ -1,6 +1,7 @@
 package com.yunjeapark.technote.TN_Dialog_Activity_Fragment.MyTab_ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,22 @@ public class MyTab_ViewPager extends AppCompatActivity {
         MyTabLayoutAdapter tabLayoutAdapter = new MyTabLayoutAdapter(getSupportFragmentManager(), mTab.getTabCount());
         tabLayoutAdapter.notifyDataSetChanged();
         vp.setAdapter(tabLayoutAdapter);
-        vp.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
+        // vp.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("Test","Test");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.d("Test","Test");
+            }
+        });
 
         mTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override
