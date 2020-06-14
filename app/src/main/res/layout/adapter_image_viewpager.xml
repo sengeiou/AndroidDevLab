@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TN_Network.BoardContent_Image">
+    tools:context=".tn_network.BoardContent_Image">
 
     <ImageView
         android:id="@+id/image_container"

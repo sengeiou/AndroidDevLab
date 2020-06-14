@@ -13,7 +13,7 @@
         tools:replace="android:allowBackup"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <provider android:name="com.yunjeapark.technote.TN_Database.ContentProviderPractics.MyContentProvider2" android:exported="true"
+        <provider android:name="com.yunjeapark.technote.tn_database.ContentProviderPractics.MyContentProvider2" android:exported="true"
             android:readPermission="true" android:writePermission="true"
             android:authorities="com.yunjeapark.technote.ContentProvider_Practics" />
 
@@ -27,99 +27,144 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.LinearLayout_Test"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.FrameLayout_Test"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.RelativeLayoutTest"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.TableLayout_Test"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.DrawerLayout_Test"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.ConstraintLayout_Test"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.ConstraintLayout_Analog_Test"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Layout.CoordinatorLayout_Test"
+        <activity android:name="com.yunjeapark.technote.tn_layout.LinearLayout_Test">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_layout.FrameLayout_Test">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_layout.RelativeLayoutTest">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_layout.TableLayout_Test">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_layout.DrawerLayout_Test">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_layout.ConstraintLayout_Test">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_layout.ConstraintLayout_Analog_Test">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_layout.CoordinatorLayout_Test"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
         </activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_Dialog_Activity_Fragment.Activity_Screen_2"
+        <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.Activity_Screen_2"
             android:theme="@style/Screen_2">
         </activity>
-        <activity android:name="com.yunjeapark.technote.TN_Dialog_Activity_Fragment.FirstActivity"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Dialog_Activity_Fragment.SecondActivity"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Dialog_Activity_Fragment.Dialog"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Dialog_Activity_Fragment.MyActivity"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Dialog_Activity_Fragment.MyTab_ViewPager.MyTab_ViewPager"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.FirstActivity">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.SecondActivity">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.Dialog">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.MyActivity">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.my_tab_viewpager.MyTab_ViewPager">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.Activity_Screen_1">
+        </activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.SQLiteTest"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.SQLiteTest_2"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.AddressBook"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.AddAddress"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.CallEvent"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.RealCallLog_Test"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.AddressRevise"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.CallReceiveScreen"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.SQLiteTest.CallLogTest"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Dialog_Activity_Fragment.Activity_Screen_1"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.ContentProviderExample.CountryEdit" android:label="@string/app_name" />
-        <activity android:name="com.yunjeapark.technote.TN_Database.ContentProviderExample.ContentProviderTest"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.ContentProviderPractics.ContentProviderTest2"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Database.ContentProviderPractics.AddressEdit2"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.SQLiteTest">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.SQLiteTest_2">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.AddressBook">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.AddAddress">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.CallEvent">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.RealCallLog_Test">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.AddressRevise">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.CallReceiveScreen">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.CallLogTest">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_database.ContentProviderExample.CountryEdit" android:label="@string/app_name" />
+        <activity android:name="com.yunjeapark.technote.tn_database.ContentProviderExample.ContentProviderTest">
+        </activity>
+        <activity android:name=".tn_database.ContentProviderPractics.ContentProviderTest2">
+        </activity>
+        <activity android:name=".tn_database.ContentProviderPractics.AddressEdit2">
+        </activity>
+        <activity android:name=".tn_database.tn_preference.PreferenceExampleActivity">
+        </activity>
+        <activity  android:name=".tn_database.tn_preference.PrefsActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_BLE.FastBle.FastBleMain"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_BLE.FastBle.operation.OperationActivity"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_BLE.Exam1.BleExam1_Main"/>
-        <activity android:name="com.yunjeapark.technote.TN_BLE.Exam1.ControlActivity"></activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_GoogleMap.GoogleMapTest"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_GoogleMap.Sample.AutoCompletePlaceSample"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_GoogleMap.Sample.MapsActivityCurrentPlace"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_ble.FastBle.FastBleMain">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_ble.FastBle.operation.OperationActivity">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_ble.Exam1.BleExam1_Main"/>
+        <activity android:name="com.yunjeapark.technote.tn_ble.Exam1.ControlActivity">
+        </activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_File.XML_ParsingExample"
+        <activity android:name="com.yunjeapark.technote.tn_google_map.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_google_map.GoogleMapTest">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_google_map.Sample.AutoCompletePlaceSample">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_google_map.Sample.MapsActivityCurrentPlace">
+        </activity>
+
+        <activity android:name="com.yunjeapark.technote.tn_file.XML_ParsingExample"
             android:screenOrientation="fullSensor"/>
 
-        <activity android:name="com.yunjeapark.technote.TN_Media.MediaPlayer_Video"
+        <activity android:name="com.yunjeapark.technote.tn_media.MediaPlayer_Video"
             android:screenOrientation="fullSensor">
         </activity>
-        <activity android:name="com.yunjeapark.technote.TN_Media.TN_ExoPlayer.ExoPlayerExample"
+        <activity android:name="com.yunjeapark.technote.tn_media.tn_exo_player.ExoPlayerExample"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_Network.NetworkAPI_Library.OKHttpExample"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.NetworkAPI_Library.VolleyExample"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.NetworkAPI_Library.FANExample"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.NetworkAPI_Library.AndroidAsyncHttpExample"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.NetworkAPI_Library.RetrofitExamples.RetrofitExample"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.NetworkAPI_Library.RestAPIExample"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.BoardMain"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.BoardUpload_Video"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.BoardContent_Image"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.BoardContent_Video"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.BoardContent_Image_ZoomIn"></activity>
-        <activity android:name="com.yunjeapark.technote.TN_Network.BoardUpload_Image"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.network_api_library.OKHttpExample">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.network_api_library.VolleyExample">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.network_api_library.FANExample">
+        </activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.network_api_library.AndroidAsyncHttpExample"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.network_api_library.retrofit_examples.RetrofitExample"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.network_api_library.RestAPIExample"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.BoardMain"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.BoardUpload_Video"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.BoardContent_Image"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.BoardContent_Video"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.BoardContent_Image_ZoomIn"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_network.BoardUpload_Image"></activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_Thread.HandlerEx">
+        <activity android:name="com.yunjeapark.technote.tn_thread.HandlerEx">
         </activity>
-        <activity android:name="com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_1">
+        <activity android:name="com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_1">
         </activity>
-        <activity android:name="com.yunjeapark.technote.TN_Thread.MyAsyncTaskExample_2">
+        <activity android:name="com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_2">
         </activity>
-        <activity android:name="com.yunjeapark.technote.TN_Thread.ThreadNetworkExample_1">
-        </activity>
-
-        <activity android:name=".TN_UI.ScrollingGalleryControls.ScrollingGalleryControls">
+        <activity android:name="com.yunjeapark.technote.tn_thread.ThreadNetworkExample_1">
         </activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_OpenLibrary.AQuery_Example"></activity>
+        <activity android:name=".tn_ui.scrolling_gallery_controls.ScrollingGalleryControls">
+        </activity>
 
-        <activity android:name="com.yunjeapark.technote.TN_Utility.UtilityTech"></activity>
+        <activity android:name="com.yunjeapark.technote.tn_open_library.AQuery_Example">
+        </activity>
+
+        <activity android:name="com.yunjeapark.technote.tn_utility.UtilityTech">
+        </activity>
 
         <activity
             android:configChanges="orientation|screenSize"
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
 
 
-        <service android:name="com.yunjeapark.technote.TN_BLE.Exam1.BluetoothLeService" android:enabled="true"/>
-        <service android:name="com.yunjeapark.technote.TN_GoogleMap.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService"></service>
-        <service android:name="com.yunjeapark.technote.TN_GoogleMap.GPSInfo"></service>
+        <service android:name="com.yunjeapark.technote.tn_ble.Exam1.BluetoothLeService" android:enabled="true"/>
+        <service android:name="com.yunjeapark.technote.tn_google_map.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService">
+        </service>
+        <service android:name="com.yunjeapark.technote.tn_google_map.GPSInfo">
+        </service>
 
     </application>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    tools:context=".TN_Network.BoardContent_Image"
+    tools:context=".tn_network.BoardContent_Image"
     android:orientation="vertical">
 
     <FrameLayout
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp">
         </androidx.viewpager.widget.ViewPager>
-        <com.yunjeapark.technote.TN_Network.Adapter.CircleIndicator
+        <com.yunjeapark.technote.tn_network.adapter.CircleIndicator
             android:id="@+id/circle_indicator"
             android:layout_width="match_parent"
             android:layout_height="50dp"

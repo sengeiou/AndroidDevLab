@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
-    tools:context=".TN_BLE.Exam1.ControlActivity">
+    tools:context=".tn_ble.Exam1.ControlActivity">
 
     <TextView
         android:layout_width="wrap_content"
