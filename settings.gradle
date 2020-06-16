@@ -1,2 +1,2 @@
-include ':app', ':CircleProgressView', ':logmanager', ':BleLib', ':multi-image-selector', ':coverflow'
+include ':app', ':circle-progress-view', ':logmanager', ':blelib', ':multi-image-selector', ':coverflow'
 rootProject.name='TechNote'

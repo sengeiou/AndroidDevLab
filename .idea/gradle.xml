@@ -11,9 +11,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/BleLib" />
-            <option value="$PROJECT_DIR$/CircleProgressView" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/blelib" />
+            <option value="$PROJECT_DIR$/circle-progress-view" />
             <option value="$PROJECT_DIR$/coverflow" />
             <option value="$PROJECT_DIR$/logmanager" />
             <option value="$PROJECT_DIR$/multi-image-selector" />

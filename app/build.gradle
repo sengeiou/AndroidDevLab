@@ -56,7 +56,7 @@ dependencies {
 
     implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation 'noman.placesapi:placesAPI:1.1.3'
-    implementation project(path: ':BleLib')
+    implementation project(path: ':blelib')
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.4.0'
