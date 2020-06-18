@@ -46,7 +46,7 @@ import com.clj.fastble.utils.HexUtil;
 import com.yunjeapark.technote.tn_ble.FastBle.adapter.DeviceAdapter;
 import com.yunjeapark.technote.tn_ble.FastBle.comm.ObserverManager;
 import com.yunjeapark.technote.tn_ble.FastBle.operation.OperationActivity;
-import com.yunjeapark.technote.tn_google_map.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain;
+import com.yunjeapark.technote.tn_google_map.ble_device_mesiplus_and_googlemap.MesiPlusGoogleMapTestMain;
 import com.yunjeapark.technote.MainActivity;
 import com.yunjeapark.technote.R;
 

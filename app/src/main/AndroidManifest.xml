@@ -102,13 +102,13 @@
         <activity android:name="com.yunjeapark.technote.tn_ble.Exam1.ControlActivity">
         </activity>
 
-        <activity android:name="com.yunjeapark.technote.tn_google_map.BLEDeviceMesiPlus_And_GoogleMap.MesiPlusGoogleMapTestMain">
+        <activity android:name="com.yunjeapark.technote.tn_google_map.ble_device_mesiplus_and_googlemap.MesiPlusGoogleMapTestMain">
         </activity>
         <activity android:name="com.yunjeapark.technote.tn_google_map.GoogleMapTest">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_google_map.Sample.AutoCompletePlaceSample">
+        <activity android:name="com.yunjeapark.technote.tn_google_map.sample.AutoCompletePlaceSample">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_google_map.Sample.MapsActivityCurrentPlace">
+        <activity android:name="com.yunjeapark.technote.tn_google_map.sample.MapsActivityCurrentPlace">
         </activity>
 
         <activity android:name="com.yunjeapark.technote.tn_file.XML_ParsingExample"
@@ -161,7 +161,7 @@
 
 
         <service android:name="com.yunjeapark.technote.tn_ble.Exam1.BluetoothLeService" android:enabled="true"/>
-        <service android:name="com.yunjeapark.technote.tn_google_map.BLEDeviceMesiPlus_And_GoogleMap.GPSDataReceiveService">
+        <service android:name="com.yunjeapark.technote.tn_google_map.ble_device_mesiplus_and_googlemap.GPSDataReceiveService">
         </service>
         <service android:name="com.yunjeapark.technote.tn_google_map.GPSInfo">
         </service>

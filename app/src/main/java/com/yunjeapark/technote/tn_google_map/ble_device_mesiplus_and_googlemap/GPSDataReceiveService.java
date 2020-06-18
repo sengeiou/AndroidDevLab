@@ -1,4 +1,4 @@
-package com.yunjeapark.technote.tn_google_map.BLEDeviceMesiPlus_And_GoogleMap;
+package com.yunjeapark.technote.tn_google_map.ble_device_mesiplus_and_googlemap;
 
 import android.app.Service;
 import android.content.Intent;

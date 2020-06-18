@@ -1,4 +1,4 @@
-package com.yunjeapark.technote.tn_google_map.Sample;
+package com.yunjeapark.technote.tn_google_map.sample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
