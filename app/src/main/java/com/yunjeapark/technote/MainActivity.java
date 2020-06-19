@@ -330,6 +330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 12. Utility Tech
         else if (v == aQuery.id(R.id.Button12).getView()){
             startActivity(new Intent(getApplicationContext(), UtilityTech.class));
+
         }
 
         // 13. UI
