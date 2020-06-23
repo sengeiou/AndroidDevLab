@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
-import com.yunjeapark.technote.tn_database.Adapter.RealCallLogsAdapter;
+import com.yunjeapark.technote.tn_database.adapter.RealCallLogsAdapter;
 import com.yunjeapark.technote.R;
 
 import java.util.List;

@@ -13,7 +13,7 @@
         tools:replace="android:allowBackup"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <provider android:name="com.yunjeapark.technote.tn_database.ContentProviderPractics.MyContentProvider2" android:exported="true"
+        <provider android:name="com.yunjeapark.technote.tn_database.content_provider_practice.MyContentProvider2" android:exported="true"
             android:readPermission="true" android:writePermission="true"
             android:authorities="com.yunjeapark.technote.ContentProvider_Practics" />
 
@@ -62,30 +62,30 @@
         <activity android:name="com.yunjeapark.technote.tn_dialog_activity_fragment.Activity_Screen_1">
         </activity>
 
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.SQLiteTest">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.SQLiteTest">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.SQLiteTest_2">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.SQLiteTest_2">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.AddressBook">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.AddressBook">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.AddAddress">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.AddAddress">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.CallEvent">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.CallEvent">
         </activity>
         <activity android:name="com.yunjeapark.technote.tn_database.RealCallLog_Test">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.AddressRevise">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.AddressRevise">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.CallReceiveScreen">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.CallReceiveScreen">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.SQLiteTest.CallLogTest">
+        <activity android:name="com.yunjeapark.technote.tn_database.sqlite_test.CallLogTest">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_database.ContentProviderExample.CountryEdit" android:label="@string/app_name" />
-        <activity android:name="com.yunjeapark.technote.tn_database.ContentProviderExample.ContentProviderTest">
+        <activity android:name="com.yunjeapark.technote.tn_database.content_provider_example.CountryEdit" android:label="@string/app_name" />
+        <activity android:name="com.yunjeapark.technote.tn_database.content_provider_example.ContentProviderTest">
         </activity>
-        <activity android:name=".tn_database.ContentProviderPractics.ContentProviderTest2">
+        <activity android:name=".tn_database.content_provider_practice.ContentProviderTest2">
         </activity>
-        <activity android:name=".tn_database.ContentProviderPractics.AddressEdit2">
+        <activity android:name=".tn_database.content_provider_practice.AddressEdit2">
         </activity>
         <activity android:name=".tn_database.tn_preference.PreferenceExampleActivity">
         </activity>
