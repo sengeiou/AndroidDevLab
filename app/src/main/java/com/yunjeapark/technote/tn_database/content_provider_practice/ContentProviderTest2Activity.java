@@ -18,7 +18,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.yunjeapark.technote.R;
 
-public class ContentProviderTest2 extends Activity implements
+public class ContentProviderTest2Activity extends Activity implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
     private SimpleCursorAdapter dataAdapter;
@@ -35,7 +35,7 @@ public class ContentProviderTest2 extends Activity implements
 
             public void onClick(View v) {
                 // starts a new Intent to add a Country
-                Intent countryEdit = new Intent(getBaseContext(), AddressEdit2.class);
+                Intent countryEdit = new Intent(getBaseContext(), AddressEdit2Activity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "add");
                 countryEdit.putExtras(bundle);
@@ -92,7 +92,7 @@ public class ContentProviderTest2 extends Activity implements
                         cursor.getString(cursor.getColumnIndexOrThrow(AddressListTable.KEY_ROWID));
 
                 // 리스트뷰의 item을 클릭하면 Edit 화면을 띄우고, 기존에 저장해 있던 데이터를 bundle을 통해 put하여 적재 시킨다.
-                Intent countryEdit = new Intent(getBaseContext(), AddressEdit2.class);
+                Intent countryEdit = new Intent(getBaseContext(), AddressEdit2Activity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "update");
                 bundle.putString("rowId", rowId);

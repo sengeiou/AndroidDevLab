@@ -45,7 +45,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MesiPlusGoogleMapTestMain extends AppCompatActivity implements OnMapReadyCallback{
+public class MesiPlusGoogleMapTestMainActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private String dtDeviceAddress;
@@ -145,7 +145,7 @@ public class MesiPlusGoogleMapTestMain extends AppCompatActivity implements OnMa
             unbindService(mConnection);
             mIsBound = false;
         }
-        stopService(new Intent(MesiPlusGoogleMapTestMain.this, GPSDataReceiveService.class));
+        stopService(new Intent(MesiPlusGoogleMapTestMainActivity.this, GPSDataReceiveService.class));
         timerStart = false;
         gpsData.clear();
     }
@@ -272,7 +272,7 @@ public class MesiPlusGoogleMapTestMain extends AppCompatActivity implements OnMa
             unbindService(mConnection);
             mIsBound = false;
         }
-        stopService(new Intent(MesiPlusGoogleMapTestMain.this, GPSDataReceiveService.class));
+        stopService(new Intent(MesiPlusGoogleMapTestMainActivity.this, GPSDataReceiveService.class));
     }
 
 

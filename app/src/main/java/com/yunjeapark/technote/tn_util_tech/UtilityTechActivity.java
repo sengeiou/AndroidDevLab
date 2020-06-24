@@ -1,4 +1,4 @@
-package com.yunjeapark.technote.tn_utility;
+package com.yunjeapark.technote.tn_util_tech;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,7 +22,7 @@ import com.androidquery.AQuery;
 import com.yunjeapark.technote.MainActivity;
 import com.yunjeapark.technote.R;
 
-public class UtilityTech extends AppCompatActivity implements View.OnClickListener {
+public class UtilityTechActivity extends AppCompatActivity implements View.OnClickListener {
     AQuery aQuery;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

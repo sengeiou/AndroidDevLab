@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.yunjeapark.technote.R;
 
-public class AddressEdit2 extends Activity implements OnClickListener{
+public class AddressEdit2Activity extends Activity implements OnClickListener{
 
     private Spinner continentList;
     private Button save, delete;

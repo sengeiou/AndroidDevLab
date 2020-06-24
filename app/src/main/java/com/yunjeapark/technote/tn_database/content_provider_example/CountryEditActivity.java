@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.yunjeapark.technote.R;
 
-public class CountryEdit extends Activity implements OnClickListener{
+public class CountryEditActivity extends Activity implements OnClickListener{
 
     private Spinner continentList;
     private Button save, delete;

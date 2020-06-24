@@ -31,7 +31,7 @@ import com.yunjeapark.technote.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BleExam1_Main extends AppCompatActivity {
+public class BleExam1_MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mBluetoothLeScanner;
@@ -104,7 +104,7 @@ public class BleExam1_Main extends AppCompatActivity {
                             + device.getBluetoothClass().toString() + "\n"
                             + getBTDevieType(device);
 
-                    new AlertDialog.Builder(BleExam1_Main.this)
+                    new AlertDialog.Builder(BleExam1_MainActivity.this)
                             .setTitle(device.getName())
                             .setMessage(msg)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -115,7 +115,7 @@ public class BleExam1_Main extends AppCompatActivity {
                             .setNeutralButton("CONNECT", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    final Intent intent = new Intent(BleExam1_Main.this,
+                                    final Intent intent = new Intent(BleExam1_MainActivity.this,
                                             ControlActivity.class);
                                     intent.putExtra(ControlActivity.EXTRAS_DEVICE_NAME,
                                             device.getName());
@@ -219,7 +219,7 @@ public class BleExam1_Main extends AppCompatActivity {
                     mBluetoothLeScanner.stopScan(scanCallback);
                     listViewLE.invalidateViews();
 
-                    Toast.makeText(BleExam1_Main.this,
+                    Toast.makeText(BleExam1_MainActivity.this,
                             "Scan timeout",
                             Toast.LENGTH_LONG).show();
 
@@ -271,7 +271,7 @@ public class BleExam1_Main extends AppCompatActivity {
         @Override
         public void onScanFailed(int errorCode) {
             super.onScanFailed(errorCode);
-            Toast.makeText(BleExam1_Main.this,
+            Toast.makeText(BleExam1_MainActivity.this,
                     "onScanFailed: " + String.valueOf(errorCode),
                     Toast.LENGTH_LONG).show();
         }

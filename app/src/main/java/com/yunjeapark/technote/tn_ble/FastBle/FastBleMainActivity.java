@@ -46,7 +46,7 @@ import com.clj.fastble.utils.HexUtil;
 import com.yunjeapark.technote.tn_ble.FastBle.adapter.DeviceAdapter;
 import com.yunjeapark.technote.tn_ble.FastBle.comm.ObserverManager;
 import com.yunjeapark.technote.tn_ble.FastBle.operation.OperationActivity;
-import com.yunjeapark.technote.tn_google_map.ble_device_mesiplus_and_googlemap.MesiPlusGoogleMapTestMain;
+import com.yunjeapark.technote.tn_google_map.ble_device_mesiplus_and_googlemap.MesiPlusGoogleMapTestMainActivity;
 import com.yunjeapark.technote.MainActivity;
 import com.yunjeapark.technote.R;
 
@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FastBleMain extends AppCompatActivity implements View.OnClickListener {
+public class FastBleMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_CODE_OPEN_GPS = 1;
@@ -88,7 +88,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
         google_map.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FastBleMain.this, MesiPlusGoogleMapTestMain.class);
+                Intent intent = new Intent(FastBleMainActivity.this, MesiPlusGoogleMapTestMainActivity.class);
                 intent.putExtra("key_data",getBleDevice());
                 startActivity(intent);
             }
@@ -176,7 +176,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onDetail(BleDevice bleDevice) {
                 if (BleManager.getInstance().isConnected(bleDevice)) {
-                    Intent intent = new Intent(FastBleMain.this, OperationActivity.class);
+                    Intent intent = new Intent(FastBleMainActivity.this, OperationActivity.class);
                     intent.putExtra(OperationActivity.KEY_DATA, bleDevice);
                     startActivityForResult(intent,2);
                 }
@@ -256,7 +256,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onLeScan(BleDevice bleDevice) {
                 super.onLeScan(bleDevice);
-                Toast.makeText(FastBleMain.this, "12312321321", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FastBleMainActivity.this, "12312321321", Toast.LENGTH_SHORT).show();
                 Log.d("MainOnLeScan","메인액티비티 onLeScan");
             }
 
@@ -286,7 +286,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             img_loading.setVisibility(View.INVISIBLE);
             btn_scan.setText(getString(R.string.start_scan));
             progressDialog.dismiss();
-            Toast.makeText(FastBleMain.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
+            Toast.makeText(FastBleMainActivity.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
         }
 
         //연결 성공 할 때
@@ -295,7 +295,7 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             progressDialog.dismiss();
             mDeviceAdapter.addDevice(bleDevice);
             mDeviceAdapter.notifyDataSetChanged();
-            Toast.makeText(FastBleMain.this, "연결 성공", Toast.LENGTH_LONG).show();
+            Toast.makeText(FastBleMainActivity.this, "연결 성공", Toast.LENGTH_LONG).show();
             setBleDevice(bleDevice);
         }
 
@@ -307,9 +307,9 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
 
                 mDeviceAdapter.removeDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
-                Toast.makeText(FastBleMain.this, getString(R.string.active_disconnected), Toast.LENGTH_LONG).show();
+                Toast.makeText(FastBleMainActivity.this, getString(R.string.active_disconnected), Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(FastBleMain.this, getString(R.string.disconnected), Toast.LENGTH_LONG).show();
+                Toast.makeText(FastBleMainActivity.this, getString(R.string.disconnected), Toast.LENGTH_LONG).show();
                 BleManager.getInstance().connect(bleDevice,bleGattCallback);
                 ObserverManager.getInstance().notifyObserver(bleDevice);
             }
@@ -439,13 +439,13 @@ public class FastBleMain extends AppCompatActivity implements View.OnClickListen
             google_map.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(FastBleMain.this, MesiPlusGoogleMapTestMain.class);
+                    Intent intent = new Intent(FastBleMainActivity.this, MesiPlusGoogleMapTestMainActivity.class);
                     intent.putExtra("value",value);
                     startActivity(intent);
                 }
             });
         } else {   // RESULT_CANCEL
-            Toast.makeText(FastBleMain.this, "Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FastBleMainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
         }
     }
     public void setBleDevice(BleDevice bleDevice){

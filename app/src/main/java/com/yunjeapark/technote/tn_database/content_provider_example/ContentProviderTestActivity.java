@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.yunjeapark.technote.R;
 
-public class ContentProviderTest extends Activity implements
+public class ContentProviderTestActivity extends Activity implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
     private SimpleCursorAdapter dataAdapter;
@@ -36,7 +36,7 @@ public class ContentProviderTest extends Activity implements
 
             public void onClick(View v) {
                 // starts a new Intent to add a Country
-                Intent countryEdit = new Intent(getBaseContext(), CountryEdit.class);
+                Intent countryEdit = new Intent(getBaseContext(), CountryEditActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "add");
                 countryEdit.putExtras(bundle);
@@ -105,7 +105,7 @@ public class ContentProviderTest extends Activity implements
 
                 // starts a new Intent to update/delete a Country
                 // pass in row Id to create the Content URI for a single row
-                Intent countryEdit = new Intent(getBaseContext(), CountryEdit.class);
+                Intent countryEdit = new Intent(getBaseContext(), CountryEditActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mode", "update");
                 bundle.putString("rowId", rowId);

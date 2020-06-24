@@ -18,10 +18,10 @@ import com.androidquery.service.MarketService;
 import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
-import com.yunjeapark.technote.tn_ble.Exam1.BleExam1_Main;
-import com.yunjeapark.technote.tn_ble.FastBle.FastBleMain;
+import com.yunjeapark.technote.tn_ble.Exam1.BleExam1_MainActivity;
+import com.yunjeapark.technote.tn_ble.FastBle.FastBleMainActivity;
 import com.yunjeapark.technote.tn_database.sqlite_test.AddressBook;
-import com.yunjeapark.technote.tn_database.content_provider_practice.ContentProviderTest2;
+import com.yunjeapark.technote.tn_database.content_provider_practice.ContentProviderTest2Activity;
 import com.yunjeapark.technote.tn_database.sqlite_test.SQLiteTest;
 import com.yunjeapark.technote.tn_database.sqlite_test.SQLiteTest_2;
 import com.yunjeapark.technote.tn_dialog_activity_fragment.MyActivity;
@@ -29,7 +29,7 @@ import com.yunjeapark.technote.tn_dialog_activity_fragment.Activity_Screen_1;
 import com.yunjeapark.technote.tn_dialog_activity_fragment.Activity_Screen_2;
 import com.yunjeapark.technote.tn_dialog_activity_fragment.Dialog;
 import com.yunjeapark.technote.tn_dialog_activity_fragment.my_tab_viewpager.MyTab_ViewPager;
-import com.yunjeapark.technote.tn_file.XML_ParsingExample;
+import com.yunjeapark.technote.tn_file.XML_ParsingExampleActivity;
 import com.yunjeapark.technote.tn_google_map.GoogleMapTest;
 import com.yunjeapark.technote.tn_layout.ConstraintLayout_Test;
 import com.yunjeapark.technote.tn_layout.CoordinatorLayout_Test;
@@ -52,7 +52,7 @@ import com.yunjeapark.technote.tn_thread.HandlerEx;
 import com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_1;
 import com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_2;
 import com.yunjeapark.technote.tn_thread.ThreadNetworkExample_1;
-import com.yunjeapark.technote.tn_utility.UtilityTech;
+import com.yunjeapark.technote.tn_util_tech.UtilityTechActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     AQuery aQuery;
@@ -152,10 +152,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.menu_ble_fast_ble:
-                            startActivity(new Intent(getApplicationContext(), FastBleMain.class));
+                            startActivity(new Intent(getApplicationContext(), FastBleMainActivity.class));
                             break;
                         case R.id.menu_ble_exam1:
-                            startActivity(new Intent(getApplicationContext(), BleExam1_Main.class));
+                            startActivity(new Intent(getApplicationContext(), BleExam1_MainActivity.class));
                             break;
                         default:
                             break;
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), SQLiteTest_2.class));
                             break;
                         case R.id.menu_content_provider:
-                            startActivity(new Intent(getApplicationContext(), ContentProviderTest2.class));
+                            startActivity(new Intent(getApplicationContext(), ContentProviderTest2Activity.class));
                             break;
                         default:
                             break;
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 7. File
         else if (v == aQuery.id(R.id.Button7).getView()){
-            startActivity(new Intent(getApplicationContext(), XML_ParsingExample.class));
+            startActivity(new Intent(getApplicationContext(), XML_ParsingExampleActivity.class));
         }
 
         // 8. Network
@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 12. Utility Tech
         else if (v == aQuery.id(R.id.Button12).getView()){
-            startActivity(new Intent(getApplicationContext(), UtilityTech.class));
+            startActivity(new Intent(getApplicationContext(), UtilityTechActivity.class));
 
         }
 

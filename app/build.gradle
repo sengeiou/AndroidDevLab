@@ -102,6 +102,8 @@ dependencies {
     
     implementation 'com.googlecode.android-query:android-query:0.25.9'
     implementation "com.github.skydoves:powermenu:2.1.2"
+    //지문인식
+    implementation 'androidx.biometric:biometric:1.0.1'
 
 }
 repositories {

@@ -24,7 +24,7 @@ public class Activity_Screen_2 extends AppCompatActivity {
         carbs_progressbar = (ProgressBar)findViewById(R.id.carbs_progressbar);
         setSupportActionBar(screen_2_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); // 타이틀 삭제
-        
+
         mCircleView = (CircleProgressView) findViewById(R.id.circleView);
         mCircleView.setUnitVisible(false);
     }
