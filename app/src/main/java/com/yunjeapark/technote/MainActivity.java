@@ -29,13 +29,13 @@ import com.yunjeapark.technote.tn_dialog_activity_fragment.Activity_Screen_1;
 import com.yunjeapark.technote.tn_dialog_activity_fragment.Activity_Screen_2;
 import com.yunjeapark.technote.tn_dialog_activity_fragment.Dialog;
 import com.yunjeapark.technote.tn_dialog_activity_fragment.my_tab_viewpager.MyTab_ViewPager;
-import com.yunjeapark.technote.tn_file.XML_ParsingExampleActivity;
-import com.yunjeapark.technote.tn_google_map.GoogleMapTest;
-import com.yunjeapark.technote.tn_layout.ConstraintLayout_Test;
-import com.yunjeapark.technote.tn_layout.CoordinatorLayout_Test;
-import com.yunjeapark.technote.tn_layout.DrawerLayout_Test;
-import com.yunjeapark.technote.tn_layout.FrameLayout_Test;
-import com.yunjeapark.technote.tn_layout.LinearLayout_Test;
+import com.yunjeapark.technote.tn_file.XMLParsingExampleActivity;
+import com.yunjeapark.technote.tn_google_map.GoogleMapTestActivity;
+import com.yunjeapark.technote.tn_layout.ConstraintLayoutTestActivity;
+import com.yunjeapark.technote.tn_layout.CoordinatorLayoutTestActivity;
+import com.yunjeapark.technote.tn_layout.DrawerLayoutTestActivity;
+import com.yunjeapark.technote.tn_layout.FrameLayoutTestActivity;
+import com.yunjeapark.technote.tn_layout.LinearLayoutTestActivity;
 import com.yunjeapark.technote.tn_layout.RelativeLayoutTestActivity;
 import com.yunjeapark.technote.tn_layout.TableLayoutTestActivity;
 import com.yunjeapark.technote.tn_media.MediaPlayer_Video;
@@ -80,25 +80,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.menu_linear:
-                            startActivity(new Intent(getApplicationContext(), LinearLayout_Test.class));
+                            startActivity(new Intent(getApplicationContext(), LinearLayoutTestActivity.class));
                             break;
                         case R.id.menu_relative:
                             startActivity(new Intent(getApplicationContext(), RelativeLayoutTestActivity.class));
                             break;
                         case R.id.menu_frame:
-                            startActivity(new Intent(getApplicationContext(), FrameLayout_Test.class));
+                            startActivity(new Intent(getApplicationContext(), FrameLayoutTestActivity.class));
                             break;
                         case R.id.menu_talbe:
                             startActivity(new Intent(getApplicationContext(), TableLayoutTestActivity.class));
                             break;
                         case R.id.menu_drawer:
-                            startActivity(new Intent(getApplicationContext(), DrawerLayout_Test.class));
+                            startActivity(new Intent(getApplicationContext(), DrawerLayoutTestActivity.class));
                             break;
                         case R.id.menu_constraint:
-                            startActivity(new Intent(getApplicationContext(), ConstraintLayout_Test.class));
+                            startActivity(new Intent(getApplicationContext(), ConstraintLayoutTestActivity.class));
                             break;
                         case R.id.menu_coordinator:
-                            startActivity(new Intent(getApplicationContext(), CoordinatorLayout_Test.class));
+                            startActivity(new Intent(getApplicationContext(), CoordinatorLayoutTestActivity.class));
                             break;
                         default:
                             break;
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 4. GoogleMap
         else if (v == aQuery.id(R.id.Button4).getView()){
-            startActivity(new Intent(getApplicationContext(), GoogleMapTest.class));
+            startActivity(new Intent(getApplicationContext(), GoogleMapTestActivity.class));
 
         }
 
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 7. File
         else if (v == aQuery.id(R.id.Button7).getView()){
-            startActivity(new Intent(getApplicationContext(), XML_ParsingExampleActivity.class));
+            startActivity(new Intent(getApplicationContext(), XMLParsingExampleActivity.class));
         }
 
         // 8. Network

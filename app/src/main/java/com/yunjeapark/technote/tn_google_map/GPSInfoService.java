@@ -18,7 +18,7 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
-public class GPSInfo extends Service implements LocationListener {
+public class GPSInfoService extends Service implements LocationListener {
     private final Context mContext; // 현재 GPS 사용유무
     boolean isGPSEnabled = false; // 네트워크 사용유무
     boolean isNetworkEnabled = false; // GPS 상태값
@@ -37,7 +37,7 @@ public class GPSInfo extends Service implements LocationListener {
 
     private Messenger mClient = null; // Activity에서 가져온 Messenger
 
-    public GPSInfo(Context context) {
+    public GPSInfoService(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -105,7 +105,7 @@ public class GPSInfo extends Service implements LocationListener {
     //GPS 종료
     public void stopUsingGPS(){
         if(locationManager !=null){
-            locationManager.removeUpdates(GPSInfo.this);
+            locationManager.removeUpdates(GPSInfoService.this);
         }
     }
     //위도 값 가져오기

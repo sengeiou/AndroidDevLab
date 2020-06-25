@@ -43,10 +43,10 @@ import java.util.List;
 /**
  * An activity that displays a map showing the place at the device's current location.
  */
-public class MapsActivityCurrentPlace extends AppCompatActivity
+public class MapsActivityCurrentPlaceActivity extends AppCompatActivity
         implements OnMapReadyCallback {
 
-    private static final String TAG = MapsActivityCurrentPlace.class.getSimpleName();
+    private static final String TAG = MapsActivityCurrentPlaceActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
 
@@ -321,7 +321,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 
                         // Show a dialog offering the user the list of likely places, and add a
                         // marker at the selected place.
-                        MapsActivityCurrentPlace.this.openPlacesDialog();
+                        MapsActivityCurrentPlaceActivity.this.openPlacesDialog();
                     }
                     else {
                         Log.e(TAG, "Exception: %s", task.getException());

@@ -18,7 +18,7 @@ import com.yunjeapark.technote.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoordinatorLayout_Test extends AppCompatActivity {
+public class CoordinatorLayoutTestActivity extends AppCompatActivity {
     Toolbar coordinator_toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

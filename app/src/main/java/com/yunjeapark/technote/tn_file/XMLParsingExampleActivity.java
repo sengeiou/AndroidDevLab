@@ -27,7 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import okio.Buffer;
 
-public class XML_ParsingExampleActivity extends AppCompatActivity implements View.OnClickListener {
+public class XMLParsingExampleActivity extends AppCompatActivity implements View.OnClickListener {
     private MyChannel xml_musicChannel_data;
     private Music_Channel music_channel;
     private MyHandler myHandler = new MyHandler();

@@ -49,7 +49,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallback, SensorEventListener, LocationListener {
+public class GoogleMapTestActivity extends AppCompatActivity implements OnMapReadyCallback, SensorEventListener, LocationListener {
 
     private SensorManager mSensorManager;
     private Sensor accelerometer,magnetometer;
@@ -68,7 +68,7 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
     private static int CURRENT_BUTTON_STATE = CURRENT_LOCATION_DISABLED; // 초기 상태 값 설정.
 
     private double radius = 80;
-    private GPSInfo gps;
+    private GPSInfoService gps;
     private MyHandler myHandler = new MyHandler();
     private GroundOverlay groundOverlay;
 
@@ -157,7 +157,7 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
         mMap = googleMap;
         mMap.getUiSettings().setCompassEnabled(false); // 나침반 없애기
 
-        gps = new GPSInfo(this);
+        gps = new GPSInfoService(this);
         currentLocation = new LatLng(gps.getLatitude(),gps.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,17.0f)); // 맵 이동과 줌을 동시에하는 코드
 
@@ -287,7 +287,7 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if(!isGPSEnabled && !isNetworkEnabled){ //GPS와 네트워크 사용이 가능하지 않을 때
-                Toast.makeText(GoogleMapTest.this, "getCurrentLocationListener GPS와 네트워크 사용이 가능하지 않을 때", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GoogleMapTestActivity.this, "getCurrentLocationListener GPS와 네트워크 사용이 가능하지 않을 때", Toast.LENGTH_SHORT).show();
             }else {
                 this.isGetLocation = true;
                 if (isGPSEnabled){ //GPS 센서 정보로 부터 위치값 알아오기(GPS를 우선순위로 둔다)
@@ -382,7 +382,7 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
     public void getCurrentLocation(){
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(GoogleMapTest.this, "GPS 데이터를 잡을 수 없습니다. 네트워크와 GPS를 확인하세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GoogleMapTestActivity.this, "GPS 데이터를 잡을 수 없습니다. 네트워크와 GPS를 확인하세요.", Toast.LENGTH_SHORT).show();
         }
         try {
             locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
@@ -392,7 +392,7 @@ public class GoogleMapTest extends AppCompatActivity implements OnMapReadyCallba
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if(!isGPSEnabled && !isNetworkEnabled){ //GPS와 네트워크 사용이 가능하지 않을 때
-                Toast.makeText(GoogleMapTest.this, "//GPS와 네트워크 사용이 가능하지 않을 때", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GoogleMapTestActivity.this, "//GPS와 네트워크 사용이 가능하지 않을 때", Toast.LENGTH_SHORT).show();
             }else {
                 if (isGPSEnabled){ //GPS 센서 정보로 부터 위치값 알아오기(GPS를 우선순위로 둔다)
                     if(locationManager!=null){

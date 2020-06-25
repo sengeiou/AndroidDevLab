@@ -11,7 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.yunjeapark.technote.R;
 
-public class DrawerLayout_Test extends AppCompatActivity {
+public class DrawerLayoutTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

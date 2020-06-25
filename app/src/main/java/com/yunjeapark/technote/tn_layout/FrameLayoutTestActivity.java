@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.yunjeapark.technote.R;
 
-public class ConstraintLayout_Analog_Test extends AppCompatActivity {
+public class FrameLayoutTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_layout_constraint_clock_test);
+        setContentView(R.layout.activity_layout_frame_test);
     }
 }

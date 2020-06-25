@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.yunjeapark.technote.R;
 
-public class ConstraintLayout_Test extends AppCompatActivity {
+public class ConstraintLayoutTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +18,7 @@ public class ConstraintLayout_Test extends AppCompatActivity {
         goAnalogClock.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ConstraintLayout_Analog_Test.class));
+                startActivity(new Intent(getApplicationContext(), ConstraintLayoutAnalogTestActivity.class));
             }
         });
     }

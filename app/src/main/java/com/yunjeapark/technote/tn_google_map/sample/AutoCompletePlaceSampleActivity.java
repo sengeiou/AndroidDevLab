@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class AutoCompletePlaceSample extends AppCompatActivity {
+public class AutoCompletePlaceSampleActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
