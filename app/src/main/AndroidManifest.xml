@@ -31,9 +31,9 @@
         </activity>
         <activity android:name="com.yunjeapark.technote.tn_layout.FrameLayout_Test">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_layout.RelativeLayoutTest">
+        <activity android:name="com.yunjeapark.technote.tn_layout.RelativeLayoutTestActivity">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_layout.TableLayout_Test">
+        <activity android:name="com.yunjeapark.technote.tn_layout.TableLayoutTestActivity">
         </activity>
         <activity android:name="com.yunjeapark.technote.tn_layout.DrawerLayout_Test">
         </activity>
@@ -137,19 +137,19 @@
         <activity android:name="com.yunjeapark.technote.tn_network.BoardContent_Image_ZoomIn"></activity>
         <activity android:name="com.yunjeapark.technote.tn_network.BoardUpload_Image"></activity>
 
-        <activity android:name="com.yunjeapark.technote.tn_thread.HandlerEx">
+        <activity android:name="com.yunjeapark.technote.tn_thread.HandlerExampleActivity">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_1">
+        <activity android:name="com.yunjeapark.technote.tn_thread.MyAsyncTaskExampleActivity_1">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_2">
+        <activity android:name="com.yunjeapark.technote.tn_thread.MyAsyncTaskExampleActivity_2">
         </activity>
-        <activity android:name="com.yunjeapark.technote.tn_thread.ThreadNetworkExample_1">
-        </activity>
-
-        <activity android:name=".tn_ui.scrolling_gallery_controls.ScrollingGalleryControls">
+        <activity android:name="com.yunjeapark.technote.tn_thread.ThreadNetworkExampleActivity">
         </activity>
 
-        <activity android:name="com.yunjeapark.technote.tn_open_library.AQuery_Example">
+        <activity android:name=".tn_ui.scrolling_gallery_controls.ScrollingGalleryControlsActivity">
+        </activity>
+
+        <activity android:name="com.yunjeapark.technote.tn_open_library.AQueryExampleActivity">
         </activity>
 
         <activity android:name="com.yunjeapark.technote.tn_util_tech.UtilityTechActivity">

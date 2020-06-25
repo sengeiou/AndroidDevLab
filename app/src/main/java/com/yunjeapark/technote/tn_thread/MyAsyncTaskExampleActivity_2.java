@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MyAsyncTaskExample_2 extends AppCompatActivity {
+public class MyAsyncTaskExampleActivity_2 extends AppCompatActivity {
     URL ImageUrl = null;
     InputStream is = null;
     Bitmap bmImg = null;
@@ -42,7 +42,7 @@ public class MyAsyncTaskExample_2 extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            p = new ProgressDialog(MyAsyncTaskExample_2.this);
+            p = new ProgressDialog(MyAsyncTaskExampleActivity_2.this);
             p.setMessage("Please wait...It is downloading");
             p.setIndeterminate(false);
             p.setCancelable(false);

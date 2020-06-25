@@ -13,7 +13,7 @@ import com.yunjeapark.technote.R;
 
 import org.json.JSONObject;
 
-public class AQuery_Example extends AppCompatActivity {
+public class AQueryExampleActivity extends AppCompatActivity {
     AQuery aq = new AQuery(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {

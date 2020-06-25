@@ -23,7 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class ThreadNetworkExample_1 extends AppCompatActivity {
+public class ThreadNetworkExampleActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Bitmap bitmap = null;
     Button b1;

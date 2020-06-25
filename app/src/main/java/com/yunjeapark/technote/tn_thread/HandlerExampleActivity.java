@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.yunjeapark.technote.R;
 
-public class HandlerEx extends AppCompatActivity {
+public class HandlerExampleActivity extends AppCompatActivity {
 
     MyHandler mHandler;
     static TextView sResultTextView;

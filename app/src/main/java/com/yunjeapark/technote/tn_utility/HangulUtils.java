@@ -1,4 +1,4 @@
-package com.tistory.link2me.common;
+package com.yunjeapark.technote.tn_utility;
 
 /**
  * com.ziofront.utils

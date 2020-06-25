@@ -14,7 +14,7 @@ import recycler.coverflow.CoverFlowLayoutManager;
 import recycler.coverflow.RecyclerCoverFlow;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class ScrollingGalleryControls extends AppCompatActivity
+public class ScrollingGalleryControlsActivity extends AppCompatActivity
         implements SGCAdapter.onItemListener, CoverFlowLayoutManager.OnSelected{
     private RecyclerCoverFlow mList;
     private SGCAdapter sgcAdapter;

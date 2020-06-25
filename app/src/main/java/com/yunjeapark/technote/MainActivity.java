@@ -36,8 +36,8 @@ import com.yunjeapark.technote.tn_layout.CoordinatorLayout_Test;
 import com.yunjeapark.technote.tn_layout.DrawerLayout_Test;
 import com.yunjeapark.technote.tn_layout.FrameLayout_Test;
 import com.yunjeapark.technote.tn_layout.LinearLayout_Test;
-import com.yunjeapark.technote.tn_layout.RelativeLayoutTest;
-import com.yunjeapark.technote.tn_layout.TableLayout_Test;
+import com.yunjeapark.technote.tn_layout.RelativeLayoutTestActivity;
+import com.yunjeapark.technote.tn_layout.TableLayoutTestActivity;
 import com.yunjeapark.technote.tn_media.MediaPlayer_Video;
 import com.yunjeapark.technote.tn_media.tn_exo_player.ExoPlayerExample;
 import com.yunjeapark.technote.tn_network.BoardMain;
@@ -47,11 +47,11 @@ import com.yunjeapark.technote.tn_network.network_api_library.OKHttpExample;
 import com.yunjeapark.technote.tn_network.network_api_library.RestAPIExample;
 import com.yunjeapark.technote.tn_network.network_api_library.retrofit_examples.RetrofitExample;
 import com.yunjeapark.technote.tn_network.network_api_library.VolleyExample;
-import com.yunjeapark.technote.tn_open_library.AQuery_Example;
-import com.yunjeapark.technote.tn_thread.HandlerEx;
-import com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_1;
-import com.yunjeapark.technote.tn_thread.MyAsyncTaskExample_2;
-import com.yunjeapark.technote.tn_thread.ThreadNetworkExample_1;
+import com.yunjeapark.technote.tn_open_library.AQueryExampleActivity;
+import com.yunjeapark.technote.tn_thread.HandlerExampleActivity;
+import com.yunjeapark.technote.tn_thread.MyAsyncTaskExampleActivity_1;
+import com.yunjeapark.technote.tn_thread.MyAsyncTaskExampleActivity_2;
+import com.yunjeapark.technote.tn_thread.ThreadNetworkExampleActivity;
 import com.yunjeapark.technote.tn_util_tech.UtilityTechActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -83,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), LinearLayout_Test.class));
                             break;
                         case R.id.menu_relative:
-                            startActivity(new Intent(getApplicationContext(), RelativeLayoutTest.class));
+                            startActivity(new Intent(getApplicationContext(), RelativeLayoutTestActivity.class));
                             break;
                         case R.id.menu_frame:
                             startActivity(new Intent(getApplicationContext(), FrameLayout_Test.class));
                             break;
                         case R.id.menu_talbe:
-                            startActivity(new Intent(getApplicationContext(), TableLayout_Test.class));
+                            startActivity(new Intent(getApplicationContext(), TableLayoutTestActivity.class));
                             break;
                         case R.id.menu_drawer:
                             startActivity(new Intent(getApplicationContext(), DrawerLayout_Test.class));
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.menu_aquery:
-                            startActivity(new Intent(getApplicationContext(), AQuery_Example.class));
+                            startActivity(new Intent(getApplicationContext(), AQueryExampleActivity.class));
                             break;
                         default:
                             break;
@@ -307,16 +307,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.menu_handlerEx:
-                            startActivity(new Intent(getApplicationContext(), HandlerEx.class));
+                            startActivity(new Intent(getApplicationContext(), HandlerExampleActivity.class));
                             break;
                         case R.id.menu_my_asyncTaskExample_1:
-                            startActivity(new Intent(getApplicationContext(), MyAsyncTaskExample_1.class));
+                            startActivity(new Intent(getApplicationContext(), MyAsyncTaskExampleActivity_1.class));
                             break;
                         case R.id.menu_my_asyncTaskExample_2:
-                            startActivity(new Intent(getApplicationContext(), MyAsyncTaskExample_2.class));
+                            startActivity(new Intent(getApplicationContext(), MyAsyncTaskExampleActivity_2.class));
                             break;
                         case R.id.menu_thread_network_example_1:
-                            startActivity(new Intent(getApplicationContext(), ThreadNetworkExample_1.class));
+                            startActivity(new Intent(getApplicationContext(), ThreadNetworkExampleActivity.class));
                             break;
                         default:
                             break;

@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.yunjeapark.technote.R;
 
-public class MyAsyncTaskExample_1 extends AppCompatActivity {
+public class MyAsyncTaskExampleActivity_1 extends AppCompatActivity {
 
     private final String ASYNC_TASK_TAG = "ASYNC_TASK";
 
