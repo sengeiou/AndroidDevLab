@@ -27,6 +27,7 @@ public class Dialog extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
+        
     }
     // 1. classic 다이얼로그 (기본)
     public void showDialog1(View _view) {
