@@ -36,6 +36,7 @@ public class BoardMain extends AppCompatActivity {
         getSupportActionBar().setTitle("게시판");
 
         bottomNavigationButtonState = BOTTOM_NAVIGATION_STATE_HOME;
+        
         //fragment 선언
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container_network_board_main, new Fragment_Board_Home()).commit();
