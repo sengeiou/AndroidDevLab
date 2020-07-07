@@ -24,7 +24,7 @@ public class BoardMain extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     FragmentTransaction fragmentTransaction;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

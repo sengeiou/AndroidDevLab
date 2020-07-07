@@ -116,7 +116,6 @@ public class CustomMediaController extends FrameLayout {
 
     public CustomMediaController(Context context) {
         this(context, true);
-
         Log.i(TAG, TAG);
     }
 
