@@ -1,7 +1,10 @@
 package com.yunjeapark.technote.tn_media;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -16,7 +19,8 @@ import java.io.IOException;
 
 public class MediaPlayer_Video extends AppCompatActivity implements SurfaceHolder.Callback, MediaController.MediaPlayerControl{
     private MyMediaController controller;
-    private String videoUri = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    private String videoUri = //"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+                "http://yjpapp.com/upload_video/video/120-mbps-4k-uhd-hevc-10bit.mkv";
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
     private MediaPlayer mediaPlayer;
@@ -67,12 +71,19 @@ public class MediaPlayer_Video extends AppCompatActivity implements SurfaceHolde
 
         try {
             //simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
-
-            mediaPlayer.setDataSource(videoUri);
+            Log.d("YIWOO",getPackageName());
+            //Uri uri = Uri.parse("Android/data/" + getPackageName() + "/raw/" + "120-mbps-4k-uhd-hevc-10bit.mkv");
+            String path = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + getPackageName() + "/raw/" + "120-mbps-4k-uhd-hevc-10bit.mkv";
+            mediaPlayer.setDataSource(path);
             mediaPlayer.prepare(); // 비디오 load 준비
-
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
             //mediaPlayer.prepareAsync();
-            mediaPlayer.start();
+
             mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
 
         } catch (IOException e) {

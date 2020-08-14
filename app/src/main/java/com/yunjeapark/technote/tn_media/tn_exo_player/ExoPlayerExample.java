@@ -24,7 +24,8 @@ public class ExoPlayerExample extends AppCompatActivity {
     private PlayerView exoPlayerView;
     private SimpleExoPlayer exoPlayer;
     private ImageButton exoScreenMode;
-    private String videoSamplePath = "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/BigBuckBunny/4sec/BigBuckBunny_4s_onDemand_2014_05_09.mpd";
+    private String videoSamplePath = //"http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/BigBuckBunny/4sec/BigBuckBunny_4s_onDemand_2014_05_09.mpd";
+                    "http://yjpapp.com/upload_video/video/120-mbps-4k-uhd-hevc-10bit.mkv";
     private boolean fullscreen = false;
     private int playerHeight;
     @Override
