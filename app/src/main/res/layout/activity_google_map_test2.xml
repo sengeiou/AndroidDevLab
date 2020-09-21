@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".tn_google_map.GoogleMapTestActivity" >
+    tools:context=".google_map.GoogleMapTestActivity" >
 
     <fragment
         android:id="@+id/map2"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".tn_google_map.ble_device_mesiplus_and_googlemap.MesiPlusGoogleMapTestMainActivity" />
+        tools:context=".google_map.ble_device_mesiplus_and_googlemap.MesiPlusGoogleMapTestMainActivity" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="30dp"
-    tools:context=".tn_thread.MyAsyncTaskExampleActivity_1">
+    tools:context=".thread.MyAsyncTaskExampleActivity_1">
 
     <Button
         android:id="@+id/executeAsyncTaskButton"

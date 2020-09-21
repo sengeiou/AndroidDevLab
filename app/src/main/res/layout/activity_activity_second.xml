@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tn_dialog_activity_fragment.SecondActivity" >
+    tools:context=".dialog_activity_fragment.SecondActivity" >
 
     <EditText
         android:id="@+id/editText1"

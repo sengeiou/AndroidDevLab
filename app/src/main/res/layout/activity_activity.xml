@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".tn_dialog_activity_fragment.MyActivity">
+    tools:context=".dialog_activity_fragment.MyActivity">
 
-    <fragment android:name="com.yunjeapark.technote.tn_network.Fragment_Board_ImageList"
+    <fragment android:name="com.yunjeapark.technote.network.Fragment_Board_ImageList"
         android:id="@+id/article_fragment"
         android:layout_weight="1"
         android:layout_width="match_parent"

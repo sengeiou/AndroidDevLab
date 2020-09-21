@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tn_layout.CoordinatorLayoutTestActivity">
+    tools:context=".layout.CoordinatorLayoutTestActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -22,17 +22,25 @@
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:background="@color/white"/>
+            <!--
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:src="@drawable/test_image">
             </ImageView>
+            -->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/coordinator_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="bottom"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.NoActionBar"
                 app:theme="@style/AppTheme.NoActionBar"

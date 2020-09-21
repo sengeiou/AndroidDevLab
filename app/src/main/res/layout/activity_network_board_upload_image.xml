@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".tn_network.BoardUpload_Image">
+    tools:context=".network.BoardUpload_Image">
     <!--CoordinatorLayout : 액션바 영역을 포함한 전체 화면의 위치를 잡아주는 역할-->
     <!--//AppBarLayout-->
     <androidx.appcompat.widget.Toolbar
