@@ -86,7 +86,7 @@ public class UtilityTechActivity extends AppCompatActivity implements View.OnCli
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext(),"0")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setSmallIcon(R.drawable.tech_note_icon)
                         .setContentTitle("TechNote")
                         .setContentText("Image upload")
@@ -104,7 +104,7 @@ public class UtilityTechActivity extends AppCompatActivity implements View.OnCli
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getApplicationContext(),"0")
+                new NotificationCompat.Builder(getApplicationContext(),"1")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setSmallIcon(R.drawable.tech_note_icon)
                         .setContentTitle("TechNote")

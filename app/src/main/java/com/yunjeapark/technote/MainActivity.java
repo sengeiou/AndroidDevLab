@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +29,7 @@ import com.yunjeapark.technote.dialog_activity_fragment.MyActivity;
 import com.yunjeapark.technote.dialog_activity_fragment.Activity_Screen_1;
 import com.yunjeapark.technote.dialog_activity_fragment.Activity_Screen_2;
 import com.yunjeapark.technote.dialog_activity_fragment.Dialog;
-import com.yunjeapark.technote.dialog_activity_fragment.my_tab_viewpager.MyTab_ViewPager;
+import com.yunjeapark.technote.dialog_activity_fragment.my_tab_viewpager.MyTabViewPagerActivity;
 import com.yunjeapark.technote.file.XMLParsingExampleActivity;
 import com.yunjeapark.technote.google_map.GoogleMapTestActivity;
 import com.yunjeapark.technote.layout.ConstraintLayoutTestActivity;
@@ -54,6 +55,9 @@ import com.yunjeapark.technote.thread.MyAsyncTaskExampleActivity_2;
 import com.yunjeapark.technote.thread.ThreadNetworkExampleActivity;
 import com.yunjeapark.technote.util_tech.UtilityTechActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     AQuery aQuery;
     @Override
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         MarketService ms = new MarketService(this);
         ms.level(MarketService.MINOR).checkVersion();
+
+        getDate();
     }
 
     @Override
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), Activity_Screen_2.class));
                             break;
                         case R.id.menu_tap_viewpager:
-                            startActivity(new Intent(getApplicationContext(), MyTab_ViewPager.class));
+                            startActivity(new Intent(getApplicationContext(), MyTabViewPagerActivity.class));
                         default:
                             break;
                     }
@@ -372,6 +378,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aQuery.id(R.id.Button11).visible().clicked(this);
         aQuery.id(R.id.Button12).visible().clicked(this);
         aQuery.id(R.id.Button13).visible().clicked(this);
+    }
 
+    private void getDate(){
+        String strSDFormatDay;
+        long CurrentTime = System.currentTimeMillis(); // 현재 시간을 msec 단위로 얻음
+        Date TodayDate = new Date(CurrentTime); // 현재 시간 Date 변수에 저장
+        SimpleDateFormat SDFormat = new SimpleDateFormat("yyyyMMdd");
+        strSDFormatDay = SDFormat.format(TodayDate); // 'dd' 형태로 포맷 변경
+        int saveDate = Integer.parseInt(strSDFormatDay) - 1;
+        Log.d("YJP", strSDFormatDay);
+        Log.d("YJP", "saveDate : " + saveDate);
     }
 }

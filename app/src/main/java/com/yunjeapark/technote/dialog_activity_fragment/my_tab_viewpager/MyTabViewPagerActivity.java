@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.tabs.TabLayout;
 
-public class MyTab_ViewPager extends AppCompatActivity {
+public class MyTabViewPagerActivity extends AppCompatActivity {
     ViewPager vp;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

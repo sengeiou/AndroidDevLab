@@ -1,5 +1,6 @@
 package com.yunjeapark.technote.google_map;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,9 +22,11 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.yunjeapark.technote.R;
+import com.yunjeapark.technote.utility.CommonPermission;
 import com.yunjeapark.technote.utility.SphericalUtil;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,6 +48,7 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -66,6 +70,7 @@ public class GoogleMapTestActivity extends AppCompatActivity implements OnMapRea
     private static int CURRENT_LOCATION = 2;
     private static int CURRENT_LOCATION_BEARING = 3;
     private static int CURRENT_BUTTON_STATE = CURRENT_LOCATION_DISABLED; // 초기 상태 값 설정.
+    protected static final int PERMISSION_REQUEST_CODE = 0; // 임의 설정
 
     private double radius = 80;
     private GPSInfoService gps;
@@ -89,6 +94,8 @@ public class GoogleMapTestActivity extends AppCompatActivity implements OnMapRea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_map_test2);
+
+        permissionRequest();
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -455,4 +462,48 @@ public class GoogleMapTestActivity extends AppCompatActivity implements OnMapRea
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if(requestCode == PERMISSION_REQUEST_CODE) {
+            // requestPermission의 두번째 매개변수는 배열이므로 아이템이 여러개 있을 수 있기 때문에 결과를 배열로 받는다.
+            //해당 권한이 거절된 경우.
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(), "해당 기능을 이용하시려면 권한 허용이 필요합니다.", Toast.LENGTH_SHORT).show();
+            }else{
+                //권한이 허용된 경우 다음 코드 진행
+            }
+        }
+    }
+
+    // permission check는 마시멜로 버전 이상부터 업데이트 됨.
+    private void permissionRequest(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {// 마시멜로우 버전(API 23)과 같거나 이상이라면
+            if(checkPermissions(CommonPermission.PERMISSIONS)){
+                //퍼미션이 허용된경우
+            }else{
+                //퍼미션이 허용되지 않은경우
+            }
+        }else{ // 마시멜로우 버전(API23) 보다 낮으면
+            // return true;
+        }
+
+    }
+    private boolean checkPermissions(String... permissions) {
+        int result;
+        List<String> permissionsNeeded = new ArrayList<>();
+        for (String p:permissions) {
+            result = ContextCompat.checkSelfPermission(this,p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                permissionsNeeded.add(p);
+            }
+        }
+        if (!permissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionsNeeded.toArray(new String[permissionsNeeded.size()]), PERMISSION_REQUEST_CODE );
+            return false;
+        }
+        return true;
+    }
+
 }

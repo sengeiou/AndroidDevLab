@@ -57,7 +57,7 @@
         </activity>
         <activity android:name="com.yunjeapark.technote.dialog_activity_fragment.MyActivity">
         </activity>
-        <activity android:name="com.yunjeapark.technote.dialog_activity_fragment.my_tab_viewpager.MyTab_ViewPager">
+        <activity android:name="com.yunjeapark.technote.dialog_activity_fragment.my_tab_viewpager.MyTabViewPagerActivity">
         </activity>
         <activity android:name="com.yunjeapark.technote.dialog_activity_fragment.Activity_Screen_1">
         </activity>

@@ -154,7 +154,7 @@ public class BoardUpload_Image extends AppCompatActivity
                     createNotificationChannel();
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getApplicationContext(),"0")
-                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setPriority(NotificationCompat.PRIORITY_MAX)
                                     .setContentTitle("TechNote")
                                     .setSmallIcon(R.drawable.tech_note_icon)
                                     .setContentText("이미지가 업로드 됐습니다.");
