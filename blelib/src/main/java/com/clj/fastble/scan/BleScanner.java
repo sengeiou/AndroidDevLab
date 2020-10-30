@@ -129,31 +129,31 @@ public class BleScanner {
         // API version 21이하는 startLeScan을 이용하고, 21이상은 BluetoothLeScanner를 이용하여 Scan한다.
         if (Build.VERSION.SDK_INT < 21) {
             mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
-
             BleManager.getInstance().getBluetoothAdapter()
                     .startLeScan(serviceUuids, mBleScanPresenter);
             mBleScanPresenter.notifyScanStarted(true);  // 스캔이 시작됐다는 것을 알리면서 Progress와 스캔 시작 버튼을 스캔 중지 버튼으로 바꾼다.
 
         } else {
             //filtering 할 Device UUID 설정
-            String meSiPlusServiceUUID=
-                    "0000ffff-0000-1000-8000-00805f9b34fb";
-            ParcelUuid ParcelUuid_meSiPlusServiceUUID =
-                    ParcelUuid.fromString(meSiPlusServiceUUID);
+//            String meSiPlusServiceUUID=
+//                    "0000ffff-0000-1000-8000-00805f9b34fb";
+//            ParcelUuid ParcelUuid_meSiPlusServiceUUID =
+//                    ParcelUuid.fromString(meSiPlusServiceUUID);
 
-            ScanFilter scanFilter =
-                    new ScanFilter.Builder()
-                            .setServiceUuid(ParcelUuid_meSiPlusServiceUUID)
-                            .build();
-            List<ScanFilter> scanFilters = new ArrayList<ScanFilter>();
+//            ScanFilter scanFilter =
+//                    new ScanFilter.Builder()
+//                            .setServiceUuid(ParcelUuid_meSiPlusServiceUUID)
+//                            .build();
+//            List<ScanFilter> scanFilters = new ArrayList<ScanFilter>();
+//
+//            scanFilters.add(scanFilter);
 
-            scanFilters.add(scanFilter);
-
-            ScanSettings scanSettings =
-                    new ScanSettings.Builder().build();
+//            ScanSettings scanSettings =
+//                    new ScanSettings.Builder().build();
 
             mBleScanPresenter.prepare(names, mac, fuzzy, needConnect, timeOut, imp);
-            BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().startScan(scanFilters,scanSettings,mBleScanPresenter); // 스캔 시작 코드
+//            BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().startScan(scanFilters,scanSettings,mBleScanPresenter); // 스캔 시작 코드
+            BleManager.getInstance().getBluetoothAdapter().getBluetoothLeScanner().startScan(mBleScanPresenter); // 스캔 시작 코드
             mBleScanPresenter.notifyScanStarted(true); // 스캔이 시작됐다는 것을 알리면서 Progress와 스캔 시작 버튼을 스캔 중지 버튼으로 바꾼다.
         }
 

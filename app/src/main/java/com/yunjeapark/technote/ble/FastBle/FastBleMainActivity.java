@@ -414,7 +414,7 @@ public class FastBleMainActivity extends AppCompatActivity implements View.OnCli
                             .setCancelable(false)
                             .show();
                 } else {
-                    setScanRule();
+//                    setScanRule();
                     startScan();
                 }
                 break;
